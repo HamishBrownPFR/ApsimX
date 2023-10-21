@@ -29,8 +29,6 @@
 
         public double MeanT { get; set; }
 
-        public double PanEvap { get; set; }
-
         public double Radn { get; set; }
 
         public double Rain { get; set; }

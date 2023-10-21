@@ -1,19 +1,20 @@
-﻿using APSIM.Shared.Graphing;
-using APSIM.Shared.Utilities;
-using Models.Core;
-using Models.Interfaces;
-using Models.Soils;
-using System;
-using System.Collections.Generic;
-using UserInterface.Views;
-
-namespace UserInterface.Presenters
+﻿namespace UserInterface.Presenters
 {
+    using APSIM.Shared.Graphing;
+    using APSIM.Shared.Utilities;
+    using Models.Core;
+    using Models.GrazPlan;
+    using Models.Soils;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Views;
+
     /// <summary>A presenter for the soil profile models.</summary>
     public class ProfilePresenter : IPresenter
     {
         /// <summary>The grid presenter.</summary>
-        private GridPresenter gridPresenter;
+        private NewGridPresenter gridPresenter;
 
         ///// <summary>The property presenter.</summary>
         private PropertyPresenter propertyPresenter;
@@ -53,11 +54,8 @@ namespace UserInterface.Presenters
             this.model = model as IModel;
             view = v as ViewBase;
             this.explorerPresenter = explorerPresenter;
-
-            ContainerView gridContainer = view.GetControl<ContainerView>("grid");
-            gridPresenter = new GridPresenter();
-            gridPresenter.Attach((model as IGridModel).Tables[0], gridContainer, explorerPresenter);
-            gridPresenter.AddContextMenuOptions(new string[] { "Cut", "Copy", "Paste", "Delete", "Select All", "Units" });
+            gridPresenter = new NewGridPresenter();
+            gridPresenter.Attach(model, v, explorerPresenter);
 
             Soil soilNode = this.model.FindAncestor<Soil>();
             physical = soilNode.FindChild<Physical>();

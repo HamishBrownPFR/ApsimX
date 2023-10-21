@@ -1,16 +1,12 @@
-﻿using APSIM.Shared.Graphing;
-using Atk;
-using Gtk;
-using Models.CLEM.Reporting;
+﻿using Models.CLEM.Reporting;
 using System;
-using System.Data;
 using UserInterface.Interfaces;
 using UserInterface.Views;
 
 namespace UserInterface.Presenters
 {
     /// <summary>
-    /// Combines a <see cref="PropertyPresenter"/> and <see cref="SheetWidget"/> to customise and display
+    /// Combines a <see cref="PropertyPresenter"/> and <see cref="GridView"/> to customise and display
     /// a pivot table for a report
     /// </summary>
     class ReportPivotPresenter : IPresenter, ICLEMPresenter, IRefreshPresenter
@@ -18,12 +14,7 @@ namespace UserInterface.Presenters
         /// <summary>
         /// Displays the pivoted table
         /// </summary>
-        private SheetWidget grid;
-
-        /// <summary>
-        /// Displays the pivoted table
-        /// </summary>
-        private ContainerView container;
+        private GridView gridView;
 
         /// <summary>
         /// Displays the SQL
@@ -58,25 +49,20 @@ namespace UserInterface.Presenters
             try
             {
                 // Create the grid to display data in
-                container = new ContainerView(clemPresenter.View as ViewBase);
-                grid = new SheetWidget();
-                grid.Sheet = new Sheet();
-                grid.Sheet.DataProvider = new DataTableProvider(new DataTable());
-                grid.Sheet.CellSelector = new MultiCellSelect(grid.Sheet, grid);
-                grid.Sheet.ScrollBars = new SheetScrollBars(grid.Sheet, grid);
-                grid.Sheet.CellPainter = new DefaultCellPainter(grid.Sheet, grid);
-                container.Add(grid.Sheet.ScrollBars.MainWidget);
+                gridView = new GridView(clemPresenter.View as ViewBase);
+                GridPresenter gridPresenter = new GridPresenter();
 
                 // Create the SQL display
                 sqlView = new TextInputView(clemPresenter.View as ViewBase);
 
                 // Generate the table using the model
                 pivot = clemPresenter.ClemModel as ReportPivot;
+                gridPresenter.Attach(null, gridView, clemPresenter.ExplorerPresenter);
 
                 // Attach the views to display data
                 clem = clemPresenter.View as CLEMView;
 
-                clem.AddTabView("Data", container);
+                clem.AddTabView("Data", gridView);
                 clemPresenter.PresenterList.Add("Data", this);
 
                 clem.AddTabView("SQL", sqlView);
@@ -95,7 +81,7 @@ namespace UserInterface.Presenters
         /// <inheritdoc/>
         public void Refresh()
         {
-            grid.Sheet.DataProvider = new DataTableProvider(pivot.GenerateTable());
+            gridView.DataSource = pivot.GenerateTable();
             sqlView.Text = pivot.SQL;
         }
     }

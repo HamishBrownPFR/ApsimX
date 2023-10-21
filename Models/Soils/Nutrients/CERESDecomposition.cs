@@ -12,7 +12,7 @@ namespace Models.Functions
     [ValidParent(ParentType = typeof(Nutrient))]
     public class CERESDecomposition : Model, IFunction
     {
-        [Link(ByName = true)]
+        [Link(ByName = true, Type = LinkType.Child)]
         private IFunction TF = null;
 
         [Link(ByName = true)]

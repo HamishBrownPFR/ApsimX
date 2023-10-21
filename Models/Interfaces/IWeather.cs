@@ -22,14 +22,11 @@ namespace Models.Interfaces
         /// <summary>Mean temperature  /// </summary>
         double MeanT { get; }
 
-        /// <summary>Daily mean VPD (hPa) /// </summary>
+        /// <summary>Daily mean VPD  /// </summary>
         double VPD { get; }
 
         /// <summary>Gets or sets the rainfall (mm)</summary>
         double Rain { get; set; }
-
-        /// <summary>Pan evaporation</summary>
-        public double PanEvap { get; set; }
 
         /// <summary>Gets or sets the solar radiation. MJ/m2/day</summary>
         double Radn { get; set; }
@@ -94,7 +91,7 @@ namespace Models.Interfaces
         /// <summary>Gets or sets the minimum temperature (oc)</summary>
         public double MinT { get; set; }
 
-        /// <summary>Daily evap  /// </summary>
+        /// <summary>Daily mean VPD  /// </summary>
         public double PanEvap { get; set; }
 
         /// <summary>Gets or sets the rainfall (mm)</summary>
@@ -142,6 +139,6 @@ namespace Models.Interfaces
 
         /// <summary>The weather data</summary>
         public DailyMetDataFromFile MetData { get; set; }
-
+        
     }
 }

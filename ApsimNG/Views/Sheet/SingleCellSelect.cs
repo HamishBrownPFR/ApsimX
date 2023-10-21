@@ -86,8 +86,6 @@ namespace UserInterface.Views
                     PageUp();
                 else if (evnt.Key == Keys.Delete)
                     Delete();
-                else if (evnt.Key == Keys.Period)
-                    sheet.CellEditor.Edit('.');
                 sheet.Refresh();
             }
             else if (sheet.CellEditor != null && evnt.KeyValue > 0 && evnt.KeyValue < 255)
@@ -160,7 +158,7 @@ namespace UserInterface.Views
         }
 
         /// <summary>Moves the selected cell up one page of rows.</summary>
-        public virtual void PageUp()
+        private void PageUp()
         {
             int pageSize = sheet.FullyVisibleRowIndexes.Count() - sheet.NumberFrozenRows;
             selectedRowIndex = Math.Max(selectedRowIndex - pageSize, sheet.NumberFrozenRows);
@@ -168,7 +166,7 @@ namespace UserInterface.Views
         }
 
         /// <summary>Moves the selected cell down one page of rows.</summary>
-        public virtual void PageDown()
+        private void PageDown()
         {
             int pageSize = sheet.FullyVisibleRowIndexes.Count() - sheet.NumberFrozenRows;
             selectedRowIndex = Math.Min(selectedRowIndex + pageSize, sheet.RowCount-1);
@@ -176,40 +174,31 @@ namespace UserInterface.Views
         }
 
         /// <summary>Moves the selected cell to the far right column.</summary>
-        public virtual void MoveToFarRight()
+        private void MoveToFarRight()
         {
             selectedColumnIndex = sheet.DataProvider.ColumnCount - 1;
-            if (sheet.MaximumNumberHiddenColumns >= 0)
-                sheet.NumberHiddenColumns = sheet.MaximumNumberHiddenColumns;
+            sheet.NumberHiddenColumns = sheet.MaximumNumberHiddenColumns;
         }
 
         /// <summary>Moves the selected cell to the far left column.</summary>
-        public virtual void MoveToFarLeft()
+        private void MoveToFarLeft()
         {
             selectedColumnIndex = 0;
             sheet.NumberHiddenColumns = 0;
         }
 
         /// <summary>Moves the selected cell to bottom row.</summary>
-        public virtual void MoveToBottom()
+        private void MoveToBottom()
         {
             selectedRowIndex = sheet.RowCount - 1;
-            if (sheet.MaximumNumberHiddenRows >= 0)
-                sheet.NumberHiddenRows = sheet.MaximumNumberHiddenRows;
+            sheet.NumberHiddenRows = sheet.MaximumNumberHiddenRows;
         }
 
         /// <summary>Moves the selected cell to the top row below headings.</summary>
-        public virtual void MoveToTop()
+        private void MoveToTop()
         {
             selectedRowIndex = sheet.NumberFrozenRows;
             sheet.NumberHiddenRows = 0;
-        }
-
-        /// <summary>Cut cells to clipboard, deleting them from the cell</summary>
-        public virtual void Cut()
-        {
-            Copy();
-            Delete();
         }
 
         /// <summary>Copy cells to clipboard.</summary>
@@ -221,9 +210,6 @@ namespace UserInterface.Views
         /// <summary>Paste cells from clipboard.</summary>
         public virtual void Paste()
         {
-            if (sheet.CellEditor.IsEditing)
-                sheet.CellEditor.EndEdit();
-
             int rowIndex = selectedRowIndex;
 
             foreach (string line in sheetWidget.GetClipboard().Split("\n", StringSplitOptions.RemoveEmptyEntries))
@@ -246,16 +232,7 @@ namespace UserInterface.Views
         /// <summary>Delete contents of cells.</summary>
         public virtual void Delete()
         {
-            if (sheet.CellEditor.IsEditing)
-                sheet.CellEditor.EndEdit();
-
             sheet.DataProvider.SetCellContents(selectedColumnIndex, selectedRowIndex, null);
-        }
-
-        /// <summary>Select all cells</summary>
-        public virtual void SelectAll()
-        {
-            return;
         }
     }
 }

@@ -1,28 +1,21 @@
-﻿using Gtk;
-using Models.CLEM.Reporting;
+﻿using Models.CLEM.Reporting;
 using Models.Storage;
 using System;
-using System.Data;
 using UserInterface.Interfaces;
 using UserInterface.Views;
 
 namespace UserInterface.Presenters
 {
     /// <summary>
-    /// Combines a <see cref="PropertyPresenter"/> and <see cref="SheetWidget"/> to customise and display
+    /// Combines a <see cref="PropertyPresenter"/> and <see cref="GridView"/> to customise and display
     /// a pivot table for a report
     /// </summary>
     class ReportQueryPresenter : IPresenter, ICLEMPresenter, IRefreshPresenter
     {
         /// <summary>
-        /// Displays the pivoted table
+        /// The GridView
         /// </summary>
-        private SheetWidget grid;
-
-        /// <summary>
-        /// Displays the pivoted table
-        /// </summary>
-        private ContainerView container;
+        private GridView gridView;
 
         /// <summary>
         /// The pivot model
@@ -51,23 +44,19 @@ namespace UserInterface.Presenters
         {
             try
             {
-                // Create the grid to display data in
-                container = new ContainerView(clemPresenter.View as ViewBase);
-                grid = new SheetWidget();
-                grid.Sheet = new Sheet();
-                grid.Sheet.DataProvider = new DataTableProvider(new DataTable());
-                grid.Sheet.CellSelector = new MultiCellSelect(grid.Sheet, grid);
-                grid.Sheet.ScrollBars = new SheetScrollBars(grid.Sheet, grid);
-                grid.Sheet.CellPainter = new DefaultCellPainter(grid.Sheet, grid);
-                container.Add(grid.Sheet.ScrollBars.MainWidget);
-
                 clem = clemPresenter.View as CLEMView;
                 query = clemPresenter.ClemModel as ReportQuery;
 
                 var store = query.FindInScope<IDataStore>();
 
+                // Create the Data presenter
+                gridView = new GridView(clemPresenter.View as ViewBase);
+
+                var gridPresenter = new GridPresenter();
+                gridPresenter.Attach(null, gridView, clemPresenter.ExplorerPresenter);
+
                 // Attach the tab
-                clem.AddTabView("Data", container);
+                clem.AddTabView("Data", gridView);
                 clemPresenter.PresenterList.Add("Data", this);                
             }
             catch (Exception err)
@@ -81,8 +70,6 @@ namespace UserInterface.Presenters
         { }
 
         /// <inehritdoc/>
-        public void Refresh() {
-            grid.Sheet.DataProvider = new DataTableProvider(query.RunQuery());
-        }
+        public void Refresh() => gridView.DataSource = query.RunQuery();
     }
 }

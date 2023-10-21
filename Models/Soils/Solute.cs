@@ -5,7 +5,6 @@ using APSIM.Shared.Documentation;
 using APSIM.Shared.Utilities;
 using Models.Core;
 using Models.Interfaces;
-using Models.Utilities;
 using Newtonsoft.Json;
 
 namespace Models.Soils
@@ -20,7 +19,7 @@ namespace Models.Soils
     [ViewName("ApsimNG.Resources.Glade.ProfileView.glade")]
     [PresenterName("UserInterface.Presenters.ProfilePresenter")]
     [ValidParent(ParentType = typeof(Soil))]
-    public class Solute : Model, ISolute, IGridModel
+    public class Solute : Model, ISolute, ITabularData
     {
         /// <summary>Access the soil physical properties.</summary>
         [Link]
@@ -138,7 +137,7 @@ namespace Models.Soils
         /// <summary>Invoked to perform solute daily processes</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event data.</param>
-        [EventSubscribe("DoSolute")]
+        [EventSubscribe("StartOfSimulation")]
         private void OnDoSolute(object sender, EventArgs e)
         {
             if (D0 > 0)
@@ -209,27 +208,20 @@ namespace Models.Soils
         }
 
         /// <summary>Tabular data. Called by GUI.</summary>
-        [JsonIgnore]
-        public List<GridTable> Tables
+        public TabularData GetTabularData()
         {
-            get
+            bool swimPresent = FindInScope<Swim3>() != null || Parent is Factorial.Factor;
+            var columns = new List<TabularData.Column>()
             {
-                bool swimPresent = FindInScope<Swim3>() != null || Parent is Factorial.Factor;
-                var columns = new List<GridTableColumn>()
-                {
-                    new GridTableColumn("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))),
-                    new GridTableColumn("Initial values", new VariableProperty(this, GetType().GetProperty("InitialValues")))
-                };
-                if (swimPresent)
-                {
-                    columns.Add(new GridTableColumn("EXCO", new VariableProperty(this, GetType().GetProperty("Exco"))));
-                    columns.Add(new GridTableColumn("FIP", new VariableProperty(this, GetType().GetProperty("FIP"))));
-                }
-                List<GridTable> tables = new List<GridTable>();
-                tables.Add(new GridTable(Name, columns, this));
-
-                return tables;
+                new TabularData.Column("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))),
+                new TabularData.Column("Initial values", new VariableProperty(this, GetType().GetProperty("InitialValues")))
+            };
+            if (swimPresent)
+            {
+                columns.Add(new TabularData.Column("EXCO", new VariableProperty(this, GetType().GetProperty("Exco"))));
+                columns.Add(new TabularData.Column("FIP", new VariableProperty(this, GetType().GetProperty("FIP"))));
             }
+            return new TabularData(Name, columns);
         }
 
         /// <summary>Gets the model ready for running in a simulation.</summary>

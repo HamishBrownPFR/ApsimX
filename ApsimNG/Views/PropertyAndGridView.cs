@@ -13,20 +13,18 @@ namespace UserInterface.Views
         public ViewBase PropertiesView { get; private set; }
 
         /// <summary>bottom grid in view.</summary>
-        public ContainerView Grid { get; private set; }
+        public IGridView Grid2 { get; private set; }
 
         /// <summary>Constructor</summary>
         public PropertyAndGridView(ViewBase owner) : base(owner)
         {
             PropertiesView = new PropertyView(owner);
-            Grid = new ContainerView(owner);
+            Grid2 = new GridView(owner);
 
             VPaned panel = new VPaned();
             mainWidget = panel;
             panel.Pack1((PropertiesView as ViewBase).MainWidget, true, false);
-            panel.Pack2((Grid as ViewBase).MainWidget, true, false);
-            panel.Position = (int)Math.Round(this.owner.MainWidget.AllocatedHeight * 0.5);
-
+            panel.Pack2((Grid2 as ViewBase).MainWidget, true, false);
             mainWidget.Destroyed += _mainWidget_Destroyed;
         }
 
@@ -51,6 +49,6 @@ namespace UserInterface.Views
         ViewBase PropertiesView { get; }
 
         /// <summary>bottom grid in view.</summary>
-        ContainerView Grid { get; }
+        IGridView Grid2 { get; }
     }
 }

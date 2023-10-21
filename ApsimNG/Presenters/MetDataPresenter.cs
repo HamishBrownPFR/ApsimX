@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using APSIM.Shared.Graphing;
-using APSIM.Shared.Utilities;
-using UserInterface.Commands;
-using Models.Climate;
-using Models.Core;
-using UserInterface.Views;
-
-namespace UserInterface.Presenters
+﻿namespace UserInterface.Presenters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Drawing;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+    using APSIM.Shared.Graphing;
+    using APSIM.Shared.Utilities;
+    using Commands;
+    using Models;
+    using Models.Climate;
+    using Models.Core;
+    using Views;
+
     /// <summary>A presenter for displaying weather data</summary>
     public sealed class MetDataPresenter : IPresenter, IDisposable
     {
@@ -23,8 +24,7 @@ namespace UserInterface.Presenters
         /// <summary>The met data view</summary>
         private IMetDataView weatherDataView;
 
-        /// <summary>The sheet widget.</summary>
-        private GridPresenter gridPresenter;
+        // these are used to display the graphs, and refresh graphs as required
 
         /// <summary>Hold the data used by the graphs</summary>
         private DataTable graphMetData;
@@ -62,12 +62,6 @@ namespace UserInterface.Presenters
             this.explorerPresenter = explorerPresenter;
             this.weatherData = model as Weather;
             this.weatherDataView = view as IMetDataView;
-
-            ContainerView sheetContainer = this.weatherDataView.container;
-
-            gridPresenter = new GridPresenter();
-            gridPresenter.Attach(new DataTableProvider(new DataTable()), sheetContainer, explorerPresenter);
-            gridPresenter.AddContextMenuOptions(new string[] { "Copy", "Select All" });
 
             this.weatherDataView.BrowseClicked += this.OnBrowse;
             this.weatherDataView.GraphRefreshClicked += this.GraphRefreshValueChanged;
@@ -340,7 +334,7 @@ namespace UserInterface.Presenters
                 }
 
                 this.graphMetData = data;
-                this.PopulateData(data);
+                this.weatherDataView.PopulateData(data);
             }
         }
 
@@ -890,15 +884,6 @@ namespace UserInterface.Presenters
             this.weatherDataView.GraphRadiation.FormatAxis(AxisPosition.Right, "Radiation (mJ/m2)", false, double.NaN, double.NaN, double.NaN, false);
             this.weatherDataView.GraphRadiation.FormatTitle(title);
             this.weatherDataView.GraphRadiation.Refresh();
-        }
-
-        /// <summary>Populates the data.</summary>
-        /// <param name="data">The data.</param>
-        public void PopulateData(DataTable data)
-        {
-            //fill the grid with data
-            DataTableProvider provider = new DataTableProvider(data);
-            gridPresenter.PopulateWithDataProvider(provider, 0, 1);
         }
 
         public void Dispose()

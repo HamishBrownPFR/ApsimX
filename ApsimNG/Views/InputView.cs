@@ -5,7 +5,7 @@ using UserInterface.Interfaces;
 namespace UserInterface.Views
 {
 
-    public class InputView : ViewBase
+    public class InputView : ViewBase, IInputView
     {
         /// <summary>
         /// Invoked when a browse button is clicked.
@@ -15,13 +15,12 @@ namespace UserInterface.Views
         private VBox vbox1 = null;
         private Button button1 = null;
         private Label label1 = null;
-
-        private ContainerView grid;
+        private GridView grid;
 
         /// <summary>
         /// Property to provide access to the grid.
         /// </summary>
-        public ContainerView Grid { get { return grid; } }
+        public IGridView GridView { get { return grid; } }
 
         /// <summary>
         /// Constructor
@@ -34,7 +33,7 @@ namespace UserInterface.Views
             label1 = (Label)builder.GetObject("label1");
             mainWidget = vbox1;
 
-            grid = new ContainerView(owner);
+            grid = new GridView(this);
             vbox1.PackStart(grid.MainWidget, true, true, 0);
             button1.Clicked += OnBrowseButtonClick;
             mainWidget.Destroyed += _mainWidget_Destroyed;
@@ -89,5 +88,23 @@ namespace UserInterface.Views
                 ShowError(err);
             }
         }
+    }
+
+    interface IInputView
+    {
+        /// <summary>
+        /// Invoked when a browse button is clicked.
+        /// </summary>
+        event EventHandler BrowseButtonClicked;
+
+        /// <summary>
+        /// Property to provide access to the filename label.
+        /// </summary>
+        string FileName { get; set; }
+
+        /// <summary>
+        /// Property to provide access to the grid.
+        /// </summary>
+        IGridView GridView { get; }
     }
 }

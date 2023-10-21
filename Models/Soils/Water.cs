@@ -5,7 +5,6 @@ using APSIM.Shared.APSoil;
 using APSIM.Shared.Utilities;
 using Models.Core;
 using Models.Interfaces;
-using Models.Utilities;
 using Newtonsoft.Json;
 
 namespace Models.Soils
@@ -18,7 +17,7 @@ namespace Models.Soils
     [ViewName("ApsimNG.Resources.Glade.WaterView.glade")]
     [PresenterName("UserInterface.Presenters.WaterPresenter")]
     [ValidParent(ParentType = typeof(Soil))]
-    public class Water : Model, IGridModel
+    public class Water : Model, ITabularData
     {
         private double[] volumetric;
 
@@ -180,20 +179,13 @@ namespace Models.Soils
         }
 
         /// <summary>Tabular data. Called by GUI.</summary>
-        [JsonIgnore]
-        public List<GridTable> Tables
+        public TabularData GetTabularData()
         {
-            get
+            return new TabularData(Name, new TabularData.Column[]
             {
-                List<GridTableColumn> columns = new List<GridTableColumn>();
-                columns.Add(new GridTableColumn("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))));
-                columns.Add(new GridTableColumn("Initial values", new VariableProperty(this, GetType().GetProperty("InitialValues"))));
-
-                List<GridTable> tables = new List<GridTable>();
-                tables.Add(new GridTable(Name, columns, this));
-
-                return tables;
-            }
+                new TabularData.Column("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))),
+                new TabularData.Column("Initial values", new VariableProperty(this, GetType().GetProperty("InitialValues")))
+            });
         }
 
         /// <summary>The crop name (or LL15) that fraction full is relative to</summary>

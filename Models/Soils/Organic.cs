@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using APSIM.Shared.Utilities;
 using Models.Core;
 using Models.Interfaces;
-using Models.Utilities;
 using Newtonsoft.Json;
 
 namespace Models.Soils
@@ -14,7 +12,7 @@ namespace Models.Soils
     [ViewName("ApsimNG.Resources.Glade.ProfileView.glade")]
     [PresenterName("UserInterface.Presenters.ProfilePresenter")]
     [ValidParent(ParentType = typeof(Soil))]
-    public class Organic : Model, IGridModel
+    public class Organic : Model, ITabularData
     {
         /// <summary>
         /// An enumeration for specifying organic carbon units
@@ -106,24 +104,17 @@ namespace Models.Soils
         public string[] FOMMetadata { get; set; }
 
         /// <summary>Tabular data. Called by GUI.</summary>
-        [JsonIgnore]
-        public List<GridTable> Tables
+        public TabularData GetTabularData()
         {
-            get
+            return new TabularData(Name, new TabularData.Column[]
             {
-                List<GridTableColumn> columns = new List<GridTableColumn>();
-                columns.Add(new GridTableColumn("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))));
-                columns.Add(new GridTableColumn("Carbon", new VariableProperty(this, GetType().GetProperty("Carbon"))));
-                columns.Add(new GridTableColumn("SoilCNRatio", new VariableProperty(this, GetType().GetProperty("SoilCNRatio"))));
-                columns.Add(new GridTableColumn("FBiom", new VariableProperty(this, GetType().GetProperty("FBiom"))));
-                columns.Add(new GridTableColumn("FInert", new VariableProperty(this, GetType().GetProperty("FInert"))));
-                columns.Add(new GridTableColumn("FOM", new VariableProperty(this, GetType().GetProperty("FOM"))));
-
-                List<GridTable> tables = new List<GridTable>();
-                tables.Add(new GridTable(Name, columns, this));
-
-                return tables;
-            }
+                new TabularData.Column("Depth", new VariableProperty(this, GetType().GetProperty("Depth"))),
+                new TabularData.Column("Carbon", new VariableProperty(this, GetType().GetProperty("Carbon"))),
+                new TabularData.Column("SoilCNRatio", new VariableProperty(this, GetType().GetProperty("SoilCNRatio"))),
+                new TabularData.Column("FBiom", new VariableProperty(this, GetType().GetProperty("FBiom"))),
+                new TabularData.Column("FInert", new VariableProperty(this, GetType().GetProperty("FInert"))),
+                new TabularData.Column("FOM", new VariableProperty(this, GetType().GetProperty("FOM")))
+            });
         }
 
         /// <summary>Gets the model ready for running in a simulation.</summary>

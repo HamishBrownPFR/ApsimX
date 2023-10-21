@@ -35,9 +35,6 @@ namespace Models.Soils.SoilTemp
         [Link]
         ISoilWater waterBalance = null;
 
-        /// <summary>Invoke when the soil temperature has changed.</summary>
-        public event EventHandler SoilTemperatureChanged;
-
         // ------------------------------------------------------------------------------------------------------------
         // -----------------------------------------------IMPORTANT NOTE-----------------------------------------------
         // Due to FORTRAN's 'flexibility' with arrays there have been a few modifications to array sizes in this
@@ -401,8 +398,6 @@ namespace Models.Soils.SoilTemp
             }
 
             doProcess();
-
-            SoilTemperatureChanged?.Invoke(this, EventArgs.Empty);
         } // OnProcess
 
 

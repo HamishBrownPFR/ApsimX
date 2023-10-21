@@ -227,6 +227,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "Inert",
           "ResourceName": null,
           "Children": [
@@ -312,6 +316,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "FOMLignin",
           "ResourceName": null,
           "Children": [
@@ -374,11 +382,14 @@
             },
             {
               "$type": "Models.Soils.Nutrients.OrganicFlow, Models",
-              "DestinationNames": [
+              "MineralisedN": null,
+              "MineralisedP": null,
+              "Catm": null,
+              "destinationNames": [
                 "Microbial",
                 "Humic"
               ],
-              "DestinationFraction": [
+              "destinationFraction": [
                 0.9,
                 0.1
               ],
@@ -387,13 +398,20 @@
               "Children": [
                 {
                   "$type": "Models.Functions.CERESDecomposition, Models",
-                  "PotentialRate": 0.0095,
                   "Name": "Rate",
                   "ResourceName": null,
+                  "PotentialRate": 0.0095,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Nutrient].CNRF",
+                      "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                      "Name": "TF",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.CERESMineralisationFOMCNRFactor, Models",
                       "Name": "CNRF",
                       "ResourceName": null,
                       "Children": [],
@@ -401,6 +419,16 @@
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.4,
+                  "Units": null,
+                  "Name": "CO2Efficiency",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -414,6 +442,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "FOMCellulose",
           "ResourceName": null,
           "Children": [
@@ -476,11 +508,14 @@
             },
             {
               "$type": "Models.Soils.Nutrients.OrganicFlow, Models",
-              "DestinationNames": [
+              "MineralisedN": null,
+              "MineralisedP": null,
+              "Catm": null,
+              "destinationNames": [
                 "Microbial",
                 "Humic"
               ],
-              "DestinationFraction": [
+              "destinationFraction": [
                 0.9,
                 0.1
               ],
@@ -489,13 +524,20 @@
               "Children": [
                 {
                   "$type": "Models.Functions.CERESDecomposition, Models",
-                  "PotentialRate": 0.05,
                   "Name": "Rate",
                   "ResourceName": null,
+                  "PotentialRate": 0.05,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Nutrient].CNRF",
+                      "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                      "Name": "TF",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.CERESMineralisationFOMCNRFactor, Models",
                       "Name": "CNRF",
                       "ResourceName": null,
                       "Children": [],
@@ -503,6 +545,16 @@
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.4,
+                  "Units": null,
+                  "Name": "CO2Efficiency",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -516,6 +568,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "FOMCarbohydrate",
           "ResourceName": null,
           "Children": [
@@ -578,11 +634,14 @@
             },
             {
               "$type": "Models.Soils.Nutrients.OrganicFlow, Models",
-              "DestinationNames": [
+              "MineralisedN": null,
+              "MineralisedP": null,
+              "Catm": null,
+              "destinationNames": [
                 "Microbial",
                 "Humic"
               ],
-              "DestinationFraction": [
+              "destinationFraction": [
                 0.9,
                 0.1
               ],
@@ -591,13 +650,20 @@
               "Children": [
                 {
                   "$type": "Models.Functions.CERESDecomposition, Models",
-                  "PotentialRate": 0.2,
                   "Name": "Rate",
                   "ResourceName": null,
+                  "PotentialRate": 0.2,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Nutrient].CNRF",
+                      "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                      "Name": "TF",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.CERESMineralisationFOMCNRFactor, Models",
                       "Name": "CNRF",
                       "ResourceName": null,
                       "Children": [],
@@ -605,6 +671,16 @@
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.4,
+                  "Units": null,
+                  "Name": "CO2Efficiency",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -618,6 +694,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "Microbial",
           "ResourceName": null,
           "Children": [
@@ -709,11 +789,14 @@
             },
             {
               "$type": "Models.Soils.Nutrients.OrganicFlow, Models",
-              "DestinationNames": [
+              "MineralisedN": null,
+              "MineralisedP": null,
+              "Catm": null,
+              "destinationNames": [
                 "Microbial",
                 "Humic"
               ],
-              "DestinationFraction": [
+              "destinationFraction": [
                 0.6,
                 0.4
               ],
@@ -793,15 +876,24 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Nutrient].TF",
-                      "Name": "TFFactor",
+                      "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                      "Name": "TF",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.4,
+                  "Units": null,
+                  "Name": "CO2Efficiency",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -815,6 +907,10 @@
         },
         {
           "$type": "Models.Soils.Nutrients.OrganicPool, Models",
+          "C": null,
+          "N": null,
+          "P": null,
+          "LayerFraction": null,
           "Name": "Humic",
           "ResourceName": null,
           "Children": [
@@ -886,10 +982,13 @@
             },
             {
               "$type": "Models.Soils.Nutrients.OrganicFlow, Models",
-              "DestinationNames": [
+              "MineralisedN": null,
+              "MineralisedP": null,
+              "Catm": null,
+              "destinationNames": [
                 "Microbial"
               ],
-              "DestinationFraction": [
+              "destinationFraction": [
                 1.0
               ],
               "Name": "Decomposition",
@@ -906,8 +1005,27 @@
                 },
                 {
                   "$type": "Models.Functions.CERESDecomposition, Models",
-                  "PotentialRate": 0.00015,
                   "Name": "Rate",
+                  "ResourceName": null,
+                  "PotentialRate": 0.00015,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                      "Name": "TF",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.4,
+                  "Units": null,
+                  "Name": "CO2Efficiency",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -1045,16 +1163,6 @@
           "ReadOnly": false
         },
         {
-          "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
-          "MineralisationSTBase": 0.0,
-          "MineralisationSTOpt": 32.0,
-          "Name": "TF",
-          "ResourceName": null,
-          "Children": [],
-          "Enabled": true,
-          "ReadOnly": false
-        },
-        {
           "$type": "Models.Functions.ExpressionFunction, Models",
           "Expression": "([Soil].Physical.BD*[Soil].Physical.Thickness)/100",
           "Name": "ppm2kgha",
@@ -1132,8 +1240,11 @@
         },
         {
           "$type": "Models.Soils.Nutrients.NFlow, Models",
-          "SourceName": "Urea",
-          "DestinationName": "NH4",
+          "Value": null,
+          "Natm": null,
+          "N2Oatm": null,
+          "sourceName": "Urea",
+          "destinationName": "NH4",
           "Name": "Hydrolysis",
           "ResourceName": null,
           "Children": [
@@ -1189,8 +1300,11 @@
         },
         {
           "$type": "Models.Soils.Nutrients.NFlow, Models",
-          "SourceName": "NO3",
-          "DestinationName": null,
+          "Value": null,
+          "Natm": null,
+          "N2Oatm": null,
+          "sourceName": "NO3",
+          "destinationName": null,
           "Name": "Denitrification",
           "ResourceName": null,
           "Children": [
@@ -1265,8 +1379,11 @@
         },
         {
           "$type": "Models.Soils.Nutrients.NFlow, Models",
-          "SourceName": "NH4",
-          "DestinationName": "NO3",
+          "Value": null,
+          "Natm": null,
+          "N2Oatm": null,
+          "sourceName": "NH4",
+          "destinationName": "NO3",
           "Name": "Nitrification",
           "ResourceName": null,
           "Children": [
@@ -1297,6 +1414,14 @@
                 {
                   "$type": "Models.Functions.CERESNitrificationpHFactor, Models",
                   "Name": "CERESNitrificationpHFactor",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.CERESMineralisationTemperatureFactor, Models",
+                  "Name": "CERESMineralisationTemperatureFactor",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -1440,24 +1565,6 @@
               "ReadOnly": false
             }
           ],
-          "Enabled": true,
-          "ReadOnly": false
-        },
-        {
-          "$type": "Models.Functions.Constant, Models",
-          "FixedValue": 0.4,
-          "Units": null,
-          "Name": "CO2Efficiency",
-          "ResourceName": null,
-          "Children": [],
-          "Enabled": true,
-          "ReadOnly": false
-        },
-        {
-          "$type": "Models.Functions.CERESMineralisationFOMCNRFactor, Models",
-          "Name": "CNRF",
-          "ResourceName": null,
-          "Children": [],
           "Enabled": true,
           "ReadOnly": false
         }
