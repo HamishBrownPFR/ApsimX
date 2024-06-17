@@ -7297,8 +7297,37 @@
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "$type": "Models.Functions.DemandFunctions.AllometricDemandFunction, Models",
+                  "Const": 0.3,
+                  "Power": 1.1,
                   "Name": "TotalCarbonDemand",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Wheat].AboveGroundLive.C + [Wheat].Arbitrator.TotalCFixationSupply",
+                      "Name": "XValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Wheat].Stem.Live.C",
+                      "Name": "YValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "TotalCarbonDemandNotUsedEither",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -7310,7 +7339,7 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Wheat].AboveGroundLive.Wt",
+                          "VariableName": "[Wheat].AboveGroundLive.C.Total + [Wheat].Arbitrator.TotalCFixationSupply",
                           "Name": "XValue",
                           "ResourceName": null,
                           "Children": [],
@@ -7319,7 +7348,7 @@
                         },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Wheat].Stem.Live.Wt",
+                          "VariableName": "[Wheat].Stem.Live.C.Total",
                           "Name": "YValue",
                           "ResourceName": null,
                           "Children": [],
