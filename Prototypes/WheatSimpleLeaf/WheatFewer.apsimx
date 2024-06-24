@@ -34,7 +34,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "Replacements",
       "ResourceName": null,
       "Children": [
@@ -9580,14 +9579,12 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "Cultivars",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "New Zealand",
                   "ResourceName": null,
                   "Children": [
@@ -10074,7 +10071,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Australia",
                   "ResourceName": null,
                   "Children": [
@@ -10901,7 +10897,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Turkey",
                   "ResourceName": null,
                   "Children": [
@@ -10934,7 +10929,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "China",
                   "ResourceName": null,
                   "Children": [
@@ -10960,7 +10954,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "USA",
                   "ResourceName": null,
                   "Children": [
@@ -11075,7 +11068,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Europe",
                   "ResourceName": null,
                   "Children": [
@@ -11160,7 +11152,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Africa",
                   "ResourceName": null,
                   "Children": [
@@ -11188,7 +11179,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Iran",
                   "ResourceName": null,
                   "Children": [
@@ -11214,7 +11204,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Just Added",
                   "ResourceName": null,
                   "Children": [
@@ -12396,7 +12385,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": true,
-      "GraphsPerPage": 6,
       "Name": "Validation",
       "ResourceName": null,
       "Children": [
@@ -12426,7 +12414,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "Combined Results",
           "ResourceName": null,
           "Children": [
@@ -13806,7 +13793,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "ResidualAnalysis",
           "ResourceName": null,
           "Children": [
@@ -14225,7 +14211,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "SE Queensland",
           "ResourceName": null,
           "Children": [
@@ -15416,7 +15401,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Crop",
                   "ResourceName": null,
                   "Children": [
@@ -16571,7 +16555,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "SoilWater",
                   "ResourceName": null,
                   "Children": [
@@ -18962,7 +18945,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Canopy",
                   "ResourceName": null,
                   "Children": [
@@ -19286,7 +19268,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Biomass",
                   "ResourceName": null,
                   "Children": [
@@ -19912,7 +19893,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Nitrogen",
                   "ResourceName": null,
                   "Children": [
@@ -21872,7 +21852,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "NitrogenConcentration",
                   "ResourceName": null,
                   "Children": [
@@ -22361,14 +22340,12 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "ArbitratorGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -24179,7 +24156,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "LeafGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -24753,7 +24729,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "BiomassGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -25385,7 +25360,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "N_Uptake",
                       "ResourceName": null,
                       "Children": [
@@ -26017,7 +25991,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "N_Conc",
                       "ResourceName": null,
                       "Children": [
@@ -26901,7 +26874,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SoilOutputs",
                       "ResourceName": null,
                       "Children": [
@@ -27199,7 +27171,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Water",
                           "ResourceName": null,
                           "Children": [
@@ -27303,7 +27274,6 @@
                             {
                               "$type": "Models.Core.Folder, Models",
                               "ShowInDocs": false,
-                              "GraphsPerPage": 6,
                               "Name": "SWC",
                               "ResourceName": null,
                               "Children": [
@@ -37831,7 +37801,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "PredObs",
                   "ResourceName": null,
                   "Children": [
@@ -39055,7 +39024,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "PredObs",
                   "ResourceName": null,
                   "Children": [
@@ -40172,7 +40140,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "PredObs",
                   "ResourceName": null,
                   "Children": [
@@ -41188,7 +41155,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "PredObs",
                   "ResourceName": null,
                   "Children": [
@@ -41843,7 +41809,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "AddingValueToNVT",
               "ResourceName": null,
               "Children": [
@@ -45259,7 +45224,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "Phenology1996",
               "ResourceName": null,
               "Children": [
@@ -51098,7 +51062,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "Western Australia",
           "ResourceName": null,
           "Children": [
@@ -58305,7 +58268,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "Turkey",
           "ResourceName": null,
           "Children": [
@@ -62490,7 +62452,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "New Zealand",
           "ResourceName": null,
           "Children": [
@@ -62593,7 +62554,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -65250,7 +65210,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -66323,7 +66282,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "SWCLayers",
                   "ResourceName": null,
                   "Children": [
@@ -67498,7 +67456,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Nitrogen",
                   "ResourceName": null,
                   "Children": [
@@ -68199,7 +68156,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Biomass",
                   "ResourceName": null,
                   "Children": [
@@ -69065,7 +69021,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -69860,7 +69815,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -70449,7 +70403,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -71053,7 +71006,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganN",
                       "ResourceName": null,
                       "Children": [
@@ -71646,7 +71598,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNconc",
                       "ResourceName": null,
                       "Children": [
@@ -72239,7 +72190,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -73081,7 +73031,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SWCLayers",
                       "ResourceName": null,
                       "Children": [
@@ -73993,7 +73942,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -75391,7 +75339,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -76158,7 +76105,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -76478,7 +76424,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -77071,7 +77016,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -77373,7 +77317,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -77646,7 +77589,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SWCLayers",
                       "ResourceName": null,
                       "Children": [
@@ -80454,7 +80396,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -81198,7 +81139,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -81655,7 +81595,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SWCLayers",
                       "ResourceName": null,
                       "Children": [
@@ -82442,7 +82381,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -83354,7 +83292,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -84282,7 +84219,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -84584,7 +84520,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "DM Sup Dem",
                       "ResourceName": null,
                       "Children": [
@@ -85430,7 +85365,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Nconc",
                       "ResourceName": null,
                       "Children": [
@@ -86169,7 +86103,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "PS stress",
                       "ResourceName": null,
                       "Children": [
@@ -86669,14 +86602,12 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs1",
                   "ResourceName": null,
                   "Children": [
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "ArbitratorGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -89083,7 +89014,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "LeafGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -89657,7 +89587,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "BiomassGraphs",
                       "ResourceName": null,
                       "Children": [
@@ -90289,7 +90218,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "N_Uptake",
                       "ResourceName": null,
                       "Children": [
@@ -90921,7 +90849,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "N_Conc",
                       "ResourceName": null,
                       "Children": [
@@ -91805,7 +91732,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SoilOutputs",
                       "ResourceName": null,
                       "Children": [
@@ -92103,7 +92029,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Water",
                           "ResourceName": null,
                           "Children": [
@@ -92207,7 +92132,6 @@
                             {
                               "$type": "Models.Core.Folder, Models",
                               "ShowInDocs": false,
-                              "GraphsPerPage": 6,
                               "Name": "SWC",
                               "ResourceName": null,
                               "Children": [
@@ -94790,7 +94714,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -95315,7 +95238,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "WaterProfile",
                       "ResourceName": null,
                       "Children": [
@@ -95714,7 +95636,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNConc",
                       "ResourceName": null,
                       "Children": [
@@ -96221,7 +96142,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNamount",
                       "ResourceName": null,
                       "Children": [
@@ -96728,7 +96648,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -97268,7 +97187,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -97995,7 +97913,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -98308,7 +98225,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SoilLayers250",
                       "ResourceName": null,
                       "Children": [
@@ -98998,7 +98914,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SoilLayers50",
                       "ResourceName": null,
                       "Children": [
@@ -99688,7 +99603,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SoilLayers0",
                       "ResourceName": null,
                       "Children": [
@@ -100482,7 +100396,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -101339,7 +101252,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -101540,7 +101452,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -101939,7 +101850,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -102396,7 +102306,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -102669,7 +102578,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SensibilityTest",
                       "ResourceName": null,
                       "Children": [
@@ -103313,7 +103221,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -104269,7 +104176,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -104539,7 +104445,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -104938,7 +104843,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -105657,7 +105561,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -105833,7 +105736,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "DM Sup Dem",
                       "ResourceName": null,
                       "Children": [
@@ -106639,7 +106541,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Nconc",
                       "ResourceName": null,
                       "Children": [
@@ -107367,7 +107268,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "PS stress",
                       "ResourceName": null,
                       "Children": [
@@ -107967,7 +107867,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -108960,7 +108859,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -109229,7 +109127,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -109650,7 +109547,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -110352,7 +110248,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -110625,7 +110520,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "SensibilityTest",
                       "ResourceName": null,
                       "Children": [
@@ -111034,7 +110928,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganN",
                       "ResourceName": null,
                       "Children": [
@@ -111475,7 +111368,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNConc",
                       "ResourceName": null,
                       "Children": [
@@ -111941,7 +111833,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -112900,7 +112791,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -113101,7 +112991,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -113500,7 +113389,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -114151,7 +114039,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -114528,7 +114415,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "Manager folder",
                           "ResourceName": null,
                           "Children": [
@@ -115489,7 +115375,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -115748,7 +115633,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -116147,7 +116031,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -116643,7 +116526,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -118446,7 +118328,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -118715,7 +118596,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -119178,7 +119058,6 @@
                         {
                           "$type": "Models.Core.Folder, Models",
                           "ShowInDocs": false,
-                          "GraphsPerPage": 6,
                           "Name": "RootWtByLayer",
                           "ResourceName": null,
                           "Children": [
@@ -119737,7 +119616,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -120582,7 +120460,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -120952,7 +120829,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganN",
                       "ResourceName": null,
                       "Children": [
@@ -121371,7 +121247,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNConc",
                       "ResourceName": null,
                       "Children": [
@@ -123272,7 +123147,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "Graphs",
                   "ResourceName": null,
                   "Children": [
@@ -123541,7 +123415,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganBiomass",
                       "ResourceName": null,
                       "Children": [
@@ -123940,7 +123813,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "Canopy",
                       "ResourceName": null,
                       "Children": [
@@ -124727,7 +124599,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -125097,7 +124968,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganN",
                       "ResourceName": null,
                       "Children": [
@@ -125516,7 +125386,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "OrganNConc",
                       "ResourceName": null,
                       "Children": [
@@ -125875,7 +125744,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "CPTPhenology",
               "ResourceName": null,
               "Children": [
@@ -137064,14 +136932,12 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "Southern Australia",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "van Herwaarden et al  1998",
               "ResourceName": null,
               "Children": [
@@ -142079,7 +141945,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "Wagga1314",
               "ResourceName": null,
               "Children": [
@@ -144629,7 +144494,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "YarrabahCreek",
               "ResourceName": null,
               "Children": [
@@ -158402,7 +158266,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "Griffith",
               "ResourceName": null,
               "Children": [
@@ -161838,14 +161701,12 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "Europe",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "Belgium",
               "ResourceName": null,
               "Children": [
@@ -165095,14 +164956,12 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "NorthAmerica",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "Arizona",
               "ResourceName": null,
               "Children": [
@@ -167181,7 +167040,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -169743,7 +169601,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "YieldComponents",
                       "ResourceName": null,
                       "Children": [
@@ -170484,14 +170341,12 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "China",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "ChinaFlux",
               "ResourceName": null,
               "Children": [
@@ -173929,7 +173784,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "Iran",
           "ResourceName": null,
           "Children": [
@@ -175228,7 +175082,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": false,
-          "GraphsPerPage": 6,
           "Name": "Africa",
           "ResourceName": null,
           "Children": [
