@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 171,
+  "Version": 176,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -16,7 +16,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "Replacements",
       "ResourceName": null,
       "Children": [
@@ -48,7 +47,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "PotentialPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -91,7 +89,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "AllocationMethods",
                       "ResourceName": null,
                       "Children": [
@@ -135,7 +132,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "PotentialPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -154,7 +150,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "ActualPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -181,7 +176,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": true,
-                      "GraphsPerPage": 6,
                       "Name": "AllocationMethods",
                       "ResourceName": null,
                       "Children": [
@@ -357,6 +351,7 @@
                   "Start": "BareTree",
                   "IsEmerged": false,
                   "PhaseNameToGoto": "SpringDormancy",
+                  "RemovalType": 0,
                   "Name": "GotoPhase",
                   "ResourceName": null,
                   "Children": [],
@@ -4578,21 +4573,39 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.StageBasedInterpolation, Models",
-              "Values": [
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.6,
-                1.0,
-                1.0,
-                1.0
-              ],
-              "Proportional": true,
+              "$type": "Models.Functions.LinearInterpolationFunction, Models",
               "Name": "RelativeSeasonalDimension",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Functions.XYPairs, Models",
+                  "X": [
+                    3.0,
+                    4.0,
+                    5.0
+                  ],
+                  "Y": [
+                    0.0,
+                    0.6,
+                    1.0
+                  ],
+                  "XVariableName": null,
+                  "Name": "XYPairs",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Phenology].Stage",
+                  "Name": "XValue",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             }
@@ -5101,6 +5114,7 @@
                   "Start": "Grazing",
                   "IsEmerged": true,
                   "PhaseNameToGoto": "ReStart",
+                  "RemovalType": 0,
                   "Name": "Graze",
                   "ResourceName": null,
                   "Children": [],
@@ -5132,7 +5146,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "PotentialPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -5175,7 +5188,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "AllocationMethods",
                       "ResourceName": null,
                       "Children": [
@@ -5219,7 +5231,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "PotentialPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -5238,7 +5249,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "ActualPartitioningMethods",
                       "ResourceName": null,
                       "Children": [
@@ -5265,7 +5275,6 @@
                     {
                       "$type": "Models.Core.Folder, Models",
                       "ShowInDocs": false,
-                      "GraphsPerPage": 6,
                       "Name": "AllocationMethods",
                       "ResourceName": null,
                       "Children": [
@@ -8173,7 +8182,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": true,
-      "GraphsPerPage": 6,
       "Name": "ObsPred",
       "ResourceName": null,
       "Children": [
@@ -8639,7 +8647,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "PatternTest",
       "ResourceName": null,
       "Children": [
@@ -8690,7 +8697,7 @@
               "NightInterceptionFraction": 0.5,
               "ReferenceHeight": 2.0,
               "Name": "MicroClimate",
-              "ResourceName": null,
+              "ResourceName": "MicroClimate",
               "Children": [],
               "Enabled": true,
               "ReadOnly": false
@@ -9729,7 +9736,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -9772,7 +9778,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -9816,7 +9821,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -9835,7 +9839,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -9862,7 +9865,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -10038,6 +10040,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -14238,7 +14241,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -14281,7 +14283,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -14325,7 +14326,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -14344,7 +14344,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -14371,7 +14370,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -14547,6 +14545,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -19566,6 +19565,7 @@
                             "Start": "Grazing",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "ReStart",
+                            "RemovalType": 0,
                             "Name": "Graze",
                             "ResourceName": null,
                             "Children": [],
@@ -19597,7 +19597,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -19640,7 +19639,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -19684,7 +19682,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -19703,7 +19700,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -19730,7 +19726,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -22689,7 +22684,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "AgrgateZoneGraphs",
               "ResourceName": null,
               "Children": [
@@ -23699,7 +23693,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -24983,7 +24976,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -25567,7 +25559,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -26198,7 +26189,7 @@
               "NightInterceptionFraction": 0.5,
               "ReferenceHeight": 2.0,
               "Name": "MicroClimate",
-              "ResourceName": null,
+              "ResourceName": "MicroClimate",
               "Children": [],
               "Enabled": true,
               "ReadOnly": false
@@ -27237,7 +27228,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -27280,7 +27270,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -27324,7 +27313,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -27343,7 +27331,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -27370,7 +27357,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -31939,7 +31925,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -31982,7 +31967,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -32026,7 +32010,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -32045,7 +32028,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -32072,7 +32054,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -37529,7 +37510,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -37572,7 +37552,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -37616,7 +37595,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -37635,7 +37613,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -37662,7 +37639,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -40267,7 +40243,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "AgrgateZoneGraphs",
               "ResourceName": null,
               "Children": [
@@ -41277,7 +41252,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -42738,7 +42712,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -43322,7 +43295,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -43913,7 +43885,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "NZ Experiments",
       "ResourceName": null,
       "Children": [
@@ -47432,7 +47403,7 @@
                   "NightInterceptionFraction": 0.5,
                   "ReferenceHeight": 2.0,
                   "Name": "MicroClimate",
-                  "ResourceName": null,
+                  "ResourceName": "MicroClimate",
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -48512,7 +48483,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -48555,7 +48525,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -48599,7 +48568,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -48618,7 +48586,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -48645,7 +48612,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -48821,6 +48787,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -52993,7 +52960,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -53036,7 +53002,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -53080,7 +53045,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -53099,7 +53063,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -53126,7 +53089,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -53302,6 +53264,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -57649,7 +57612,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -58933,7 +58895,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -59517,7 +59478,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "ResourceInputs",
               "ResourceName": null,
               "Children": [
@@ -62435,7 +62395,7 @@
                   "NightInterceptionFraction": 0.5,
                   "ReferenceHeight": 2.0,
                   "Name": "MicroClimate",
-                  "ResourceName": null,
+                  "ResourceName": "MicroClimate",
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -63430,7 +63390,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -63473,7 +63432,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -63517,7 +63475,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -63536,7 +63493,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -63563,7 +63519,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -63739,6 +63694,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -67911,7 +67867,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -67954,7 +67909,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -67998,7 +67952,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -68017,7 +67970,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -68044,7 +67996,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -68220,6 +68171,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -72567,7 +72519,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -73851,7 +73802,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -74435,7 +74385,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "ResourceInputs",
               "ResourceName": null,
               "Children": [
@@ -74639,7 +74588,7 @@
               "NightInterceptionFraction": 0.5,
               "ReferenceHeight": 2.0,
               "Name": "MicroClimate",
-              "ResourceName": null,
+              "ResourceName": "MicroClimate",
               "Children": [],
               "Enabled": true,
               "ReadOnly": false
@@ -75832,7 +75781,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -75875,7 +75823,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -75919,7 +75866,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -75938,7 +75884,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -75965,7 +75910,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -76141,6 +76085,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -80313,7 +80258,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -80356,7 +80300,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -80400,7 +80343,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -80419,7 +80361,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -80446,7 +80387,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -80622,6 +80562,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -86085,6 +86026,7 @@
                             "Start": "Grazing",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "ReStart",
+                            "RemovalType": 0,
                             "Name": "Graze",
                             "ResourceName": null,
                             "Children": [],
@@ -86108,7 +86050,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -86151,7 +86092,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -86195,7 +86135,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -86214,7 +86153,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -86241,7 +86179,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -88846,7 +88783,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "SoilWater",
               "ResourceName": null,
               "Children": [
@@ -89944,7 +89880,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "AgrgateZoneGraphs",
               "ResourceName": null,
               "Children": [
@@ -90954,7 +90889,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -92267,7 +92201,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -92851,7 +92784,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -93491,7 +93423,7 @@
               "NightInterceptionFraction": 0.5,
               "ReferenceHeight": 2.0,
               "Name": "MicroClimate",
-              "ResourceName": null,
+              "ResourceName": "MicroClimate",
               "Children": [],
               "Enabled": true,
               "ReadOnly": false
@@ -94690,7 +94622,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -94733,7 +94664,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -94777,7 +94707,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -94796,7 +94725,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -94823,7 +94751,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -94999,6 +94926,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -99171,7 +99099,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -99214,7 +99141,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -99258,7 +99184,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -99277,7 +99202,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -99304,7 +99228,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": true,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -99480,6 +99403,7 @@
                             "Start": "BareTree",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "SpringDormancy",
+                            "RemovalType": 0,
                             "Name": "GotoPhase",
                             "ResourceName": null,
                             "Children": [],
@@ -104638,6 +104562,7 @@
                             "Start": "Grazing",
                             "IsEmerged": true,
                             "PhaseNameToGoto": "ReStart",
+                            "RemovalType": 0,
                             "Name": "Graze",
                             "ResourceName": null,
                             "Children": [],
@@ -104661,7 +104586,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -104704,7 +104628,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -104748,7 +104671,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "PotentialPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -104767,7 +104689,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "ActualPartitioningMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -104794,7 +104715,6 @@
                               {
                                 "$type": "Models.Core.Folder, Models",
                                 "ShowInDocs": false,
-                                "GraphsPerPage": 6,
                                 "Name": "AllocationMethods",
                                 "ResourceName": null,
                                 "Children": [
@@ -107408,7 +107328,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "SoilWater",
               "ResourceName": null,
               "Children": [
@@ -108506,7 +108425,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "AgrgateZoneGraphs",
               "ResourceName": null,
               "Children": [
@@ -109516,7 +109434,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -110800,7 +110717,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -111384,7 +111300,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -111971,7 +111886,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "ObsPred",
           "ResourceName": null,
           "Children": [
@@ -112466,7 +112380,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "USA Experiments",
       "ResourceName": null,
       "Children": [
@@ -113461,7 +113374,7 @@
                   "NightInterceptionFraction": 0.5,
                   "ReferenceHeight": 2.0,
                   "Name": "MicroClimate",
-                  "ResourceName": null,
+                  "ResourceName": "MicroClimate",
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -114274,7 +114187,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -114317,7 +114229,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -114361,7 +114272,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -114380,7 +114290,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -114407,7 +114316,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -114583,6 +114491,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -118755,7 +118664,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -118798,7 +118706,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -118842,7 +118749,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -118861,7 +118767,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -118888,7 +118793,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -119064,6 +118968,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -124095,6 +124000,7 @@
                                 "Start": "Grazing",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "ReStart",
+                                "RemovalType": 0,
                                 "Name": "Graze",
                                 "ResourceName": null,
                                 "Children": [],
@@ -124126,7 +124032,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -124169,7 +124074,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -124213,7 +124117,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -124232,7 +124135,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -124259,7 +124161,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -127654,7 +127555,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -128938,7 +128838,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -129522,7 +129421,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -131093,7 +130991,7 @@
                   "NightInterceptionFraction": 0.5,
                   "ReferenceHeight": 2.0,
                   "Name": "MicroClimate",
-                  "ResourceName": null,
+                  "ResourceName": "MicroClimate",
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -131761,7 +131659,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -131804,7 +131701,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -131848,7 +131744,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -131867,7 +131762,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -131894,7 +131788,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -132070,6 +131963,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -136242,7 +136136,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -136285,7 +136178,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -136329,7 +136221,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -136348,7 +136239,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -136375,7 +136265,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -136551,6 +136440,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -141487,6 +141377,7 @@
                                 "Start": "Grazing",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "ReStart",
+                                "RemovalType": 0,
                                 "Name": "Graze",
                                 "ResourceName": null,
                                 "Children": [],
@@ -141518,7 +141409,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -141561,7 +141451,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -141605,7 +141494,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -141624,7 +141512,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -141651,7 +141538,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -145046,7 +144932,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "TreeGraphs",
               "ResourceName": null,
               "Children": [
@@ -146358,7 +146243,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "FruitGraphs",
               "ResourceName": null,
               "Children": [
@@ -146942,7 +146826,6 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "GraphsPerPage": 6,
               "Name": "UnderStoryGraphs",
               "ResourceName": null,
               "Children": [
@@ -147529,7 +147412,6 @@
         {
           "$type": "Models.Core.Folder, Models",
           "ShowInDocs": true,
-          "GraphsPerPage": 6,
           "Name": "ObsPred",
           "ResourceName": null,
           "Children": [
@@ -148024,7 +147906,6 @@
     {
       "$type": "Models.Core.Folder, Models",
       "ShowInDocs": false,
-      "GraphsPerPage": 6,
       "Name": "NZ_Sensitivity",
       "ResourceName": null,
       "Children": [
@@ -148174,7 +148055,7 @@
                   "NightInterceptionFraction": 0.5,
                   "ReferenceHeight": 2.0,
                   "Name": "MicroClimate",
-                  "ResourceName": null,
+                  "ResourceName": "MicroClimate",
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -149416,7 +149297,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -149459,7 +149339,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -149503,7 +149382,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -149522,7 +149400,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -149549,7 +149426,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -149725,6 +149601,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -153897,7 +153774,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -153940,7 +153816,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -153984,7 +153859,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -154003,7 +153877,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -154030,7 +153903,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": true,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -154206,6 +154078,7 @@
                                 "Start": "BareTree",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "SpringDormancy",
+                                "RemovalType": 0,
                                 "Name": "GotoPhase",
                                 "ResourceName": null,
                                 "Children": [],
@@ -159220,6 +159093,7 @@
                                 "Start": "Grazing",
                                 "IsEmerged": true,
                                 "PhaseNameToGoto": "ReStart",
+                                "RemovalType": 0,
                                 "Name": "Graze",
                                 "ResourceName": null,
                                 "Children": [],
@@ -159251,7 +159125,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -159294,7 +159167,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -159338,7 +159210,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "PotentialPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -159357,7 +159228,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "ActualPartitioningMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -159384,7 +159254,6 @@
                                   {
                                     "$type": "Models.Core.Folder, Models",
                                     "ShowInDocs": false,
-                                    "GraphsPerPage": 6,
                                     "Name": "AllocationMethods",
                                     "ResourceName": null,
                                     "Children": [
@@ -162381,14 +162250,12 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": true,
-              "GraphsPerPage": 6,
               "Name": "Graphs",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "ResourceInputs",
                   "ResourceName": null,
                   "Children": [
@@ -162535,7 +162402,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "ProfileN",
                   "ResourceName": null,
                   "Children": [
@@ -162614,7 +162480,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "ProfileN_Water",
                   "ResourceName": null,
                   "Children": [
@@ -162693,7 +162558,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "TreeStress",
                   "ResourceName": null,
                   "Children": [
@@ -162908,7 +162772,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "TreeBiomass",
                   "ResourceName": null,
                   "Children": [
@@ -163191,7 +163054,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "FruitParameters",
                   "ResourceName": null,
                   "Children": [
@@ -163610,7 +163472,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "AgrgateZoneGraphs",
                   "ResourceName": null,
                   "Children": [
@@ -164620,7 +164481,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": true,
-                  "GraphsPerPage": 6,
                   "Name": "TreeGraphs",
                   "ResourceName": null,
                   "Children": [
@@ -165904,7 +165764,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "FruitGraphs",
                   "ResourceName": null,
                   "Children": [
@@ -166488,7 +166347,6 @@
                 {
                   "$type": "Models.Core.Folder, Models",
                   "ShowInDocs": false,
-                  "GraphsPerPage": 6,
                   "Name": "UnderStoryGraphs",
                   "ResourceName": null,
                   "Children": [
