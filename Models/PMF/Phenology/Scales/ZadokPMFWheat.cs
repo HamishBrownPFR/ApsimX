@@ -28,7 +28,7 @@ namespace Models.PMF.Phen
 
         /// <summary>The thermal time</summary>
         [Link(Type = LinkType.Child, ByName = true)]
-        public IFunction HaunStage = null;
+        public IFunction haunStage = null;
 
         /// <summary>Gets the stage.</summary>
         /// <value>The stage.</value>

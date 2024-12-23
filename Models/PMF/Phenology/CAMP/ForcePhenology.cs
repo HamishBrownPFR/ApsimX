@@ -18,7 +18,7 @@ namespace Models.PMF.Phen
     [Serializable]
     [ViewName("UserInterface.Views.PropertyAndGridView")]
     [PresenterName("UserInterface.Presenters.PropertyAndGridPresenter")]
-    public class ForcePhenology : Model, IGridModel
+    public class ForcePhenology : Model 
     {
         /// <summary>Location of file with crop specific coefficients</summary>
         [Description("File path for coefficient file")]
@@ -90,13 +90,13 @@ namespace Models.PMF.Phen
 
         /// <summary>Gets or sets the table of values.</summary>
         [JsonIgnore]
-        public List<GridTable> Tables
+        public List<DataTable> Tables
         {
             get
             {
-                List<GridTable> tables = new List<GridTable>
+                List<DataTable> tables = new List<DataTable>
                 {
-                    new GridTable("", new List<GridTableColumn>(), this)
+                    //new DataTable("", new List<DataTableColumn>(), this)
                 };
                 return tables;
             }

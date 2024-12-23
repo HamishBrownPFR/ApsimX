@@ -21,9 +21,6 @@ namespace Models.Management
         Pruning,
         /// <summary>Biomass is Allremoved</summary>
         EndCrop,
-        /// <summary>No biomass is removed</summary>
-        None,
-
     }
 
     /// <summary>Stores a row of Biomass Removal Fractions</summary>

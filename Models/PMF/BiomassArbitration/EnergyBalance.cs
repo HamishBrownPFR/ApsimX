@@ -308,14 +308,5 @@ namespace Models.PMF
         {
             Clear();
         }
-
-        /// <summary>
-        /// Called when canopy is reset but crop not ended.  Used for deciduious crops
-        /// </summary>
-        public void resetCanopy()
-        {
-            Clear();
-        }
-
     }
 }
