@@ -553,7 +553,7 @@ namespace Models.PMF
                 double checkTotalN = 0;
                 foreach (NetworkZoneState z in Zones)
                 {
-                    FOMLayerLayerType[] FOMLayers = new FOMLayerLayerType[z.LayerLive.Length];
+                    // pass senesced biomass to dead biomas in each layer
                     for (int layer = 0; layer < z.Physical.Thickness.Length; layer++)
                     {
                         z.LayerLive[layer] = OrganNutrientsState.Subtract(z.LayerLive[layer], OrganNutrientsState.Multiply(liveRemoved, z.LayerLiveProportion[layer], parentOrgan.Cconc), parentOrgan.Cconc);
@@ -562,7 +562,13 @@ namespace Models.PMF
                         z.LayerLive[layer] = OrganNutrientsState.Subtract(z.LayerLive[layer], OrganNutrientsState.Multiply(senesced, z.LayerLiveProportion[layer], parentOrgan.Cconc), parentOrgan.Cconc);
                         double fracAlloc = MathUtilities.Divide(z.RAw[layer], TotalRAw, 0);
                         z.LayerLive[layer] = OrganNutrientsState.Add(z.LayerLive[layer], OrganNutrientsState.Multiply(allocated, fracAlloc, parentOrgan.Cconc), parentOrgan.Cconc);
-
+                    }
+                    
+                    // Detach dead biomass in each layer and pass to fresh soil OM
+                    z.CalculateRelativeDeadBiomassProportions();
+                    FOMLayerLayerType[] FOMLayers = new FOMLayerLayerType[z.LayerLive.Length];
+                    for (int layer = 0; layer < z.Physical.Thickness.Length; layer++)
+                    { 
                         z.LayerDead[layer] = OrganNutrientsState.Add(z.LayerDead[layer], OrganNutrientsState.Multiply(senesced, z.LayerLiveProportion[layer], parentOrgan.Cconc), parentOrgan.Cconc);
                         OrganNutrientsState detachedToday = OrganNutrientsState.Multiply(detached, z.LayerDeadProportion[layer], parentOrgan.Cconc);
                         z.LayerDead[layer] = OrganNutrientsState.Subtract(z.LayerDead[layer], detachedToday, parentOrgan.Cconc);
