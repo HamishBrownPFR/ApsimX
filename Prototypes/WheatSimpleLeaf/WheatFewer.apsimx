@@ -6204,7 +6204,7 @@
                         },
                         {
                           "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                          "Name": "LinearInterpolationFunction",
+                          "Name": "GrowthPattern",
                           "ResourceName": null,
                           "Children": [
                             {
@@ -7290,7 +7290,7 @@
                   "$type": "Models.Functions.PhaseLookupValue, Models",
                   "Start": "Emergence",
                   "End": "Flowering",
-                  "Name": "TotalCarbonDemand",
+                  "Name": "TotalCarbonDemandDiscarded",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -7302,7 +7302,7 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Wheat].AboveGroundLive.C + [Wheat].Arbitrator.TotalCFixationSupply",
+                          "VariableName": "[Wheat].AboveGroundLive.Carbon.Structural +[Wheat].AboveGroundLive.Carbon.Metabolic + [Wheat].Arbitrator.TotalCFixationSupply",
                           "Name": "XValue",
                           "ResourceName": null,
                           "Children": [],
@@ -7375,13 +7375,22 @@
                 },
                 {
                   "$type": "Models.Functions.MultiplyFunction, Models",
-                  "Name": "TotalDMDemandNotUsed",
+                  "Name": "TotalCarbonDemand",
                   "ResourceName": null,
                   "Children": [
                     {
                       "$type": "Models.Functions.VariableReference, Models",
                       "VariableName": "[Leaf].Photosynthesis",
                       "Name": "PotentialPhotosynthesis",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Stem].Cconc",
+                      "Name": "CarbonConc",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
