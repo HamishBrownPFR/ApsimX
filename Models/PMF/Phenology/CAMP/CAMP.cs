@@ -47,7 +47,7 @@ namespace Models.PMF.Phen
         Phenology phenology = null;
 
         /// <summary>The ancestor CAMP model and some relations</summary>
-        [Link(Type = LinkType.Path, Path = "[Leaf].HaunStage")]
+        [Link(Type = LinkType.Child, ByName = true)]
         IFunction haunStage = null;
 
         /// <summary>
@@ -168,14 +168,11 @@ namespace Models.PMF.Phen
         [JsonIgnore] public CultivarRateParams Params { get; set; }
 
         /// <summary>The ancestor CAMP model and some relations</summary>
-        [Link(Type = LinkType.Path, Path = "[Leaf].Phyllochron.BasePhyllochron")]
+        [Link(Type = LinkType.Child, ByName =true)]
         IFunction basePhyllochron = null;
 
-        //[Link(Type = LinkType.Path, Path = "[Phenology].PhyllochronPpSensitivity")]
-        //IFunction phylloPpSens = null;
-
-        [Link(Type = LinkType.Path, Path = "[Leaf].HaunStage.Delta")]
-        IFunction DHS = null;
+        [Link(Type = LinkType.Child, ByName = true)]
+        IFunction deltaHaunStage = null;
 
 
         [EventSubscribe("PrePhenology")]
@@ -197,7 +194,7 @@ namespace Models.PMF.Phen
                 }
                 else
                 { // Crop emerged
-                    dHS = DHS.Value();
+                    dHS = deltaHaunStage.Value();
                 }
                 
                 // Set stage specific parameter values
