@@ -40,8 +40,9 @@ def findNextChild(Parent,ChildName):
         return Parent[ChildName]
     
 def addModel(Parent,modelPath,New):
-    PathElements = modelPath.split('.')
-    Parent = findModel(Parent,PathElements)
+    if modelPath != '':
+        PathElements = modelPath.split('.')
+        Parent = findModel(Parent,PathElements)
     if Parent == None:
         print('Could not find parent model ' + modelPath + ' to Add new model to.  Dont include the name of the new models name in the path')
     if isinstance(New,dict):
@@ -49,6 +50,23 @@ def addModel(Parent,modelPath,New):
     else:
         NewDict = json.loads(New)
     Parent['Children'].append(NewDict)
+    
+def replaceModel(Parent,modelPath,New):
+    PathElements = modelPath.split('.')
+    try:
+        test = findModel(Parent,PathElements[:-1])[PathElements[-1]]
+        findModel(Parent,PathElements[:-1])[PathElements[-1]] = New
+    except:
+        try:
+            pos = 0
+            for kid in findModel(Parent,PathElements[:-1])['Children']:
+                if kid['Name'] == PathElements[-1]:
+                    findModel(Parent,PathElements[:-1])['Children'][pos] = New
+                    break
+                pos +=1
+        except:   
+            print('Could not find parent node of model to over write for ' + modelPath)
+            raise
 
 
 # -
@@ -62,16 +80,18 @@ subprocess.run(comm, shell=True) # Run the git command
 with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','r') as WheatTestsJSON:
     WheatTests = json.load(WheatTestsJSON)
     WheatTestsJSON.close()
-
-## read prototype wheat file into json object
+    ## read prototype wheat file into json object
 with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatFewer.apsimx','r') as WheatPrototypeJSON:
     WheatPrototype = json.load(WheatPrototypeJSON)
     WheatPrototypeJSON.close()
 
 #Copy prototype wheat model out of replacements and put it in replacements in test file
 SLWheat =  findModel(WheatPrototype,['Replacements','Wheat'])
-
 addModel(WheatTests,'Replacements',SLWheat)
+
+#Copy prototype wheat model out of replacements and put it in replacements in test file
+Replacements =  findModel(WheatPrototype,['Replacements'])
+replaceModel(WheatTests,'Replacements',Replacements)
 
 with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','w') as WheatTestsJSON:
     json.dump(WheatTests ,WheatTestsJSON,indent=2)
