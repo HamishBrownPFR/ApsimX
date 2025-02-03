@@ -85,7 +85,10 @@ replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\S
 with open(r'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx', 'r') as file: 
     data = file.read() 
     for v in replacements.keys():
-        data = data.replace(v, replacements[v]) 
+        data = data.replace(v, replacements[v])
+        w = v.replace('Wheat','[Wheat]')
+        rw = replacements[v].replace('Wheat','[Wheat]')
+        data = data.replace(w, rw)
         
 # Opening our text file in write only 
 # mode to write the replaced content 
