@@ -38,19 +38,7 @@ def findNextChild(Parent,ChildName):
                 return Parent['Children'][child]
     else:
         return Parent[ChildName]
-    
-def addModel(Parent,modelPath,New):
-    if modelPath != '':
-        PathElements = modelPath.split('.')
-        Parent = findModel(Parent,PathElements)
-    if Parent == None:
-        print('Could not find parent model ' + modelPath + ' to Add new model to.  Dont include the name of the new models name in the path')
-    if isinstance(New,dict):
-        NewDict = New
-    else:
-        NewDict = json.loads(New)
-    Parent['Children'].append(NewDict)
-    
+   
 def replaceModel(Parent,modelPath,New):
     PathElements = modelPath.split('.')
     try:
@@ -86,19 +74,11 @@ with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatFewer.apsimx','
     WheatPrototypeJSON.close()
 
 #Copy prototype wheat model out of replacements and put it in replacements in test file
-SLWheat =  findModel(WheatPrototype,['Replacements','Wheat'])
-addModel(WheatTests,'Replacements',SLWheat)
-
-#Copy prototype wheat model out of replacements and put it in replacements in test file
 Replacements =  findModel(WheatPrototype,['Replacements'])
 replaceModel(WheatTests,'Replacements',Replacements)
 
 with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','w') as WheatTestsJSON:
     json.dump(WheatTests ,WheatTestsJSON,indent=2)
-
-
-
-replacements.keys()
 
 # +
 replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0).to_dict()['SimpleLeaf']
