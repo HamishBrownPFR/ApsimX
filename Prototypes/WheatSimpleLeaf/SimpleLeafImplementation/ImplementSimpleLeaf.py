@@ -77,7 +77,7 @@ with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatFewer.apsimx','
 Replacements =  findModel(WheatPrototype,['Replacements'])
 replaceModel(WheatTests,'Replacements',Replacements)
 
-with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','w') as WheatTestsJSON:
+with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\Wheat.apsimx','w') as WheatTestsJSON:
     json.dump(WheatTests ,WheatTestsJSON,indent=2)
 
 # +
@@ -92,7 +92,7 @@ with open(r'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx', 'r') as 
         
 # Opening our text file in write only 
 # mode to write the replaced content 
-with open(r'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx', 'w') as file: 
+with open(r'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\Wheat.apsimx', 'w') as file: 
   
     # Writing the replaced data in our 
     # text file 
