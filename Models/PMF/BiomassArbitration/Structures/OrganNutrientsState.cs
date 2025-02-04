@@ -58,13 +58,13 @@ namespace Models.PMF
         public double K => Potassium.Total;
             
         /// <summary> The N concentration of the organ</summary>
-        public double NConc => Wt > 0 ? N / Wt : 0;
+        public double Nconc => Wt > 0 ? N / Wt : 0;
 
         /// <summary> The P concentration of the organ</summary>
-        public double PConc => Wt > 0 ? P / Wt : 0;
+        public double Pconc => Wt > 0 ? P / Wt : 0;
 
         /// <summary> The K concentration of the organ</summary>
-        public double KConc => Wt > 0 ? K / Wt : 0;
+        public double Kconc => Wt > 0 ? K / Wt : 0;
 
 
         /// <summary> The concentraion of carbon in total dry weight</summary>
