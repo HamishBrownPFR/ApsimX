@@ -69,7 +69,7 @@ with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','r') as Wh
     WheatTests = json.load(WheatTestsJSON)
     WheatTestsJSON.close()
     ## read prototype wheat file into json object
-with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatFewer.apsimx','r') as WheatPrototypeJSON:
+with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatPrototype.apsimx','r') as WheatPrototypeJSON:
     WheatPrototype = json.load(WheatPrototypeJSON)
     WheatPrototypeJSON.close()
 
@@ -97,7 +97,10 @@ with open(r'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx', 'w
     # Writing the replaced data in our 
     # text file 
     file.write(data) 
-# -
+
+# +
+#replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0).to_dict()['SimpleLeaf']
+replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0,sheet_name='Existing Model renames').to_dict()['SimpleLeaf']
 
 from pathlib import Path
 fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\data'
@@ -108,8 +111,6 @@ for path in pathlist:
     obsDat = pd.read_excel(path, engine='openpyxl',sheet_name='Observed')
     newCols = []
     for c in obsDat.columns:
-        if c=='Wheat.Phenology.PTQ':
-            print(path)
         Allcols.append(c)
         if c in replacements.keys():
             newCols.append(c.replace(c,replacements[c]))
@@ -119,6 +120,7 @@ for path in pathlist:
     with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
         workbook = writer.book
         obsDat.to_excel(writer,index=False,sheet_name='Observed')
+# -
 
 
 for path in pathlist:
@@ -136,30 +138,15 @@ for path in pathlist:
         obsDat.to_excel(writer,index=False,sheet_name='MaxLeafSize')
 
 
+AllObs = list(set(Allcols))
+
+AllObs[0]
+
+AllObs[0].replace(AllObs[0].split('.')[0],"["+AllObs[0].split('.')[0]+"]" )
+
+[x.replace(x.split('.')[0],"["+x.split('.')[0]+"]") for x in AllObs]
+
 a = list(set(Allcols+list(replacements.keys())))
 a.sort()
 
 a
-
-obsDat
-
-test = pd.read_excel('C:/GitHubRepos/ApsimX/Tests/Validation/Wheat/Data/Observed.xlsx', engine='openpyxl',sheet_name='Observed')
-
-test
-
-cols = test.columns
-
-replacements.keys()
-
-newCols = []
-for c in cols:
-    if c in replacements.keys():
-        newCols.append(c.replace(c,replacements[c]))
-    else:
-        newCols.append(c)
-
-newCols
-
-replacements
-
-obsDat.co[x.replace() for x in obsDat.columns]
