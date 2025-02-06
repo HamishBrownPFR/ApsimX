@@ -112,6 +112,8 @@ for path in pathlist:
     newCols = []
     for c in obsDat.columns:
         Allcols.append(c)
+        if c == 'Wheat.Leaf.Dead.N':
+            print(path)
         if c in replacements.keys():
             newCols.append(c.replace(c,replacements[c]))
         else:
