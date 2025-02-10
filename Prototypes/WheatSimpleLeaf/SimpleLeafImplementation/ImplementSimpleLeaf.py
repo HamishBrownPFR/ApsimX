@@ -110,16 +110,27 @@ for path in pathlist:
     # because path is object not string
     obsDat = pd.read_excel(path, engine='openpyxl',sheet_name='Observed')
     newCols = []
+    replace = False
     for c in obsDat.columns:
-        Allcols.append(c)
-        if c == 'Wheat.Leaf.Deat.N':
+        if c == "Wheat.Stem.Storage.Wt":
             print(path)
-        if c in replacements.keys():
-            newCols.append(c.replace(c,replacements[c]))
-        else:
-            newCols.append(c)
-    obsDat.columns = newCols
-    with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
-        workbook = writer.book
-        obsDat.to_excel(writer,index=False,sheet_name='Observed')
+    #     if ("[" in c) or ("]" in c):
+    #         newlab = c.replace("[","")
+    #         newlab = newlab.replace("]","")
+    #         replace = True
+    #         newCols.append(newlab)
+    #     else:
+    #         newCols.append(c)
+    #     # Allcols.append(c)
+    #     # if c == 'Wheat.Leaf.Deat.N':
+    #     #     print(path)
+    #     # if c in replacements.keys():
+    #     #     newCols.append(c.replace(c,replacements[c]))
+    #     # else:
+    #     #     newCols.append(c)
+    # if replace == True:
+    #     obsDat.columns = newCols
+    #     with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
+    #         workbook = writer.book
+    #         obsDat.to_excel(writer,index=False,sheet_name='Observed')
 
