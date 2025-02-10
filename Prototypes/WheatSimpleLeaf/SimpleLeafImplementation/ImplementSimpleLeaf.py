@@ -112,7 +112,7 @@ for path in pathlist:
     newCols = []
     replace = False
     for c in obsDat.columns:
-        if c == "Wheat.Stem.Storage.Wt":
+        if c == "Wheat.Leaf.Storage.Wt":
             print(path)
     #     if ("[" in c) or ("]" in c):
     #         newlab = c.replace("[","")
