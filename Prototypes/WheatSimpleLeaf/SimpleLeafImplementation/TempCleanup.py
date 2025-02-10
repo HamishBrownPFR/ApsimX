@@ -25,17 +25,26 @@ import shlex # package to construct the git command to subprocess format
 import subprocess 
 # %matplotlib inline
 
-# +
 SensibilityReport
-            
-
-# -
 
 ## Read wheat test file into json object
 with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','r') as WheatTestsJSON:
     WheatTests = json.load(WheatTestsJSON)
     WheatTestsJSON.close()
     ## read prototype wheat file into json object
+
+
+def FindReports(Parent,reportName,simulationName):
+    if Parent["$type"] == "Models.Core.Simulation, Models":
+        simulationName = Parent["Name"]
+    for model in Parent['Children']:
+        if model["$type"] == "Models.Report, Models":
+            if model["Name"] == reportName:
+                print(simulationName)
+        FindReports(model,reportName,simulationName) 
+
+
+FindReports(WheatTests,"DailyReport","")
 
 
 def StripReports(Parent):
