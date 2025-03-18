@@ -68,6 +68,11 @@ Tests/Validation/Wheat/data/.ipynb_checkpoints/MaricopaDataJoin-checkpoint.ipynb
 Tests/Validation/Wheat/Maricopa/.ipynb_checkpoints/MaricopaDataJoin-checkpoint.ipynb
 Prototypes/Lentil/.ipynb_checkpoints
 Prototypes/Lentil/Data
+Prototypes/WheatSimpleLeaf/.ipynb_checkpoints
+Tests/Validation/Wheat/SimpleLeafImplementation/.ipynb_checkpoints
+.env
+payload.zip
+
 Tests/Validation/Wheat/SimpleLeafImplementation/ImplementSimpleLeaf.ipynb
 Tests/Validation/Wheat/SimpleLeafImplementation/.ipynb_checkpoints/ImplementSimpleLeaf-checkpoint.ipynb
 Prototypes/WheatSimpleLeaf/.ipynb_checkpoints
