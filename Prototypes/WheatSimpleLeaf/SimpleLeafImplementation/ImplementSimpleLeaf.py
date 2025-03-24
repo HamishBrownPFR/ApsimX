@@ -23,12 +23,21 @@ import ast
 import numbers
 import shlex # package to construct the git command to subprocess format
 import subprocess 
+import os
 # %matplotlib inline
+
+MasterFile = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx'
+PrototypeFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatPrototype.apsimx'
+ImplementedFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx'
+VariableRenamesFile, VRsheetname = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx', 'SimpleLeafRenames'
+
 
 # +
 def findModel(Parent,PathElements):
     for pe in PathElements:
+        print(Parent["Name"])
         Parent = findNextChild(Parent,pe)
+    print(Parent["Name"])
     return Parent
 
 def findNextChild(Parent,ChildName):
@@ -38,7 +47,7 @@ def findNextChild(Parent,ChildName):
                 return Parent['Children'][child]
     else:
         return Parent[ChildName]
-   
+
 def replaceModel(Parent,modelPath,New):
     PathElements = modelPath.split('.')
     try:
@@ -55,6 +64,17 @@ def replaceModel(Parent,modelPath,New):
         except:   
             print('Could not find parent node of model to over write for ' + modelPath)
             raise
+            
+def addModel(Parent,modelPath,New):
+    PathElements = modelPath.split('.')
+    Parent = findModel(Parent,PathElements)
+    if Parent == None:
+        print('Could not find parent model ' + modelPath + ' to Add new model to.  Dont include the name of the new models name in the path')
+    if isinstance(New,dict):
+        NewDict = New
+    else:
+        NewDict = json.loads(New)
+    Parent['Children'].append(NewDict)
 
 
 # +
@@ -65,41 +85,46 @@ def replaceModel(Parent,modelPath,New):
 # -
 
 ## Read wheat test file into json object
-with open('C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx','r') as WheatTestsJSON:
-    WheatTests = json.load(WheatTestsJSON)
-    WheatTestsJSON.close()
+with open(MasterFile,'r') as MasterJSON:
+    Master = json.load(MasterJSON)
+    MasterJSON.close()
     ## read prototype wheat file into json object
-with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatPrototype.apsimx','r') as WheatPrototypeJSON:
-    WheatPrototype = json.load(WheatPrototypeJSON)
-    WheatPrototypeJSON.close()
+with open(PrototypeFile,'r') as PrototypeJSON:
+    Prototype = json.load(PrototypeJSON)
+    PrototypeJSON.close()
+
+NewModel
 
 #Copy prototype wheat model out of replacements and put it in replacements in test file
-Replacements =  findModel(WheatPrototype,['Replacements'])
-replaceModel(WheatTests,'Replacements',Replacements)
+NewModel =  findModel(Prototype,'Simulations.Replacements')
+addModel(Master,'Replacements',NewModel)
+NewModel =  findModel(Prototype,['Replacements.MaxLeafSize'])
+replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
 
-with open('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx','w') as WheatTestsJSON:
-    json.dump(WheatTests ,WheatTestsJSON,indent=2)
+os.remove(ImplementedFile)
+with open(ImplementedFile,'w') as ImplementedJSON:
+    json.dump(Master ,ImplementedJSON,indent=2)
 
 # +
-replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0).to_dict()['SimpleLeaf']
-with open(r'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx', 'r') as file: 
+replacements = pd.read_excel(VariableRenamesFile,index_col=0,sheet_name = VRsheetname).to_dict()['SimpleLeaf']
+with open(ImplementedFile, 'r') as file: 
     data = file.read() 
-    for v in replacements.keys():
-        data = data.replace(v, replacements[v])
-        w = v.replace('Wheat','[Wheat]')
-        rw = replacements[v].replace('Wheat','[Wheat]')
-        data = data.replace(w, rw)
+    # for v in list(replacements.keys())[0:5]:
+    #     data = data.replace(v, replacements[v])
+    #     w = v.replace('Wheat','[Wheat]')
+    #     rw = replacements[v].replace('Wheat','[Wheat]')
+    #     data = data.replace(w, rw)
         
 # Opening our text file in write only 
 # mode to write the replaced content 
-with open(r'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx', 'w') as file: 
+with open(ImplementedFile, 'w') as file: 
   
     # Writing the replaced data in our 
     # text file 
     file.write(data) 
 
 # +
-replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0, sheet_name='SimpleLeafRenames').to_dict()['SimpleLeaf']
+VariableRenames = pd.read_excel(VariableRenamesFile,index_col=0, sheet_name='SimpleLeafRenames').to_dict()['SimpleLeaf']
 #replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0,sheet_name='Existing Model renames').to_dict()['SimpleLeaf']
 
 from pathlib import Path
@@ -112,25 +137,21 @@ for path in pathlist:
     newCols = []
     replace = False
     for c in obsDat.columns:
-        if c == "Wheat.Leaf.Storage.Wt":
-            print(path)
-    #     if ("[" in c) or ("]" in c):
-    #         newlab = c.replace("[","")
-    #         newlab = newlab.replace("]","")
-    #         replace = True
-    #         newCols.append(newlab)
-    #     else:
-    #         newCols.append(c)
-    #     # Allcols.append(c)
-    #     # if c == 'Wheat.Leaf.Deat.N':
-    #     #     print(path)
-    #     # if c in replacements.keys():
-    #     #     newCols.append(c.replace(c,replacements[c]))
-    #     # else:
-    #     #     newCols.append(c)
-    # if replace == True:
-    #     obsDat.columns = newCols
-    #     with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
-    #         workbook = writer.book
-    #         obsDat.to_excel(writer,index=False,sheet_name='Observed')
+        # if ("[" in c) or ("]" in c):
+        #     newlab = c.replace("[","")
+        #     newlab = newlab.replace("]","")
+        #     replace = True
+        #     newCols.append(newlab)
+        # else:
+        #     newCols.append(c)
+        if c in VariableRenames.keys():
+            newCols.append(c.replace(c,VariableRenames[c]))
+            replace = True
+        else:
+            newCols.append(c)
+    if replace == True:
+        obsDat.columns = newCols
+        with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
+            workbook = writer.book
+            obsDat.to_excel(writer,index=False,sheet_name='Observed')
 
