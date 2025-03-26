@@ -33,11 +33,13 @@ VariableRenamesFile, VRsheetname = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimple
 
 
 # +
-def findModel(Parent,PathElements):
+def findModel(Parent,modelPath):
+    PathElements = modelPath.split('.')
+    return findModelFromElements(Parent,PathElements)
+
+def findModelFromElements(Parent,PathElements):
     for pe in PathElements:
-        print(Parent["Name"])
         Parent = findNextChild(Parent,pe)
-    print(Parent["Name"])
     return Parent
 
 def findNextChild(Parent,ChildName):
@@ -51,14 +53,14 @@ def findNextChild(Parent,ChildName):
 def replaceModel(Parent,modelPath,New):
     PathElements = modelPath.split('.')
     try:
-        test = findModel(Parent,PathElements[:-1])[PathElements[-1]]
-        findModel(Parent,PathElements[:-1])[PathElements[-1]] = New
+        test = findModelFromElements(Parent,PathElements[:-1])[PathElements[-1]]
+        findModelFromElements(Parent,PathElements[:-1])[PathElements[-1]] = New
     except:
         try:
             pos = 0
-            for kid in findModel(Parent,PathElements[:-1])['Children']:
+            for kid in findModelFromElements(Parent,PathElements[:-1])['Children']:
                 if kid['Name'] == PathElements[-1]:
-                    findModel(Parent,PathElements[:-1])['Children'][pos] = New
+                    findModelFromElements(Parent,PathElements[:-1])['Children'][pos] = New
                     break
                 pos +=1
         except:   
@@ -67,7 +69,7 @@ def replaceModel(Parent,modelPath,New):
             
 def addModel(Parent,modelPath,New):
     PathElements = modelPath.split('.')
-    Parent = findModel(Parent,PathElements)
+    Parent = findModelFromElements(Parent,PathElements)
     if Parent == None:
         print('Could not find parent model ' + modelPath + ' to Add new model to.  Dont include the name of the new models name in the path')
     if isinstance(New,dict):
@@ -93,12 +95,10 @@ with open(PrototypeFile,'r') as PrototypeJSON:
     Prototype = json.load(PrototypeJSON)
     PrototypeJSON.close()
 
-NewModel
-
 #Copy prototype wheat model out of replacements and put it in replacements in test file
-NewModel =  findModel(Prototype,'Simulations.Replacements')
+NewModel =  findModel(Prototype,'Replacements.Wheat')
 addModel(Master,'Replacements',NewModel)
-NewModel =  findModel(Prototype,['Replacements.MaxLeafSize'])
+NewModel =  findModel(Prototype,'Replacements.MaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
 
 os.remove(ImplementedFile)
@@ -109,11 +109,11 @@ with open(ImplementedFile,'w') as ImplementedJSON:
 replacements = pd.read_excel(VariableRenamesFile,index_col=0,sheet_name = VRsheetname).to_dict()['SimpleLeaf']
 with open(ImplementedFile, 'r') as file: 
     data = file.read() 
-    # for v in list(replacements.keys())[0:5]:
-    #     data = data.replace(v, replacements[v])
-    #     w = v.replace('Wheat','[Wheat]')
-    #     rw = replacements[v].replace('Wheat','[Wheat]')
-    #     data = data.replace(w, rw)
+    for v in replacements.keys():
+        data = data.replace(v, replacements[v])
+        w = v.replace('Wheat','[Wheat]')
+        rw = replacements[v].replace('Wheat','[Wheat]')
+        data = data.replace(w, rw)
         
 # Opening our text file in write only 
 # mode to write the replaced content 
@@ -125,7 +125,7 @@ with open(ImplementedFile, 'w') as file:
 
 # +
 VariableRenames = pd.read_excel(VariableRenamesFile,index_col=0, sheet_name='SimpleLeafRenames').to_dict()['SimpleLeaf']
-#replacements = pd.read_excel('C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx',index_col=0,sheet_name='Existing Model renames').to_dict()['SimpleLeaf']
+MaxLeafSizeRenames = pd.read_excel(VariableRenamesFile,index_col=0, sheet_name='MaxLeafSizeRenames').to_dict()['SimpleLeaf']
 
 from pathlib import Path
 fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\data'
@@ -137,13 +137,6 @@ for path in pathlist:
     newCols = []
     replace = False
     for c in obsDat.columns:
-        # if ("[" in c) or ("]" in c):
-        #     newlab = c.replace("[","")
-        #     newlab = newlab.replace("]","")
-        #     replace = True
-        #     newCols.append(newlab)
-        # else:
-        #     newCols.append(c)
         if c in VariableRenames.keys():
             newCols.append(c.replace(c,VariableRenames[c]))
             replace = True
@@ -154,4 +147,18 @@ for path in pathlist:
         with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
             workbook = writer.book
             obsDat.to_excel(writer,index=False,sheet_name='Observed')
-
+    
+    obsDat = pd.read_excel(path, engine='openpyxl',sheet_name='MaxLeafSize')
+    newCols = []
+    replace = False
+    for c in obsDat.columns:
+        if c in MaxLeafSizeRenames.keys():
+            newCols.append(c.replace(c,MaxLeafSizeRenames[c]))
+            replace = True
+        else:
+            newCols.append(c)
+    if replace == True:
+        obsDat.columns = newCols
+        with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
+            workbook = writer.book
+            obsDat.to_excel(writer,index=False,sheet_name='MaxLeafSize')
