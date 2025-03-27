@@ -29,7 +29,7 @@ import os
 MasterFile = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx'
 PrototypeFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatPrototype.apsimx'
 ImplementedFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx'
-VariableRenamesFile, VRsheetname = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx', 'SimpleLeafRenames'
+VariableRenamesFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLeafImplementation\VariableRenames.xlsx'  
 
 
 # +
@@ -98,7 +98,9 @@ with open(PrototypeFile,'r') as PrototypeJSON:
 #Copy prototype wheat model out of replacements and put it in replacements in test file
 NewModel =  findModel(Prototype,'Replacements.Wheat')
 addModel(Master,'Replacements',NewModel)
-NewModel =  findModel(Prototype,'Replacements.MaxLeafSize')
+NewModel =  findModel(Prototype,'Replacements.OutputMaxLeafSize')
+replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
+NewModel =  findModel(Prototype,'Replacements.ReportMaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
 
 os.remove(ImplementedFile)
@@ -106,7 +108,7 @@ with open(ImplementedFile,'w') as ImplementedJSON:
     json.dump(Master ,ImplementedJSON,indent=2)
 
 # +
-replacements = pd.read_excel(VariableRenamesFile,index_col=0,sheet_name = VRsheetname).to_dict()['SimpleLeaf']
+replacements = pd.read_excel(VariableRenamesFile,index_col=0,sheet_name = 'SimpleLeafRenames').to_dict()['SimpleLeaf']
 with open(ImplementedFile, 'r') as file: 
     data = file.read() 
     for v in replacements.keys():
@@ -140,6 +142,10 @@ for path in pathlist:
         if c in VariableRenames.keys():
             newCols.append(c.replace(c,VariableRenames[c]))
             replace = True
+            if c == "Wheat.Leaf.Tips":
+                print(str(path) + " tips")
+            if c == "Wheat.Leaf.Ligules":
+                pring(str(path) + " ligs")
         else:
             newCols.append(c)
     if replace == True:
@@ -148,17 +154,20 @@ for path in pathlist:
             workbook = writer.book
             obsDat.to_excel(writer,index=False,sheet_name='Observed')
     
-    obsDat = pd.read_excel(path, engine='openpyxl',sheet_name='MaxLeafSize')
-    newCols = []
-    replace = False
-    for c in obsDat.columns:
-        if c in MaxLeafSizeRenames.keys():
-            newCols.append(c.replace(c,MaxLeafSizeRenames[c]))
-            replace = True
-        else:
-            newCols.append(c)
-    if replace == True:
-        obsDat.columns = newCols
-        with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
-            workbook = writer.book
-            obsDat.to_excel(writer,index=False,sheet_name='MaxLeafSize')
+    try:
+        obsDat = pd.read_excel(path, engine='openpyxl',sheet_name='MaxLeafSize')
+        newCols = []
+        replace = False
+        for c in obsDat.columns:
+            if c in MaxLeafSizeRenames.keys():
+                newCols.append(c.replace(c,MaxLeafSizeRenames[c]))
+                replace = True
+            else:
+                newCols.append(c)
+        if replace == True:
+            obsDat.columns = newCols
+            with pd.ExcelWriter(path, engine='openpyxl', mode='a',if_sheet_exists='replace') as writer: 
+                workbook = writer.book
+                obsDat.to_excel(writer,index=False,sheet_name='MaxLeafSize')
+    except:
+        do = "Nothing"
