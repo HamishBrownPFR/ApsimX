@@ -144,8 +144,6 @@ for path in pathlist:
             replace = True
             if c == "Wheat.Leaf.Tips":
                 print(str(path) + " tips")
-            if c == "Wheat.Leaf.Ligules":
-                pring(str(path) + " ligs")
         else:
             newCols.append(c)
     if replace == True:
