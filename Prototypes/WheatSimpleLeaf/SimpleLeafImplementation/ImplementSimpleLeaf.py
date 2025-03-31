@@ -33,6 +33,34 @@ VariableRenamesFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\SimpleLe
 
 
 # +
+## Find and delete model of name and type
+def removeModel(Parent,modelName,modelType):
+    pos = 0
+    for c in Parent['Children']:
+        if (c['Name'] == modelName) and (c['$type'] == modelType):
+            del Parent['Children'][pos]
+            found = True
+            break
+        else:
+            removeModel(c,modelName,modelType)
+        pos += 1
+        
+with open(MasterFile,'r') as MasterJSON:
+    Master = json.load(MasterJSON)
+    MasterJSON.close()
+        
+removeModel(Master,"SetCropParams","Models.Manager, Models")
+removeModel(Master,"SowingReport","Models.Report, Models")
+
+with open(MasterFile,'w') as MasterJSON:
+    json.dump(Master ,MasterJSON,indent=2)
+# -
+
+
+
+
+
+# +
 def findModel(Parent,modelPath):
     PathElements = modelPath.split('.')
     return findModelFromElements(Parent,PathElements)
