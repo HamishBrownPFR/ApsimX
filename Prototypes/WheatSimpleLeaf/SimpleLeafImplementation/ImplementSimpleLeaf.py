@@ -26,6 +26,7 @@ import subprocess
 import os
 # %matplotlib inline
 
+ReleasedWheat = 'C:\GitHubRepos\ApsimX\Models\Resources\Wheat.json'
 MasterFile = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\Wheat.apsimx'
 PrototypeFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatPrototype.apsimx'
 ImplementedFile = 'C:\GitHubRepos\ApsimX\Prototypes\WheatSimpleLeaf\WheatSL.apsimx'
@@ -95,6 +96,11 @@ with open(PrototypeFile,'r') as PrototypeJSON:
     Prototype = json.load(PrototypeJSON)
     PrototypeJSON.close()
 
+## Read released wheat model so we can bring its cultivar parameters across
+with open(ReleasedWheat,'r') as ReleasedJSON:
+    Released = json.load(ReleasedJSON)
+    ReleasedJSON.close()
+
 #Copy prototype wheat model out of replacements and put it in replacements in test file
 NewModel =  findModel(Prototype,'Replacements.Wheat')
 addModel(Master,'Replacements',NewModel)
@@ -102,6 +108,8 @@ NewModel =  findModel(Prototype,'Replacements.OutputMaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
 NewModel =  findModel(Prototype,'Replacements.ReportMaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
+NewModel = findModel(Released,'Wheat.Cultivars')
+replaceModel(Master,'Replacements.Wheat.Cultivars',NewModel)
 
 os.remove(ImplementedFile)
 with open(ImplementedFile,'w') as ImplementedJSON:
