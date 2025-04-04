@@ -68,8 +68,17 @@
               "Children": [
                 {
                   "$type": "Models.Memo, Models",
+                  "Text": "The wheat models outputs of phase names (Phenology.CurrentPhase.Name), stage names (Phenology.CurrentStageName) and decimal stage (Phenology.Stage) are consistent with the population culm development score (PCSD) as described by [Celestina2023]. \nObservations recorded following the protocole outlined by [Celestina2023] are suitable for testing model accuracy and calibrating cultivar coefficients.",
+                  "Name": "PCDS (development stages)",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Memo, Models",
                   "Text": "Wheat exhibits a range of developmental responses to environment and these are strongly influenced by genotype characteristics. \nTemperature is the primary driver of development, increasing development rates and decreasing phase durations as it increases.  These affects are captured by thermal time.  However, wheat also exhibits cold and photoperiod sensitivities in its Vernalisaing phase and further photoperiod sensitivity in the SpikeletDifferenation and HeadEmergence phases.  Photoperiod responses are seen as a reduction in the length of a phase for a photoperiod sensitive genotype in response to a longer photoperiod.  Vernalisation responses are more complicated as they are driven by cool temperature but interact with photoperiod.  For vernalisation sensitive varieties (Winter types), exposure to cool temperatures and/or short photoperiods during the Vernalising phase may reduce its thermal time duration.  \n\nAPSIM wheat implements the Cereal Anthesis Molecular Phenology (CAMP) model to simulate development.  It is based on the Kirby Framework which assumes the timing of anthesis is a result of the timing of flag leaf and an additional thermal time passage from there to heading then anthesis.  It also assumes the timing of flag leaf is a result of the Final Leaf Number (which sets a target) and leaf appearance rate (which sets the rate of progress toward the target).  Leaf appearance rate is a function of Thermal time and a genotype specific Phyllochron which changes with Haun stage as described by [Jamieson_LeafAppearance_1995].  \n\nFinal Leaf Number (FLN) is set on the day that terminal spikelet occurs as: \n\nFLN = 2.85 + 1.1 * TSHS  \n\nWhere TSHS is the Haun stage on the day terminal spikelet stage occurs.  Terminal spikelet is at the end of the SpikeletDifferentaiation phase which is preceeded by the Emerging and Vernalising phases.  The mechanisums for progress through each of these phase are described below",
-                  "Name": "Memo",
+                  "Name": "Environmental responses",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -206,7 +215,7 @@
                   "$type": "Models.PMF.Phen.EmergingPhase, Models",
                   "Start": "Germination",
                   "End": "Emergence",
-                  "IsEmerged": true,
+                  "IsEmerged": false,
                   "TTForTimeStep": 0.0,
                   "Name": "Emerging",
                   "ResourceName": null,
@@ -274,9 +283,9 @@
                 {
                   "$type": "Models.PMF.Phen.VernalisationPhase, Models",
                   "Start": "Emergence",
-                  "End": "VernalSaturation",
+                  "End": "DoubleRidge",
                   "IsEmerged": true,
-                  "Name": "Vernalising",
+                  "Name": "LeavesInitiating",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -294,10 +303,10 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "VernalSaturation",
-                  "End": "TerminalSpikelet",
+                  "Start": "DoubleRidge",
+                  "End": "MaximumSpikeletPrimordia",
                   "IsEmerged": true,
-                  "Name": "SpikeletDifferentiation",
+                  "Name": "SpikeletsDifferentiating",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -334,10 +343,10 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "TerminalSpikelet",
-                  "End": "FlagLeaf",
+                  "Start": "MaximumSpikeletPrimordia",
+                  "End": "FlagLeafAppearance",
                   "IsEmerged": true,
-                  "Name": "StemElongation",
+                  "Name": "StemElongating",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -373,10 +382,10 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "FlagLeaf",
-                  "End": "Heading",
+                  "Start": "FlagLeafAppearance",
+                  "End": "HeadEmergence",
                   "IsEmerged": true,
-                  "Name": "HeadEmergence",
+                  "Name": "Heading",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -386,7 +395,7 @@
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
-                      "ReadOnly": false
+                      "ReadOnly": true
                     },
                     {
                       "$type": "Models.Functions.AddFunction, Models",
@@ -400,7 +409,7 @@
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
-                          "ReadOnly": false
+                          "ReadOnly": true
                         },
                         {
                           "$type": "Models.Functions.MultiplyFunction, Models",
@@ -414,7 +423,7 @@
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
-                              "ReadOnly": false
+                              "ReadOnly": true
                             },
                             {
                               "$type": "Models.Functions.VariableReference, Models",
@@ -423,7 +432,7 @@
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
-                              "ReadOnly": false
+                              "ReadOnly": true
                             },
                             {
                               "$type": "Models.Functions.LinearInterpolationFunction, Models",
@@ -448,7 +457,7 @@
                                   "ResourceName": null,
                                   "Children": [],
                                   "Enabled": true,
-                                  "ReadOnly": false
+                                  "ReadOnly": true
                                 },
                                 {
                                   "$type": "Models.Functions.VariableReference, Models",
@@ -457,19 +466,19 @@
                                   "ResourceName": null,
                                   "Children": [],
                                   "Enabled": true,
-                                  "ReadOnly": false
+                                  "ReadOnly": true
                                 }
                               ],
                               "Enabled": true,
-                              "ReadOnly": false
+                              "ReadOnly": true
                             }
                           ],
                           "Enabled": true,
-                          "ReadOnly": false
+                          "ReadOnly": true
                         }
                       ],
                       "Enabled": true,
-                      "ReadOnly": false
+                      "ReadOnly": true
                     }
                   ],
                   "Enabled": true,
@@ -477,10 +486,10 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "Heading",
-                  "End": "Flowering",
+                  "Start": "HeadEmergence",
+                  "End": "Anthesis",
                   "IsEmerged": true,
-                  "Name": "EarlyFlowering",
+                  "Name": "Flowering",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -490,7 +499,7 @@
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
-                      "ReadOnly": false
+                      "ReadOnly": true
                     },
                     {
                       "$type": "Models.Functions.Constant, Models",
@@ -500,7 +509,7 @@
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
-                      "ReadOnly": false
+                      "ReadOnly": true
                     }
                   ],
                   "Enabled": true,
@@ -508,10 +517,10 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "Flowering",
-                  "End": "StartGrainFill",
+                  "Start": "Anthesis",
+                  "End": "MaximumGrainLength",
                   "IsEmerged": true,
-                  "Name": "GrainDevelopment",
+                  "Name": "GrainExpanding",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -539,7 +548,7 @@
                 },
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "StartGrainFill",
+                  "Start": "MaximumGrainLength",
                   "End": "EndGrainFill",
                   "IsEmerged": true,
                   "Name": "GrainFilling",
@@ -571,45 +580,14 @@
                 {
                   "$type": "Models.PMF.Phen.GenericPhase, Models",
                   "Start": "EndGrainFill",
-                  "End": "Maturity",
-                  "IsEmerged": true,
-                  "Name": "Maturing",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 100.0,
-                      "Units": null,
-                      "Name": "Target",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].ThermalTime",
-                      "Name": "Progression",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.PMF.Phen.GenericPhase, Models",
-                  "Start": "Maturity",
                   "End": "HarvestRipe",
                   "IsEmerged": true,
-                  "Name": "Ripening",
+                  "Name": "GrainRipening",
                   "ResourceName": null,
                   "Children": [
                     {
                       "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 300.0,
+                      "FixedValue": 335.0,
                       "Units": null,
                       "Name": "Target",
                       "ResourceName": null,
@@ -680,9 +658,9 @@
                 },
                 {
                   "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "TerminalSpikelet",
+                  "SetEvent": "Emergence",
                   "ReSetEvent": "never",
-                  "Name": "TerminalSpikeletDAS",
+                  "Name": "EmergenceDAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -719,9 +697,87 @@
                 },
                 {
                   "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "FlagLeaf",
+                  "SetEvent": "DoubleRidge",
                   "ReSetEvent": "never",
-                  "Name": "FlagLeafDAS",
+                  "Name": "DoubleRidgeDAS",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Memo, Models",
+                      "Text": "\nA function is used to provide terminal spikelet date as days after sowing(DAS).\n",
+                      "Name": "memo",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 0.0,
+                      "Units": null,
+                      "Name": "PreEventValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Plant].DaysAfterSowing",
+                      "Name": "PostEventValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.OnEventFunction, Models",
+                  "SetEvent": "MaximumSpikeletPrimordia",
+                  "ReSetEvent": "never",
+                  "Name": "MaximumSpikeletPrimordiaDAS",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Memo, Models",
+                      "Text": "\nA function is used to provide terminal spikelet date as days after sowing(DAS).\n",
+                      "Name": "memo",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 0.0,
+                      "Units": null,
+                      "Name": "PreEventValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Plant].DaysAfterSowing",
+                      "Name": "PostEventValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.OnEventFunction, Models",
+                  "SetEvent": "FlagLeafAppearance",
+                  "ReSetEvent": "never",
+                  "Name": "FlagLeafAppearanceDAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -758,9 +814,9 @@
                 },
                 {
                   "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "Heading",
+                  "SetEvent": "HeadEmergence",
                   "ReSetEvent": "never",
-                  "Name": "HeadingDAS",
+                  "Name": "HeadEmergenceDAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -797,9 +853,9 @@
                 },
                 {
                   "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "Flowering",
+                  "SetEvent": "Anthesis",
                   "ReSetEvent": "Germination",
-                  "Name": "FloweringDAS",
+                  "Name": "AnthesisDAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -836,9 +892,9 @@
                 },
                 {
                   "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "Maturity",
+                  "SetEvent": "HarvestRipe",
                   "ReSetEvent": "never",
-                  "Name": "MaturityDAS",
+                  "Name": "HarvestRipeDAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -874,35 +930,60 @@
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.OnEventFunction, Models",
-                  "SetEvent": "Emergence",
-                  "ReSetEvent": "never",
-                  "Name": "EmergenceDAS",
+                  "$type": "Models.Functions.DivideFunction, Models",
+                  "Name": "PTQ",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Memo, Models",
-                      "Text": "\nA function is used to provide flowering date as days after sowing(DAS).\n",
-                      "Name": "memo",
+                      "$type": "Models.Functions.MultiplyFunction, Models",
+                      "Name": "Radn_mol_per_m2",
                       "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.0,
-                      "Units": null,
-                      "Name": "PreEventValue",
-                      "ResourceName": null,
-                      "Children": [],
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[IWeather].Radn",
+                          "Name": "SolarRadiation",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.Constant, Models",
+                          "FixedValue": 2.285,
+                          "Units": null,
+                          "Name": "Constant",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Leaf].Photosynthesis.FT",
+                          "Name": "RUE Temp factor",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": true
+                        },
+                        {
+                          "$type": "Models.Memo, Models",
+                          "Text": "Multiply Radn (MJ/m2/d) by 4.57 to convert to mol/m2/day and divide by 2 to convert to mol PAR/m2/d",
+                          "Name": "Memo",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
                       "Enabled": true,
                       "ReadOnly": false
                     },
                     {
                       "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Plant].DaysAfterSowing",
-                      "Name": "PostEventValue",
+                      "VariableName": "[Phenology].ThermalTime",
+                      "Name": "ThermalTime",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -1092,7 +1173,7 @@
                     },
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "The CAMP model was derived to integrate molecular and physiological models of cereal flowering time to better capture G x E x M interactions and to provide a framework for linking genetic data to field behaviour.  It calculates the current levels of expression of Vrn1, 2 and 3 genes from daily deltas that are all calculated relative to haun stage deltas in addition to temperature (Vrn1) and photoperiod (Vrn 2 and 3).  To reach the vernalisation stage Vrn1 must be upregulated to a value of at least 1.0.  Where Vrn2 is also being expressed the target for Vrn1 expression increases in parallel as more Vrn1 expression is needed to block Vrn2 and allow Vrn3 expression.  Once Vrn2 expression is blocked Vrn3 will be upregulated and terminal spikelet occurs when its apparent expression reaches 1.0.  CAMP also predicts expression of VrnX which represents the relative contributions of Vrn2 and Vrn3 prior to vernalisation.  The genotype specific rates of gene expression are derived from final leaf number parameters (FLNparams):  \n\nMinLN - The final leaf number (FLN) of the genotype when fully vernalised early and grown under long (>=16) photoperiod following vernalisation (FLN_LV).  These conditions maximise the expression of vernalisation and photoperiod genes and this parameter provides a measure of inherent earliness of the genotype. It may vary between 5 and 15 leaves (7 is typical).  \n\nPpLN - The difference between MinLN and the FLN of a genotype when fully vernalised early and grown under short (<=8h) photoperiod following vernalisation (FLN_SV).  These conditions maximise Vrn1 expression but minimise Vrn2 and 3 expression and PpLN provides a measure of photoperiod sensitivity of the genotype.  It may vary between 0 and 8 leaves with 1 being typical of a low sensitivity genotype and 4 being typical of a high sensitivity genotype.  \n\nVrnLN - The difference between MinLN and the FLN ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¾ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ PpLN of the genotype when not vernalised and grown under short photoperiod (FLN_SN).  These conditions minimise Vrn and Pp gene expression to base (minimal) values and VrnLN is a measure of vernalisation sensitivity of the genotype.  It may vary between 0 and 9 leaves with 1 being typical for an insensitive variety and 5 being typical for a sensitive variety.  \n\nVxPLN - The difference between MinLN + VrnLN and the FLN of the genotype when not vernalised and grown under long photoperiod (FLN_LN).  These conditions minimise upregulation of Vrn1 and maximise upregulation of Vrn2 and 3 and this parameter provides a measure of the relative activities of Vrn2 and Vrn3 during the vernalisation phase. A positive value shows short days accelerate vernalisation and a negative value shows short days slow vernalisation.  The value of VxPLN should be greater than the negative of VrnLN and typically varies between +2 and -4.",
+                      "Text": "The CAMP model was derived to integrate molecular and physiological models of cereal flowering time to better capture G x E x M interactions and to provide a framework for linking genetic data to field behaviour.  It calculates the current levels of expression of Vrn1, 2 and 3 genes from daily deltas that are all calculated relative to haun stage deltas in addition to temperature (Vrn1) and photoperiod (Vrn 2 and 3).  To reach the vernalisation stage Vrn1 must be upregulated to a value of at least 1.0.  Where Vrn2 is also being expressed the target for Vrn1 expression increases in parallel as more Vrn1 expression is needed to block Vrn2 and allow Vrn3 expression.  Once Vrn2 expression is blocked Vrn3 will be upregulated and terminal spikelet occurs when its apparent expression reaches 1.0.  CAMP also predicts expression of VrnX which represents the relative contributions of Vrn2 and Vrn3 prior to vernalisation.  The genotype specific rates of gene expression are derived from final leaf number parameters (FLNparams):  \n\nMinLN - The final leaf number (FLN) of the genotype when fully vernalised early and grown under long (>=16) photoperiod following vernalisation (FLN_LV).  These conditions maximise the expression of vernalisation and photoperiod genes and this parameter provides a measure of inherent earliness of the genotype. It may vary between 5 and 15 leaves (7 is typical).  \n\nPpLN - The difference between MinLN and the FLN of a genotype when fully vernalised early and grown under short (<=8h) photoperiod following vernalisation (FLN_SV).  These conditions maximise Vrn1 expression but minimise Vrn2 and 3 expression and PpLN provides a measure of photoperiod sensitivity of the genotype.  It may vary between 0 and 8 leaves with 1 being typical of a low sensitivity genotype and 4 being typical of a high sensitivity genotype.  \n\nVrnLN - The difference between MinLN and the FLN Ã¢â‚¬â€œ PpLN of the genotype when not vernalised and grown under short photoperiod (FLN_SN).  These conditions minimise Vrn and Pp gene expression to base (minimal) values and VrnLN is a measure of vernalisation sensitivity of the genotype.  It may vary between 0 and 9 leaves with 1 being typical for an insensitive variety and 5 being typical for a sensitive variety.  \n\nVxPLN - The difference between MinLN + VrnLN and the FLN of the genotype when not vernalised and grown under long photoperiod (FLN_LN).  These conditions minimise upregulation of Vrn1 and maximise upregulation of Vrn2 and 3 and this parameter provides a measure of the relative activities of Vrn2 and Vrn3 during the vernalisation phase. A positive value shows short days accelerate vernalisation and a negative value shows short days slow vernalisation.  The value of VxPLN should be greater than the negative of VrnLN and typically varies between +2 and -4.",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -1166,7 +1247,7 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Flowering",
+                          "Start": "Anthesis",
                           "End": "EndGrainFill",
                           "Name": "Structural",
                           "ResourceName": null,
@@ -1185,7 +1266,7 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Flowering",
+                          "Start": "Anthesis",
                           "End": "EndGrainFill",
                           "Name": "Metabolic",
                           "ResourceName": null,
@@ -1204,7 +1285,7 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Flowering",
+                          "Start": "Anthesis",
                           "End": "EndGrainFill",
                           "Name": "Storage",
                           "ResourceName": null,
@@ -1524,7 +1605,7 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Flowering",
+                          "Start": "Anthesis",
                           "End": "EndGrainFill",
                           "Name": "Structural",
                           "ResourceName": null,
@@ -1593,8 +1674,8 @@
                                       "Children": [
                                         {
                                           "$type": "Models.Functions.VariableReference, Models",
-                                          "VariableName": "[Phenology].GrainDevelopment.Target",
-                                          "Name": "FloweringToGrainFilling",
+                                          "VariableName": "[Phenology].GrainExpanding.Target",
+                                          "Name": "AnthesisToGrainFilling",
                                           "ResourceName": null,
                                           "Children": [],
                                           "Enabled": true,
@@ -2003,8 +2084,8 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Flowering",
-                          "End": "StartGrainFill",
+                          "Start": "Anthesis",
+                          "End": "MaximumGrainLength",
                           "Name": "InitialPhase",
                           "ResourceName": null,
                           "Children": [
@@ -2067,7 +2148,7 @@
                                     },
                                     {
                                       "$type": "Models.Functions.VariableReference, Models",
-                                      "VariableName": "[Phenology].GrainDevelopment.Target",
+                                      "VariableName": "[Phenology].GrainExpanding.Target",
                                       "Name": "FillingDuration",
                                       "ResourceName": null,
                                       "Children": [],
@@ -2088,7 +2169,7 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "StartGrainFill",
+                          "Start": "MaximumGrainLength",
                           "End": "EndGrainFill",
                           "Name": "LinearPhase",
                           "ResourceName": null,
@@ -2209,7 +2290,7 @@
                 },
                 {
                   "$type": "Models.Functions.HoldFunction, Models",
-                  "WhenToHold": "Flowering",
+                  "WhenToHold": "Anthesis",
                   "Name": "Number",
                   "ResourceName": null,
                   "Children": [
@@ -2455,7 +2536,7 @@
                         {
                           "$type": "Models.Functions.AccumulateAtEvent, Models",
                           "StartStageName": "Emergence",
-                          "EndStageName": "Heading",
+                          "EndStageName": "HeadEmergence",
                           "AccumulateEventName": "[Clock].DoActualPlantGrowth",
                           "Name": "AreaGrown",
                           "ResourceName": null,
@@ -3260,7 +3341,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -3279,7 +3360,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -3599,7 +3680,7 @@
                 {
                   "$type": "Models.Functions.AccumulateFunction, Models",
                   "StartStageName": "Emergence",
-                  "EndStageName": "FlagLeaf",
+                  "EndStageName": "FlagLeafAppearance",
                   "ResetStageName": null,
                   "FractionRemovedOnCut": 0.0,
                   "FractionRemovedOnHarvest": 0.0,
@@ -3696,7 +3777,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -3715,7 +3796,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -4079,7 +4160,7 @@
                 {
                   "$type": "Models.Functions.AccumulateFunction, Models",
                   "StartStageName": "Emergence",
-                  "EndStageName": "Flowering",
+                  "EndStageName": "Anthesis",
                   "ResetStageName": null,
                   "FractionRemovedOnCut": 1.0,
                   "FractionRemovedOnHarvest": 1.0,
@@ -4572,7 +4653,7 @@
                     {
                       "$type": "Models.Functions.PhaseLookupValue, Models",
                       "Start": "Emergence",
-                      "End": "StartGrainFill",
+                      "End": "MaximumGrainLength",
                       "Name": "Vegetative",
                       "ResourceName": null,
                       "Children": [
@@ -4603,8 +4684,8 @@
                                   "Children": [
                                     {
                                       "$type": "Models.Functions.PhaseLookupValue, Models",
-                                      "Start": "TerminalSpikelet",
-                                      "End": "FlagLeaf",
+                                      "Start": "MaximumSpikeletPrimordia",
+                                      "End": "FlagLeafAppearance",
                                       "Name": "TillerDeathPhase",
                                       "ResourceName": null,
                                       "Children": [
@@ -4676,7 +4757,7 @@
                     },
                     {
                       "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "StartGrainFill",
+                      "Start": "MaximumGrainLength",
                       "End": "HarvestRipe",
                       "Name": "Reproductive",
                       "ResourceName": null,
@@ -4717,7 +4798,7 @@
                                           "Children": [
                                             {
                                               "$type": "Models.Functions.ExpressionFunction, Models",
-                                              "Expression": "[Phenology].GrainFilling.Target + [Phenology].Maturing.Target ",
+                                              "Expression": "[Phenology].GrainFilling.Target +[Phenology].GrainRipening.Target",
                                               "Name": "Target",
                                               "ResourceName": null,
                                               "Children": [],
@@ -4726,7 +4807,7 @@
                                             },
                                             {
                                               "$type": "Models.Functions.ExpressionFunction, Models",
-                                              "Expression": "[Phenology].GrainFilling.ProgressThroughPhase + [Phenology].Maturing.ProgressThroughPhase ",
+                                              "Expression": "[Phenology].GrainFilling.ProgressThroughPhase + [Phenology].GrainRipening.ProgressThroughPhase ",
                                               "Name": "Progress",
                                               "ResourceName": null,
                                               "Children": [],
@@ -4958,7 +5039,7 @@
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
                               "Start": "Emergence",
-                              "End": "Heading",
+                              "End": "HeadEmergence",
                               "Name": "Vegetative",
                               "ResourceName": null,
                               "Children": [
@@ -5040,7 +5121,7 @@
                             },
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
-                              "Start": "Heading",
+                              "Start": "HeadEmergence",
                               "End": "HarvestRipe",
                               "Name": "Reproductive",
                               "ResourceName": null,
@@ -5178,8 +5259,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "TerminalSpikelet",
-                          "End": "StartGrainFill",
+                          "Start": "MaximumSpikeletPrimordia",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -5197,8 +5278,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "TerminalSpikelet",
-                          "End": "StartGrainFill",
+                          "Start": "MaximumSpikeletPrimordia",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -5510,8 +5591,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "TerminalSpikelet",
-                          "End": "StartGrainFill",
+                          "Start": "MaximumSpikeletPrimordia",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -5529,8 +5610,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "TerminalSpikelet",
-                          "End": "StartGrainFill",
+                          "Start": "MaximumSpikeletPrimordia",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -6123,7 +6204,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "Flowering",
+                          "End": "Anthesis",
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [
@@ -6142,7 +6223,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -6214,7 +6295,7 @@
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
                               "Start": "Emergence",
-                              "End": "Flowering",
+                              "End": "Anthesis",
                               "Name": "Vegetative",
                               "ResourceName": null,
                               "Children": [
@@ -6234,7 +6315,7 @@
                             },
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
-                              "Start": "Flowering",
+                              "Start": "Anthesis",
                               "End": "EndGrainFill",
                               "Name": "Reproductive",
                               "ResourceName": null,
@@ -6426,7 +6507,7 @@
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
                               "Start": "Emergence",
-                              "End": "Flowering",
+                              "End": "Anthesis",
                               "Name": "Vegetative",
                               "ResourceName": null,
                               "Children": [
@@ -6446,7 +6527,7 @@
                             },
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
-                              "Start": "Flowering",
+                              "Start": "Anthesis",
                               "End": "EndGrainFill",
                               "Name": "Reproductive",
                               "ResourceName": null,
@@ -6592,7 +6673,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -6611,7 +6692,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -7089,7 +7170,7 @@
                 {
                   "$type": "Models.Functions.PhaseLookupValue, Models",
                   "Start": "Emergence",
-                  "End": "Flowering",
+                  "End": "Anthesis",
                   "Name": "TotalCarbonDemandDiscarded",
                   "ResourceName": null,
                   "Children": [
@@ -7213,7 +7294,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "VernalSaturation",
+                          "End": "DoubleRidge",
                           "Name": "Establishment",
                           "ResourceName": null,
                           "Children": [
@@ -7233,8 +7314,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "VernalSaturation",
-                          "End": "TerminalSpikelet",
+                          "Start": "DoubleRidge",
+                          "End": "MaximumSpikeletPrimordia",
                           "Name": "PreStemElongation",
                           "ResourceName": null,
                           "Children": [
@@ -7254,8 +7335,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "TerminalSpikelet",
-                          "End": "Heading",
+                          "Start": "MaximumSpikeletPrimordia",
+                          "End": "HeadEmergence",
                           "Name": "StemElongation",
                           "ResourceName": null,
                           "Children": [
@@ -7275,8 +7356,8 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "Heading",
-                          "End": "StartGrainFill",
+                          "Start": "HeadEmergence",
+                          "End": "MaximumGrainLength",
                           "Name": "EarDevelopment",
                           "ResourceName": null,
                           "Children": [
@@ -7296,7 +7377,7 @@
                         },
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
-                          "Start": "StartGrainFill",
+                          "Start": "MaximumGrainLength",
                           "End": "HarvestRipe",
                           "Name": "GrainFill",
                           "ResourceName": null,
@@ -7861,7 +7942,7 @@
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
                               "Start": "Emergence",
-                              "End": "StartGrainFill",
+                              "End": "MaximumGrainLength",
                               "Name": "PostEmergence",
                               "ResourceName": null,
                               "Children": [
@@ -8022,7 +8103,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [
@@ -8041,7 +8122,7 @@
                         {
                           "$type": "Models.Functions.PhaseLookupValue, Models",
                           "Start": "Emergence",
-                          "End": "StartGrainFill",
+                          "End": "MaximumGrainLength",
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [
@@ -8530,8 +8611,8 @@
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
                               "Start": "Emergence",
-                              "End": "FlagLeaf",
-                              "Name": "PreFlowering",
+                              "End": "FlagLeafAppearance",
+                              "Name": "PreAnthesis",
                               "ResourceName": null,
                               "Children": [
                                 {
@@ -8576,9 +8657,9 @@
                             },
                             {
                               "$type": "Models.Functions.PhaseLookupValue, Models",
-                              "Start": "FlagLeaf",
+                              "Start": "FlagLeafAppearance",
                               "End": "EndGrainFill",
-                              "Name": "PostFlowering",
+                              "Name": "PostAnthesis",
                               "ResourceName": null,
                               "Children": [
                                 {
@@ -8756,7 +8837,7 @@
                     {
                       "$type": "Models.Functions.AccumulateFunction, Models",
                       "StartStageName": "Emergence",
-                      "EndStageName": "TerminalSpikelet",
+                      "EndStageName": "MaximumSpikeletPrimordia",
                       "ResetStageName": null,
                       "FractionRemovedOnCut": 0.0,
                       "FractionRemovedOnHarvest": 1.0,
@@ -8865,8 +8946,8 @@
                 },
                 {
                   "$type": "Models.Functions.AccumulateFunction, Models",
-                  "StartStageName": "TerminalSpikelet",
-                  "EndStageName": "FlagLeaf",
+                  "StartStageName": "MaximumSpikeletPrimordia",
+                  "EndStageName": "FlagLeafAppearance",
                   "ResetStageName": null,
                   "FractionRemovedOnCut": 0.0,
                   "FractionRemovedOnHarvest": 1.0,
@@ -9020,7 +9101,7 @@
                 {
                   "$type": "Models.Functions.PhaseLookupValue, Models",
                   "Start": "Emergence",
-                  "End": "TerminalSpikelet",
+                  "End": "MaximumSpikeletPrimordia",
                   "Name": "Vegetative",
                   "ResourceName": null,
                   "Children": [
@@ -9166,7 +9247,7 @@
                 },
                 {
                   "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "TerminalSpikelet",
+                  "Start": "MaximumSpikeletPrimordia",
                   "End": "HarvestRipe",
                   "Name": "Reproductive",
                   "ResourceName": null,
@@ -9768,7 +9849,7 @@
                         "[Phenology].CAMP.FLNparams.PpLN = 6",
                         "[Phenology].CAMP.FLNparams.VrnLN = 6",
                         "[Phenology].CAMP.FLNparams.VxPLN = 6",
-                        "//[Phenology].Phyllochron.BasePhyllochron.FixedValue = 80",
+                        "//[Leaf].Phyllochron.BasePhyllochron.FixedValue = 80",
                         "//[Leaf].CohortParameters.MaxArea.AreaLargestLeaves.FixedValue = 1600",
                         "//[Grain].MaximumPotentialGrainSize.FixedValue = 0.051",
                         "//[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 35",
@@ -9795,7 +9876,7 @@
                         "[Phenology].CAMP.FLNparams.VrnLN = 6",
                         "[Phenology].CAMP.FLNparams.VxPLN = 4",
                         "[Leaf].PhyllochronPpSensitivity.FixedValue = 0.33",
-                        "//[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100",
+                        "//[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.X = 0,1,8",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.Y = 0,1.204,0",
                         "//[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.7",
@@ -9816,7 +9897,7 @@
                         "//[Phenology].VrnSensitivity.FixedValue = 7",
                         "//[Phenology].PpSensitivity.FixedValue = 3",
                         "//[Phenology].HeadEmergenceLongDayBase.FixedValue = 4",
-                        "//[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100",
+                        "//[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.X = 0,1,8",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.Y = 0,1.204,0",
                         "//[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.5",
@@ -9843,7 +9924,7 @@
                         "//[Phenology].VrnSensitivity.FixedValue = 10",
                         "//[Phenology].PpSensitivity.FixedValue = 0",
                         "//[Phenology].HeadEmergenceLongDayBase.FixedValue = 4",
-                        "//[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100",
+                        "//[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.X = 0,1,8",
                         "//[Phenology].DailyVernalisation.TempResponseProfile.Response.Y = 0,1.204,0",
                         "//[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.7",
@@ -12060,7 +12141,7 @@
                         "[Phenology].CAMP.FLNparams.PpLN = 0",
                         "[Phenology].CAMP.FLNparams.VrnLN = 0",
                         "[Phenology].CAMP.FLNparams.VxPLN = 0",
-                        "//[Phenology].Phyllochron.BasePhyllochron.FixedValue = 80",
+                        "//[Leaf].Phyllochron.BasePhyllochron.FixedValue = 80",
                         "//[Leaf].CohortParameters.MaxArea.AreaLargestLeaves.FixedValue = 1600",
                         "//[Grain].MaximumPotentialGrainSize.FixedValue = 0.051",
                         "//[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 35",
@@ -12100,12 +12181,12 @@
             "[Wheat].Phenology.CurrentPhase.Name",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
-            "[Wheat].Phenology.TerminalSpikeletDAS",
-            "[Wheat].Phenology.FlagLeafDAS",
-            "[Wheat].Phenology.HeadingDAS",
-            "[Wheat].Phenology.FloweringDAS",
+            "[Wheat].Phenology.MaximumSpikeletPrimordiaDAS",
+            "[Wheat].Phenology.FlagLeafAppearanceDAS",
+            "[Wheat].Phenology.HeadEmergenceDAS",
+            "[Wheat].Phenology.AnthesisDAS",
             "[Wheat].Phenology.FinalLeafNumber",
-            "[Wheat].Phenology.MaturityDAS",
+            "[Wheat].Phenology.HarvestRipeDAS",
             "[Wheat].Grain.Wt",
             "[Wheat].Grain.N",
             "[Wheat].Grain.Number",
@@ -12120,7 +12201,7 @@
             "[Wheat].SowingData.Cultivar",
             "[Wheat].SowingDate.DayOfYear",
             "[Clock].StartDate",
-            "([Wheat].Phenology.FloweringDAS - [Wheat].Phenology.EmergenceDAS) as FloweringDAE",
+            "([Wheat].Phenology.AnthesisDAS - [Wheat].Phenology.EmergenceDAS) as AnthesisDAE",
             "[IWeather].Latitude",
             "[IWeather].Longitude",
             "[IWeather].FileName",
@@ -13256,8 +13337,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.FlagLeafDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.FlagLeafDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.FlagLeafAppearanceDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.FlagLeafAppearanceDAS",
                   "X2FieldName": "",
                   "Y2FieldName": "",
                   "ShowInLegend": false,
@@ -13319,7 +13400,7 @@
               "AnnotationLocation": 0,
               "DisabledSeries": [],
               "LegendOutsideGraph": false,
-              "Name": "Heading Date",
+              "Name": "HeadEmergence Date",
               "ResourceName": null,
               "Children": [
                 {
@@ -13336,8 +13417,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.HeadingDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.HeadingDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.HeadEmergenceDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.HeadEmergenceDAS",
                   "X2FieldName": null,
                   "Y2FieldName": null,
                   "ShowInLegend": false,
@@ -13399,7 +13480,7 @@
               "AnnotationLocation": 0,
               "DisabledSeries": [],
               "LegendOutsideGraph": false,
-              "Name": "Flowering Date",
+              "Name": "Anthesis Date",
               "ResourceName": null,
               "Children": [
                 {
@@ -13416,8 +13497,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                   "X2FieldName": null,
                   "Y2FieldName": null,
                   "ShowInLegend": false,
@@ -17660,7 +17741,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": [],
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -17677,8 +17758,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -34040,7 +34121,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -34057,8 +34138,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": false,
@@ -34120,7 +34201,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate vs TOS",
+                  "Name": "AnthesisDate vs TOS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -34138,7 +34219,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": false,
@@ -34167,7 +34248,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": false,
@@ -42021,7 +42102,7 @@
               "AnnotationLocation": 0,
               "DisabledSeries": [],
               "LegendOutsideGraph": false,
-              "Name": "FloweringDate",
+              "Name": "AnthesisDate",
               "ResourceName": null,
               "Children": [
                 {
@@ -42038,8 +42119,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                   "X2FieldName": "",
                   "Y2FieldName": "",
                   "ShowInLegend": true,
@@ -43139,7 +43220,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "FloweringDate",
+                      "Name": "AnthesisDate",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -43156,8 +43237,8 @@
                           "Line": 4,
                           "LineThickness": 0,
                           "TableName": "HarvestObsPred",
-                          "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                          "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                          "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                          "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": "",
                           "Y2FieldName": "",
                           "ShowInLegend": true,
@@ -44250,7 +44331,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "FloweringDate",
+                      "Name": "AnthesisDate",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -44267,8 +44348,8 @@
                           "Line": 4,
                           "LineThickness": 0,
                           "TableName": "HarvestObsPred",
-                          "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                          "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                          "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                          "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": "",
                           "Y2FieldName": "",
                           "ShowInLegend": true,
@@ -45361,7 +45442,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "FloweringDate",
+                      "Name": "AnthesisDate",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -45378,8 +45459,8 @@
                           "Line": 4,
                           "LineThickness": 0,
                           "TableName": "HarvestObsPred",
-                          "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                          "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                          "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                          "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": "",
                           "Y2FieldName": "",
                           "ShowInLegend": true,
@@ -45445,7 +45526,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -45462,8 +45543,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -45521,7 +45602,7 @@
               "Children": [
                 {
                   "$type": "Models.Memo, Models",
-                  "Text": "This dataset includes observed heading date for six cultivars (Batavia, Cunningham, Hartog, Janz, Sunbri, Suneca) for a range of locations and planting dates in the northern grain-growing region of Australia.",
+                  "Text": "This dataset includes observed HeadEmergence date for six cultivars (Batavia, Cunningham, Hartog, Janz, Sunbri, Suneca) for a range of locations and planting dates in the northern grain-growing region of Australia.",
                   "Name": "Memo",
                   "ResourceName": null,
                   "Children": [],
@@ -50610,7 +50691,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS",
+                  "Name": "HeadEmergence DAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -50627,8 +50708,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.HeadingDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.HeadingDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.HeadEmergenceDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -50758,7 +50839,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Hartog",
+                  "Name": "HeadEmergence DAS Hartog",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -50776,7 +50857,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -50805,7 +50886,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -50855,7 +50936,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Batavia",
+                  "Name": "HeadEmergence DAS Batavia",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -50873,7 +50954,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -50902,7 +50983,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -50952,7 +51033,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Cunningham",
+                  "Name": "HeadEmergence DAS Cunningham",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -50970,7 +51051,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -50999,7 +51080,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51049,7 +51130,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Janz",
+                  "Name": "HeadEmergence DAS Janz",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -51067,7 +51148,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51096,7 +51177,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51146,7 +51227,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Sunbri",
+                  "Name": "HeadEmergence DAS Sunbri",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -51164,7 +51245,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51193,7 +51274,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51243,7 +51324,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Heading DAS Suneca",
+                  "Name": "HeadEmergence DAS Suneca",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -51261,7 +51342,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -51290,7 +51371,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.HeadingDAS",
+                      "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -78836,7 +78917,7 @@
                 },
                 {
                   "$type": "Models.Memo, Models",
-                  "Text": "This is a water response trial run in the rain out shelter at Plant and Food Research in Lincoln, New Zealand.  It is described in full by [Chakwizira_wheat_2014] but briefly.  An Autumn crop of 'Wakanui' wheat was sown at 165 plants/m^2^ on the 28th of March 2013 and 6 irrigation timing treatments were applied:  \r\n\r\n1. Full irrigation where measured ET was replaced weekly\r\n.  \r\n2. Nill irrigation.  \r\n3. Very Early Drought where irrigation was withheld from sowing until the beginning of stem extension.  \r\n4. Early Drought where irrigation was withheld between Flag leaf and the beginning of grain fill.  \r\n5. Middle Drought where irrigation was withheld between Flag leaf and 1 week into grain fill.  \r\n6. Late Drought where irrigation was withheld from heading until harvest.  \r\n\r\nIrrigation was applied at weekly intervals through and assemply of low rate drip emitters on each plot.  Soil water content was measured weekly with a neutron probe and biomass was measured on 5 occasions throughout the crop.  Samples throughtout the crop were from a 0.43m^2^ quatrant and the final harvest sample was from a 1 m^2^ quadrant.  Each treatment was replicated four times and there was considerable soil variation from plot to plot so each treatment was initianilised with unique soil parameters which best described the soil they were growing on.",
+                  "Text": "This is a water response trial run in the rain out shelter at Plant and Food Research in Lincoln, New Zealand.  It is described in full by [Chakwizira_wheat_2014] but briefly.  An Autumn crop of 'Wakanui' wheat was sown at 165 plants/m^2^ on the 28th of March 2013 and 6 irrigation timing treatments were applied:  \r\n\r\n1. Full irrigation where measured ET was replaced weekly\r\n.  \r\n2. Nill irrigation.  \r\n3. Very Early Drought where irrigation was withheld from sowing until the beginning of stem extension.  \r\n4. Early Drought where irrigation was withheld between Flag leaf and the beginning of grain fill.  \r\n5. Middle Drought where irrigation was withheld between Flag leaf and 1 week into grain fill.  \r\n6. Late Drought where irrigation was withheld from HeadEmergence until harvest.  \r\n\r\nIrrigation was applied at weekly intervals through and assemply of low rate drip emitters on each plot.  Soil water content was measured weekly with a neutron probe and biomass was measured on 5 occasions throughout the crop.  Samples throughtout the crop were from a 0.43m^2^ quatrant and the final harvest sample was from a 1 m^2^ quadrant.  Each treatment was replicated four times and there was considerable soil variation from plot to plot so each treatment was initianilised with unique soil parameters which best described the soil they were growing on.",
                   "Name": "Memo1",
                   "ResourceName": null,
                   "Children": [],
@@ -78855,7 +78936,7 @@
               "Children": [
                 {
                   "$type": "Models.Memo, Models",
-                  "Text": "This is a water response trial run in the rain out shelter at Plant and Food Research in Lincoln, New Zealand.  It is described in full by [Chakwizira_wheat_2014] but briefly.  An Autumn crop of 'Wakanui' wheat was sown at 165 plants/m^2^ on the 28th of March 2013 and 6 irrigation timing treatments were applied:  \r\n\r\n1. Full irrigation where measured ET was replaced weekly\r\n.  \r\n2. Nill irrigation.  \r\n3. Very Early Drought where irrigation was withheld from sowing until the beginning of stem extension.  \r\n4. Early Drought where irrigation was withheld between Flag leaf and the beginning of grain fill.  \r\n5. Middle Drought where irrigation was withheld between Flag leaf and 1 week into grain fill.  \r\n6. Late Drought where irrigation was withheld from heading until harvest.  \r\n\r\nIrrigation was applied at weekly intervals through and assemply of low rate drip emitters on each plot.  Soil water content was measured weekly with a neutron probe and biomass was measured on 5 occasions throughout the crop.  Samples throughtout the crop were from a 0.43m^2^ quatrant and the final harvest sample was from a 1 m^2^ quadrant.  Each treatment was replicated four times and there was considerable soil variation from plot to plot so each treatment was initianilised with unique soil parameters which best described the soil they were growing on.",
+                  "Text": "This is a water response trial run in the rain out shelter at Plant and Food Research in Lincoln, New Zealand.  It is described in full by [Chakwizira_wheat_2014] but briefly.  An Autumn crop of 'Wakanui' wheat was sown at 165 plants/m^2^ on the 28th of March 2013 and 6 irrigation timing treatments were applied:  \r\n\r\n1. Full irrigation where measured ET was replaced weekly\r\n.  \r\n2. Nill irrigation.  \r\n3. Very Early Drought where irrigation was withheld from sowing until the beginning of stem extension.  \r\n4. Early Drought where irrigation was withheld between Flag leaf and the beginning of grain fill.  \r\n5. Middle Drought where irrigation was withheld between Flag leaf and 1 week into grain fill.  \r\n6. Late Drought where irrigation was withheld from HeadEmergence until harvest.  \r\n\r\nIrrigation was applied at weekly intervals through and assemply of low rate drip emitters on each plot.  Soil water content was measured weekly with a neutron probe and biomass was measured on 5 occasions throughout the crop.  Samples throughtout the crop were from a 0.43m^2^ quatrant and the final harvest sample was from a 1 m^2^ quadrant.  Each treatment was replicated four times and there was considerable soil variation from plot to plot so each treatment was initianilised with unique soil parameters which best described the soil they were growing on.",
                   "Name": "Memo",
                   "ResourceName": null,
                   "Children": [],
@@ -123556,9 +123637,9 @@
                             "[Clock].Today",
                             "[Wheat].Phenology.Stage",
                             "[Wheat].Phenology.Zadok.Stage",
-                            "[Wheat].Phenology.FloweringDAS",
-                            "[Wheat].Phenology.FlagLeafDAS",
-                            "[Wheat].Phenology.TerminalSpikeletDAS"
+                            "[Wheat].Phenology.AnthesisDAS",
+                            "[Wheat].Phenology.FlagLeafAppearanceDAS",
+                            "[Wheat].Phenology.MaximumSpikeletPrimordiaDAS"
                           ],
                           "EventNames": [
                             "[Clock].DoReport"
@@ -123602,7 +123683,7 @@
                             {
                               "$type": "Models.PMF.Cultivar, Models",
                               "Command": [
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 90",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 90",
                                 "[Phenology].PhyllochronPpSensitivity.FixedValue = 0.212225680614483",
                                 "[Phenology].CAMP.FLNparams.MinLN = 8",
                                 "[Phenology].CAMP.FLNparams.PpLN = 3.0",
@@ -123622,7 +123703,7 @@
                             {
                               "$type": "Models.PMF.Cultivar, Models",
                               "Command": [
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 95",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 95",
                                 "[Phenology].PhyllochronPpSensitivity.FixedValue = 0.212225680614483",
                                 "[Phenology].CAMP.FLNparams.MinLN = 8.5",
                                 "[Phenology].CAMP.FLNparams.PpLN = 3.0",
@@ -123642,7 +123723,7 @@
                             {
                               "$type": "Models.PMF.Cultivar, Models",
                               "Command": [
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 93.7220123291132",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 93.7220123291132",
                                 "[Phenology].PhyllochronPpSensitivity.FixedValue = 0.212225680614483",
                                 "[Phenology].CAMP.FLNparams.MinLN = 8.5",
                                 "[Phenology].CAMP.FLNparams.PpLN = 3.0",
@@ -123672,7 +123753,7 @@
                                 "",
                                 "",
                                 "[Phenology].HeadEmergenceLongDayBase.FixedValue = 50",
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100.0",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100.0",
                                 "[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.75",
                                 "[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 26",
                                 "[Grain].MaximumPotentialGrainSize.FixedValue = 0.045",
@@ -123706,7 +123787,7 @@
                                 "",
                                 "",
                                 "[Phenology].HeadEmergenceLongDayBase.FixedValue = 50",
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100.0",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100.0",
                                 "[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.75",
                                 "[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 26",
                                 "[Grain].MaximumPotentialGrainSize.FixedValue = 0.045",
@@ -123740,7 +123821,7 @@
                                 "",
                                 "",
                                 "[Phenology].HeadEmergenceLongDayBase.FixedValue = 50",
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100.0",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100.0",
                                 "[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.75",
                                 "[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 26",
                                 "[Grain].MaximumPotentialGrainSize.FixedValue = 0.045",
@@ -123764,7 +123845,7 @@
                               "$type": "Models.PMF.Cultivar, Models",
                               "Command": [
                                 "[Phenology].HeadEmergenceLongDayBase.FixedValue = 50",
-                                "[Phenology].Phyllochron.BasePhyllochron.FixedValue = 100.0",
+                                "[Leaf].Phyllochron.BasePhyllochron.FixedValue = 100.0",
                                 "[Leaf].ExtinctionCoeff.VegetativePhase.FixedValue = 0.75",
                                 "[Grain].NumberFunction.GrainNumber.GrainsPerGramOfStem.FixedValue = 26",
                                 "[Grain].MaximumPotentialGrainSize.FixedValue = 0.045",
@@ -127559,7 +127640,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -128367,7 +128448,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -129160,7 +129241,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -129968,7 +130049,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -130761,7 +130842,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -131554,7 +131635,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -132365,7 +132446,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -133170,7 +133251,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -133963,7 +134044,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -134756,7 +134837,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -135567,7 +135648,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -136372,7 +136453,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -137165,7 +137246,7 @@
                                 "                Wheat.Harvest();",
                                 "                Wheat.EndCrop();",
                                 "                Harvested = true;",
-                                "                Summary.WriteMessage(this, \"Flowering reached so setting end date to stop simulation\", MessageType.Diagnostic);",
+                                "                Summary.WriteMessage(this, \"Anthesis reached so setting end date to stop simulation\", MessageType.Diagnostic);",
                                 "            }",
                                 "            ",
                                 "            if ((Harvested == true) && (EndSet == false))",
@@ -137331,7 +137412,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
                       "XFieldName": "Observed.Wheat.SowingDate.DayOfYear",
-                      "YFieldName": "Pred-Obs.Wheat.Phenology.FlagLeafDAS",
+                      "YFieldName": "Pred-Obs.Wheat.Phenology.FlagLeafAppearanceDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -137785,7 +137866,7 @@
               "AnnotationLocation": 0,
               "DisabledSeries": [],
               "LegendOutsideGraph": false,
-              "Name": "FlagLeafDate",
+              "Name": "FlagLeafAppearanceDate",
               "ResourceName": null,
               "Children": [
                 {
@@ -137802,8 +137883,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.FlagLeafDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.FlagLeafDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.FlagLeafAppearanceDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.FlagLeafAppearanceDAS",
                   "X2FieldName": "",
                   "Y2FieldName": "",
                   "ShowInLegend": false,
@@ -151494,7 +151575,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -151511,8 +151592,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -152601,7 +152682,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -152618,8 +152699,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -153712,7 +153793,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -153729,8 +153810,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -154823,7 +154904,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "FloweringDate",
+                  "Name": "AnthesisDate",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -154840,8 +154921,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -158249,7 +158330,7 @@
               "Children": [
                 {
                   "$type": "Models.Memo, Models",
-                  "Text": "This dataset includes observed flowering date for five cultivars (Batavia, Hartog, Sunbri, Sunco, Suneca) for a range planting dates at Tamworth.",
+                  "Text": "This dataset includes observed Anthesis date for five cultivars (Batavia, Hartog, Sunbri, Sunco, Suneca) for a range planting dates at Tamworth.",
                   "Name": "Memo",
                   "ResourceName": null,
                   "Children": [],
@@ -159288,7 +159369,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Flowering DAS",
+                  "Name": "Anthesis DAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -159305,8 +159386,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -159368,7 +159449,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Flowering DAS vs TOS",
+                  "Name": "Anthesis DAS vs TOS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -159386,7 +159467,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -159415,7 +159496,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -159549,7 +159630,7 @@
               "AnnotationLocation": 0,
               "DisabledSeries": [],
               "LegendOutsideGraph": false,
-              "Name": "FloweringDate",
+              "Name": "AnthesisDate",
               "ResourceName": null,
               "Children": [
                 {
@@ -159566,8 +159647,8 @@
                   "Line": 4,
                   "LineThickness": 0,
                   "TableName": "HarvestObsPred",
-                  "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                  "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                  "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                  "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                   "X2FieldName": "",
                   "Y2FieldName": "",
                   "ShowInLegend": true,
@@ -160746,7 +160827,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "Pre vs Obs Flowering DAS",
+                      "Name": "Pre vs Obs Anthesis DAS",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -160763,8 +160844,8 @@
                           "Line": 4,
                           "LineThickness": 0,
                           "TableName": "HarvestObsPred",
-                          "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                          "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                          "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                          "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": "",
                           "Y2FieldName": "",
                           "ShowInLegend": true,
@@ -160826,7 +160907,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "Flowering DAS vs TOS",
+                      "Name": "Anthesis DAS vs TOS",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -160844,7 +160925,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -160873,7 +160954,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -160941,7 +161022,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.TerminalSpikeletDAS",
+                          "YFieldName": "Wheat.Phenology.MaximumSpikeletPrimordiaDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -160970,7 +161051,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.TerminalSpikeletDAS",
+                          "YFieldName": "Wheat.Phenology.MaximumSpikeletPrimordiaDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -160999,7 +161080,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.HeadingDAS",
+                          "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161007,7 +161088,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Yecora'",
-                          "Name": "Predicted Heading",
+                          "Name": "Predicted HeadEmergence",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161028,7 +161109,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.HeadingDAS",
+                          "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161036,7 +161117,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Yecora'",
-                          "Name": "Observed Heading",
+                          "Name": "Observed HeadEmergence",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161057,7 +161138,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161065,7 +161146,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Yecora'",
-                          "Name": "Predicted Flowering",
+                          "Name": "Predicted Anthesis",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161086,7 +161167,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161094,7 +161175,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Yecora'",
-                          "Name": "Observed Flowering",
+                          "Name": "Observed Anthesis",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161115,7 +161196,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.MaturityDAS",
+                          "YFieldName": "Wheat.Phenology.HarvestRipeDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161212,7 +161293,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.TerminalSpikeletDAS",
+                          "YFieldName": "Wheat.Phenology.MaximumSpikeletPrimordiaDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161220,7 +161301,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Predicted TerminalSpikelet",
+                          "Name": "Predicted MaximumSpikeletPrimordia",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161241,7 +161322,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.TerminalSpikeletDAS",
+                          "YFieldName": "Wheat.Phenology.MaximumSpikeletPrimordiaDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161249,7 +161330,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Observed TerminalSpikelet",
+                          "Name": "Observed MaximumSpikeletPrimordia",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161270,7 +161351,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.HeadingDAS",
+                          "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161278,7 +161359,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Predicted Heading",
+                          "Name": "Predicted HeadEmergence",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161299,7 +161380,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.HeadingDAS",
+                          "YFieldName": "Wheat.Phenology.HeadEmergenceDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161307,7 +161388,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Observed Heading",
+                          "Name": "Observed HeadEmergence",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161328,7 +161409,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161336,7 +161417,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Predicted Flowering",
+                          "Name": "Predicted Anthesis",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161357,7 +161438,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -161365,7 +161446,7 @@
                           "Cumulative": false,
                           "CumulativeX": false,
                           "Filter": "[Wheat.SowingData.Cultivar] = 'Egret'",
-                          "Name": "Observed Flowering",
+                          "Name": "Observed Anthesis",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -161386,7 +161467,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.MaturityDAS",
+                          "YFieldName": "Wheat.Phenology.HarvestRipeDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -162652,7 +162733,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "Pre vs Obs Flowering DAS",
+                      "Name": "Pre vs Obs Anthesis DAS",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -162669,8 +162750,8 @@
                           "Line": 4,
                           "LineThickness": 0,
                           "TableName": "HarvestObsPred",
-                          "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                          "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                          "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                          "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": "",
                           "Y2FieldName": "",
                           "ShowInLegend": true,
@@ -162732,7 +162813,7 @@
                       "AnnotationLocation": 0,
                       "DisabledSeries": null,
                       "LegendOutsideGraph": false,
-                      "Name": "Flowering DAS vs TOS",
+                      "Name": "Anthesis DAS vs TOS",
                       "ResourceName": null,
                       "Children": [
                         {
@@ -162750,7 +162831,7 @@
                           "LineThickness": 0,
                           "TableName": "HarvestReport",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -162779,7 +162860,7 @@
                           "LineThickness": 0,
                           "TableName": "Observed",
                           "XFieldName": "Wheat.SowingDate",
-                          "YFieldName": "Wheat.Phenology.FloweringDAS",
+                          "YFieldName": "Wheat.Phenology.AnthesisDAS",
                           "X2FieldName": null,
                           "Y2FieldName": null,
                           "ShowInLegend": true,
@@ -162833,7 +162914,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Pre vs Obs Flowering DAS",
+                  "Name": "Pre vs Obs Anthesis DAS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -162850,8 +162931,8 @@
                       "Line": 4,
                       "LineThickness": 0,
                       "TableName": "HarvestObsPred",
-                      "XFieldName": "Observed.Wheat.Phenology.FloweringDAS",
-                      "YFieldName": "Predicted.Wheat.Phenology.FloweringDAS",
+                      "XFieldName": "Observed.Wheat.Phenology.AnthesisDAS",
+                      "YFieldName": "Predicted.Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": "",
                       "Y2FieldName": "",
                       "ShowInLegend": true,
@@ -162913,7 +162994,7 @@
                   "AnnotationLocation": 0,
                   "DisabledSeries": null,
                   "LegendOutsideGraph": false,
-                  "Name": "Flowering DAS vs TOS",
+                  "Name": "Anthesis DAS vs TOS",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -162931,7 +163012,7 @@
                       "LineThickness": 0,
                       "TableName": "HarvestReport",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -162960,7 +163041,7 @@
                       "LineThickness": 0,
                       "TableName": "Observed",
                       "XFieldName": "Wheat.SowingDate",
-                      "YFieldName": "Wheat.Phenology.FloweringDAS",
+                      "YFieldName": "Wheat.Phenology.AnthesisDAS",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
