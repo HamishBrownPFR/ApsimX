@@ -3145,7 +3145,9 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.DivideFunction, Models",
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
                       "Name": "GreenSpecificArea",
                       "ResourceName": null,
                       "Children": [
@@ -3172,7 +3174,9 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.DivideFunction, Models",
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
                       "Name": "GreenSpecificNitrogen",
                       "ResourceName": null,
                       "Children": [
@@ -3226,7 +3230,9 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.DivideFunction, Models",
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
                       "Name": "TotalSpecificArea",
                       "ResourceName": null,
                       "Children": [
@@ -3253,7 +3259,9 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.DivideFunction, Models",
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
                       "Name": "TotalSpecificNitrogen",
                       "ResourceName": null,
                       "Children": [
@@ -5018,7 +5026,9 @@
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.DivideFunction, Models",
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
                       "Name": "TotalDMDemand",
                       "ResourceName": null,
                       "Children": [
@@ -8741,7 +8751,7 @@
                             0.1,
                             0.3,
                             0.6,
-                            0.7,
+                            1.0,
                             "NaN"
                           ],
                           "Name": "XYPairs",
