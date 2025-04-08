@@ -78,6 +78,28 @@ def addModel(Parent,modelPath,New):
     else:
         NewDict = json.loads(New)
     Parent['Children'].append(NewDict)
+    
+def renameModel(Parent,modelPath,NewName):
+    PathElements = modelPath.split('.')
+    Parent = findModel(Parent,PathElements)
+    Parent['Name'] = NewName
+    
+def renameModelofType(Parent,modelName,modelType,NewName):
+    for c in Parent['Children']:
+        if (c['Name'] == modelName) and (c['$type'] == modelType):
+            c['Name'] = NewName
+        renameModelofType(c,modelName,modelType,NewName)
+            
+def removeModel(Parent,modelName,modelType):
+    pos = 0
+    for c in Parent['Children']:
+        if (c['Name'] == modelName) and (c['$type'] == modelType):
+            del Parent['Children'][pos]
+            found = True
+            break
+        else:
+            removeModel(c,modelName,modelType)
+        pos += 1
 
 
 # +
@@ -104,12 +126,17 @@ with open(ReleasedWheat,'r') as ReleasedJSON:
 #Copy prototype wheat model out of replacements and put it in replacements in test file
 NewModel =  findModel(Prototype,'Replacements.Wheat')
 addModel(Master,'Replacements',NewModel)
+#Put updated leaf size calculation script into test file
 NewModel =  findModel(Prototype,'Replacements.OutputMaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
+#Put updated leaf size report into test file
 NewModel =  findModel(Prototype,'Replacements.ReportMaxLeafSize')
 replaceModel(Master,'Replacements.MaxLeafSize',NewModel)
+#bring cultivar descriptions from master back into replacement wheat model
 NewModel = findModel(Released,'Wheat.Cultivars')
 replaceModel(Master,'Replacements.Wheat.Cultivars',NewModel)
+#rename manager scripts to capture max leaf size
+renameModelofType(Master,'MaxLeafSize',"Models.Manager, Models",'OutputMaxLeafSize')
 
 os.remove(ImplementedFile)
 with open(ImplementedFile,'w') as ImplementedJSON:
