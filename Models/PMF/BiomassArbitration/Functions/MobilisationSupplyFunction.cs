@@ -10,7 +10,16 @@ namespace Models.PMF
     /// Calculates the Deficit of a given labile nutrient pool and returns it to use for a demand.
     /// </summary>
     [Serializable]
-    [Description("This function calculates supplies of nutrients from metabolic or storage pools")]
+    [Description("This function calculates supplies created by Reallocation of bioamss as this organ senessces/n" +
+        "and Retranslication of stored biomass from this organ at any point in its live./n" +
+        "For ReAllocation of biomass, supply is calculated as:/n" +
+        "ReallocationSupply = thisOrgan.Amount * thisOrgan.senescenceRate * (product of all child functions)/n" +
+        "Note that any biomass senesced that is not reallocated will be passed into the dead pool each day/n" +
+        "Therefore multipliers describes potential of the organ to move this biomass to other organs/n" +
+        "For Retranslocation of biomass, supply is calculated as:/n" +
+        "RetranslocationSypply = thisOrgan.Amount * (product of all child functions)/n" +
+        "In the case retranslocation, biomass not retranslocated today may still be retranslocated tomorrow/n" +
+        "As such multipliers for retranslocation represent a potential rate that biomass can be move at/n ")]
     [ViewName("UserInterface.Views.PropertyView")]
     [PresenterName("UserInterface.Presenters.PropertyPresenter")]
     [ValidParent(ParentType = typeof(NutrientPoolFunctions))]

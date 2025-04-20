@@ -9,7 +9,23 @@ namespace Models.PMF
     /// Calculates the Deficit of a given labile nutrient pool and returns it to use for a demand.
     /// </summary>
     [Serializable]
-    [Description("This function calculates demands for metabolic and storage pools based on the size of the potential deficits of these pools.  For nutrients is uses maximum, critical and minimum concentration thresholds and for carbon it uses structural, metabolic and storage partitioning proportions to ")]
+    [Description("This function calculates demands different pools in its parent organ as outlined below./n" +
+        "For Structural carbon demand:/n" +
+        "StructuralCDemand = thisOrgan.TotalDMDemand * thisOrgan.StructuralFraction/n" +
+        "For Metabolic and Storage carbon demand:/n" +
+        "CDemand = TargetC - thisOrgan.CurrentC /n" +
+        "Where TargetC = ((thisOrgan.StructuralC + thisOrgan.StructuralCDemand) / thisOrgan.StructuralCFrac) * thisOrgan.CFrac/n" +
+        "" +
+        "StructuralN demand is calculated as:/n" +
+        "StructuralNDemand = (thisOrgan.dTotalCAllocated/Cconc) / thisOrgan.StructuralNConc/n" +
+        "Metabolic N demand is calculated as:/n" +
+        "MetabolicNDemand = TargetN - thisOrgan.CurrentN/n" +
+        "Where TargetN is calculated as:/n" +
+        "TargetN = (PotentialWt * thisOrgan.CritNConc) - (PotentialWt * thisOrgan.MinNConc)/n" +
+        "and potentialWt is calculated as:/n" +
+        "(thisOrgan.TotalLiveC + thisOrgan.dTotalCAllocated)/ thisOrgan.Cconc/n" +
+        "StorageN in calculated in the same way as MetabolicN but Target N in calculated as/n" +
+        "TargetN = (thisOrgan.PotentialWt * MaxNConc) - (thisOrgan.PotentialWt * CritNConc)/n")]
     [ViewName("UserInterface.Views.PropertyView")]
     [PresenterName("UserInterface.Presenters.PropertyPresenter")]
     [ValidParent(ParentType = typeof(NutrientDemandFunctions))]
@@ -121,6 +137,8 @@ namespace Models.PMF
             double PotentialWt = (parentOrgan.Live.Carbon.Total + Carbon.DemandsAllocated.Total) / parentOrgan.Cconc;
             double targetAmount = (PotentialWt * upperConc) - (PotentialWt * LowerConc);
             return targetAmount - currentAmount;
+
+
         }
 
         private double calcStructuralCarbonDemand()
@@ -128,13 +146,14 @@ namespace Models.PMF
             return parentOrgan.totalCarbonDemand * organNutrientDelta.ConcentrationOrFraction.Structural;
         }
 
-        private double calcDeficitForCarbonPool(double currentAmount, double poolTargetConc)
+        private double calcDeficitForCarbonPool(double currentAmount, double poolTargetFrac)
         {
             double potentialStructuralC = parentOrgan.Live.Carbon.Structural + calcStructuralCarbonDemand();
             double potentialTotalC = potentialStructuralC / organNutrientDelta.ConcentrationOrFraction.Structural;
 
-            double targetAmount = potentialTotalC * poolTargetConc;
+            double targetAmount = potentialTotalC * poolTargetFrac;
             return targetAmount - currentAmount;
+            
         }
 
 
