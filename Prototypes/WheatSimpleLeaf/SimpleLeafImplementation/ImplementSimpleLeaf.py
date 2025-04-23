@@ -204,6 +204,35 @@ for path in pathlist:
                 obsDat.to_excel(writer,index=False,sheet_name='MaxLeafSize')
     except:
         do = "Nothing"
+# -
+
+from pathlib import Path
+fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\inputs'
+Allcols = []
+pathlist = Path(fileLoc).glob('**/*.csv')
+
+VariableRenames
+
+VariableRenames = pd.read_excel(VariableRenamesFile,index_col=0, sheet_name='SimpleLeafRenames').to_dict()['SimpleLeaf']
+from pathlib import Path
+fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\inputs'
+Allcols = []
+pathlist = Path(fileLoc).glob('**/*.csv')
+for path in pathlist:
+    # because path is object not string
+    obsDat = pd.read_csv(path)
+    newCols = []
+    replace = False
+    for c in obsDat.columns:
+        if c in VariableRenames.keys():
+            newCols.append(c.replace(c,VariableRenames[c]))
+            replace = True
+        else:
+            newCols.append(c)
+    if replace == True:
+        print(newCols)
+        obsDat.columns = newCols
+        obsDat.to_csv(path,index=False)
 
 # +
 ## Find and delete model of name and type
