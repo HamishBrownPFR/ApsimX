@@ -206,13 +206,6 @@ for path in pathlist:
         do = "Nothing"
 # -
 
-from pathlib import Path
-fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\inputs'
-Allcols = []
-pathlist = Path(fileLoc).glob('**/*.csv')
-
-VariableRenames
-
 VariableRenames = pd.read_excel(VariableRenamesFile,index_col=0, sheet_name='SimpleLeafRenames').to_dict()['SimpleLeaf']
 from pathlib import Path
 fileLoc = 'C:\GitHubRepos\ApsimX\Tests\Validation\Wheat\inputs'
