@@ -31308,17 +31308,17 @@
             {
               "$type": "Models.Management.BiomassRemovalEvents, Models",
               "NameOfPlantToRemoveFrom": "STRUM",
-              "RemovalType": 2,
+              "RemovalType": 0,
               "StageToSet": null,
               "RemovalDates": [
-                "1-Feb"
+                "1-May"
               ],
               "BiomassRemovalFractions": [
                 {
                   "$type": "Models.Management.BiomassRemovalOfPlantOrganType, Models",
                   "PlantName": "STRUM",
                   "OrganName": "Root",
-                  "TypeString": "Harvesting",
+                  "TypeString": "Cutting",
                   "LiveToRemove": 0.0,
                   "DeadToRemove": 0.0,
                   "LiveToResidue": 0.0,
@@ -31328,7 +31328,7 @@
                   "$type": "Models.Management.BiomassRemovalOfPlantOrganType, Models",
                   "PlantName": "STRUM",
                   "OrganName": "Leaf",
-                  "TypeString": "Harvesting",
+                  "TypeString": "Cutting",
                   "LiveToRemove": 0.0,
                   "DeadToRemove": 0.0,
                   "LiveToResidue": 0.0,
@@ -31338,7 +31338,7 @@
                   "$type": "Models.Management.BiomassRemovalOfPlantOrganType, Models",
                   "PlantName": "STRUM",
                   "OrganName": "Trunk",
-                  "TypeString": "Harvesting",
+                  "TypeString": "Cutting",
                   "LiveToRemove": 0.0,
                   "DeadToRemove": 0.0,
                   "LiveToResidue": 0.0,
@@ -31348,11 +31348,11 @@
                   "$type": "Models.Management.BiomassRemovalOfPlantOrganType, Models",
                   "PlantName": "STRUM",
                   "OrganName": "Fruit",
-                  "TypeString": "Harvesting",
-                  "LiveToRemove": 0.8,
+                  "TypeString": "Cutting",
+                  "LiveToRemove": 0.0,
                   "DeadToRemove": 0.0,
-                  "LiveToResidue": 0.2,
-                  "DeadToResidue": 1.0
+                  "LiveToResidue": 0.0,
+                  "DeadToResidue": 0.0
                 }
               ],
               "Name": "Pick",
