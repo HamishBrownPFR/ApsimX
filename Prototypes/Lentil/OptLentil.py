@@ -12,22 +12,17 @@
 #     name: python3
 # ---
 
+# %% [markdown]
+# # Read libraries
+
 # %%
 import datetime as dt
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt
-#import APSIMGraphHelpers as AGH
-#import GraphHelpers as GH
-#from scipy import stats
-#import statsmodels.api as sm
-#from statsmodels.formula.api import ols
 import matplotlib.dates as mdates
 import MathsUtilities as MUte
-#import shlex # package to construct the git command to subprocess format
 import subprocess 
-#import ProcessWheatFiles as pwf
-#import xmltodict, json
 import sqlite3
 import scipy.optimize 
 from skopt import gp_minimize
@@ -37,18 +32,19 @@ from skopt.plots import plot_convergence
 from skopt.space import Real
 from skopt.space import Space
 from skopt import Optimizer
-
+from skopt.utils import create_result
 import matplotlib.gridspec as gridspec
 import os
 from pathlib import Path
 
-import winsound
-frequency = 2500  # Set Frequency To 2500 Hertz
-duration = 1000  # Set Duration To 1000 ms == 1 second
 # %matplotlib inline
 
+# %% [markdown]
+# # Prepare.apsimx files
+# Inject and remove cultivar replacement and playlist to select that cultivar
+
 # %%
-def write_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name: str, parameters: dict):
+def write_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name: str, parameters: dict, playListName: str):
     """
     Write an APSIM apply file to select a cultivar and override its parameters.
 
@@ -65,10 +61,12 @@ def write_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name
     lines.append(f"load {apsimx_path}")
 
     # Select cultivar via playlist
-    lines.append(f"[Playlist].Text=*{cultivar_name}*")
+    lines.append(f"add new Playlist to [Simulations] name {playListName}")
+    lines.append(f"[{playListName}].Text=*{cultivar_name}*")
 
     # Build command list
-    lines.append(f"[Replacements].Lentil.Cultivars.{cultivar_name}.Command = ")
+    lines.append(f"add new Cultivar to [Replacements] name {cultivar_name}")
+    lines.append(f"[Replacements].{cultivar_name}.Command = ")
 
     for key, value in parameters.items():
         lines.append(f' {key} = {value},')
@@ -81,7 +79,30 @@ def write_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name
     lines.append("run")
     
     apply_path.write_text("\n".join(lines))
+    
+def remove_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name: str, playListName: str):
+    """
+    Write an APSIM apply file to remove the play list and cultivar added to replacements so clean for next run.
 
+    """
+    lines = []
+
+    # Load base apsimx
+    lines.append(f"load {apsimx_path}")
+
+    # Delete temporary components from fitting
+    lines.append(f"delete [Simulations].{playListName}")
+    lines.append(f"delete [Replacements].{cultivar_name}")
+
+    # Save and run
+    lines.append(f"save {apsimx_path}")
+    
+    apply_path.write_text("\n".join(lines))
+
+
+# %% [markdown]
+# # Calculate loss 
+# Take results from simulation run and calculate a loss value using NSE
 
 # %%
 def calcLoss(fitting_variables, obs_pred):
@@ -132,22 +153,26 @@ def calcLoss(fitting_variables, obs_pred):
     return -max(nse, -2.0), len(sc_obs), sc_obs, sc_pred
 
 
+# %% [markdown]
+# # Results Data class
+# for results from each parameter combination
+
 # %%
 class ResultsStore:
     def __init__(self):
         self.records = []
         self.iteration = 0
 
-    def add_result(
+    def addResult(
         self,
         cultivar,
         parameters,
         loss,
-        n_obs,
+        nObs,
         runtime=None,
         obs=None,
         pred=None,
-        variable=None
+        variable=None,
     ):
         """
         Store results from one APSIM evaluation.
@@ -161,7 +186,7 @@ class ResultsStore:
             "iteration": self.iteration,
             "cultivar": cultivar,
             "loss": loss,
-            "n_obs": n_obs,
+            "n_obs": nObs,
             "runtime": runtime,
             "variable": variable,
             **{f"param_{k}": v for k, v in parameters.items()}
@@ -185,6 +210,111 @@ class ResultsStore:
         return pd.DataFrame(self.records)
 
 
+# %% [markdown]
+# # runModelItter
+# runs the model with specified parameter set and return loss as a measure of accuracy with that parameter set.
+
+# %%
+def runModelGetStats(runSpec, paramSet, fittingVariables):
+    apsimx = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.apsimx")
+    apply  = os.path.join(runSpec["simulationPath"], f"tempApplyCLI.txt")
+    db = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.db")
+    db_path = Path(db)
+    if db_path.exists():
+        db_path.unlink() #this deletes the db file if it exists so we start with a clearn db
+    write_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], parameters=paramSet, playListName="tempChooseCultivar")
+    start = dt.datetime.now()
+    result = subprocess.run(
+        [
+            APSIM_EXE,
+            apsimx,
+            "--apply", apply,
+            "--playlist", "tempChooseCultivar"
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True
+    )
+    print(result.stdout)
+    
+    remove_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], playListName="tempChooseCultivar")
+    result = subprocess.run(
+    [
+        APSIM_EXE,
+        apsimx,
+        "--apply", apply
+    ],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True
+    )
+    print(result.stdout)
+    endrun = dt.datetime.now()
+    runtime = (endrun-start).seconds
+    
+    # Read requested report
+    con = sqlite3.connect(db)
+    try:
+        obs_pred = pd.read_sql(f"SELECT * FROM {runSpec['reportName']}", con)
+    finally:
+        con.close()
+        
+    return obs_pred, runtime
+
+
+# %%
+def runModelItter(runSpecs, paramSet, fittingVariables, resultsStore=None, printResult=False):
+    """
+    Run one parameter set across all APSIM files listed in runSpecs and merge results.
+    """
+
+    allObsPred = []
+    totalRuntime = 0
+    itter = 0
+
+    for runSpec in runSpecs:
+        obsPred, runtime = runModelGetStats(
+            runSpec=runSpec,
+            paramSet=paramSet,
+            fittingVariables=fittingVariables
+        )
+
+        allObsPred.append(obsPred)
+        totalRuntime += runtime
+
+    obsPredAll = pd.concat(allObsPred, ignore_index=True)
+
+    # Compute loss and scaled values
+    loss, nObs, scObs, scPred = calcLoss(fittingVariables, obsPredAll)
+
+    # Optional: store results
+    if resultsStore is not None:
+        resultsStore.addResult(
+            cultivar=runSpecs[0]["cultivarName"],
+            parameters=paramSet,
+            loss=loss,
+            nObs=nObs,
+            runtime=totalRuntime,
+            obs=scObs,
+            pred=scPred
+        )
+        
+        itter = resultsStore.iteration
+
+    if printResult:
+        print(
+            f"[{itter:03d}] | "
+            f"{list(paramSet.values())} run completed | "
+            f"{nObs} obs in {totalRuntime} seconds. | "
+            f"NSE = {-loss:.3f}"
+        )
+
+    return loss
+
+
+# %% [markdown]
+# # Model fitting settings
+
 # %%
 fitting_variables = ['Lentil.Phenology.StartBuddingDAS',
                      'Lentil.Phenology.StartFloweringDAS',
@@ -192,113 +322,52 @@ fitting_variables = ['Lentil.Phenology.StartBuddingDAS',
 
 APSIM_EXE = r"C:\GitHubRepos\ApsimX\bin\Debug\net8.0\Models.exe"
 
-simulationPath = r"C:\GitHubRepos\ApsimX\Prototypes\Lentil"
-
-
-# %%
-def runModelItter(cultivarName, paramSet, simulationPath, apsimFileName, applyFileName, playListName, fittingVariables, reportName, resultsStore=None):
-    apsimx = os.path.join(simulationPath, f"{apsimFileName}.apsimx")
-    apply  = os.path.join(simulationPath, f"{applyFileName}.txt")
-    db = os.path.join(simulationPath, f"{apsimFileName}.db")
-    db_path = Path(db)
-    #if db_path.exists():
-     #   db_path.unlink() #this deletes the db file if it exists so we start with a clearn db
-    
-    write_cultivar_apply_file(Path(apply), apsimx, cultivarName, paramSet)
-    start = dt.datetime.now()
-    result = subprocess.run(
-        [
-            APSIM_EXE,
-            apsimx,
-            "--apply", apply,
-            "--playlist", playListName
-        ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True
-    )
-    endrun = dt.datetime.now()
-    runtime = (endrun-start).seconds
-    
-    print(result.stdout)
-    
-    # Read requested report
-    con = sqlite3.connect(db)
-    try:
-        obs_pred = pd.read_sql(f"SELECT * FROM {reportName}", con)
-    finally:
-        con.close()
-    
-    loss, n_obs, obs, pred = calcLoss(fittingVariables, obs_pred)
-    
-    if resultsStore is not None:
-        resultsStore.add_result(
-            cultivar=cultivarName,
-            parameters=paramSet,
-            loss=loss,
-            n_obs=n_obs,
-            runtime=runtime,
-            obs=obs,
-            pred=pred,
-            variable=None
-        )
-        
-        it = resultsStore.iteration
-    else:
-        it = "?"
-
-
-    print(
-        f"[{it:03d}] "
-        f"{list(paramSet.values())} | "
-        f"n={n_obs:4d} | "
-        f"t={runtime:4d}s | "
-        f"NSE={-loss:6.3f}"
-    )
-
-    return loss
+# %% [markdown]
+# # Test with single file
 
 # %%
 cultivar_params = {
-    "[Phenology].JuvenileBase.FixedValue": 40,
-    "[Phenology].VernSensitivity.FixedValue": 0.7,
-    "[Phenology].InductivePpSensitivity.FixedValue": 0.7
-}
+                    "[Phenology].JuvenileBase.FixedValue": 96,
+                    "[Phenology].VernSensitivity.FixedValue": 0.63,
+                    "[Phenology].InductivePpSensitivity.FixedValue": 0.44
+                  }
 
-store = ResultsStore()
-runModelItter(cultivarName='Bolt',
-              paramSet=cultivar_params, 
-              simulationPath=simulationPath, 
-              apsimFileName="Lentil", 
-              applyFileName="CultivarApply", 
-              playListName="ChooseCultivar", 
-              fittingVariables=fitting_variables, 
-              reportName="HarvestObsPred", 
-              resultsStore=store)
-df = store.to_dataframe()
+runSpec = {
+             "cultivarName":"Bolt",
+             "simulationPath":r"C:\GitHubRepos\ApsimX\Prototypes\Lentil",
+             "apsimFileName":"Lentil",
+             "reportName":"HarvestObsPred"
+           }
+
+testStore = ResultsStore()
+runSpecs = []
+runSpecs.append(runSpec)
+runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=storeMulti, printResult=True)
+df = testStore.to_dataframe()
 
 # %%
 df
 
 
+# %% [markdown]
+# # Test with multi files
+
+# %% [markdown]
+# # Objective function
+# for optimiser to interface with runModelItter
+
 # %%
 def objective(x):
     param_dict = dict(zip(paramNames, x))
-    
-    loss = runModelItter(
-        cultivarName="Bolt",
-        paramSet=param_dict,
-        simulationPath=simulationPath,
-        apsimFileName="Lentil",
-        applyFileName="CultivarApply",
-        playListName="ChooseCultivar",
-        fittingVariables=fitting_variables,
-        reportName="HarvestObsPred",
-        resultsStore=store
-    )
+   
+    loss = runModelItter(runSpecs, param_dict, fitting_variables, resultsStore=storeMulti, printResult=True)
     
     return loss
 
+
+# %% [markdown]
+# # Stagnation functions
+# Determine if optimiser is reaching best possible fits.
 
 # %%
 # ------------------------------------------------------------
@@ -331,6 +400,9 @@ def loss_stagnated(res, window=10, tol=0.02):
     return (recent[0] - recent[-1]) < tol
 
 
+
+# %% [markdown]
+# # Run optimisation
 
 # %%
 # ------------------------------------------------------------
@@ -372,7 +444,7 @@ store = ResultsStore()
 print("=== Initial design: expert + random ===")
 
 # Expert guess (must be list of lists)
-expert_guesses = [[100, 0.5, 0.5]]
+expert_guesses = [[96, 0.63, 0.44]]
 
 for x in expert_guesses:
     y = objective(x)
@@ -398,7 +470,7 @@ eps = 0.01 * np.linalg.norm(param_ranges)
 # ------------------------------------------------------------
 
 stage_size = 5
-max_stages = 15
+max_stages = 10
 
 for stage in range(max_stages):
     print(f"\n=== GP optimisation stage {stage + 1} ===")
@@ -453,11 +525,17 @@ print(f"Best loss: {best_y:.4f}")
 for name, val in zip(paramNames, best_x):
     print(f"{name}: {val:.4f}")
 
+# %% [markdown]
+# # Evolution of loss results
+
 # %%
-df = store.to_dataframe()
+df = storeMulti.to_dataframe()
 
 # %%
 df.loss.plot()
+
+# %% [markdown]
+# # Obs vs pred of best fit
 
 # %%
 
@@ -496,6 +574,3 @@ res = create_result(
 )
 
 plot_objective(res)
-
-# %%
-store.to_dataframe()
