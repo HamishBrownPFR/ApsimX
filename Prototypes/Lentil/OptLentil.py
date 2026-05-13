@@ -226,10 +226,10 @@ def runModelGetStats(runSpec, paramSet, fittingVariables):
     start = dt.datetime.now()
     result = subprocess.run(
         [
-            APSIM_EXE,
-            apsimx,
-            "--apply", apply,
-            "--playlist", "tempChooseCultivar"
+            APSIM_EXE,  #Path to Model.exe
+            apsimx,     #Path to sim.apsimx
+            "--apply", apply,  #path to apply file with changes to sim.apsimx 
+            "--playlist", "tempChooseCultivar"  #Intstuction to use playlist
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
