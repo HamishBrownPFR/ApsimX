@@ -27,7 +27,7 @@ import json
 # %matplotlib inline
 
 # %%
-root = "C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA\\New\\Database\\"
+root = "C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA\\Builder\\Database\\"
 
 # %% [markdown]
 # # Read in NaPA_Design.xlsx
@@ -60,16 +60,20 @@ NaPA_Experiment.set_index("SiteKey",inplace=True)
 
 # %%
 ExptInfo = pd.DataFrame(index = Experiments,columns=['Varieties'])
-
-# %%
+ExptInfo.loc[:,"ExptInfo"] = {}
 for e in Experiments:
     ExptInfo.at[e,"Varieties"] = NaPALentil_Design.loc[e,'Variety'].drop_duplicates().to_list()
-    ExptInfo.at[e,"SoilName"] = f"{NaPA_Experiment.loc[e,'ExpNo']}_{NaPA_Experiment.loc[e,'SiteName']}"
+    exptDic = {}
+    exptDic["SoilName"] = f"{NaPA_Experiment.loc[e,'ExpNo']}_{NaPA_Experiment.loc[e,'SiteName']}"
+    exptDic["SiloMet"] = f"{NaPA_Experiment.loc[e,'State']}_{NaPA_Experiment.loc[e,'SiloWeatherFile']}"
+    exptDic["LocalMet"] = NaPA_Experiment.loc[e,'LocalWeatherFile']
+    ExptInfo.at[e,"ExptInfo"] = exptDic
     
-ExptInfo.at['2019_NSW_Greenethorpe_Mixed_Detailed',"SoilName"] = "2022010_Greenethorpe"
-ExptInfo.at['2024_NSW_Greenethorpe_Mixed_NFix',"SoilName"] = "2022010_Greenethorpe"
-ExptInfo.at['2022_NSW_Methul_Lentil_Satellite',"SoilName"] = "Methul"
-ExptInfo.at['2024_Vic_Walpeup_Lentil_Satellite',"SoilName"] = "Walpeup"
+ExptInfo.at['2022_NSW_WaggaWagga_Lentil_Detailed',"ExptInfo"]["SoilName"] = "2023007_WaggaWagga"
+ExptInfo.at['2019_NSW_Greenethorpe_Mixed_Detailed',"ExptInfo"]["SoilName"] = "2022010_Greenethorpe"
+ExptInfo.at['2024_NSW_Greenethorpe_Mixed_NFix',"ExptInfo"]["SoilName"] = "2022010_Greenethorpe"
+ExptInfo.at['2022_NSW_Methul_Lentil_Satellite',"ExptInfo"]["SoilName"] = "Methul"
+ExptInfo.at['2024_Vic_Walpeup_Lentil_Satellite',"ExptInfo"]["SoilName"] = "Walpeup"
 
 # %% [markdown]
 # # Read in Management data
@@ -107,9 +111,6 @@ for e in Experiments:
     irrList.append(irrigs)
     ExptInfo.at[e,'IrrigInfo'] = irrList[0]
 
-# %%
-ExptInfo
-
 
 # %% [markdown]
 # # Extract sowing data
@@ -118,7 +119,7 @@ ExptInfo
 def formatDateSafe(dt):
     if pd.isna(dt):
         return ""
-    return dt.strftime("%d-%m-%Y")
+    return dt.strftime("%d-%b")
 
 
 # %%
@@ -138,7 +139,7 @@ for e in Experiments:
             sdic['rowWidth'] = NaPA_Management.loc[e,"Design::RowSpacing_cm"].drop_duplicates().values[0]
         else:
             print(e)
-            sdic['emergeDate'] = ""
+            sdic['emergeDate'] = "1-Jan"
             sdic['sowDepth'] = 30
             sdic['rowWidth'] = 400
             
@@ -148,40 +149,54 @@ for e in Experiments:
         tosDic[st] = sdic
     ExptInfo.at[e,'SowInfo'] = tosDic
 
+# %%
+ExptInfo.loc["2019_NSW_Greenethorpe_Mixed_Detailed","ExptInfo"]
+
 
 # %% [markdown]
 # # Function to apply experiment structure to .apsimx file
 
 # %%
 def write_experiment_apply_file(
+    exptName,
     tempApplyFile,
-    baseFile,
-    experimentFile,
-    soilName,
+    baseAPSIMFile,
+    finalAPSIMFile,
+    exptInfo,
     soilLib,
+    localWeatherLib,
     cultivars,
     irrigations,
-    toss
+    toss,
+    localWeatherName 
 ):
     lines = []
 
     # ------------------------------------------------------------------
-    # Load base apsimx
+    # Load base apsimx and name experiment
     # ------------------------------------------------------------------
-    lines.append(f"load {baseFile}")
-
+    lines.append(f"load {baseAPSIMFile}")
+    lines.append(f"[BaseExpt].Name = {exptName}")
+    
+    # ------------------------------------------------------------------
+    # Set up the met files
+    # ------------------------------------------------------------------
+    lines.append(f"[Weather].FileName = Met/{exptInfo['SiloMet']}")
+    if localWeatherName is not None:
+        lines.append(f"add {localWeatherName} from {localWeatherLib} to [BaseSim]")
+    
     # ------------------------------------------------------------------
     # Add soil
     # ------------------------------------------------------------------
-    lines.append(f"add [{soilName}] from {soilLib} to [Zone] name {soilName}")
+    lines.append(f"add [{exptInfo['SoilName']}] from {soilLib} to [Zone] name {exptInfo['SoilName']}")
 
     # ------------------------------------------------------------------
     # Add varieties
     # ------------------------------------------------------------------
-    varietyList = ""
-    for c in cultivars:
-        cName = c.replace("PBA_", "").replace("GIA_", "")
-        varietyList += cName + ", "
+    varietyList = ", ".join(
+        c.replace("PBA_", "").replace("GIA_", "")
+        for c in cultivars
+    )
     lines.append(
         f"[Factors].Permutation.Variety.specification = "
         f"[Sowing].Script.CultivarName = {varietyList}"
@@ -264,28 +279,124 @@ def write_experiment_apply_file(
     # ------------------------------------------------------------------
     # Save experiment
     # ------------------------------------------------------------------
-    lines.append(f"save {experimentFile}")
+    lines.append(f"save {finalAPSIMFile}")
 
     # Write apply file
     tempApplyFile.write_text("\n".join(lines))
 
 
+# %%
+ExptInfo.loc['2019_NSW_Greenethorpe_Mixed_Detailed','ExptInfo']
+
 
 # %%
-APSIM_EXE = r"C:\GitHubRepos\ApsimX\bin\Debug\net8.0\Models.exe"
-workingDir = r"C:\GitHubRepos\ApsimX\Prototypes\Lentil\NaPA\New"
-baseFile = os.path.join(workingDir, "newBase.apsimx")
-soilLib = r"C:\GitHubRepos\ApsimX\Prototypes\Lentil\NaPA\NaPA_soils.apsimx"
+def makeLocalWeather(template_file, output_dir, experiment_name, local_met):
+    """
+    Create a LocalWeather apsimx file with patched CodeArray.
 
+    Returns:
+        (model_name, file_path) OR (None, None)
+    """
+
+    # ----------------------------------------------------------
+    # 1. Handle no local weather case
+    # ----------------------------------------------------------
+    if pd.isna(local_met) or local_met in ["", "nan", None]:
+        return None, None
+
+    # ----------------------------------------------------------
+    # 2. Load template
+    # ----------------------------------------------------------
+    data = json.loads(Path(template_file).read_text())
+
+    # ----------------------------------------------------------
+    # 3. Find LocalWeather manager
+    # ----------------------------------------------------------
+    def find_model(node, name):
+        if node.get("Name") == name:
+            return node
+        for child in node.get("Children", []):
+            result = find_model(child, name)
+            if result:
+                return result
+        return None
+
+    manager = find_model(data, "LocalWeather")
+
+    if manager is None:
+        raise ValueError("LocalWeather model not found in template")
+
+    # ----------------------------------------------------------
+    # 4. Replace placeholder in CodeArray
+    # ----------------------------------------------------------
+    safe_path = str(local_met).replace("\\", "\\\\")
+
+    new_code = []
+    for line in manager["CodeArray"]:
+        new_code.append(
+            line.replace("FindAndReplaceWithScript", safe_path)
+        )
+
+    manager["CodeArray"] = new_code
+
+    # ----------------------------------------------------------
+    # 5. Write output file
+    # ----------------------------------------------------------
+    output_file = output_dir / f"_localWeather_{experiment_name}.apsimx"
+
+    output_file.write_text(json.dumps(data, indent=2))
+
+    return "LocalWeather", output_file
+
+
+
+# %%
+from pathlib import Path
+
+APSIM_EXE = Path(r"C:\GitHubRepos\ApsimX\bin\Debug\net8.0\Models.exe")
+workingDir = Path(r"C:\GitHubRepos\ApsimX\Prototypes\Lentil\NaPA\Builder")
+
+applyDir = workingDir / "ApplyFiles"
+outputDir = workingDir.parent   # one level up (NaPA)
+
+# Ensure ApplyFiles exists
+applyDir.mkdir(exist_ok=True)
+
+baseAPSIMFile = workingDir / "builderBase.apsimx"
+soilLib = workingDir / "NaPA_soils.apsimx"
+localWeatherLib = workingDir / "localWeather.apsimx"
 for experimentName in ExptInfo.index:
     print(experimentName)
-    experimentFile = os.path.join(workingDir, f"{experimentName}.apsimx")
-    soilName = ExptInfo.loc[experimentName,"SoilName"]
-    tempApplyFile = os.path.join(workingDir, f"temp{experimentName}CLI.txt")
-    cultivars = ExptInfo.loc[experimentName,"Varieties"]
-    irrigations = ExptInfo.loc[experimentName,'IrrigInfo']
-    toss = ExptInfo.loc[experimentName,'SowInfo']
-    write_experiment_apply_file(Path(tempApplyFile), Path(baseFile), Path(experimentFile), soilName, soilLib, cultivars, irrigations, toss)
+
+    finalAPSIMFile = outputDir / f"{experimentName}.apsimx" 
+    tempApplyFile = applyDir / f"temp_{experimentName}CLI.txt" 
+
+    exptInfo = ExptInfo.loc[experimentName, "ExptInfo"]
+    cultivars = ExptInfo.loc[experimentName, "Varieties"]
+    irrigations = ExptInfo.loc[experimentName, 'IrrigInfo']
+    toss = ExptInfo.loc[experimentName, 'SowInfo']
+    
+    localWeatherName, localWeatherLib = makeLocalWeather(
+        localWeatherLib,      # template file
+        applyDir,             # where temp files go
+        experimentName,
+        exptInfo["LocalMet"]
+    )
+
+    write_experiment_apply_file(
+        experimentName,
+        tempApplyFile,
+        baseAPSIMFile,
+        finalAPSIMFile,
+        exptInfo,
+        soilLib,
+        localWeatherLib,
+        cultivars,
+        irrigations,
+        toss,
+        localWeatherName
+    )
+    
     result = subprocess.run(
         [
             APSIM_EXE,  #Path to Model.exe
@@ -298,17 +409,3 @@ for experimentName in ExptInfo.index:
     )
     print(result.stdout)
 
-# %%
-ExptInfo
-
-# %%
-
-val = ExptInfo.at[
-    "2019_NSW_Greenethorpe_Mixed_Detailed",
-    "IrrigInfo"
-]
-
-type(val), val
-
-
-# %%
