@@ -139,10 +139,17 @@
         {
           "$type": "Models.Report, Models",
           "VariableNames": [
-            "[Clock].Today as Date",
-            "[Simulation].Name",
-            "[Lentil].SowingData.Cultivar",
+            "[Clock].Today",
+            "[Clock].StartDate",
             "[Lentil].SowingDate",
+            "[Lentil].SowingData.Cultivar",
+            "[Lentil].SowingData.Population",
+            "[Lentil].SowingDate.DayOfYear",
+            "[Lentil].SowingData.RowSpacing",
+            "[IWeather].Latitude",
+            "[IWeather].Longitude",
+            "[IWeather].FileName",
+            "[Simulation].Name",
             "[Lentil].Phenology.EmergenceDAS",
             "[Lentil].Phenology.StartBuddingDAS",
             "[Lentil].Phenology.StartFloweringDAS",
@@ -167,26 +174,6 @@
           ],
           "GroupByVariableName": null,
           "Name": "HarvestReport",
-          "ResourceName": null,
-          "Children": [],
-          "Enabled": true,
-          "ReadOnly": false
-        },
-        {
-          "$type": "Models.Report, Models",
-          "VariableNames": [
-            "[Simulation].Name",
-            "[Clock].Today",
-            "[Lentil].SowingData.Cultivar",
-            "[IWeather].Latitude",
-            "[IWeather].Longitude",
-            "[Soil].Physical.Thickness"
-          ],
-          "EventNames": [
-            "[Lentil].PlantSowing"
-          ],
-          "GroupByVariableName": null,
-          "Name": "SowingReport",
           "ResourceName": null,
           "Children": [],
           "Enabled": true,
@@ -10699,6 +10686,15 @@
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "[Sowing].Script.CultivarName = Digger",
+                  "Name": "Cv",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
