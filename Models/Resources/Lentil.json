@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 215,
+  "Version": 216,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -10522,6 +10522,34 @@
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.43"
               ],
               "Name": "KelpieXT",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.PMF.Cultivar, Models",
+              "Command": [
+                "[Phenology].JuvenileBase.FixedValue = 70",
+                "[Phenology].VernSensitivity.FixedValue = 0.35",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
+                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+              ],
+              "Name": "Leader",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.PMF.Cultivar, Models",
+              "Command": [
+                "[Phenology].JuvenileBase.FixedValue = 91",
+                "[Phenology].VernSensitivity.FixedValue = 0.85",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.37",
+                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+              ],
+              "Name": "Lightning",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
