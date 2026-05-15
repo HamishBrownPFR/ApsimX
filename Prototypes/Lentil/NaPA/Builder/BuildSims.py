@@ -48,6 +48,9 @@ Experiments = NaPALentil_Design.loc[:,"Experiments::SiteKey"].drop_duplicates().
 # %%
 NaPALentil_Design.set_index("Experiments::SiteKey",inplace=True)
 
+# %%
+Experiments
+
 # %% [markdown]
 # # Read in NaPA_Experiment.xlsx
 
@@ -118,9 +121,24 @@ for e in Experiments:
 # %%
 def formatDateSafe(dt):
     if pd.isna(dt):
-        return ""
+        return 'null'
     return dt.strftime("%d-%b")
 
+def formatDoubleSafe(db, defalt):
+    if pd.isna(db):
+        return defalt
+    else:
+        return db
+
+
+# %%
+agTreats = {
+                "2022_SA_Warnertown_Lentil_Satellite":{"Density":['Density_0.66','Density_1']},
+                "2023_SA_Warnertown_Lentil_Satellite":{"Density":['Density_0.66','Density_1']},
+                "2024_SA_Warnertown_Lentil_Satellite":{"Density":['Density_0.66','Density_1']},
+                "2024_NSW_Greenethorpe_Mixed_NFix":{"Fertiliser":['350kgN','175kgN','50kgN','125kgN']},
+                "2023_Qld_Gatton_Mixed_Light":{"ExtendPp":['16_hr','Natural']}
+            }
 
 # %%
 ExptInfo.loc[:,'SowInfo']={}
@@ -135,11 +153,11 @@ for e in Experiments:
         sdic['startDate'] = tosData.loc[tosData.TOS == st,'TOSDate'].values[0]
         if e in NaPA_Management.index.drop_duplicates().to_list():
             sdic['emergeDate'] = formatDateSafe(NaPA_Management.loc[e,'EmergenceDate'].mean())
-            sdic['sowDepth'] = NaPA_Management.loc[e,"SowingDepth_mm"].drop_duplicates().values[0]/10
-            sdic['rowWidth'] = NaPA_Management.loc[e,"Design::RowSpacing_cm"].drop_duplicates().values[0]
+            sdic['sowDepth'] = formatDoubleSafe(NaPA_Management.loc[e,"SowingDepth_mm"].drop_duplicates().values[0]/10,30)
+            sdic['rowWidth'] = formatDoubleSafe(NaPA_Management.loc[e,"Design::RowSpacing_cm"].drop_duplicates().values[0],400)
         else:
             print(e)
-            sdic['emergeDate'] = "1-Jan"
+            sdic['emergeDate'] = 'null'
             sdic['sowDepth'] = 30
             sdic['rowWidth'] = 400
             
@@ -149,8 +167,69 @@ for e in Experiments:
         tosDic[st] = sdic
     ExptInfo.at[e,'SowInfo'] = tosDic
 
+
 # %%
-ExptInfo.loc["2019_NSW_Greenethorpe_Mixed_Detailed","ExptInfo"]
+# Make local weather manager
+
+# %%
+def makeLocalWeather(template_file, output_dir, experiment_name, local_met):
+    """
+    Create a LocalWeather apsimx file with patched CodeArray.
+
+    Returns:
+        (model_name, file_path) OR (None, None)
+    """
+
+    # ----------------------------------------------------------
+    # 1. Handle no local weather case
+    # ----------------------------------------------------------
+    if pd.isna(local_met) or local_met in ["", "nan", None]:
+        return None
+
+    # ----------------------------------------------------------
+    # 2. Load template
+    # ----------------------------------------------------------
+    data = json.loads(Path(template_file).read_text())
+
+    # ----------------------------------------------------------
+    # 3. Find LocalWeather manager
+    # ----------------------------------------------------------
+    def find_model(node, name):
+        if node.get("Name") == name:
+            return node
+        for child in node.get("Children", []):
+            result = find_model(child, name)
+            if result:
+                return result
+        return None
+
+    manager = find_model(data, "LocalWeather")
+
+    if manager is None:
+        raise ValueError("LocalWeather model not found in template")
+
+    # ----------------------------------------------------------
+    # 4. Replace placeholder in CodeArray
+    # ----------------------------------------------------------
+    safe_path = str(local_met).replace("\\", "\\\\")
+
+    new_code = []
+    for line in manager["CodeArray"]:
+        new_code.append(
+            line.replace("FindAndReplaceWithScript", f"Met\\\\{safe_path}")
+        )
+
+    manager["CodeArray"] = new_code
+
+    # ----------------------------------------------------------
+    # 5. Write output file
+    # ----------------------------------------------------------
+    output_file = output_dir / f"_localWeather_{experiment_name}.apsimx"
+
+    output_file.write_text(json.dumps(data, indent=2))
+
+    return output_file
+
 
 
 # %% [markdown]
@@ -164,11 +243,10 @@ def write_experiment_apply_file(
     finalAPSIMFile,
     exptInfo,
     soilLib,
-    localWeatherLib,
+    localWeather,
     cultivars,
     irrigations,
-    toss,
-    localWeatherName 
+    toss
 ):
     lines = []
 
@@ -182,8 +260,8 @@ def write_experiment_apply_file(
     # Set up the met files
     # ------------------------------------------------------------------
     lines.append(f"[Weather].FileName = Met/{exptInfo['SiloMet']}")
-    if localWeatherName is not None:
-        lines.append(f"add {localWeatherName} from {localWeatherLib} to [BaseSim]")
+    if localWeather is not None:
+        lines.append(f"add [LocalWeather] from {localWeather} to [BaseSim]")
     
     # ------------------------------------------------------------------
     # Add soil
@@ -220,8 +298,8 @@ def write_experiment_apply_file(
                     "$type": "Models.Operation, Models",
                     "Enabled": True,
                     "Date": d,                     # e.g. "2023-08-07"
-                    "Action": f"[Irrigation].Apply(amount: {amt})"
-                    # Line intentionally omitted – APSIM regenerates it
+                    "Action": f"[Irrigation].Apply(amount: {amt})",
+                    "Line": f"{d} [Irrigation].Apply(amount: {amt});"
                 }
             )
 
@@ -275,79 +353,59 @@ def write_experiment_apply_file(
                      f"[Sowing].Script.SowingDepth = {tos_info['sowDepth']},"+
                      f"[Sowing].Script.RowSpacing = {tos_info['rowWidth']},"+
                      f"[Sowing].Script.Population = {tos_info['popn']}")
-    
+        lines.append(f"[ApplyFertiliser].Script.FertiliserDates = {tos_info['sowDate']}")
+        lines.append(f"[ApplyFertiliser].Script.TrtName = 0kgN")
+        
+    # ------------------------------------------------------------------
+    # Sow density treatments
+    # ------------------------------------------------------------------
+    if exptName in ["2022_SA_Warnertown_Lentil_Satellite","2023_SA_Warnertown_Lentil_Satellite","2024_SA_Warnertown_Lentil_Satellite"]:
+        lines.append(f"add new Factor to [Factors].Permutation name Agronomy")
+        lines.append(f"[Factors].Permutation.Agronomy.Specification = [Sowing].Script.TrtName  = Density_0.66, Density_1")
+        
+    # ------------------------------------------------------------------
+    # Fertiliser treatments
+    # ------------------------------------------------------------------
+    if exptName == "2024_NSW_Greenethorpe_Mixed_NFix":
+        lines.append(f"add new Factor to [Factors].Permutation name Agronomy")
+        lines.append(f"[Factors].Permutation.Agronomy.Specification = [ApplyFertiliser].Script.TrtName  = 350kgN, 175kgN, 50kgN, 125kgN")
+        
+    # ------------------------------------------------------------------
+    # PP extension treatments
+    # ------------------------------------------------------------------
+    if exptName == "2023_Qld_Gatton_Mixed_Light":
+        lines.append(f"add new Factor to [Factors].Permutation name Agronomy")
+        lines.append(f"[Factors].Permutation.Agronomy.Specification = [PhotoperiodExtension].Script.TrtName = 16_hr, Natural")
+                     
     # ------------------------------------------------------------------
     # Save experiment
     # ------------------------------------------------------------------
     lines.append(f"save {finalAPSIMFile}")
+    lines.append(f"run {finalAPSIMFile}")
 
     # Write apply file
     tempApplyFile.write_text("\n".join(lines))
 
 
 # %%
-ExptInfo.loc['2019_NSW_Greenethorpe_Mixed_Detailed','ExptInfo']
-
-
-# %%
-def makeLocalWeather(template_file, output_dir, experiment_name, local_met):
-    """
-    Create a LocalWeather apsimx file with patched CodeArray.
-
-    Returns:
-        (model_name, file_path) OR (None, None)
-    """
-
-    # ----------------------------------------------------------
-    # 1. Handle no local weather case
-    # ----------------------------------------------------------
-    if pd.isna(local_met) or local_met in ["", "nan", None]:
-        return None, None
-
-    # ----------------------------------------------------------
-    # 2. Load template
-    # ----------------------------------------------------------
-    data = json.loads(Path(template_file).read_text())
-
-    # ----------------------------------------------------------
-    # 3. Find LocalWeather manager
-    # ----------------------------------------------------------
-    def find_model(node, name):
-        if node.get("Name") == name:
-            return node
-        for child in node.get("Children", []):
-            result = find_model(child, name)
-            if result:
-                return result
-        return None
-
-    manager = find_model(data, "LocalWeather")
-
-    if manager is None:
-        raise ValueError("LocalWeather model not found in template")
-
-    # ----------------------------------------------------------
-    # 4. Replace placeholder in CodeArray
-    # ----------------------------------------------------------
-    safe_path = str(local_met).replace("\\", "\\\\")
-
-    new_code = []
-    for line in manager["CodeArray"]:
-        new_code.append(
-            line.replace("FindAndReplaceWithScript", safe_path)
-        )
-
-    manager["CodeArray"] = new_code
-
-    # ----------------------------------------------------------
-    # 5. Write output file
-    # ----------------------------------------------------------
-    output_file = output_dir / f"_localWeather_{experiment_name}.apsimx"
-
-    output_file.write_text(json.dumps(data, indent=2))
-
-    return "LocalWeather", output_file
-
+localWeatherFileNames ={
+    '2019_NSW_Greenethorpe_Mixed_Detailed':None,
+     '2022_Vic_Kalkee_Lentil_Detailed':'Vic_Kalkee.logger.met',
+     '2022_SA_Riverton_Lentil_Detailed':'SA_Riverton.logger.met',
+     '2022_NSW_WaggaWagga_Lentil_Detailed':'NSW_WaggaWagga.logger.met',
+     '2022_NSW_Methul_Lentil_Satellite':None,
+     '2022_Vic_Ouyen_Lentil_Satellite':'Vic_Ouyen.logger.met',
+     '2022_NSW_RankinsSprings_Lentil_Satellite':None,
+     '2022_SA_Warnertown_Lentil_Satellite':None,
+     '2023_SA_Pinery_Lentil_Detailed':None,
+     '2023_Vic_Dooen_Lentil_Detailed':'Vic_Dooen.logger.met',
+     '2023_SA_Warnertown_Lentil_Satellite':None,
+     '2023_Vic_Ouyen_Lentil_Satellite':'Vic_Ouyen.logger.met',
+     '2023_Qld_Gatton_Mixed_Light':None,
+     '2024_NSW_Greenethorpe_Mixed_NFix':None,
+     '2024_SA_Warnertown_Lentil_Satellite':None,
+     '2024_Vic_Walpeup_Lentil_Satellite':None
+}
 
 
 # %%
@@ -363,8 +421,8 @@ outputDir = workingDir.parent   # one level up (NaPA)
 applyDir.mkdir(exist_ok=True)
 
 baseAPSIMFile = workingDir / "builderBase.apsimx"
-soilLib = workingDir / "NaPA_soils.apsimx"
-localWeatherLib = workingDir / "localWeather.apsimx"
+soilLib = workingDir / "NaPA_soils_fiexd.apsimx"
+localWeatherTemplate = workingDir / "localWeatherBase.apsimx"
 for experimentName in ExptInfo.index:
     print(experimentName)
 
@@ -376,11 +434,11 @@ for experimentName in ExptInfo.index:
     irrigations = ExptInfo.loc[experimentName, 'IrrigInfo']
     toss = ExptInfo.loc[experimentName, 'SowInfo']
     
-    localWeatherName, localWeatherLib = makeLocalWeather(
-        localWeatherLib,      # template file
+    localWeather = makeLocalWeather(
+        localWeatherTemplate,      # template file
         applyDir,             # where temp files go
         experimentName,
-        exptInfo["LocalMet"]
+        localWeatherFileNames[experimentName]
     )
 
     write_experiment_apply_file(
@@ -390,17 +448,16 @@ for experimentName in ExptInfo.index:
         finalAPSIMFile,
         exptInfo,
         soilLib,
-        localWeatherLib,
+        localWeather,
         cultivars,
         irrigations,
         toss,
-        localWeatherName
     )
     
     result = subprocess.run(
         [
             APSIM_EXE,  #Path to Model.exe
-            experimentFile,     #Path to sim.apsimx
+            finalAPSIMFile,     #Path to sim.apsimx
             "--apply", tempApplyFile,  #path to apply file with changes to sim.apsimx 
         ],
         stdout=subprocess.PIPE,
