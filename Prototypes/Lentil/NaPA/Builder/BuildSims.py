@@ -72,7 +72,7 @@ for e in Experiments:
     exptDic["LocalMet"] = NaPA_Experiment.loc[e,'LocalWeatherFile']
     ExptInfo.at[e,"ExptInfo"] = exptDic
     
-ExptInfo.at['2022_NSW_WaggaWagga_Lentil_Detailed',"ExptInfo"]["SoilName"] = "2023007_WaggaWagga"
+#ExptInfo.at['2022_NSW_WaggaWagga_Lentil_Detailed',"ExptInfo"]["SoilName"] = "2023007_WaggaWagga"
 ExptInfo.at['2019_NSW_Greenethorpe_Mixed_Detailed',"ExptInfo"]["SoilName"] = "2022010_Greenethorpe"
 ExptInfo.at['2024_NSW_Greenethorpe_Mixed_NFix',"ExptInfo"]["SoilName"] = "2022010_Greenethorpe"
 ExptInfo.at['2022_NSW_Methul_Lentil_Satellite',"ExptInfo"]["SoilName"] = "Methul"

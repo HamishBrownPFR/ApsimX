@@ -210,6 +210,35 @@ def process_file(infile, outfile):
     return issues
 
 
+
+# %%
+proxy_map = {
+    "2019_NSW_Greenethorpe_Mixed_Detailed": "2022010_Greenethorpe",
+    "2024_NSW_Greenethorpe_Mixed_NFix": "2022010_Greenethorpe",
+    "2022_NSW_Methul_Lentil_Satellite": "Methul",
+    "2024_Vic_Walpeup_Lentil_Satellite": "Walpeup"
+}
+
+def get_template_for_experiment(exp_name, apsim, proxy_map):
+
+    # check if proxy applies
+    if exp_name in proxy_map:
+        target_name = proxy_map[exp_name]
+    else:
+        return apsim["Children"][0]  # default template
+
+    # find matching soil
+    for soil in apsim["Children"]:
+        if soil["Name"] == target_name:
+            return soil
+
+    # fallback
+    return apsim["Children"][0]
+
+
+# %%
+
+# %%
 # ---- RUN ----
 issues = process_file(inputfile,outputfile)
 
