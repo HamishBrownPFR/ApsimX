@@ -342,15 +342,67 @@ runSpec = {
 testStore = ResultsStore()
 runSpecs = []
 runSpecs.append(runSpec)
-runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=storeMulti, printResult=True)
+runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=testStore, printResult=True)
 df = testStore.to_dataframe()
 
 # %%
 df
 
-
 # %% [markdown]
 # # Test with multi files
+
+# %%
+cultivar_params = {
+                    "[Phenology].JuvenileBase.FixedValue": 96,
+                    "[Phenology].VernSensitivity.FixedValue": 0.63,
+                    "[Phenology].InductivePpSensitivity.FixedValue": 0.44
+                  }
+runSpecs = []
+baseRunSpec = {
+             "cultivarName":"Bolt",
+             "simulationPath":None,
+             "apsimFileName":"Lentil",
+             "reportName":"HarvestObsPred"
+           }
+
+filesToRun = [
+ 'Lentil',
+ '2019_NSW_Greenethorpe_Mixed_Detailed',
+ '2022_Vic_Kalkee_Lentil_Detailed',
+ '2022_SA_Riverton_Lentil_Detailed',
+ '2022_NSW_WaggaWagga_Lentil_Detailed',
+ '2022_NSW_Methul_Lentil_Satellite',
+ '2022_Vic_Ouyen_Lentil_Satellite',
+ '2022_NSW_RankinsSprings_Lentil_Satellite',
+ '2022_SA_Warnertown_Lentil_Satellite',
+ '2023_SA_Pinery_Lentil_Detailed',
+ '2023_Vic_Dooen_Lentil_Detailed',
+ '2023_SA_Warnertown_Lentil_Satellite',
+ '2023_Vic_Ouyen_Lentil_Satellite',
+ '2023_Qld_Gatton_Mixed_Light',
+ '2024_NSW_Greenethorpe_Mixed_NFix',
+ '2024_SA_Warnertown_Lentil_Satellite',
+ '2024_Vic_Walpeup_Lentil_Satellite'
+]
+
+for fTR in filesToRun:
+    runspec = baseRunSpec
+    runspec["simulationPath"] = f"C:\GitHubRepos\ApsimX\Prototypes\\{fTR}"
+    runSpecs.append(runSpec)
+
+storeMulti = ResultsStore()
+
+runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=storeMulti, printResult=True)
+df = testStore.to_dataframe()
+
+# %%
+f"C:\GitHubRepos\ApsimX\Prototypes\\{FilesToRun[0]}"
+
+# %%
+
+# %%
+list(FilesToRun.keys())
+
 
 # %% [markdown]
 # # Objective function
