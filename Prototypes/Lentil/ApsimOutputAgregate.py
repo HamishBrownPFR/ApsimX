@@ -906,9 +906,10 @@ def plot_obs_pred_by_branch(
 # %%
 plot_obs_pred_by_branch(
     tidy,
-    "Lentil.Phenology.StartFloweringDAS",
-    color_by = "Lentil.SowingData.Cultivar",
-    marker_by = "Experiment"
+    "Lentil.Phenology.StartPoddingDAS",
+    color_by = "Experiment",
+    filters = {"Lentil.SowingData.Cultivar": ["Bolt"],
+    }
 )
 plt.show()
 
