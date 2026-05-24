@@ -177,8 +177,8 @@
                         "[Clock].StartDate = 11/05/2022",
                         "[Clock].EndDate = 31-dec-2022",
                         "[Sowing].Script.SowDate = 11/05/2022",
-                        "[Sowing].Script.EmergeDate = 08-Jun",
-                        "[Sowing].Script.SowingDepth = 30.0",
+                        "[Sowing].Script.EmergeDate = 18-May",
+                        "[Sowing].Script.SowingDepth = 35.0",
                         "[Sowing].Script.RowSpacing = 30.0",
                         "[Sowing].Script.Population = 100"
                       ],
@@ -195,7 +195,7 @@
                         "[Clock].StartDate = 15/06/2022",
                         "[Clock].EndDate = 31-dec-2022",
                         "[Sowing].Script.SowDate = 15/06/2022",
-                        "[Sowing].Script.EmergeDate = 08-Jun",
+                        "[Sowing].Script.EmergeDate = 29-Jun",
                         "[Sowing].Script.SowingDepth = 30.0",
                         "[Sowing].Script.RowSpacing = 30.0",
                         "[Sowing].Script.Population = 100"
@@ -1904,7 +1904,7 @@
           "Axis": [
             {
               "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-              "Title": "Clock.Today",
+              "Title": null,
               "Position": 3,
               "Inverted": false,
               "CrossesAtZero": false,
@@ -1930,7 +1930,7 @@
           "AnnotationLocation": 0,
           "DisabledSeries": [],
           "LegendOutsideGraph": false,
-          "Name": "Graph",
+          "Name": "BuddingDAS",
           "ResourceName": null,
           "Children": [
             {
@@ -1940,15 +1940,15 @@
               "YAxis": 0,
               "ColourArgb": 0,
               "FactorToVaryColours": "Variety",
-              "FactorToVaryMarkers": "TOS",
-              "FactorToVaryLines": "WaterTrt",
+              "FactorToVaryMarkers": null,
+              "FactorToVaryLines": null,
               "Marker": 0,
               "MarkerSize": 0,
-              "Line": 0,
+              "Line": 4,
               "LineThickness": 0,
-              "TableName": "DailyReport",
-              "XFieldName": "Clock.Today",
-              "YFieldName": "Lentil.Leaf.Wt",
+              "TableName": "HarvestObsPred",
+              "XFieldName": "Observed.Lentil.Phenology.StartBuddingDAS",
+              "YFieldName": "Predicted.Lentil.Phenology.StartBuddingDAS",
               "X2FieldName": null,
               "Y2FieldName": null,
               "ShowInLegend": true,
@@ -1958,7 +1958,19 @@
               "Filter": null,
               "Name": "Series",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Regression, Models",
+                  "ForEachSeries": false,
+                  "showOneToOne": true,
+                  "showEquation": true,
+                  "Name": "Regression",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             }
@@ -1998,7 +2010,7 @@
           "AnnotationLocation": 0,
           "DisabledSeries": [],
           "LegendOutsideGraph": false,
-          "Name": "Graph1",
+          "Name": "FloweringDAS",
           "ResourceName": null,
           "Children": [
             {
@@ -2008,7 +2020,7 @@
               "YAxis": 0,
               "ColourArgb": 0,
               "FactorToVaryColours": "Variety",
-              "FactorToVaryMarkers": "TOS",
+              "FactorToVaryMarkers": null,
               "FactorToVaryLines": null,
               "Marker": 0,
               "MarkerSize": 0,
@@ -2019,14 +2031,186 @@
               "YFieldName": "Predicted.Lentil.Phenology.StartFloweringDAS",
               "X2FieldName": null,
               "Y2FieldName": null,
-              "ShowInLegend": false,
+              "ShowInLegend": true,
               "IncludeSeriesNameInLegend": false,
               "Cumulative": false,
               "CumulativeX": false,
               "Filter": null,
               "Name": "Series",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Regression, Models",
+                  "ForEachSeries": false,
+                  "showOneToOne": true,
+                  "showEquation": true,
+                  "Name": "Regression",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            }
+          ],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Graph, Models",
+          "Caption": null,
+          "Axis": [
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 3,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": null,
+              "Maximum": null,
+              "Interval": null
+            },
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 0,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": null,
+              "Maximum": null,
+              "Interval": null
+            }
+          ],
+          "LegendPosition": 0,
+          "LegendOrientation": 0,
+          "AnnotationLocation": 0,
+          "DisabledSeries": [],
+          "LegendOutsideGraph": false,
+          "Name": "PoddingDAS",
+          "ResourceName": null,
+          "Children": [
+            {
+              "$type": "Models.Series, Models",
+              "Type": 1,
+              "XAxis": 3,
+              "YAxis": 0,
+              "ColourArgb": 0,
+              "FactorToVaryColours": "Variety",
+              "FactorToVaryMarkers": null,
+              "FactorToVaryLines": null,
+              "Marker": 0,
+              "MarkerSize": 0,
+              "Line": 4,
+              "LineThickness": 0,
+              "TableName": "HarvestObsPred",
+              "XFieldName": "Observed.Lentil.Phenology.StartPoddingDAS",
+              "YFieldName": "Predicted.Lentil.Phenology.StartPoddingDAS",
+              "X2FieldName": null,
+              "Y2FieldName": null,
+              "ShowInLegend": true,
+              "IncludeSeriesNameInLegend": false,
+              "Cumulative": false,
+              "CumulativeX": false,
+              "Filter": null,
+              "Name": "Series",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Regression, Models",
+                  "ForEachSeries": false,
+                  "showOneToOne": true,
+                  "showEquation": true,
+                  "Name": "Regression",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            }
+          ],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Graph, Models",
+          "Caption": null,
+          "Axis": [
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 3,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": null,
+              "Maximum": null,
+              "Interval": null
+            },
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 0,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": null,
+              "Maximum": null,
+              "Interval": null
+            }
+          ],
+          "LegendPosition": 0,
+          "LegendOrientation": 0,
+          "AnnotationLocation": 0,
+          "DisabledSeries": [],
+          "LegendOutsideGraph": false,
+          "Name": "MaturityDAS",
+          "ResourceName": null,
+          "Children": [
+            {
+              "$type": "Models.Series, Models",
+              "Type": 1,
+              "XAxis": 3,
+              "YAxis": 0,
+              "ColourArgb": 0,
+              "FactorToVaryColours": "Variety",
+              "FactorToVaryMarkers": null,
+              "FactorToVaryLines": null,
+              "Marker": 0,
+              "MarkerSize": 0,
+              "Line": 4,
+              "LineThickness": 0,
+              "TableName": "HarvestObsPred",
+              "XFieldName": "Observed.Lentil.Phenology.MaturityDAS",
+              "YFieldName": "Predicted.Lentil.Phenology.MaturityDAS",
+              "X2FieldName": null,
+              "Y2FieldName": null,
+              "ShowInLegend": true,
+              "IncludeSeriesNameInLegend": false,
+              "Cumulative": false,
+              "CumulativeX": false,
+              "Filter": null,
+              "Name": "Series",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Regression, Models",
+                  "ForEachSeries": false,
+                  "showOneToOne": true,
+                  "showEquation": true,
+                  "Name": "Regression",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             }
