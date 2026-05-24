@@ -345,19 +345,19 @@ def get_harvest(df):
         df["Lentil.Phenology.CurrentStageName"] == "HarvestRipe"
     ]
 
-def align_obs_pred(tidy):
-    pivot = tidy.pivot_table(
-        index=["branch", "file", "SimulationID", "Clock.Today", "variable"],
-        columns="type",
-        values="value"
-    )
+# def align_obs_pred(tidy):
+#     pivot = tidy.pivot_table(
+#         index=["branch", "file", "SimulationID", "Clock.Today", "variable"],
+#         columns="type",
+#         values="value"
+#     )
 
-    # DO NOT dropna globally
-    pivot = pivot.reset_index()
+#     # DO NOT dropna globally
+#     pivot = pivot.reset_index()
 
-    pivot["residual"] = pivot["pred"] - pivot["obs"]
+#     pivot["residual"] = pivot["pred"] - pivot["obs"]
 
-    return pivot
+#     return pivot
 
 def get_daily_aligned(tidy, variable):
 
@@ -925,6 +925,15 @@ plt.show()
 plot_obs_pred_by_branch(
     tidy,
     "Lentil.Phenology.StartPoddingDAS",
+    color_by = "Lentil.SowingData.Cultivar",
+    marker_by = "Experiment"
+)
+plt.show()
+
+# %%
+plot_obs_pred_by_branch(
+    tidy,
+    "Lentil.Phenology.MaturityDAS",
     color_by = "Lentil.SowingData.Cultivar",
     marker_by = "Experiment"
 )

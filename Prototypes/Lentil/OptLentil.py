@@ -67,7 +67,7 @@ def write_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_name
     # Build command list
     lines.append(f"add new Cultivar to [Replacements] name {cultivar_name}")
     lines.append(f"[Replacements].{cultivar_name}.Command = ")
-
+    
     for key, value in parameters.items():
         lines.append(f' {key} = {value},')
 
@@ -318,7 +318,8 @@ def runModelItter(runSpecs, paramSet, fittingVariables, resultsStore=None, print
 # %%
 fitting_variables = ['Lentil.Phenology.StartBuddingDAS',
                      'Lentil.Phenology.StartFloweringDAS',
-                     'Lentil.Phenology.StartPoddingDAS']
+                     'Lentil.Phenology.StartPoddingDAS',
+                     'Lentil.Phenology.MaturityDAS']
 
 APSIM_EXE = r"C:\GitHubRepos\ApsimX\bin\Debug\net8.0\Models.exe"
 
