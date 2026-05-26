@@ -209,62 +209,10 @@ class ResultsStore:
             ])
         return pd.DataFrame(self.records)
 
+
 # %% [markdown]
 # # runModelItter
 # runs the model with specified parameter set and return loss as a measure of accuracy with that parameter set.
-
-# %%
-# def runModelGetStats(runSpec, paramSet, fittingVariables):
-#     apsimx = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.apsimx")
-#     apply  = os.path.join(runSpec["simulationPath"], f"tempApplyCLI.txt")
-    
-#     db = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.db")
-#     db_path = Path(db)
-#     if db_path.exists():
-#         db_path.unlink() #this deletes the db file if it exists so we start with a clearn db
-#     write_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], parameters=paramSet, playListName="tempChooseCultivar")
-#     start = dt.datetime.now()
-#     result = subprocess.run(
-#         [
-#             APSIM_EXE,  #Path to Model.exe
-#             apsimx,     #Path to sim.apsimx
-#             "--apply", apply,  #path to apply file with changes to sim.apsimx 
-#             "--playlist", "tempChooseCultivar"  #Intstuction to use playlist
-#         ],
-#         stdout=subprocess.PIPE,
-#         stderr=subprocess.STDOUT,
-#         text=True,
-#         timeout=300   # 5 minutes safeguard
-#     )  
-#     if result.stdout and result.stdout.strip():
-#         print(result.stdout)
-
-    
-#     remove_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], playListName="tempChooseCultivar")
-#     result = subprocess.run(
-#     [
-#         APSIM_EXE,
-#         apsimx,
-#         "--apply", apply
-#     ],
-#     stdout=subprocess.PIPE,
-#     stderr=subprocess.STDOUT,
-#     text=True
-#     )
-
-#     if result.stdout and result.stdout.strip():
-#         print(result.stdout)
-#     endrun = dt.datetime.now()
-#     runtime = (endrun-start).seconds
-    
-#     # Read requested report
-#     con = sqlite3.connect(db)
-#     try:
-#         obs_pred = pd.read_sql(f"SELECT * FROM {runSpec['reportName']}", con)
-#     finally:
-#         con.close()
-        
-#     return obs_pred, runtime
 
 # %%
 def runModelGetStats(runSpec, paramSet, fittingVariables):
@@ -398,8 +346,15 @@ def runModelItter(runSpecs, paramSet, fittingVariables, resultsStore=None, print
             fittingVariables=fittingVariables
         )
 
-        allObsPred.append(obsPred)
+        if not obsPred.empty:
+            allObsPred.append(obsPred)
+
         totalRuntime += runtime
+
+        
+    if len(allObsPred) == 0:
+        print("❌ No valid simulations produced data")
+        return 2.0
 
     obsPredAll = pd.concat(allObsPred, ignore_index=True)
 
@@ -430,12 +385,11 @@ def runModelItter(runSpecs, paramSet, fittingVariables, resultsStore=None, print
 
     return loss
 
-
 # %% [markdown]
 # # Model fitting settings
 
 # %%
-fitting_variables = ['Lentil.Phenology.StartBuddingDAS',
+FITTING_VARIABLES = ['Lentil.Phenology.StartBuddingDAS',
                      'Lentil.Phenology.StartFloweringDAS',
                      'Lentil.Phenology.StartPoddingDAS']
 
@@ -461,11 +415,52 @@ runSpec = {
 testStore = ResultsStore()
 runSpecs = []
 runSpecs.append(runSpec)
-runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=testStore, printResult=True)
+runModelItter(runSpecs, cultivar_params, FITTING_VARIABLES, resultsStore=testStore, printResult=True)
 df = testStore.to_dataframe()
+
 
 # %% [markdown]
 # # Test with multi files
+
+# %%
+def create_runSpecs_for_cultivar(cultivarName, reportName):
+    runSpecs = []
+    
+    baseRunSpec = {
+                 "cultivarName":cultivarName,
+                 "simulationPath":None,
+                 "apsimFileName":None,
+                 "reportName":reportName
+               }
+
+    filesToRun = [
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil','name':'Lentil'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2019_NSW_Greenethorpe_Mixed_Detailed'},
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Kalkee_Lentil_Detailed'},
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Riverton_Lentil_Detailed'},
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_WaggaWagga_Lentil_Detailed'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_Methul_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Ouyen_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_RankinsSprings_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Warnertown_Lentil_Satellite'},
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Pinery_Lentil_Detailed'},
+         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Dooen_Lentil_Detailed'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Warnertown_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Ouyen_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Qld_Gatton_Mixed_Light'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_NSW_Greenethorpe_Mixed_NFix'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_SA_Warnertown_Lentil_Satellite'},
+         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_Vic_Walpeup_Lentil_Satellite'}
+      ]
+
+    for fTR in filesToRun:
+        fileRunSpec = baseRunSpec.copy()
+        fileRunSpec["apsimFileName"] = fTR['name']
+        fileRunSpec["simulationPath"] = fTR['dir']
+        runSpecs.append(fileRunSpec)
+    
+    return runSpecs
+
 
 # %%
 cultivar_params = {
@@ -473,43 +468,12 @@ cultivar_params = {
                     "[Phenology].VernSensitivity.FixedValue": 0.63,
                     "[Phenology].InductivePpSensitivity.FixedValue": 0.44
                   }
-runSpecs = []
-baseRunSpec = {
-             "cultivarName":"Bolt",
-             "simulationPath":None,
-             "apsimFileName":None,
-             "reportName":"HarvestObsPred"
-           }
 
-filesToRun = [
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil','name':'Lentil'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2019_NSW_Greenethorpe_Mixed_Detailed'},
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Kalkee_Lentil_Detailed'},
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Riverton_Lentil_Detailed'},
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_WaggaWagga_Lentil_Detailed'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_Methul_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Ouyen_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_RankinsSprings_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Warnertown_Lentil_Satellite'},
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Pinery_Lentil_Detailed'},
-     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Dooen_Lentil_Detailed'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Warnertown_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Ouyen_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Qld_Gatton_Mixed_Light'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_NSW_Greenethorpe_Mixed_NFix'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_SA_Warnertown_Lentil_Satellite'},
-     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_Vic_Walpeup_Lentil_Satellite'}
-  ]
-
-for fTR in filesToRun:
-    fileRunSpec = baseRunSpec.copy()
-    fileRunSpec["apsimFileName"] = fTR['name']
-    fileRunSpec["simulationPath"] = fTR['dir']
-    runSpecs.append(fileRunSpec)
+runSpecs = create_runSpecs_for_cultivar("Bolt", "HarvestObsPred")
 
 storeMulti = ResultsStore()
 
-runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=storeMulti, printResult=True)
+runModelItter(runSpecs, cultivar_params, FITTING_VARIABLES, resultsStore=storeMulti, printResult=True)
 df = testStore.to_dataframe()
 
 
@@ -521,7 +485,7 @@ df = testStore.to_dataframe()
 def objective(x):
     param_dict = dict(zip(paramNames, x))
    
-    loss = runModelItter(runSpecs, param_dict, fitting_variables, resultsStore=storeMulti, printResult=True)
+    loss = runModelItter(RUNSPECS, param_dict, FITTING_VARIABLES, resultsStore=STORE, printResult=True)
     
     return loss
 
@@ -565,12 +529,15 @@ def loss_stagnated(res, window=10, tol=0.02):
     return (recent[0] - recent[-1]) < tol
 
 
-
-
 # %% [markdown]
 # # Run optimisation
 
 # %%
+# Fitting options
+
+CultivarToFit = "Bolt"
+ObsPredTableName = "HarvestObsPred"
+
 # ------------------------------------------------------------
 # Parameter definitions
 # ------------------------------------------------------------
@@ -601,7 +568,10 @@ opt = Optimizer(
 )
 
 # Initialise results store
-store = ResultsStore()
+STORE = ResultsStore()
+
+# Initialise runSpecs
+RUNSPECS = create_runSpecs_for_cultivar(CultivarToFit, ObsPredTableName)
 
 # ------------------------------------------------------------
 # Initial design: expert guess + random sampling
@@ -617,7 +587,7 @@ for x in expert_guesses:
     opt.tell(x, y)
 
 # Random space-filling design
-n_initial_random = 29
+n_initial_random = 19
 random_points = space.rvs(n_initial_random, random_state=42)
 
 for x in random_points:
