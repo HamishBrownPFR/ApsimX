@@ -976,6 +976,15 @@ plt.show()
 # %%
 plot_obs_pred_by_branch(
     tidy,
+    "Lentil.Phenology.StartFloweringDAS",
+    color_by = "Lentil.SowingData.Cultivar",
+    marker_by = "Experiment"
+)
+plt.show()
+
+# %%
+plot_obs_pred_by_branch(
+    tidy,
     "Lentil.Phenology.StartPoddingDAS",
     color_by = "Lentil.SowingData.Cultivar",
     marker_by = "Experiment"

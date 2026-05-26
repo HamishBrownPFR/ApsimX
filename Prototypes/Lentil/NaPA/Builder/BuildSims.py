@@ -167,9 +167,6 @@ for e in Experiments:
         tosDic[st] = sdic
     ExptInfo.at[e,'SowInfo'] = tosDic
 
-# %%
-ExptInfo.loc['2022_Vic_Ouyen_Lentil_Satellite',:]
-
 
 # %%
 # Make local weather manager
