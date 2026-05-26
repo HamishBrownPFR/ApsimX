@@ -12,7 +12,24 @@
 #     name: python3
 # ---
 
+# %% [markdown]
+# # Constants
+
 # %%
+from pathlib import Path
+import pandas as pd
+import sqlite3
+import numpy as np
+import subprocess
+import matplotlib.pyplot as plt
+import shutil
+
+import warnings
+
+warnings.simplefilter("ignore", pd.errors.PerformanceWarning)
+
+
+
 Colors = {1:'#000000',
 2:'#E69F00',
 3:'#56B4E9',
@@ -76,19 +93,15 @@ Lines = {1: '-',
  16: ':'}
 
 
+# %% [markdown]
+# # Settings
+
 # %%
-from pathlib import Path
-import pandas as pd
-import sqlite3
-import numpy as np
-import subprocess
-import matplotlib.pyplot as plt
-import shutil
-
-
 # ======================
 # CONFIG
 # ======================
+
+CROP = 'Lentil'
 
 BRANCHES = {
     "master": "Lentil",
@@ -120,8 +133,13 @@ APSIM_EXE = r"C:\GitHubRepos\ApsimX\bin\Release\net8.0\Models.exe"
 
 APSIM_SOLUTION = r"C:\GitHubRepos\ApsimX\ApsimX.sln"
 
-#REPORT_LIBRARY = r"C:\GitHubRepos\APSIMTools\Report_lib.apsimx"
 REPORT_LIBRARY = r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/Report_lib.apsimx"
+
+
+# %% [markdown]
+# # Helpers for setting up and running .apsim files
+
+# %%
 def validate_run_branches():
     invalid = [b for b in RUN_BRANCHES if b not in BRANCHES]
     if invalid:
@@ -193,8 +211,8 @@ def reset_repo():
     )
 
 def read_table(db_file, table):
-    if not db_file.exists():
-        return None
+    # if not db_file.exists():
+    #     return None
     with sqlite3.connect(db_file) as conn:
         df = pd.read_sql(f"SELECT * FROM [{table}]", conn)
 
@@ -244,6 +262,8 @@ def write_apply_file(sim_file):
     return apply_file
 
 
+# %% [markdown]
+# # load_branch_data
 
 # %%
 def load_branch_data(branch_name, git_branch):
@@ -307,7 +327,43 @@ def load_branch_data(branch_name, git_branch):
                 continue
 
             # ---------------------------------------------
-            # ✅ Attach metadata (branch, file, cultivar)
+            # ✅ CHECK SimulationID alignment (per file)
+            # ---------------------------------------------
+            if pred is not None and obs is not None:
+
+                pred_ids = set(pred["SimulationID"].drop_duplicates())
+                obs_ids  = set(obs["SimulationID"].drop_duplicates())
+
+                # simulations in pred but not in obs
+                missing_ids = pred_ids - obs_ids
+
+                if missing_ids:
+                    print(f"\n⚠️ Missing observed simulations in {sim.name}:")
+                    print(f"Count: {len(missing_ids)}")
+
+                    # attempt to print identifying info from pred
+                    cols_to_show = [
+                        c for c in [
+                            "SimulationID",
+                            "Simulation.Name",   # if present
+                            "Experiment",
+                            "TOS",
+                            "Variety",
+                            "WaterTrt"
+                        ] if c in pred.columns
+                    ]
+
+                    missing_rows = (
+                        pred[pred["SimulationID"].isin(missing_ids)]
+                        [cols_to_show]
+                        .drop_duplicates()
+                        .sort_values("SimulationID")
+                    )
+
+                    print(missing_rows.head(20))  # limit output            
+
+            # ---------------------------------------------
+            # ✅ Attach metadata (branch, file)
             # ---------------------------------------------
             if pred is not None:
                 pred["branch"] = branch_name
@@ -339,48 +395,75 @@ def load_all():
     ], ignore_index=True)
 
 
+# %% [markdown]
+# # Run selected branches and simulations
+
 # %%
-def get_harvest(df):
-    return df[
-        df["Lentil.Phenology.CurrentStageName"] == "HarvestRipe"
-    ]
+# ======================
+# RUN CONTROL
+# ======================
 
-# def align_obs_pred(tidy):
-#     pivot = tidy.pivot_table(
-#         index=["branch", "file", "SimulationID", "Clock.Today", "variable"],
-#         columns="type",
-#         values="value"
-#     )
+# Options:
+#RUN_BRANCHES = []                    # run nothing (use existing DBs)
+#RUN_BRANCHES = list(BRANCHES.keys())   # run all branches
+RUN_BRANCHES = ["master"]
+# RUN_BRANCHES = ["working"]
 
-#     # DO NOT dropna globally
-#     pivot = pivot.reset_index()
+validate_run_branches()
 
-#     pivot["residual"] = pivot["pred"] - pivot["obs"]
+# ======================
+# EXECUTE PIPELINE
+# ======================
 
-#     return pivot
+raw = load_all()
 
-def get_daily_aligned(tidy, variable):
 
-    df = tidy[tidy["variable"] == variable].copy()
+# %% [markdown]
+# # Enforce indicies on observed data
 
-    obs = df[df["type"] == "obs"]
-    pred = df[df["type"] == "pred"]
+# %%
+def enforce_indices_to_observed(df, indices_to_fill):
+    """
+    Make table of index values from predicted data and copy them to the observed data so they have complete indices.
+    """
 
-    pivot = pred.merge(
-        obs,
-        on=["file", "SimulationID", "Clock.Today"],
-        how="inner",
-        suffixes=("_pred", "_obs")
-    )
+    keys = ["branch", "file", "SimulationID"]
 
-    pivot["pred"] = pivot["value_pred"]
-    pivot["obs"] = pivot["value_obs"]
+    pred = df[df["type"] == "pred"].copy()
+    pred.set_index(keys,inplace=True)
+    red = pred.sort_index().copy()
+    obs  = df[df["type"] == "obs"].copy()
+    obs.set_index(keys, inplace=True)
+    obs = obs.sort_index().copy()
 
-    # ✅ branch comes from prediction side
-    pivot["branch"] = pivot["branch_pred"]
+    # -------------------------------
+    # BUILD METADATA
+    # -------------------------------
+    meta = pred.loc[:,indices_to_fill].drop_duplicates()
+    meta = meta.sort_index().copy()
 
-    return pivot.reset_index()
+    # -------------------------------
+    # MERGE INTO OBS
+    # -------------------------------
+    for i in meta.index:
+        try:
+            obs.loc[i,indices_to_fill] = meta.loc[i,indices_to_fill].values
+        except:
+            #print(i)#
+            do="nothing"
+   
+    # -------------------------------
+    # RECOMBINE
+    # -------------------------------
+    obs = obs.reset_index()
+    pred = pred.reset_index()
+    result = pd.concat([pred, obs], ignore_index=True)
 
+    return result
+
+
+# %% [markdown]
+# # to_tidy
 
 # %%
 def to_tidy(df):
@@ -390,7 +473,7 @@ def to_tidy(df):
     # rename Simulation.Name
     if "Simulation.Name" in df.columns:
         df = df.rename(columns={"Simulation.Name": "SimulationName"})
-
+        
     # ---------------------------------------------
     # ✅ Define columns that must NEVER be melted
     # ---------------------------------------------
@@ -412,6 +495,15 @@ def to_tidy(df):
     # ---------------------------------------------
     # ✅ Identify numeric columns
     # ---------------------------------------------
+    
+    possible_numeric = df.columns.difference(protected_cols)
+
+    for col in possible_numeric:
+        try:
+            df[col] = pd.to_numeric(df[col])
+        except:
+            pass
+
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
 
     # ---------------------------------------------
@@ -426,7 +518,13 @@ def to_tidy(df):
     # ✅ ID columns = everything else
     # ---------------------------------------------
     id_cols = [c for c in df.columns if c not in value_cols]
-
+    
+    # ---------------------------------------------
+    # ✅ Enforce indices BEFORE melt
+    # ---------------------------------------------
+    indices_to_fill = ['Experiment','SimulationName','Lentil.SowingData.Cultivar']
+    df = enforce_indices_to_observed(df, indices_to_fill)
+    
     # ---------------------------------------------
     # ✅ Melt
     # ---------------------------------------------
@@ -440,26 +538,10 @@ def to_tidy(df):
     return tidy.dropna(subset=["value"])
 
 
+# %% [markdown]
+# # Tidy raw data
+
 # %%
-# ======================
-# RUN CONTROL
-# ======================
-
-# Options:
-#RUN_BRANCHES = []                    # run nothing (use existing DBs)
-#RUN_BRANCHES = list(BRANCHES.keys())   # run all branches
-RUN_BRANCHES = ["master"]
-# RUN_BRANCHES = ["working"]
-
-validate_run_branches()
-
-
-# ======================
-# EXECUTE PIPELINE
-# ======================
-
-raw = load_all()
-
 # ✅ Ensure SimulationName exists (from AnalysisReport)
 if "Simulation.Name" in raw.columns:
     raw = raw.rename(columns={"Simulation.Name": "SimulationName"})
@@ -467,18 +549,12 @@ if "Simulation.Name" in raw.columns:
 # ✅ Convert to tidy format
 tidy = to_tidy(raw)
 
-# ======================
-# OPTIONAL QUICK CHECKS
-# ======================
+# %%
+tidy.columns
 
-print("Raw rows:", len(raw))
-print("Tidy rows:", len(tidy))
-
-print("\nExperiments loaded:")
-print(sorted(tidy["Experiment"].dropna().unique()))
-
-print("\nBranches loaded:")
-print(tidy["branch"].unique())
+# %%
+filtertd = ((tidy.type == 'obs') & (tidy.variable == "Lentil.Phenology.StartPoddingDAS") & (tidy.loc[:,'Lentil.SowingData.Cultivar'] == 'Bolt'))
+tidy[filtertd]
 
 
 # %% [markdown]
@@ -505,38 +581,24 @@ def get_harvest_aligned(tidy, variable, filters=None):
     # -------------------------------
     df = apply_filters(tidy, filters)
 
-    # keep only variable of interest
-    df = df[df["variable"] == variable].copy()
-
     # -------------------------------
     # HARVEST FILTER (implicit)
     # -------------------------------
-    if "Lentil.Phenology.CurrentStageName" not in df.columns:
-        raise KeyError("Missing Lentil.Phenology.CurrentStageName in tidy data")
+    if f"{CROP}.Phenology.CurrentStageName" not in df.columns:
+        raise KeyError(f"Missing {CROP}.Phenology.CurrentStageName in tidy data")
 
-    df["stage"] = df["Lentil.Phenology.CurrentStageName"]
-    df = df[df["stage"] == "HarvestRipe"]
+    df = df[df[f"{CROP}.Phenology.CurrentStageName"] == "HarvestRipe"]
+
+    # -------------------------------
+    # Slice out variable to graph
+    # -------------------------------
+    df = df[df.variable == variable].copy()
 
     # -------------------------------
     # SPLIT OBS / PRED
     # -------------------------------
     obs = df[df["type"] == "obs"].copy()
     pred = df[df["type"] == "pred"].copy()
-
-    # -------------------------------
-    # DEBUG (optional but useful)
-    # -------------------------------
-#     print("\nPred rows by experiment:")
-#     if not pred.empty:
-#         print(pred.groupby("Experiment").size())
-#     else:
-#         print("No pred rows")
-
-#     print("\nObs rows by experiment:")
-#     if not obs.empty:
-#         print(obs.groupby("Experiment").size())
-#     else:
-#         print("No obs rows")
 
     # -------------------------------
     # COLLAPSE TO ONE ROW PER SIMULATION
@@ -573,16 +635,6 @@ def get_harvest_aligned(tidy, variable, filters=None):
     # -------------------------------
     aligned["pred"] = aligned["value_pred"]
     aligned["obs"] = aligned["value_obs"]
-    #aligned["branch"] = aligned["branch_pred"]
-
-    # -------------------------------
-    # FINAL DEBUG
-    # -------------------------------
-    if not aligned.empty and "Experiment" in aligned.columns:
-        print("\nAfter alignment:")
-        print(aligned.groupby("Experiment").size())
-    else:
-        print("\nAfter alignment: no rows")
 
     return aligned
 
@@ -694,7 +746,7 @@ def plot_obs_pred_by_branch(
     # ATTACH METADATA
     # -------------------------------
     meta = tidy[[
-        "branch", "file", "SimulationID", "Experiment", "Lentil.SowingData.Cultivar"
+        "branch", "file", "SimulationID", "Experiment", f"{CROP}.SowingData.Cultivar"
     ]].drop_duplicates()
 
     pivot = pivot.merge(
@@ -906,10 +958,9 @@ def plot_obs_pred_by_branch(
 # %%
 plot_obs_pred_by_branch(
     tidy,
-    "Lentil.Phenology.StartPoddingDAS",
+    "Lentil.Phenology.StartFloweringDAS",
     color_by = "Experiment",
-    filters = {"Lentil.SowingData.Cultivar": ["Bolt"],
-    }
+    filters = {"Lentil.SowingData.Cultivar": ["Precoz"]}
 )
 plt.show()
 
