@@ -209,56 +209,175 @@ class ResultsStore:
             ])
         return pd.DataFrame(self.records)
 
-
 # %% [markdown]
 # # runModelItter
 # runs the model with specified parameter set and return loss as a measure of accuracy with that parameter set.
 
 # %%
+# def runModelGetStats(runSpec, paramSet, fittingVariables):
+#     apsimx = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.apsimx")
+#     apply  = os.path.join(runSpec["simulationPath"], f"tempApplyCLI.txt")
+    
+#     db = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.db")
+#     db_path = Path(db)
+#     if db_path.exists():
+#         db_path.unlink() #this deletes the db file if it exists so we start with a clearn db
+#     write_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], parameters=paramSet, playListName="tempChooseCultivar")
+#     start = dt.datetime.now()
+#     result = subprocess.run(
+#         [
+#             APSIM_EXE,  #Path to Model.exe
+#             apsimx,     #Path to sim.apsimx
+#             "--apply", apply,  #path to apply file with changes to sim.apsimx 
+#             "--playlist", "tempChooseCultivar"  #Intstuction to use playlist
+#         ],
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.STDOUT,
+#         text=True,
+#         timeout=300   # 5 minutes safeguard
+#     )  
+#     if result.stdout and result.stdout.strip():
+#         print(result.stdout)
+
+    
+#     remove_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], playListName="tempChooseCultivar")
+#     result = subprocess.run(
+#     [
+#         APSIM_EXE,
+#         apsimx,
+#         "--apply", apply
+#     ],
+#     stdout=subprocess.PIPE,
+#     stderr=subprocess.STDOUT,
+#     text=True
+#     )
+
+#     if result.stdout and result.stdout.strip():
+#         print(result.stdout)
+#     endrun = dt.datetime.now()
+#     runtime = (endrun-start).seconds
+    
+#     # Read requested report
+#     con = sqlite3.connect(db)
+#     try:
+#         obs_pred = pd.read_sql(f"SELECT * FROM {runSpec['reportName']}", con)
+#     finally:
+#         con.close()
+        
+#     return obs_pred, runtime
+
+# %%
 def runModelGetStats(runSpec, paramSet, fittingVariables):
+
     apsimx = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.apsimx")
     apply  = os.path.join(runSpec["simulationPath"], f"tempApplyCLI.txt")
+    
     db = os.path.join(runSpec["simulationPath"], f"{runSpec['apsimFileName']}.db")
     db_path = Path(db)
+
+    # Ensure clean DB
     if db_path.exists():
-        db_path.unlink() #this deletes the db file if it exists so we start with a clearn db
-    write_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], parameters=paramSet, playListName="tempChooseCultivar")
+        db_path.unlink()
+
+    # Write apply file
+    write_cultivar_apply_file(apply_path=Path(apply),apsimx_path=Path(apsimx),cultivar_name=runSpec["cultivarName"],
+        parameters=paramSet,playListName="tempChooseCultivar")
+
     start = dt.datetime.now()
+
+    # -----------------------------
+    # RUN APSIM (main run)
+    # -----------------------------
     result = subprocess.run(
         [
-            APSIM_EXE,  #Path to Model.exe
-            apsimx,     #Path to sim.apsimx
-            "--apply", apply,  #path to apply file with changes to sim.apsimx 
-            "--playlist", "tempChooseCultivar"  #Intstuction to use playlist
+            APSIM_EXE,
+            apsimx,
+            "--apply", apply,
+            "--playlist", "tempChooseCultivar"
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        timeout=300
+    )
+
+    output = result.stdout or ""
+
+    # --- Detect NO MATCH case ---
+    if "Playlist was used but no simulations or experiments match the contents of the list" in output:
+        print(f"⚠️ No matching simulations for {runSpec['apsimFileName']} (skipping)")
+
+        # cleanup before exit
+        remove_cultivar_apply_file(apply_path=Path(apply),apsimx_path=Path(apsimx),
+            cultivar_name=runSpec["cultivarName"],playListName="tempChooseCultivar")
+
+        subprocess.run(
+            [APSIM_EXE, apsimx, "--apply", apply],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+
+        endrun = dt.datetime.now()
+        runtime = (endrun - start).seconds
+
+        return pd.DataFrame(), runtime
+
+    # --- Print only meaningful output ---
+    if output.strip():
+        print(output)
+
+    # -----------------------------
+    # CLEANUP (remove temp nodes)
+    # -----------------------------
+    remove_cultivar_apply_file(
+        apply_path=Path(apply),
+        apsimx_path=Path(apsimx),
+        cultivar_name=runSpec["cultivarName"],
+        playListName="tempChooseCultivar"
+    )
+
+    result = subprocess.run(
+        [
+            APSIM_EXE,
+            apsimx,
+            "--apply", apply
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True
     )
-    print(result.stdout)
-    
-    remove_cultivar_apply_file(apply_path=Path(apply), apsimx_path=Path(apsimx), cultivar_name=runSpec["cultivarName"], playListName="tempChooseCultivar")
-    result = subprocess.run(
-    [
-        APSIM_EXE,
-        apsimx,
-        "--apply", apply
-    ],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-    text=True
-    )
-    print(result.stdout)
+
+    if result.stdout and result.stdout.strip():
+        print(result.stdout)
+
     endrun = dt.datetime.now()
-    runtime = (endrun-start).seconds
-    
-    # Read requested report
+    runtime = (endrun - start).seconds
+
+    # -----------------------------
+    # SAFE DB READ
+    # -----------------------------
+    if not os.path.exists(db):
+        print(f"⚠️ DB not created for {runSpec['apsimFileName']} (skipping)")
+        return pd.DataFrame(), runtime
+
     con = sqlite3.connect(db)
+
     try:
+        tables = pd.read_sql(
+            "SELECT name FROM sqlite_master WHERE type='table';",
+            con
+        )["name"].tolist()
+
+        if runSpec['reportName'] not in tables:
+            print(f"⚠️ Table {runSpec['reportName']} missing in {runSpec['apsimFileName']} (skipping)")
+            return pd.DataFrame(), runtime
+
         obs_pred = pd.read_sql(f"SELECT * FROM {runSpec['reportName']}", con)
+
     finally:
         con.close()
-        
+
     return obs_pred, runtime
 
 
@@ -318,8 +437,7 @@ def runModelItter(runSpecs, paramSet, fittingVariables, resultsStore=None, print
 # %%
 fitting_variables = ['Lentil.Phenology.StartBuddingDAS',
                      'Lentil.Phenology.StartFloweringDAS',
-                     'Lentil.Phenology.StartPoddingDAS',
-                     'Lentil.Phenology.MaturityDAS']
+                     'Lentil.Phenology.StartPoddingDAS']
 
 APSIM_EXE = r"C:\GitHubRepos\ApsimX\bin\Debug\net8.0\Models.exe"
 
@@ -335,8 +453,8 @@ cultivar_params = {
 
 runSpec = {
              "cultivarName":"Bolt",
-             "simulationPath":r"C:\GitHubRepos\ApsimX\Prototypes\Lentil",
-             "apsimFileName":"Lentil",
+             "simulationPath":r"C:\GitHubRepos\ApsimX\Prototypes\Lentil\NaPA",
+             "apsimFileName":"2023_SA_Pinery_Lentil_Detailed",
              "reportName":"HarvestObsPred"
            }
 
@@ -345,9 +463,6 @@ runSpecs = []
 runSpecs.append(runSpec)
 runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=testStore, printResult=True)
 df = testStore.to_dataframe()
-
-# %%
-df
 
 # %% [markdown]
 # # Test with multi files
@@ -362,47 +477,40 @@ runSpecs = []
 baseRunSpec = {
              "cultivarName":"Bolt",
              "simulationPath":None,
-             "apsimFileName":"Lentil",
+             "apsimFileName":None,
              "reportName":"HarvestObsPred"
            }
 
 filesToRun = [
- 'Lentil',
- '2019_NSW_Greenethorpe_Mixed_Detailed',
- '2022_Vic_Kalkee_Lentil_Detailed',
- '2022_SA_Riverton_Lentil_Detailed',
- '2022_NSW_WaggaWagga_Lentil_Detailed',
- '2022_NSW_Methul_Lentil_Satellite',
- '2022_Vic_Ouyen_Lentil_Satellite',
- '2022_NSW_RankinsSprings_Lentil_Satellite',
- '2022_SA_Warnertown_Lentil_Satellite',
- '2023_SA_Pinery_Lentil_Detailed',
- '2023_Vic_Dooen_Lentil_Detailed',
- '2023_SA_Warnertown_Lentil_Satellite',
- '2023_Vic_Ouyen_Lentil_Satellite',
- '2023_Qld_Gatton_Mixed_Light',
- '2024_NSW_Greenethorpe_Mixed_NFix',
- '2024_SA_Warnertown_Lentil_Satellite',
- '2024_Vic_Walpeup_Lentil_Satellite'
-]
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil','name':'Lentil'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2019_NSW_Greenethorpe_Mixed_Detailed'},
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Kalkee_Lentil_Detailed'},
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Riverton_Lentil_Detailed'},
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_WaggaWagga_Lentil_Detailed'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_Methul_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Ouyen_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_RankinsSprings_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Warnertown_Lentil_Satellite'},
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Pinery_Lentil_Detailed'},
+     {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Dooen_Lentil_Detailed'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Warnertown_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Ouyen_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Qld_Gatton_Mixed_Light'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_NSW_Greenethorpe_Mixed_NFix'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_SA_Warnertown_Lentil_Satellite'},
+     #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_Vic_Walpeup_Lentil_Satellite'}
+  ]
 
 for fTR in filesToRun:
-    runspec = baseRunSpec
-    runspec["simulationPath"] = f"C:\GitHubRepos\ApsimX\Prototypes\\{fTR}"
-    runSpecs.append(runSpec)
+    fileRunSpec = baseRunSpec.copy()
+    fileRunSpec["apsimFileName"] = fTR['name']
+    fileRunSpec["simulationPath"] = fTR['dir']
+    runSpecs.append(fileRunSpec)
 
 storeMulti = ResultsStore()
 
 runModelItter(runSpecs, cultivar_params, fitting_variables, resultsStore=storeMulti, printResult=True)
 df = testStore.to_dataframe()
-
-# %%
-f"C:\GitHubRepos\ApsimX\Prototypes\\{FilesToRun[0]}"
-
-# %%
-
-# %%
-list(FilesToRun.keys())
 
 
 # %% [markdown]
@@ -448,9 +556,14 @@ def loss_stagnated(res, window=10, tol=0.02):
     """
     if len(res.func_vals) < window:
         return False
+
+    y_hist = np.array(res.func_vals)
+
     best = np.minimum.accumulate(y_hist)
     recent = best[-window:]
+
     return (recent[0] - recent[-1]) < tol
+
 
 
 
