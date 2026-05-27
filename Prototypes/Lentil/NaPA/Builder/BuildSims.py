@@ -152,9 +152,11 @@ for e in Experiments:
         sdic['sowDate'] = tosData.loc[tosData.TOS == st,'TOSDate'].values[0]
         sdic['startDate'] = tosData.loc[tosData.TOS == st,'TOSDate'].values[0]
         if e in NaPA_Management.index.drop_duplicates().to_list():
-            sdic['emergeDate'] = formatDateSafe(NaPA_Management.loc[e,'EmergenceDate'].mean())
-            sdic['sowDepth'] = formatDoubleSafe(NaPA_Management.loc[e,"SowingDepth_mm"].drop_duplicates().values[0]/10,30)
-            sdic['rowWidth'] = formatDoubleSafe(NaPA_Management.loc[e,"Design::RowSpacing_cm"].drop_duplicates().values[0],400)
+            eDf = NaPA_Management.loc[e,:]
+            eStDf = eDf.loc[eDf.loc[:,'Design::TOS'] == st,:]
+            sdic['emergeDate'] = formatDateSafe(eStDf['EmergenceDate'].mean())
+            sdic['sowDepth'] = formatDoubleSafe(eStDf["SowingDepth_mm"].drop_duplicates().values[0]/10,30)
+            sdic['rowWidth'] = formatDoubleSafe(eStDf["Design::RowSpacing_cm"].drop_duplicates().values[0],400)
         else:
             print(e)
             sdic['emergeDate'] = 'null'

@@ -960,7 +960,7 @@ plot_obs_pred_by_branch(
     tidy,
     "Lentil.Phenology.StartFloweringDAS",
     color_by = "Experiment",
-    filters = {"Lentil.SowingData.Cultivar": ["Precoz"]}
+    filters = {"Lentil.SowingData.Cultivar": ["Bolt"]}
 )
 plt.show()
 
