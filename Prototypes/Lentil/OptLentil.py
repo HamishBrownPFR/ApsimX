@@ -106,51 +106,101 @@ def remove_cultivar_apply_file(apply_path: Path, apsimx_path: Path, cultivar_nam
 
 # %%
 def calcLoss(fitting_variables, obs_pred):
-   # --- collect scaled obs/pred pairs ---
+    """
+    Calculate loss using NSE with:
+    - Strict validation (fatal on structural issues)
+    - Smooth squashing for poor NSE
+    - Full resolution for good NSE
+    """
+
     sc_obs = []
     sc_pred = []
 
+    # -------------------------
+    # Extract and scale data
+    # -------------------------
     for var in fitting_variables:
         obs_col = f"Observed.{var}"
         pred_col = f"Predicted.{var}"
 
         if obs_col not in obs_pred or pred_col not in obs_pred:
-            continue
+            raise RuntimeError(
+                f"Missing required columns: {obs_col} or {pred_col}"
+            )
 
         df = obs_pred[[obs_col, pred_col]].dropna()
-        if df.empty:
-            continue
 
-        df[obs_col] = pd.to_numeric(df[obs_col])
-        df[pred_col] = pd.to_numeric(df[pred_col])
+        if df.empty:
+            raise RuntimeError(
+                f"No valid data for variable '{var}' after dropping NaNs"
+            )
+
+        # Ensure numeric
+        df[obs_col] = pd.to_numeric(df[obs_col], errors="coerce")
+        df[pred_col] = pd.to_numeric(df[pred_col], errors="coerce")
+
+        df = df.dropna()
+
+        if df.empty:
+            raise RuntimeError(
+                f"No valid numeric data for variable '{var}'"
+            )
 
         v_max = df[obs_col].max()
         v_min = df[obs_col].min()
 
-        # scale to 0–1
+        # -------------------------
+        # Scaling safety (should not happen now)
+        # -------------------------
+        if v_max == v_min:
+            raise RuntimeError(
+                f"Zero variation in observations for '{var}'. "
+                "This indicates a data or simulation issue."
+            )
+
+        # Scale to 0–1
         obs_scaled = (df[obs_col] - v_min) / (v_max - v_min)
         pred_scaled = (df[pred_col] - v_min) / (v_max - v_min)
 
         sc_obs.append(obs_scaled.values)
         sc_pred.append(pred_scaled.values)
 
-    # --- guard against insufficient data ---
+    # -------------------------
+    # Final concatenation
+    # -------------------------
     if not sc_obs:
-        return 2.0, 0, None  # penalty
+        raise RuntimeError(
+            "No valid observation/prediction data found across all variables."
+        )
 
     sc_obs = np.concatenate(sc_obs)
     sc_pred = np.concatenate(sc_pred)
 
-    # --- compute NSE ---
+    # -------------------------
+    # NSE calculation
+    # -------------------------
     obs_mean = np.mean(sc_obs)
     denominator = np.sum((sc_obs - obs_mean) ** 2)
+
     if denominator == 0:
-        return 2.0, 0, None  # penalty
+        raise RuntimeError(
+            "Zero variance in observations (NSE undefined). "
+            "Check simulation outputs."
+        )
 
     nse = 1.0 - np.sum((sc_obs - sc_pred) ** 2) / denominator
 
-    # --- return loss (minimiser) ---
-    return -max(nse, -2.0), len(sc_obs), sc_obs, sc_pred
+    # -------------------------
+    # LOSS TRANSFORMATION
+    # -------------------------
+    # Keep full resolution for good fits
+    if nse >= 0:
+        loss = -nse
+    else:
+        # Smooth squash for poor fits (no hard cap)
+        loss = np.tanh(-nse)
+
+    return loss, len(sc_obs), sc_obs, sc_pred
 
 
 # %% [markdown]
@@ -418,9 +468,81 @@ runSpecs.append(runSpec)
 runModelItter(runSpecs, cultivar_params, FITTING_VARIABLES, resultsStore=testStore, printResult=True)
 df = testStore.to_dataframe()
 
-
 # %% [markdown]
 # # Test with multi files
+
+# %%
+CULTIVAR_FILE_DICT = {'Ace': ['Lentil.apsimx'],
+     'Aldinga': ['Lentil.apsimx'],
+     'Blitz': ['Lentil.apsimx'],
+     'Bolt': ['2022_NSW_WaggaWagga_Lentil_Detailed.apsimx',
+      '2022_SA_Riverton_Lentil_Detailed.apsimx',
+      '2022_Vic_Kalkee_Lentil_Detailed.apsimx',
+      '2023_SA_Pinery_Lentil_Detailed.apsimx',
+      '2023_Vic_Dooen_Lentil_Detailed.apsimx',
+      'Lentil.apsimx'],
+     'Boomer': ['Lentil.apsimx'],
+     'CIPAL0901': ['Lentil.apsimx'],
+     'CIPAL1504': ['Lentil.apsimx'],
+     'CIPAL1701': ['Lentil.apsimx'],
+     'Commando': ['Lentil.apsimx'],
+     'Flash': ['Lentil.apsimx'],
+     'Giant': ['Lentil.apsimx'],
+     'Greenfield': ['Lentil.apsimx'],
+     'HallmarkXT': ['2022_NSW_WaggaWagga_Lentil_Detailed.apsimx',
+      '2022_SA_Riverton_Lentil_Detailed.apsimx',
+      '2022_Vic_Kalkee_Lentil_Detailed.apsimx',
+      '2023_SA_Pinery_Lentil_Detailed.apsimx',
+      '2023_Vic_Dooen_Lentil_Detailed.apsimx',
+      'Lentil.apsimx'],
+     'Hurricane': ['Lentil.apsimx'],
+     'Indianhead': ['Lentil.apsimx'],
+     'Jumbo': ['Lentil.apsimx'],
+     'Jumbo2': ['2022_NSW_WaggaWagga_Lentil_Detailed.apsimx',
+      '2022_SA_Riverton_Lentil_Detailed.apsimx',
+      '2022_Vic_Kalkee_Lentil_Detailed.apsimx',
+      '2023_SA_Pinery_Lentil_Detailed.apsimx',
+      '2023_Vic_Dooen_Lentil_Detailed.apsimx',
+      'Lentil.apsimx'],
+     'KelpieXT': ['2022_NSW_WaggaWagga_Lentil_Detailed.apsimx',
+  '2022_SA_Riverton_Lentil_Detailed.apsimx',
+  '2022_Vic_Kalkee_Lentil_Detailed.apsimx',
+  '2023_SA_Pinery_Lentil_Detailed.apsimx',
+  '2023_Vic_Dooen_Lentil_Detailed.apsimx'],
+ 'Matilda': ['Lentil.apsimx'],
+ 'Nipper': ['Lentil.apsimx'],
+ 'Northfield': ['Lentil.apsimx'],
+ 'Nugget': ['Lentil.apsimx'],
+ 'Terrier': ['Lentil.apsimx']}
+
+def create_filesToRun_for_cultivar(cultivar_name):
+    """
+    Create filesToRun list for a given cultivar using mapping dictionary.
+    """
+
+    BASE_MAIN = r"C:\GitHubRepos\ApsimX\Prototypes\Lentil"
+    BASE_NAPA = r"C:\GitHubRepos\ApsimX\Prototypes\Lentil\NaPA"
+
+    filesToRun = []
+
+    file_list = CULTIVAR_FILE_DICT.get(cultivar_name, [])
+
+    for fname in file_list:
+
+        if fname == "Lentil.apsimx":
+            filesToRun.append({
+                "dir": BASE_MAIN,
+                "name": "Lentil"
+            })
+        else:
+            filesToRun.append({
+                "dir": BASE_NAPA,
+                "name": fname.replace(".apsimx", "")
+            })
+
+    return filesToRun
+
+
 
 # %%
 def create_runSpecs_for_cultivar(cultivarName, reportName):
@@ -433,25 +555,7 @@ def create_runSpecs_for_cultivar(cultivarName, reportName):
                  "reportName":reportName
                }
 
-    filesToRun = [
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil','name':'Lentil'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2019_NSW_Greenethorpe_Mixed_Detailed'},
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Kalkee_Lentil_Detailed'},
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Riverton_Lentil_Detailed'},
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_WaggaWagga_Lentil_Detailed'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_Methul_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_Vic_Ouyen_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_NSW_RankinsSprings_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2022_SA_Warnertown_Lentil_Satellite'},
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Pinery_Lentil_Detailed'},
-         {'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Dooen_Lentil_Detailed'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_SA_Warnertown_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Vic_Ouyen_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2023_Qld_Gatton_Mixed_Light'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_NSW_Greenethorpe_Mixed_NFix'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_SA_Warnertown_Lentil_Satellite'},
-         #{'dir':'C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA','name':'2024_Vic_Walpeup_Lentil_Satellite'}
-      ]
+    filesToRun = create_filesToRun_for_cultivar(cultivarName)
 
     for fTR in filesToRun:
         fileRunSpec = baseRunSpec.copy()
@@ -464,12 +568,12 @@ def create_runSpecs_for_cultivar(cultivarName, reportName):
 
 # %%
 cultivar_params = {
-                    "[Phenology].JuvenileBase.FixedValue": 96,
-                    "[Phenology].VernSensitivity.FixedValue": 0.63,
-                    "[Phenology].InductivePpSensitivity.FixedValue": 0.44
+                    "[Phenology].JuvenileBase.FixedValue": 75,
+                    "[Phenology].VernSensitivity.FixedValue": 0.89,
+                    "[Phenology].InductivePpSensitivity.FixedValue": 0.36
                   }
 
-runSpecs = create_runSpecs_for_cultivar("Bolt", "HarvestObsPred")
+runSpecs = create_runSpecs_for_cultivar("Jumbo2", "HarvestObsPred")
 
 storeMulti = ResultsStore()
 
@@ -535,8 +639,11 @@ def loss_stagnated(res, window=10, tol=0.02):
 # %%
 # Fitting options
 
-CultivarToFit = "Bolt"
+CultivarToFit = "Jumbo2"
 ObsPredTableName = "HarvestObsPred"
+random_sample_size = 29
+stage_size = 10
+max_stages = 5
 
 # ------------------------------------------------------------
 # Parameter definitions
@@ -587,7 +694,7 @@ for x in expert_guesses:
     opt.tell(x, y)
 
 # Random space-filling design
-n_initial_random = 19
+n_initial_random = random_sample_size
 random_points = space.rvs(n_initial_random, random_state=42)
 
 for x in random_points:
@@ -604,10 +711,6 @@ eps = 0.01 * np.linalg.norm(param_ranges)
 # ------------------------------------------------------------
 # Staged GP-guided optimisation loop
 # ------------------------------------------------------------
-
-stage_size = 5
-max_stages = 10
-
 for stage in range(max_stages):
     print(f"\n=== GP optimisation stage {stage + 1} ===")
 
@@ -665,7 +768,7 @@ for name, val in zip(paramNames, best_x):
 # # Evolution of loss results
 
 # %%
-df = storeMulti.to_dataframe()
+df = STORE.to_dataframe()
 
 # %%
 df.loss.plot()

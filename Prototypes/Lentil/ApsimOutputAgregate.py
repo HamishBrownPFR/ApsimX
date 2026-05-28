@@ -999,3 +999,30 @@ plot_obs_pred_by_branch(
     marker_by = "Experiment"
 )
 plt.show()
+
+# %%
+pivot = get_harvest_aligned(tidy, "Lentil.Phenology.StartPoddingDAS")
+
+# %%
+SumCols= ['Lentil.SowingData.Cultivar_pred','file','obs']
+CvSum = pivot.loc[:,SumCols].groupby(by=['Lentil.SowingData.Cultivar_pred','file']).count()
+CvSum
+
+# %%
+# Convert MultiIndex → DataFrame
+idx_df = CvSum.index.to_frame(index=False)
+
+# Group by cultivar → collect file list
+cultivar_file_dict = (
+    idx_df.groupby('Lentil.SowingData.Cultivar_pred')['file']
+    .apply(list)
+    .to_dict()
+)
+
+
+# %%
+cultivar_file_dict
+
+# %%
+SumCols= ['Lentil.SowingData.Cultivar_pred','file','obs']
+pivot.loc[:,SumCols].groupby(by=['Lentil.SowingData.Cultivar_pred']).count()
