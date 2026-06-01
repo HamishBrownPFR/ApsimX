@@ -28,8 +28,6 @@ import warnings
 
 warnings.simplefilter("ignore", pd.errors.PerformanceWarning)
 
-
-
 Colors = {1:'#000000',
 2:'#E69F00',
 3:'#56B4E9',
@@ -522,7 +520,7 @@ def to_tidy(df):
     # ---------------------------------------------
     # ✅ Enforce indices BEFORE melt
     # ---------------------------------------------
-    indices_to_fill = ['Experiment','SimulationName','Lentil.SowingData.Cultivar']
+    indices_to_fill = ['Experiment','SimulationName',f'{CROP}.SowingData.Cultivar']
     df = enforce_indices_to_observed(df, indices_to_fill)
     
     # ---------------------------------------------
@@ -548,13 +546,6 @@ if "Simulation.Name" in raw.columns:
 
 # ✅ Convert to tidy format
 tidy = to_tidy(raw)
-
-# %%
-tidy.columns
-
-# %%
-filtertd = ((tidy.type == 'obs') & (tidy.variable == "Lentil.Phenology.StartPoddingDAS") & (tidy.loc[:,'Lentil.SowingData.Cultivar'] == 'Bolt'))
-tidy[filtertd]
 
 
 # %% [markdown]
