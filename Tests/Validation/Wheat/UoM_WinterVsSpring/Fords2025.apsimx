@@ -470,7 +470,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Osprey",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 93",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -487,7 +487,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Rosella",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 125",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -504,7 +504,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Whistler",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 92",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -521,7 +521,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Wylah",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 112",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -538,7 +538,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Wedgetail",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 119",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -555,7 +555,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName =  Kittyhawk",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 111",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -572,7 +572,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Illabo",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 109",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -589,7 +589,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName =  Mowhawk",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 104",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -606,7 +606,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Sunmaster",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 123",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -623,7 +623,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Meering",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 124",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -640,7 +640,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Janz",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 129",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -657,7 +657,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Yitpi",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 126",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -674,7 +674,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Wyalkatchem",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 109",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -691,7 +691,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Gregory",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 125",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -708,7 +708,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Mace",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 116",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -725,7 +725,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Scepter",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 128",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
