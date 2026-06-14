@@ -138,7 +138,8 @@ list(
                           "Electrical Conductivity", "Nitrate Nitrogen", "Ammonium Nitrogen", 
                           "Silt", "Clay", "Sand", "Total Organic Carbon (Heanes)", 
                           "Total Carbon (Combustion)", "Total Carbon (Combustion)", 
-                          "C:N Ratio", "Soil Bulk Density", "Gravimetric Water Content"),
+                          "C:N Ratio", "Saturation Percentage",
+                          "Soil Bulk Density", "Gravimetric Water Content"),
       col_depth_from  = "Depth From", # Optional if this matches the default
       col_depth_to    = "Depth To",    # Optional if this matches the default
       log_file_name   = paste0(config$proj_name,"_soil_profile.csv")
