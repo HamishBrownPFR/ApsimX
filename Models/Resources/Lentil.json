@@ -2769,7 +2769,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
+              "FixedValue": 8000.0,
               "Units": null,
               "Name": "NumberFunction",
               "ResourceName": null,
@@ -3146,12 +3146,29 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
-              "Units": "/d",
+              "$type": "Models.Functions.DivideFunction, Models",
               "Name": "Size",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Grain].Wt",
+                  "Name": "GrainWt",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Grain].NumberFunction",
+                  "Name": "Number",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             }
