@@ -133,16 +133,19 @@ list(
       folder          = config$folder_rawData,
       file            = config$file_rawData_excel,
       sheet          = "Soil sampling",
-      vars_to_extract = c("Bulk density",	"LL",	"Soil moisture",	"Nitrate Nitrogen",
-                            "Ammonium Nitrogen","Available water",	
-                          "C:N Ratio",	"Soil Bulk Density",
-                            "Total Carbon (Combustion)"),
+      vars_to_extract = c("Block", "Bulk density", "LL", 
+                          "Soil moisture", "Available water", "H grav.(%)", "pH (1:5 Water)", 
+                          "Electrical Conductivity", "Nitrate Nitrogen", "Ammonium Nitrogen", 
+                          "Silt", "Clay", "Sand", "Total Organic Carbon (Heanes)", 
+                          "Total Carbon (Combustion)", "Total Carbon (Combustion)", 
+                          "C:N Ratio", "Soil Bulk Density", "Gravimetric Water Content"),
       col_depth_from  = "Depth From", # Optional if this matches the default
-      col_depth_to    = "Depth To"   # Optional if this matches the default
+      col_depth_to    = "Depth To",    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_profile.csv")
     )
   ),
   	
-  
+
   # ----------------------------------------------------------------------------
   # PHASE B: WEATHER PROCESSING
   # ----------------------------------------------------------------------------
