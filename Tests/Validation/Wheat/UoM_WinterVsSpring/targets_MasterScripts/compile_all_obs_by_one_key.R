@@ -13,27 +13,16 @@
 #' **Duplicate Key Defense:** Before attempting any joins, the function aggressively scans 
 #' the mapping dictionary (`df_simNames`). If it detects that a single unique key maps to 
 #' multiple different SimulationNames, it will trigger a fatal alarm to prevent silent data duplication.
+#' 
+#' **Date Auto-Repair:** Automatically detects and fixes 2-digit Excel year parsing bugs (e.g., Year 0024 to 2024).
 #'
-#' @param folder Character string. The directory path where the raw Excel files are stored.
-#' @param excel_files Character vector. A list of specific Excel file names to read and compile.
-#' @param df_obs_info Data frame. The metadata dictionary dictating which sheets and columns to extract. 
-#'   Must contain: \code{df_name}, \code{sheet_name}, \code{column_name}, \code{apsim_var_name}, and \code{corr_fact}.
-#' @param df_simNames Data frame. The lookup table that maps your raw data keys to actual APSIM 
-#'   \code{SimulationName}s.
-#' @param unique_key Character string. The exact column name present in BOTH the raw data and 
-#'   \code{df_simNames} used to link the data (e.g., \code{"Cultivar"} or \code{"Plot"}).
-#' @param exp_keys Character vector, optional. A list of experiment identifiers matching the exact 
-#'   length and order of \code{excel_files}. Used to separate duplicate keys across different trials. 
-#'   Defaults to \code{NULL}.
-#'
-#' @return A nested tibble containing two columns: \code{df_name} (the assigned APSIM variable group) 
-#'   and \code{data} (the compiled, joined, and aggregated data frame for that variable).
 #' @export
 compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simNames, unique_key, exp_keys = NULL) {
   
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("Package 'dplyr' required.")
   if (!requireNamespace("purrr", quietly = TRUE)) stop("Package 'purrr' required.")
   if (!requireNamespace("tidyr", quietly = TRUE)) stop("Package 'tidyr' required.")
+  if (!requireNamespace("lubridate", quietly = TRUE)) stop("Package 'lubridate' required.")
   
   # ------------------------------------------------------------------
   # 1. DEFENSIVE CHECKS: STRICT COLUMN VALIDATION
@@ -154,6 +143,25 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
             raw_df <- raw_df %>%
               dplyr::left_join(clean_mapping_df, by = join_keys, relationship = "many-to-one") %>%
               dplyr::relocate(SimulationName, .before = 1)
+          }
+          
+          # ---------------------------------------------------------
+          # 3.5. BULLETPROOF DATE CORRECTION (The "Year 24" Fix)
+          # ---------------------------------------------------------
+          if ("Date" %in% names(raw_df)) {
+            raw_df$Date <- as.Date(raw_df$Date) # Ensure it's a date object
+            
+            # Extract years and find bugs safely ignoring NAs
+            yrs <- suppressWarnings(lubridate::year(raw_df$Date))
+            bad_idx <- which(!is.na(yrs) & yrs < 100)
+            
+            if (length(bad_idx) > 0) {
+              # If year < 50, assume 20xx. If >= 50, assume 19xx.
+              fixed_years <- ifelse(yrs[bad_idx] < 50, yrs[bad_idx] + 2000, yrs[bad_idx] + 1900)
+              lubridate::year(raw_df$Date)[bad_idx] <- fixed_years
+              
+              message(sprintf("   -> \U0001F527 DATE REPAIR: Auto-corrected %d '2-digit year' bugs (e.g., 0024 -> 2024) for '%s'.", length(bad_idx), new_col))
+            }
           }
           
           # ---------------------------------------------------------

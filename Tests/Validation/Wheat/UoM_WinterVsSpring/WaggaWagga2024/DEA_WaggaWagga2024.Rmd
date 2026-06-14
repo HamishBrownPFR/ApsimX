@@ -157,3 +157,11 @@ x<-tar_read(df_obs_plus_pheno_with_amounts)
 names(x)[grepl("Spike", names(x))]
 ```
 
+```{r}
+tar_read(df_simNameByCult)
+tar_load(list_observed_dfs_raw)
+tar_load(list_observed_dfs)
+tar_load(list_pcds_extracted)
+tar_load(df_pheno_raw)
+```
+
