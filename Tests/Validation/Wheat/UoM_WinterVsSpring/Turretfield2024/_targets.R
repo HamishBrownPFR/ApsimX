@@ -99,17 +99,37 @@ list(
     cue = tar_cue(mode = "always")
   ),
   
+  # tar_target(
+  #   name = config_soil,
+  #   command = list(
+  #     folder_rawData  = config$folder_rawData,       
+  #     file_excel      = config$file_rawData_excel, 
+  #     sheet_name      = "Soil sampling",
+  #     rep_col         = "Block",
+  #     col_depth_from  = "Depth From",
+  #     col_depth_to    = "Depth To",
+  #     target_vars     = c("Bulk density", "LL", "Soil moisture", 
+  #                         "Available water", "Nitrate Nitrogen", "Ammonium Nitrogen") 
+  #   )
+  # ),
+  
+  
   tar_target(
     name = config_soil,
-    command = list(
-      folder_rawData  = config$folder_rawData,       
-      file_excel      = config$file_rawData_excel, 
-      sheet_name      = "Soil sampling",
-      rep_col         = "Block",
-      col_depth_from  = "Depth From",
-      col_depth_to    = "Depth To",
-      target_vars     = c("Bulk density", "LL", "Soil moisture", 
-                          "Available water", "Nitrate Nitrogen", "Ammonium Nitrogen") 
+    command = read_soil_data(
+      folder          = config$folder_rawData,
+      file            = config$file_rawData_excel,
+      sheet          = "Soil sampling",
+      vars_to_extract = c("Block", "Depth From", "Depth To", "Bulk density", "LL", "Soil moisture", 
+                          "Available water", "H grav.(%)", "pH (1:5 Water)", "Electrical Conductivity", 
+                          "Nitrate Nitrogen", "Ammonium Nitrogen", "Organic Carbon", "Silt", "Clay", 
+                          "Sand Coarse", "Sand Fine", "Organic Matter", "Total Carbon", "Total Carbon", 
+                          "Total Nitrogen", "Total Nitrogen", "Silt", "Clay", "Sand", "Water Mass", 
+                          "Saturation", "Air Dry Moisture", "Total Carbon", "Total Carbon", "C:N Ratio", 
+                          "Soil Bulk Density", "Gravimetric Water Content"),
+      col_depth_from  = "Depth From", # Optional if this matches the default
+      col_depth_to    = "Depth To",    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_profile.csv")
     )
   ),
   
@@ -124,22 +144,22 @@ list(
     format = "file"
   ),
   
-  tar_target(
-    name = df_soil_profile_clean,
-    command = {
-      force(raw_soil_tracker)
-      
-      process_soil_profile(
-        folder_name    = config_soil$folder_rawData,
-        file_name      = config_soil$file_excel,
-        sheet_name     = config_soil$sheet_name,
-        var_list       = config_soil$target_vars,
-        rep_name       = config_soil$rep_col,
-        col_depth_from = config_soil$col_depth_from,
-        col_depth_to   = config_soil$col_depth_to
-      )
-    }
-  ),
+  # tar_target(
+  #   name = df_soil_profile_clean,
+  #   command = {
+  #     force(raw_soil_tracker)
+  #     
+  #     process_soil_profile(
+  #       folder_name    = config_soil$folder_rawData,
+  #       file_name      = config_soil$file_excel,
+  #       sheet_name     = config_soil$sheet_name,
+  #       var_list       = config_soil$target_vars,
+  #       rep_name       = config_soil$rep_col,
+  #       col_depth_from = config_soil$col_depth_from,
+  #       col_depth_to   = config_soil$col_depth_to
+  #     )
+  #   }
+  # ),
   
   tar_target(
     name = processed_met_data,

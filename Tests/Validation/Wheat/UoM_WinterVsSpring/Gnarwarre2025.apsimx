@@ -895,6 +895,154 @@
                   "ReadOnly": false
                 },
                 {
+                  "$type": "Models.Sensor.Spectral, Models",
+                  "DrySoilNDVI": 0.13,
+                  "WetSoilNDVI": 0.18,
+                  "GreenCropNDVI": 0.85,
+                  "DeadCropNDVI": 0.1,
+                  "Name": "Spectral",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
+                  "SetEventName": "[Plant].PlantSowing",
+                  "ParameterFile": "Inputs/Gnarwarre2025_ConstantPhenology.csv",
+                  "Name": "ConstantBaseCv",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
+                  "SetEventName": "[Plant].PlantSowing",
+                  "ParameterFile": "Inputs/Gnarwarre2025_GermDatesInput.csv",
+                  "Name": "SetGermDatesExternally",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
+                  "SetEventName": "[Plant].PlantSowing",
+                  "ParameterFile": "Inputs/Gnarwarre2025_HaunStagesInput.csv",
+                  "Name": "SetHaunRelatedExternally",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
+                  "SetEventName": "[Plant].PlantSowing",
+                  "ParameterFile": "Inputs/Gnarwarre2025_PhenoDatesInput.csv",
+                  "Name": "SetPhenoDatesExternally",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-04-30",
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
+                      "Line": "2025-04-30 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-07-16",
+                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\")",
+                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-08-22",
+                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
+                      "Line": "2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-10-24",
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
+                      "Line": "2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                    }
+                  ],
+                  "Name": "ManagementWinter",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Memo, Models",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Name": "Memo",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-05-21",
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
+                      "Line": "2025-05-21 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-10-24",
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
+                      "Line": "2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-07-16",
+                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\")",
+                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\")"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-08-22",
+                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
+                      "Line": "2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
+                    }
+                  ],
+                  "Name": "ManagementSpring",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Memo, Models",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Name": "Memo",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
                   "$type": "Models.Soils.Soil, Models",
                   "RecordNumber": 301,
                   "ASCOrder": null,
@@ -929,15 +1077,17 @@
                     {
                       "$type": "Models.Soils.Physical, Models",
                       "Thickness": [
-                        150.0,
-                        150.0,
-                        300.0,
-                        300.0,
-                        300.0,
-                        300.0,
-                        300.0
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0
                       ],
                       "ParticleSizeSand": [
+                        5.0,
                         5.0,
                         5.0,
                         5.0,
@@ -953,9 +1103,11 @@
                         65.0,
                         65.0,
                         65.0,
+                        65.0,
                         65.0
                       ],
                       "ParticleSizeClay": [
+                        30.0,
                         30.0,
                         30.0,
                         30.0,
@@ -971,35 +1123,39 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
                         0.0
                       ],
                       "Texture": null,
                       "BD": [
-                        1.231,
-                        1.172,
-                        1.108,
-                        1.162,
-                        1.372,
-                        1.372,
-                        1.372
+                        0.835364508,
+                        1.183555734,
+                        1.270116129,
+                        1.303439195,
+                        1.316698791,
+                        1.49819511,
+                        1.526803211,
+                        1.490684986
                       ],
                       "AirDry": [
-                        0.1,
-                        0.16,
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2
+                        0.023,
+                        0.148,
+                        0.147,
+                        0.183,
+                        0.18,
+                        0.213,
+                        0.221,
+                        0.218
                       ],
                       "LL15": [
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2,
-                        0.2
+                        0.023196877,
+                        0.175371442,
+                        0.146773902,
+                        0.200976479,
+                        0.259310639,
+                        0.328837605,
+                        0.361949752,
+                        0.337975333
                       ],
                       "DUL": [
                         0.37,
@@ -1007,53 +1163,70 @@
                         0.405,
                         0.368,
                         0.308,
-                        0.308,
-                        0.308
+                        0.329,
+                        0.362,
+                        0.338
                       ],
                       "SAT": [
                         0.505,
                         0.528,
-                        0.552,
-                        0.532,
                         0.452,
                         0.452,
-                        0.452
+                        0.452,
+                        0.435,
+                        0.424,
+                        0.437
                       ],
                       "KS": null,
                       "BDMetadata": [
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data"
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                       ],
                       "AirDryMetadata": [
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data"
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                       ],
                       "LL15Metadata": [
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data"
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                       ],
                       "DULMetadata": [
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data"
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                       ],
                       "SATMetadata": [
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data",
-                        "Unknown source or quality of data"
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                       ],
                       "KSMetadata": null,
                       "RocksMetadata": [
@@ -1063,7 +1236,8 @@
                         "Calculated",
                         "Calculated",
                         "Calculated",
-                        "Calculated"
+                        "Calculated",
+                        null
                       ],
                       "TextureMetadata": null,
                       "ParticleSizeSandMetadata": [
@@ -1073,7 +1247,8 @@
                         "Calculated",
                         "Calculated",
                         "Calculated",
-                        "Calculated"
+                        "Calculated",
+                        null
                       ],
                       "ParticleSizeSiltMetadata": [
                         "Calculated",
@@ -1082,7 +1257,8 @@
                         "Calculated",
                         "Calculated",
                         "Calculated",
-                        "Calculated"
+                        "Calculated",
+                        null
                       ],
                       "ParticleSizeClayMetadata": [
                         "Calculated",
@@ -1091,7 +1267,8 @@
                         "Calculated",
                         "Calculated",
                         "Calculated",
-                        "Calculated"
+                        "Calculated",
+                        null
                       ],
                       "Name": "Physical",
                       "ResourceName": null,
@@ -1099,18 +1276,20 @@
                         {
                           "$type": "Models.Soils.SoilCrop, Models",
                           "LL": [
-                            0.2,
-                            0.2,
-                            0.2,
-                            0.203,
-                            0.22,
-                            0.22,
-                            0.22
+                            0.023196877,
+                            0.175371442,
+                            0.146773902,
+                            0.200976479,
+                            0.259310639,
+                            0.328837605,
+                            0.361949752,
+                            0.337975333
                           ],
                           "KL": [
                             0.06,
                             0.06,
                             0.06,
+                            0.04,
                             0.04,
                             0.04,
                             0.04,
@@ -1123,14 +1302,16 @@
                             1.0,
                             1.0,
                             1.0,
+                            1.0,
                             1.0
                           ],
                           "LLMetadata": [
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
                             null,
                             null
                           ],
@@ -1141,9 +1322,11 @@
                             null,
                             null,
                             null,
+                            null,
                             null
                           ],
                           "XFMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -1153,130 +1336,6 @@
                             null
                           ],
                           "Name": "wheatSoil",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Soils.SoilCrop, Models",
-                          "LL": [
-                            0.2,
-                            0.2,
-                            0.242,
-                            0.203,
-                            0.22,
-                            0.22,
-                            0.22
-                          ],
-                          "KL": [
-                            0.07,
-                            0.07,
-                            0.07,
-                            0.05,
-                            0.05,
-                            0.05,
-                            0.05
-                          ],
-                          "XF": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                          ],
-                          "LLMetadata": [
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            null,
-                            null
-                          ],
-                          "KLMetadata": [
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "XFMetadata": [
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "Name": "barleySoil",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Soils.SoilCrop, Models",
-                          "LL": [
-                            0.2,
-                            0.2,
-                            0.242,
-                            0.203,
-                            0.22,
-                            0.22,
-                            0.22
-                          ],
-                          "KL": [
-                            0.06,
-                            0.06,
-                            0.06,
-                            0.04,
-                            0.04,
-                            0.04,
-                            0.04
-                          ],
-                          "XF": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                          ],
-                          "LLMetadata": [
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            "Estimated based on local knowledge",
-                            null,
-                            null
-                          ],
-                          "KLMetadata": [
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "XFMetadata": [
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "Name": "SCRUMSoil",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -1488,18 +1547,24 @@
                     {
                       "$type": "Models.Soils.Solute, Models",
                       "Thickness": [
-                        100.0,
-                        100.0,
-                        100.0,
-                        300.0,
-                        400.0
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0
                       ],
                       "InitialValues": [
-                        47.0,
-                        15.0,
-                        13.0,
-                        6.9,
-                        3.4
+                        29.40535096,
+                        8.261061798,
+                        4.1157556,
+                        3.04175398,
+                        2.46453217,
+                        2.233142807,
+                        2.121153573,
+                        2.099444969
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -1520,18 +1585,24 @@
                     {
                       "$type": "Models.Soils.Solute, Models",
                       "Thickness": [
-                        100.0,
-                        100.0,
-                        100.0,
-                        300.0,
-                        400.0
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0
                       ],
                       "InitialValues": [
-                        9.8,
-                        1.1,
-                        1.2,
-                        1.1,
-                        0.8
+                        1.927072412,
+                        1.789965892,
+                        1.837457638,
+                        1.714496437,
+                        1.507428894,
+                        1.422871454,
+                        1.526180698,
+                        1.293108467
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -1588,22 +1659,24 @@
                     {
                       "$type": "Models.Soils.Water, Models",
                       "Thickness": [
-                        150.0,
-                        150.0,
-                        300.0,
-                        300.0,
-                        300.0,
-                        300.0,
-                        300.0
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0,
+                        200.0
                       ],
                       "InitialValues": [
-                        0.285,
-                        0.2875,
-                        0.3025,
-                        0.284,
-                        0.254,
-                        0.254,
-                        0.254
+                        0.071051201,
+                        0.148179764,
+                        0.201284271,
+                        0.183088762,
+                        0.180450614,
+                        0.214,
+                        0.221,
+                        0.338
                       ],
                       "FilledFromTop": false,
                       "Name": "Water",
@@ -1621,150 +1694,10 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Sensor.Spectral, Models",
-                  "DrySoilNDVI": 0.13,
-                  "WetSoilNDVI": 0.18,
-                  "GreenCropNDVI": 0.85,
-                  "DeadCropNDVI": 0.1,
-                  "Name": "Spectral",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
-                  "SetEventName": "[Plant].PlantSowing",
-                  "ParameterFile": "Inputs/Gnarwarre2025_ConstantPhenology.csv",
-                  "Name": "ConstantBaseCv",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
-                  "SetEventName": "[Plant].PlantSowing",
-                  "ParameterFile": "Inputs/Gnarwarre2025_GermDatesInput.csv",
-                  "Name": "SetGermDatesExternally",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
-                  "SetEventName": "[Plant].PlantSowing",
-                  "ParameterFile": "Inputs/Gnarwarre2025_HaunStagesInput.csv",
-                  "Name": "SetHaunRelatedExternally",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Utilities.SetModelParamsBySimulation, Models",
-                  "SetEventName": "[Plant].PlantSowing",
-                  "ParameterFile": "Inputs/Gnarwarre2025_PhenoDatesInput.csv",
-                  "Name": "SetPhenoDatesExternally",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Operations, Models",
-                  "OperationsList": [
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-04-30",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2025-04-30 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
                     },
                     {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-07-16",
-                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\")",
-                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-08-22",
-                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
-                      "Line": "2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-10-24",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
-                    }
-                  ],
-                  "Name": "ManagementWinter",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
-                      "Name": "Memo",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Operations, Models",
-                  "OperationsList": [
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-05-21",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2025-05-21 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-10-24",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-07-16",
-                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\")",
-                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2025-08-22",
-                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
-                      "Line": "2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
-                    }
-                  ],
-                  "Name": "ManagementSpring",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
-                      "Name": "Memo",
+                      "$type": "Models.Soils.CERESSoilTemperature, Models",
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,

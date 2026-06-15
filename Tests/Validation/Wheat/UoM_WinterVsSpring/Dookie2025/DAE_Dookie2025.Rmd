@@ -174,3 +174,19 @@ tar_load(soilWater_data_clean)
 tar_load(list_observed_dfs_raw)
 ```
 
+```{r}
+tar_load(df_obs_plus_pheno_hi_with_amounts)
+library(tidyverse)
+library(here)
+
+# 1. Load the diagnostic log
+error_log <- read_csv(here("Inputs", "Missing_Nutrient_Data_Log.csv"))
+
+# 2. Filter strictly for the "Missing Mass" errors
+impossible_errors <- error_log %>%
+  filter(FATAL_Missing_Mass_Count > 0) %>%
+  select(SimulationName, Date, Nutrient, Organs_Affected)
+
+print(impossible_errors)
+```
+
