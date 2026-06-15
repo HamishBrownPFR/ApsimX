@@ -470,7 +470,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Osprey",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 93",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -487,7 +487,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Rosella",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 125",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -504,7 +504,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Whistler",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 92",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -521,7 +521,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Wylah",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 112",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -538,7 +538,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Wedgetail",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 119",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -555,7 +555,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName =  Kittyhawk",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 111",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -572,7 +572,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName = Illabo",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 109",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -589,7 +589,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
                         "[Sowing].Script.CultivarName =  Mowhawk",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 104",
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
@@ -606,7 +606,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Sunmaster",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 123",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -623,7 +623,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Meering",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 124",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -640,7 +640,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Janz",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 129",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -657,7 +657,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Yitpi",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 126",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -674,7 +674,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Wyalkatchem",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 109",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -691,7 +691,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Gregory",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 125",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -708,7 +708,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Mace",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 116",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -725,7 +725,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-May",
                         "[Sowing].Script.CultivarName = Scepter",
-                        "[Sowing].Script.Population = 200",
+                        "[Sowing].Script.Population = 128",
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
@@ -907,36 +907,36 @@
                         200.0
                       ],
                       "ParticleSizeSand": [
-                        87.81,
-                        86.18,
-                        86.18,
-                        88.29,
-                        88.29,
-                        88.29,
+                        43.95,
+                        39.975,
+                        35.413,
+                        29.938,
+                        27.6,
+                        24.837,
                         84.27,
                         84.27,
                         84.27,
                         84.27
                       ],
                       "ParticleSizeSilt": [
-                        6.15,
-                        4.95,
-                        4.95,
-                        3.92,
-                        3.92,
-                        3.92,
+                        22.45,
+                        20.675,
+                        22.062,
+                        19.775,
+                        15.1,
+                        16.025,
                         2.96,
                         2.96,
                         2.96,
                         2.96
                       ],
                       "ParticleSizeClay": [
-                        6.05,
-                        8.86,
-                        8.86,
-                        7.79,
-                        7.79,
-                        7.79,
+                        33.6,
+                        39.35,
+                        42.525,
+                        50.288,
+                        57.3,
+                        59.138,
                         12.77,
                         12.77,
                         12.77,
@@ -956,28 +956,28 @@
                       ],
                       "Texture": null,
                       "BD": [
-                        1.294,
-                        1.443,
-                        1.513,
-                        1.2,
                         1.4,
-                        1.519,
+                        1.545,
+                        1.515,
+                        1.527,
+                        1.527,
+                        1.527,
                         1.417,
                         1.669,
                         1.56,
                         1.68
                       ],
                       "AirDry": [
-                        0.08,
-                        0.13,
-                        0.22,
-                        0.22,
-                        0.22,
-                        0.22,
-                        0.275,
-                        0.258,
-                        0.193,
-                        0.252
+                        0.108,
+                        0.117,
+                        0.198,
+                        0.198,
+                        0.198,
+                        0.198,
+                        0.2475,
+                        0.2322,
+                        0.1737,
+                        0.2268
                       ],
                       "LL15": [
                         0.12,
@@ -992,28 +992,28 @@
                         0.252
                       ],
                       "DUL": [
-                        0.31,
-                        0.19,
-                        0.371,
-                        0.465,
-                        0.413,
-                        0.332,
-                        0.328,
-                        0.315,
-                        0.334,
-                        0.31
+                        0.32,
+                        0.33,
+                        0.32,
+                        0.32,
+                        0.32,
+                        0.32,
+                        0.355,
+                        0.358,
+                        0.353,
+                        0.352
                       ],
                       "SAT": [
-                        0.341,
-                        0.209,
-                        0.408,
-                        0.511,
-                        0.455,
-                        0.365,
-                        0.361,
-                        0.346,
-                        0.367,
-                        0.342
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.37,
+                        0.36,
+                        0.36
                       ],
                       "KS": null,
                       "BDMetadata": [
@@ -1065,6 +1065,7 @@
                         null
                       ],
                       "SATMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1271,12 +1272,12 @@
                         200.0
                       ],
                       "Carbon": [
-                        2.2125,
+                        2.212,
                         2.1,
                         2.35,
-                        2.1875,
-                        1.95625,
-                        2.3125,
+                        2.188,
+                        1.956,
+                        2.312,
                         0.1,
                         0.1,
                         0.1,
@@ -1285,10 +1286,10 @@
                       "CarbonUnits": 0,
                       "SoilCNRatio": [
                         11.0,
-                        12.69,
+                        12.688,
                         20.65,
-                        26.63,
-                        25.03,
+                        26.625,
+                        25.025,
                         31.5,
                         12.0,
                         12.0,
@@ -1373,12 +1374,12 @@
                         200.0
                       ],
                       "PH": [
-                        5.1,
-                        5.2,
-                        6.3,
-                        7.2,
-                        7.6,
-                        7.9,
+                        8.287,
+                        8.375,
+                        8.637,
+                        9.025,
+                        9.325,
+                        9.463,
                         7.9,
                         7.9,
                         8.0,
@@ -1386,12 +1387,12 @@
                       ],
                       "PHUnits": 0,
                       "EC": [
-                        0.132,
-                        0.085,
-                        0.085,
-                        0.065,
-                        0.065,
-                        0.065,
+                        0.231,
+                        0.219,
+                        0.211,
+                        0.236,
+                        0.316,
+                        0.436,
                         0.064,
                         0.064,
                         0.087,
@@ -1482,12 +1483,12 @@
                         200.0
                       ],
                       "InitialValues": [
-                        25.88,
-                        20.63,
-                        17.63,
-                        11.23,
-                        7.96,
-                        7.56,
+                        25.875,
+                        20.625,
+                        17.625,
+                        11.225,
+                        7.963,
+                        7.562,
                         3.4,
                         4.2,
                         4.1,
@@ -1524,12 +1525,12 @@
                         200.0
                       ],
                       "InitialValues": [
-                        8.64,
-                        5.94,
-                        4.29,
+                        8.637,
+                        5.938,
+                        4.287,
                         2.8,
-                        1.91,
-                        2.28,
+                        1.913,
+                        2.275,
                         0.7,
                         0.7,
                         0.5,
@@ -1608,16 +1609,16 @@
                         200.0
                       ],
                       "InitialValues": [
-                        0.13,
-                        0.14,
-                        0.37,
-                        0.46,
-                        0.41,
-                        0.33,
-                        0.33,
-                        0.31,
-                        0.33,
-                        0.31
+                        0.22,
+                        0.23,
+                        0.27,
+                        0.27,
+                        0.27,
+                        0.27,
+                        0.315,
+                        0.308,
+                        0.273,
+                        0.302
                       ],
                       "FilledFromTop": true,
                       "Name": "Water",
