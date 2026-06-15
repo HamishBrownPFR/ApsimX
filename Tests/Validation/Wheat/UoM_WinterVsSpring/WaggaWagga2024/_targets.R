@@ -330,7 +330,14 @@ list(
     )
   ),
   
-  
+  tar_target(
+    name = list_observed_clean,
+    command = apply_corrections_Wagga24(
+      df_tbl         = list_observed_dfs, 
+      df_pheno_final = df_pheno_final,
+      ref_date = config$ref_date
+    )
+  ),
   # ----------------------------------------------------------------------------
   # PHASE D: PHENOLOGY STAGE SYNTHESIS (Universal)
   # ----------------------------------------------------------------------------
@@ -377,16 +384,22 @@ list(
     command = format_apsim_pheno_params(df_pheno_final)
   ),
   
+  
+  # ---------------------------------------------------------
+  # NEW: The Phenology Integrity Gatekeeper
+  # ---------------------------------------------------------
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(
+      df_pheno      = df_pheno_input_param,
+      expected_sims = df_simNameByCult
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE E: FINAL OBSERVATION FORMATTING & QC
   # ----------------------------------------------------------------------------
-  tar_target(
-    name = list_observed_clean,
-    command = apply_corrections_Wagga24(
-      df_tbl         = list_observed_dfs, 
-      df_pheno_final = df_pheno_final
-    )
-  ),
+
   
   tar_target(
     name = df_obs_wide,
@@ -495,7 +508,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_integrity,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

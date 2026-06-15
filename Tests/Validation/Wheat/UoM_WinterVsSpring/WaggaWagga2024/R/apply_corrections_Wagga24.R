@@ -8,13 +8,27 @@
 #' @details
 #' **Decoupled Architecture:** This function explicitly requires the finalized, universal 
 #' phenology timeline (`df_pheno_final`) to build its synchronization dictionary. 
+#' 
+#' **Audit Logging:** Automatically reports which dataframes were rescued, how many orphaned rows 
+#' were patched, and the exact chronological date range injected from the phenology records.
 #'
 #' @param df_tbl A nested tibble structure containing the raw \code{df_name} and \code{data}.
 #' @param df_pheno_final Data frame. The long-format universal phenology output from Step 4.
+#' @param ref_date Character string. A reference date (e.g., "1/1/2024") used to define the base year 
+#'   for correcting sensor year-rollover bugs.
 #'
 #' @return The corrected nested tibble with normalized calendar records and patched matrices.
 #' @export
-apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final) {
+apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
+  
+  if (!requireNamespace("lubridate", quietly = TRUE)) stop("Package 'lubridate' required.")
+  
+  # ---- 0. ROBUST REFERENCE DATE PARSING ----
+  rd <- lubridate::parse_date_time(ref_date, orders = c("dmy", "ymd", "mdy"))
+  if (is.na(rd)) {
+    stop(sprintf("\n\U0001F6A8 CRITICAL ERROR: Could not parse 'ref_date' (%s). Please use a standard format like '1/1/2024' or '2024-01-01'.", ref_date), call. = FALSE)
+  }
+  ry <- lubridate::year(rd)
   
   if (missing(df_tbl) || !all(c("df_name", "data") %in% names(df_tbl))) {
     stop("Error [apply_corrections_Wagga24]: Input target 'df_tbl' must be a valid nested tibble.")
@@ -43,17 +57,26 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final) {
         .y = df_name,
         .f = function(df, nm) {
           
-          # Fix A: Repair NDVI 2025 sensor year rollover offsets
+          # Fix A: Repair NDVI sensor year rollover offsets using Dynamic Reference Year
           if (nm == "ndvi_raw") {
+            if (!"Date" %in% names(df)) return(df)
+            
+            # Count how many bugs exist before fixing
+            bug_count <- sum(lubridate::year(df$Date) != ry, na.rm = TRUE)
+            
             df <- df %>%
               dplyr::mutate(
                 Date = as.Date(Date),
                 Date = dplyr::if_else(
-                  lubridate::year(Date) == 2025,
-                  Date %m+% lubridate::years(-1),
+                  lubridate::year(Date) != ry,
+                  Date %m+% lubridate::years(ry - lubridate::year(Date)), # Safe math difference
                   Date
                 )
               )
+            
+            if (bug_count > 0) {
+              message(sprintf("\n [\U0001F527 NDVI REPAIR] Synchronized %d misaligned sensor readings to the reference year (%d).", bug_count, ry))
+            }
           }
           
           # Fix B: Patch collection dates for physiological components at Stage 6
@@ -67,12 +90,32 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final) {
           
           if (nm %in% target_dfs_6) {
             if (!"SimulationName" %in% names(df)) stop(sprintf("Error: Table %s lacks 'SimulationName'.", nm))
+            if (!"Date" %in% names(df)) df$Date <- as.Date(NA)
+            
+            orphans_before <- sum(is.na(df$Date))
             
             df <- df %>%
               dplyr::left_join(date_lookup, by = "SimulationName") %>%
-              dplyr::mutate(Date = as.Date(.data$PhenoDate_6)) %>% 
+              dplyr::mutate(Date = as.Date(.data$PhenoDate_6))
+            
+            valid_dates <- df$Date[!is.na(df$Date)]
+            min_d <- if(length(valid_dates) > 0) as.character(min(valid_dates)) else "N/A"
+            max_d <- if(length(valid_dates) > 0) as.character(max(valid_dates)) else "N/A"
+            
+            df <- df %>%
               dplyr::select(-dplyr::any_of(c("PhenoDate_6", "PhenoDate_8"))) %>%
-              dplyr::filter(!is.na(Date)) # Drop rows if PhenoDate_6 couldn't be found
+              dplyr::filter(!is.na(Date)) 
+            
+            if (orphans_before > 0 && length(valid_dates) > 0) {
+              message("\n", strrep("=", 70))
+              message(" \U0001F489  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED \U0001F489")
+              message(strrep("=", 70))
+              message(sprintf(" -> Target Data   : '%s'", nm))
+              message(" -> Target Stage  : Stage 6 (Anthesis/Flowering)")
+              message(sprintf(" -> Action Taken  : Overwrote %d previously orphaned/NA dates.", orphans_before))
+              message(sprintf(" -> Date Timeline : %s to %s", min_d, max_d))
+              message(strrep("-", 70), "\n")
+            }
           }
           
           # Fix C: Patch collection dates for physiological components at Stage 8
@@ -86,12 +129,32 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final) {
           
           if (nm %in% target_dfs_8) {
             if (!"SimulationName" %in% names(df)) stop(sprintf("Error: Table %s lacks 'SimulationName'.", nm))
+            if (!"Date" %in% names(df)) df$Date <- as.Date(NA) 
+            
+            orphans_before <- sum(is.na(df$Date))
             
             df <- df %>%
               dplyr::left_join(date_lookup, by = "SimulationName") %>%
-              dplyr::mutate(Date = as.Date(.data$PhenoDate_8)) %>%
+              dplyr::mutate(Date = as.Date(.data$PhenoDate_8))
+            
+            valid_dates <- df$Date[!is.na(df$Date)]
+            min_d <- if(length(valid_dates) > 0) as.character(min(valid_dates)) else "N/A"
+            max_d <- if(length(valid_dates) > 0) as.character(max(valid_dates)) else "N/A"
+            
+            df <- df %>%
               dplyr::select(-dplyr::any_of(c("PhenoDate_6", "PhenoDate_8"))) %>%
-              dplyr::filter(!is.na(Date)) # Drop rows if PhenoDate_8 couldn't be found
+              dplyr::filter(!is.na(Date)) 
+            
+            if (orphans_before > 0 && length(valid_dates) > 0) {
+              message("\n", strrep("=", 70))
+              message(" \U0001F489  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED \U0001F489")
+              message(strrep("=", 70))
+              message(sprintf(" -> Target Data   : '%s'", nm))
+              message(" -> Target Stage  : Stage 8 (Maturity)")
+              message(sprintf(" -> Action Taken  : Overwrote %d previously orphaned/NA dates.", orphans_before))
+              message(sprintf(" -> Date Timeline : %s to %s", min_d, max_d))
+              message(strrep("-", 70), "\n")
+            }
           }
           
           return(df)
@@ -99,6 +162,6 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final) {
       )
     )
   
-  message("Success [apply_corrections_Wagga24]: Processed NDVI calendar years and back-filled Stage 6/8 timelines.")
+  message("\n\U0001F7E2 Success [apply_corrections_Wagga24]: Phenology timelines applied and matrices patched.\n")
   return(df_tbl_corrected)
 }
