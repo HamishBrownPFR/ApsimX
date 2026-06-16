@@ -79,9 +79,26 @@ Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 /tests/Validation/WorkFloTest/
 
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints/DataColation-checkpoint.ipynb
-Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints
 
 
 # Stop tracking the mutex related errors file.
 errors.txt
+/Prototypes/Lentil/FAHMA/FAHMA_Observed.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA_biomass_yield.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA_weather_Wellcamp.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Dookie2024_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Dookie2025_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Fords2025_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Gnarwarre2024_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Gnarwarre2025_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2024_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2025_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2024_Observed.xlsx
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2025_Observed.xlsx
+/Prototypes/Lentil/FAHMA/Characterisation Blenheim.xlsx
+/Prototypes/Lentil/NaPA/tempApplyCLI.txt
+/Tests/Validation/Wheat/GxExM/Inputs/GxExM_ConstantPhenology.csv
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/ReplaceHeaderNames.py
+/UpgradeLog.htm
