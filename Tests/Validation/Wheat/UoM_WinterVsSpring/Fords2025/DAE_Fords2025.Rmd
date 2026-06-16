@@ -90,17 +90,19 @@ df_suspect %>%
 ```
 
 
-```{r}
-targets::tar_make(
-  callr_arguments = list(
-    stdout = "pipeline_log.txt",
-    stderr = "pipeline_log.txt"
-  )
-)
-```
 
 ```{r}
 tar_load(soil_profile)
 readr::write_csv(soil_profile, "soil_profile.csv", na = "")
+```
+
+```{r}
+
+x <- tar_read(df_obs_plus_pheno_hi)
+
+y<-x %>%
+#  dplyr::filter(SimulationName == "WaggaWagga2024CvKittyhawkSow22-Apr") %>%
+  dplyr::filter(SimulationName == "Fords2025SowApril_Illabo") %>%
+  dplyr::select(SimulationName, Clock.Today, contains("Leaf.Dead"))
 ```
 

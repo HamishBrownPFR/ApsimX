@@ -164,5 +164,11 @@ tar_load(list_observed_dfs)
 tar_load(list_pcds_extracted)
 tar_load(df_pheno_raw)
 tar_load(list_observed_clean)
+x <- tar_read(df_obs_plus_pheno)
+
+y<-x %>%
+#  dplyr::filter(SimulationName == "WaggaWagga2024CvKittyhawkSow22-Apr") %>%
+  dplyr::filter(SimulationName == "WaggaWagga2024CvWedgetailSow22-Apr") %>%
+  dplyr::select(SimulationName, Clock.Today, contains("Leaf.Live"))
 ```
 
