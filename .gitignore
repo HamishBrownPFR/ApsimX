@@ -102,3 +102,13 @@ errors.txt
 /Tests/Validation/Wheat/GxExM/Inputs/GxExM_ConstantPhenology.csv
 /Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/ReplaceHeaderNames.py
 /UpgradeLog.htm
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Dookie2024.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Dookie2025.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Fords2025.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Gnarwarre2024.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Gnarwarre2025.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_GrassPatch2024.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_GrassPatch2025.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Turretfield2024.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_WaggaWagga2024.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_WaggaWagga2025.txt
