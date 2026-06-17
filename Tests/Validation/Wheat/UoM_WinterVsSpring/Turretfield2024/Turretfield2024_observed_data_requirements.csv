@@ -4,7 +4,6 @@ height_raw,Canopy Height,Canopy height (cm),Wheat.Leaf.Height,10,NA
 haun_raw,Haun stage ,HaunStageMean,Wheat.Phenology.HaunStage,1,NA
 grainSize_10_raw,PCDS 10.0 harvest,Individual grain weight (mg),Wheat.Grain.Size,0.001,13/11/2024
 grainNumber_10_raw,PCDS 10.0 harvest,Grain number (grains/m²),Wheat.Grain.Number,1,13/11/2024
-earYield_10_raw,PCDS 10.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1,13/11/2024
 grainYield_10_raw,PCDS 10.0 harvest,Grain dry matter (g/m²),Wheat.Grain.Wt,1,13/11/2024
 stemYield_6_raw,PCDS 6.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Live.Wt,1,22/8/2024
 stemYield_8_raw,PCDS 8.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Live.Wt,1,5/09/2024
@@ -49,3 +48,6 @@ stem_10_WSCc,PCDS 10.0 harvest,WSC percent stem,Wheat.Stem.Live.WSCc,1,13/11/202
 height_6_raw,PCDS 6.0 harvest,Canopy height (cm),Wheat.Leaf.Height,10,22/8/2024
 height_8_raw,PCDS 8.0 harvest,Canopy height (cm),Wheat.Leaf.Height,10,5/09/2024
 plant_population_m2,Population,Plant population density (plants/m2),[Wheat].Leaf.StemPopulation,1,5/09/2024
+earYield_6_raw,PCDS 6.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1,22/8/2024
+earYield_8_raw,PCDS 8.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1,5/09/2024
+earYield_10_raw,PCDS 10.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1,13/11/2024

@@ -27,7 +27,8 @@ tar_option_set(
 # Load master scripts
 targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
-targets::tar_source("R")
+#targets::tar_source("R")
+source("R/apply_local_fixes.R") 
 
 
 # ------------------------------------------------------------------------------
