@@ -80,7 +80,7 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
           }
           
           # Fix B: Patch collection dates for physiological components at Stage 6
-          target_dfs_6 <- c(
+          target_dfs_6 <- c("earYield_6_raw",
             "stemYield_6_raw", "spikeYield_6_raw", "senescLeafYield_6_raw", 
             "totalAboveGround_6_raw", "par_6_raw", "greenLeaf_6_raw",
             "leafDead_6_Nconc", "leafDead_6_WSCc",
@@ -119,7 +119,7 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
           }
           
           # Fix C: Patch collection dates for physiological components at Stage 8
-          target_dfs_8 <- c(
+          target_dfs_8 <- c("earYield_8_raw",
             "stemYield_8_raw", "spikeYield_8_raw", "senescLeafYield_8_raw", 
             "totalAboveGround_8_raw", "par_8_raw", "greenLeaf_8_raw",
             "leafDead_8_Nconc", "leafDead_8_WSCc",
