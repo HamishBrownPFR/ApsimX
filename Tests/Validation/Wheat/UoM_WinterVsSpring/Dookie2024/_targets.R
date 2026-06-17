@@ -276,7 +276,8 @@ list(
   # 2. THE GATEKEEPER (The new Universal script)
   tar_target(
     name = qc_pheno_integrity,
-    command = check_pheno_integrity(df_pheno_input_param)
+    command = check_pheno_integrity(df_pheno_input_param, 
+    expected_sims = df_simNameByCult)
   ),
   
   # ----------------------------------------------------------------------------
