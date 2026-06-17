@@ -120,9 +120,9 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
-              "Units": "",
-              "Name": "FlowerAbortionPpSensitivity",
+              "FixedValue": 60.0,
+              "Units": null,
+              "Name": "TtPodDevelopment",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -143,6 +143,16 @@
               "FixedValue": 15.0,
               "Units": "Nodes",
               "Name": "MaxFloralNodes",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.Constant, Models",
+              "FixedValue": 0.0,
+              "Units": null,
+              "Name": "FlowerAbortionPpSensitivity",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -945,8 +955,17 @@
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.AddFunction, Models",
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Phenology].TtFlowerDevelopment",
                   "Name": "Target",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.AddFunction, Models",
+                  "Name": "TargetComplex",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -955,7 +974,7 @@
                       "Name": "FirstSuccessfulBud",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
@@ -1002,7 +1021,7 @@
                               "Name": "SpeciesMaxShortDayDuration",
                               "ResourceName": null,
                               "Children": [],
-                              "Enabled": true,
+                              "Enabled": false,
                               "ReadOnly": false
                             },
                             {
@@ -1011,11 +1030,11 @@
                               "Name": "GenotypeRelativePpSensitivity",
                               "ResourceName": null,
                               "Children": [],
-                              "Enabled": true,
+                              "Enabled": false,
                               "ReadOnly": false
                             }
                           ],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         },
                         {
@@ -1024,15 +1043,15 @@
                           "Name": "Shape",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 }
               ],
@@ -1048,10 +1067,9 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.Constant, Models",
-                  "FixedValue": 60.0,
-                  "Units": null,
-                  "Name": "Target",
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Phenology].ThermalTime",
+                  "Name": "Progression",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -1059,8 +1077,8 @@
                 },
                 {
                   "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Phenology].ThermalTime",
-                  "Name": "Progression",
+                  "VariableName": "[Phenology].TtPodDevelopment",
+                  "Name": "Target",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
