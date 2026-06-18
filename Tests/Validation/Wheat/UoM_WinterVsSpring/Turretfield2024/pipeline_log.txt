@@ -11,7 +11,7 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.83 seconds]
+● built target config [0.86 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
 📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
@@ -24,10 +24,11 @@ The following objects are masked from 'package:base':
 ------------------------------------------------
 💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
 ▶ start target config_soil
-● built target config_soil [1.64 seconds]
+● built target config_soil [1.79 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 ▶ start target df_simNameByCult
+● built target df_simNameByCult [0 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -107,9 +108,8 @@ $file_name_input_haun
 
 ======================================================================
 
-● built target df_simNameByCult [0 seconds]
 ▶ start target log_active_config
-● built target log_active_config [0.02 seconds]
+● built target log_active_config [0 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 Loading required package: rlang
@@ -136,9 +136,10 @@ The following objects are masked from 'package:purrr':
 ======================================================================
 
 ▶ start target processed_met_data
-● built target processed_met_data [0.19 seconds]
+● built target processed_met_data [0.16 seconds]
 ▶ start target raw_soil_tracker
-● built target raw_soil_tracker [0.01 seconds]
+● built target raw_soil_tracker [0 seconds]
+▶ start target list_observed_dfs_raw
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -429,8 +430,8 @@ The following objects are masked from 'package:purrr':
  -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
-▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [8.21 seconds]
+● built target list_observed_dfs_raw [7.81 seconds]
+▶ start target manual_pheno_params
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -439,14 +440,13 @@ The following objects are masked from 'package:purrr':
  -> Checking: Turretfield2024_GermDatesInput.csv 
 ======================================================================
 
-▶ start target manual_pheno_params
-● built target manual_pheno_params [0.23 seconds]
-▶ start target encrypted_zip_artifact
+● built target manual_pheno_params [0.25 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-● built target encrypted_zip_artifact [0.29 seconds]
+▶ start target encrypted_zip_artifact
+● built target encrypted_zip_artifact [0.3 seconds]
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.02 seconds]
+● built target msg_met_saved [0.01 seconds]
 
 ======================================================================
  ⚠️ APPROXIMATE SAMPLE DATES APPLIED ⚠️
@@ -543,10 +543,10 @@ Encrypting archive...
 ======================================================================
 
 ▶ start target list_observed_dfs_clean
-● built target list_observed_dfs_clean [0.33 seconds]
-▶ start target final_apsim_observed
+● built target list_observed_dfs_clean [0.27 seconds]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
-● built target final_apsim_observed [0.17 seconds]
+▶ start target final_apsim_observed
+● built target final_apsim_observed [0.19 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: HARVEST INDEX ⚠️ 
@@ -577,7 +577,7 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-● built target df_obs_plus_hi_amounts [0.2 seconds]
+● built target df_obs_plus_hi_amounts [0.14 seconds]
 ▶ start target df_obs_plus_hi_amounts_harv
 
 ============================================================
@@ -588,13 +588,13 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
-● built target df_obs_plus_hi_amounts_harv [0.14 seconds]
+● built target df_obs_plus_hi_amounts_harv [0.13 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_apsim_observed
-● built target qc_apsim_observed [0.09 seconds]
-✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
+● built target qc_apsim_observed [0.07 seconds]
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.19 seconds]
+✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
+● built target msg_obs_saved [0.17 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: Turretfield2024_population.csv
@@ -606,9 +606,9 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 ● built target exported_pop_csv [0.06 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target verify_dependencies
-● built target verify_dependencies [0.03 seconds]
-▶ start target verify_data_backup
+● built target verify_dependencies [0.01 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
-● built target verify_data_backup [0.03 seconds]
-▶ end pipeline [13.93 seconds]
+▶ start target verify_data_backup
+● built target verify_data_backup [0.04 seconds]
+▶ end pipeline [13.45 seconds]
 There were 16 warnings (use warnings() to see them)
