@@ -231,19 +231,6 @@
           "Children": [],
           "Enabled": true,
           "ReadOnly": false
-        },
-        {
-          "$type": "Models.PMF.Cultivar, Models",
-          "Command": [
-            "[Phenology].JuvenileBase.FixedValue = 149.816047538945",
-            "[Phenology].VernSensitivity.FixedValue = 0.09290082543999546",
-            "[Phenology].InductivePpSensitivity.FixedValue = 0.09045457782107615"
-          ],
-          "Name": "Bolt",
-          "ResourceName": null,
-          "Children": [],
-          "Enabled": true,
-          "ReadOnly": false
         }
       ],
       "Enabled": true,
