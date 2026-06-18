@@ -85,12 +85,12 @@ list(
       file_name_new_met       = paste0(proj_name, ".met"),
       
       # Local data corrections needed - Wagga25 Specific Target Variables (see local script)
-      vars_stage_6 = c(
+      vars_stage_6 = c("earYield_6_raw",
         "stemYield_6_raw", "spikeYield_6_raw", "senescLeafYield_6_raw","totalAboveGround_6_raw", 
         "par_6_raw", "greenLeaf_6_raw","leafDead_6_Nconc", "leafDead_6_WSCc",
         "leaf_6_Nconc", "leaf_6_WSCc","stem_6_Nconc","stem_6_WSCc",
         "spike_6_Nconc","spike_6_WSCc"),
-      vars_stage_8 = c("stemYield_8_raw", "spikeYield_8_raw", "senescLeafYield_8_raw", 
+      vars_stage_8 = c("earYield_8_raw","stemYield_8_raw", "spikeYield_8_raw", "senescLeafYield_8_raw", 
         "totalAboveGround_8_raw", "par_8_raw", "greenLeaf_8_raw",
         "leafDead_8_Nconc", "leafDead_8_WSCc","leaf_8_Nconc", "leaf_8_WSCc","stem_8_Nconc",
         "stem_8_WSCc","spike_8_Nconc","spike_8_WSCc"
@@ -348,6 +348,18 @@ list(
     command = format_apsim_pheno_params(df_pheno_final)
   ),
   
+  # ---------------------------------------------------------
+  # NEW: The Phenology Integrity Gatekeeper
+  # ---------------------------------------------------------
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(
+      df_pheno      = df_pheno_input_param,
+      expected_sims = df_simNameByCult
+    )
+  ),
+  
+  
   # ----------------------------------------------------------------------------
   # PHASE E: FINAL OBSERVATION FORMATTING & QC
   # ----------------------------------------------------------------------------
@@ -477,7 +489,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_integrity,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

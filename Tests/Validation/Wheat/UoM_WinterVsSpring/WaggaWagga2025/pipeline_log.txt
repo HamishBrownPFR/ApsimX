@@ -11,11 +11,21 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.86 seconds]
+● built target config [0.85 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
-▶ start target df_simNameByCult
-● built target df_simNameByCult [0 seconds]
+▶ start target soil_profile_data
+📖 Reading soil data from: 2025_WaggaWagga_PHDA25WARI2.xlsx (Sheet: Soil sampling)
+
+--- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
+   -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
+   -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 62.
+   -> Column 'Total Carb' found 4 times. Safely extracted Index 170.
+   -> Column 'Sand' found 3 times, but ALL instances appear empty. Defaulted to Index 63.
+------------------------------------------------
+💾 Success: Exported cleaned soil profile to 'WaggaWagga2025_soil_profile_data.csv'
+● built target soil_profile_data [1.97 seconds]
+▶ start target processed_met_data
 Loading required package: rlang
 
 Attaching package: 'rlang'
@@ -29,21 +39,7 @@ The following objects are masked from 'package:purrr':
     %@%, flatten, flatten_chr, flatten_dbl, flatten_int, flatten_lgl,
     flatten_raw, invoke, splice
 
-▶ start target tracked_raw_excel
-● built target tracked_raw_excel [0 seconds]
-▶ start target processed_met_data
-● built target processed_met_data [0.17 seconds]
-📖 Reading soil data from: 2025_WaggaWagga_PHDA25WARI2.xlsx (Sheet: Soil sampling)
-
---- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
-   -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
-   -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 62.
-   -> Column 'Total Carb' found 4 times. Safely extracted Index 170.
-   -> Column 'Sand' found 3 times, but ALL instances appear empty. Defaulted to Index 63.
-------------------------------------------------
-💾 Success: Exported cleaned soil profile to 'WaggaWagga2025_soil_profile_data.csv'
-▶ start target soil_profile_data
-● built target soil_profile_data [1.64 seconds]
+● built target processed_met_data [0.13 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -129,37 +125,33 @@ $file_name_new_met
 [1] "WaggaWagga2025.met"
 
 $vars_stage_6
- [1] "stemYield_6_raw"        "spikeYield_6_raw"       "senescLeafYield_6_raw" 
- [4] "totalAboveGround_6_raw" "par_6_raw"              "greenLeaf_6_raw"       
- [7] "leafDead_6_Nconc"       "leafDead_6_WSCc"        "leaf_6_Nconc"          
-[10] "leaf_6_WSCc"            "stem_6_Nconc"           "stem_6_WSCc"           
-[13] "spike_6_Nconc"          "spike_6_WSCc"          
+ [1] "earYield_6_raw"         "stemYield_6_raw"        "spikeYield_6_raw"      
+ [4] "senescLeafYield_6_raw"  "totalAboveGround_6_raw" "par_6_raw"             
+ [7] "greenLeaf_6_raw"        "leafDead_6_Nconc"       "leafDead_6_WSCc"       
+[10] "leaf_6_Nconc"           "leaf_6_WSCc"            "stem_6_Nconc"          
+[13] "stem_6_WSCc"            "spike_6_Nconc"          "spike_6_WSCc"          
 
 $vars_stage_8
- [1] "stemYield_8_raw"        "spikeYield_8_raw"       "senescLeafYield_8_raw" 
- [4] "totalAboveGround_8_raw" "par_8_raw"              "greenLeaf_8_raw"       
- [7] "leafDead_8_Nconc"       "leafDead_8_WSCc"        "leaf_8_Nconc"          
-[10] "leaf_8_WSCc"            "stem_8_Nconc"           "stem_8_WSCc"           
-[13] "spike_8_Nconc"          "spike_8_WSCc"          
+ [1] "earYield_8_raw"         "stemYield_8_raw"        "spikeYield_8_raw"      
+ [4] "senescLeafYield_8_raw"  "totalAboveGround_8_raw" "par_8_raw"             
+ [7] "greenLeaf_8_raw"        "leafDead_8_Nconc"       "leafDead_8_WSCc"       
+[10] "leaf_8_Nconc"           "leaf_8_WSCc"            "stem_8_Nconc"          
+[13] "stem_8_WSCc"            "spike_8_Nconc"          "spike_8_WSCc"          
 
 ======================================================================
 
 ▶ start target log_active_config
-● built target log_active_config [0 seconds]
+● built target log_active_config [0.01 seconds]
+▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
+▶ start target df_simNameByCult
+● built target df_simNameByCult [0 seconds]
 📖 Reading soil data from: 2025_WaggaWagga_PHDA25WARI2.xlsx (Sheet: Soil Characterisation)
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2025_soil_water_data.csv'
 ▶ start target soil_water_data
-● built target soil_water_data [0.23 seconds]
-
-======================================================================
- 🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
-======================================================================
- -> Checking: WaggaWagga2025_ConstantPhenology.csv 
- -> Checking: WaggaWagga2025_GermDatesInput.csv 
-======================================================================
-
-▶ start target manual_pheno_params
-● built target manual_pheno_params [0.26 seconds]
+● built target soil_water_data [0.29 seconds]
+▶ start target msg_met_saved
+● built target msg_met_saved [0 seconds]
 
 ======================================================================
  ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
@@ -172,9 +164,18 @@ $vars_stage_8
 ======================================================================
 
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [4.67 seconds]
-▶ start target msg_met_saved
-● built target msg_met_saved [0.01 seconds]
+● built target list_observed_dfs_raw [4.84 seconds]
+
+======================================================================
+ 🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
+======================================================================
+ -> Checking: WaggaWagga2025_ConstantPhenology.csv 
+ -> Checking: WaggaWagga2025_GermDatesInput.csv 
+======================================================================
+
+▶ start target manual_pheno_params
+● built target manual_pheno_params [0.25 seconds]
+▶ start target list_observed_dfs
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -185,7 +186,6 @@ $vars_stage_8
  -> Action        : Converted raw counts to 0-100% scale per SimulationName
 ----------------------------------------------------------------------
 
-▶ start target list_observed_dfs
 ● built target list_observed_dfs [0.05 seconds]
 
 ===========================================================
@@ -231,15 +231,15 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.13 seconds]
+● built target df_pheno_haun [0.14 seconds]
 ✅ Successfully extracted 3 target dataframes.
 ▶ start target list_pcds_extracted
 ● built target list_pcds_extracted [0.03 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.13 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+● built target df_pheno_raw [0.14 seconds]
 ▶ start target df_pheno_int
+Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
 ● built target df_pheno_int [0.08 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
@@ -283,8 +283,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
 ● built target df_pheno_final [0.15 seconds]
 Success: Applied Wagga 2025 specific data corrections.
 ▶ start target list_observed_clean
-● built target list_observed_clean [0.2 seconds]
-▶ start target df_pheno_input_param
+● built target list_observed_clean [0.29 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -295,16 +294,22 @@ Success: Applied Wagga 2025 specific data corrections.
 ----------------------------------------------------------------------
 
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
-● built target df_pheno_input_param [0.09 seconds]
-▶ start target df_obs_wide
+▶ start target df_pheno_input_param
+● built target df_pheno_input_param [0.1 seconds]
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
-● built target df_obs_wide [0.22 seconds]
+▶ start target df_obs_wide
+● built target df_obs_wide [0.24 seconds]
+
+🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
+▶ start target qc_pheno_integrity
+● built target qc_pheno_integrity [0.03 seconds]
+Success [add_new_var_to_obs]: Appended and collapsed 96 events into master observations under column 'Wheat.Phenology.Stage'.
+▶ start target df_obs_plus_pheno
+● built target df_obs_plus_pheno [0.38 seconds]
 ▶ start target msg_pheno_param_saved
 ● built target msg_pheno_param_saved [0 seconds]
-▶ start target df_obs_plus_pheno
-Success [add_new_var_to_obs]: Appended and collapsed 96 events into master observations under column 'Wheat.Phenology.Stage'.
-● built target df_obs_plus_pheno [0.38 seconds]
+▶ start target df_obs_plus_pheno_hi
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: HARVEST INDEX ⚠️ 
@@ -314,7 +319,6 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
  -> QC STATUS    : PASS (All HI values <= 1.0)
 ------------------------------------------------------------
 
-▶ start target df_obs_plus_pheno_hi
 ● built target df_obs_plus_pheno_hi [0.06 seconds]
 
 ------------------------------------------------------------
@@ -335,7 +339,8 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 
 
 ▶ start target df_obs_plus_pheno_hi_with_amounts
-● built target df_obs_plus_pheno_hi_with_amounts [0.16 seconds]
+● built target df_obs_plus_pheno_hi_with_amounts [0.19 seconds]
+▶ start target df_obs_plus_pheno_harv
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -345,16 +350,15 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
-▶ start target df_obs_plus_pheno_harv
-● built target df_obs_plus_pheno_harv [0.12 seconds]
+● built target df_obs_plus_pheno_harv [0.14 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_apsim_observed_harv
-● built target qc_apsim_observed_harv [0.07 seconds]
+● built target qc_apsim_observed_harv [0.22 seconds]
 Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2025_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.36 seconds]
+● built target msg_obs_saved [0.22 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
+● built target haun_input_checked [0.05 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: WaggaWagga2025_population.csv
@@ -368,15 +372,15 @@ Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validat
 ● built target tracked_excel_files [0 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target check_depend
-● built target check_depend [0.04 seconds]
+● built target check_depend [0.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.29 seconds]
-▶ start target verify_data_backup
+● built target encrypted_zip_artifact [0.27 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
-● built target verify_data_backup [0.01 seconds]
-▶ end pipeline [11.83 seconds]
+▶ start target verify_data_backup
+● built target verify_data_backup [0.03 seconds]
+▶ end pipeline [12.54 seconds]
 Warning messages:
 1: package 'targets' was built under R version 4.3.2 
 2: package 'rstudioapi' was built under R version 4.3.2 
