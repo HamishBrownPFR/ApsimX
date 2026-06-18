@@ -77,6 +77,22 @@ list(
     )
   ),
   
+  # THE PIPELINE TRACEABILITY TARGET
+  tar_target(
+    name = log_active_config,
+    command = {
+      cat("\n======================================================================\n")
+      cat(" ⚙️ ACTIVE PIPELINE CONFIGURATION \n")
+      cat("======================================================================\n")
+      
+      print(config)
+      
+      cat("======================================================================\n\n")
+      invisible(config)
+    },
+    cue = tar_cue(mode = "always")
+  ),
+  
   # ------------------------------------------------------------------
   # PHASE B: VALIDATE AND COPY MET FILE
   # ------------------------------------------------------------------
@@ -199,16 +215,30 @@ list(
     )
   ),
   
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
+  #   command = calc_nutrient_absolute_amounts(
+  #     df           = df_obs_plus_pheno_hi_renamed_corrected, 
+  #     crop_prefix  = "Wheat",
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+  #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
+  #     mass_suffix  = "Wt",
+  #     ag_name      = "Wheat.AboveGround",
+  #     divisor      = 1  # Note: Assuming your conc values are already fractions (g/g). If they are %, change to 100!
+  #   )
+  # ),
+  
   tar_target(
     name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
     command = calc_nutrient_absolute_amounts(
-      df           = df_obs_plus_pheno_hi_renamed_corrected, 
-      crop_prefix  = "Wheat",
-      organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
-      conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix  = "Wt",
-      ag_name      = "Wheat.AboveGround",
-      divisor      = 1  # Note: Assuming your conc values are already fractions (g/g). If they are %, change to 100!
+      df             = df_obs_plus_pheno_hi_renamed_corrected, 
+      crop_prefix    = "Wheat",
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix    = "Wt",
+      ag_name        = "Wheat.AboveGround",
+      divisor        = 1,
+      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
     )
   ),
   
@@ -216,10 +246,18 @@ list(
     name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", 
-                        "HarvestIndex", "Wheat.Spike.Live.Wt"),
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
+    )
+  ),
+  
+  tar_target(
+    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,
+    command = fix_ear_calc(
+      df_obs_wide       = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv, 
+      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+      ear_orig_var_name  = "Wheat.Spike.Live.Wt"  # The new safe column we are building
     )
   ),
   
@@ -229,7 +267,19 @@ list(
   # THE QC GATEKEEPER
   tar_target(
     name = qc_apsim_observed,
-    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv)
+    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear)
+  ),
+  
+  
+  tar_target(
+    name = exported_pop_csv,
+    command = print_csv_with_select_obs(
+      df_in         = qc_apsim_observed, # Simulated dependency: replace with your actual final df
+      file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
+      select_vars   = c("Wheat.SowingData.Population"),
+      primary_key   = "SimulationName" # Explicitly utilizing the default we set up
+    ),
+    format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
   ),
   
   # Haun Check (Enforces DAG dependency on the QC Gate)
@@ -261,6 +311,15 @@ list(
       sheet_name  = config$sheet_name_observed
     ),
     format = "file"
+  ),
+  
+  tar_target(
+    name = manual_pheno_params,
+    command = check_pheno_manual_parameters(
+      folder_name  = config$folder_inputs,
+      proj_name    = config$proj_name,
+      sim_names_df = df_obs_raw
+    )
   ),
   
   # ----------------------------------------------------------------------------

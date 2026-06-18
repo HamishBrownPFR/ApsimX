@@ -27,7 +27,8 @@ tar_option_set(
 # Load master scripts
 targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
-targets::tar_source("R")
+#targets::tar_source("R")
+source("R/apply_local_fixes.R") 
 
 
 # ------------------------------------------------------------------------------
@@ -72,7 +73,7 @@ list(
       # Model parameters
       coord_thisLatLon       = data.frame(lat = -34.5435, lon = 138.8444),
       target_stagePerc       = 50,     # % of stage development when event date is retrieved
-      target_betwStages      = 50,     # % of period between adjacent events for synthetic dates
+      target_betwStages      = 0.5,     # fraction of time in-between two pheno-stages
       var_name_stage         = "apsim_stage_raw",       # Synthetic var with observed PCSD data
       varName_addedToObserv  = "Wheat.Phenology.Stage", # Synthetic var added into observations
       max_leaf_limit         = 0.95,   # Fractional max leaves assumed when terminal spikelet is set
@@ -83,17 +84,53 @@ list(
     )
   ),
   
+  # THE PIPELINE TRACEABILITY TARGET
+  tar_target(
+    name = log_active_config,
+    command = {
+      cat("\n======================================================================\n")
+      cat(" ⚙️ ACTIVE PIPELINE CONFIGURATION \n")
+      cat("======================================================================\n")
+      
+      print(config)
+      
+      cat("======================================================================\n\n")
+      invisible(config)
+    },
+    cue = tar_cue(mode = "always")
+  ),
+  
+  # tar_target(
+  #   name = config_soil,
+  #   command = list(
+  #     folder_rawData  = config$folder_rawData,       
+  #     file_excel      = config$file_rawData_excel, 
+  #     sheet_name      = "Soil sampling",
+  #     rep_col         = "Block",
+  #     col_depth_from  = "Depth From",
+  #     col_depth_to    = "Depth To",
+  #     target_vars     = c("Bulk density", "LL", "Soil moisture", 
+  #                         "Available water", "Nitrate Nitrogen", "Ammonium Nitrogen") 
+  #   )
+  # ),
+  
+  
   tar_target(
     name = config_soil,
-    command = list(
-      folder_rawData  = config$folder_rawData,       
-      file_excel      = config$file_rawData_excel, 
-      sheet_name      = "Soil sampling",
-      rep_col         = "Block",
-      col_depth_from  = "Depth From",
-      col_depth_to    = "Depth To",
-      target_vars     = c("Bulk density", "LL", "Soil moisture", 
-                          "Available water", "Nitrate Nitrogen", "Ammonium Nitrogen") 
+    command = read_soil_data(
+      folder          = config$folder_rawData,
+      file            = config$file_rawData_excel,
+      sheet          = "Soil sampling",
+      vars_to_extract = c("Block", "Depth From", "Depth To", "Bulk density", "LL", "Soil moisture", 
+                          "Available water", "H grav.(%)", "pH (1:5 Water)", "Electrical Conductivity", 
+                          "Nitrate Nitrogen", "Ammonium Nitrogen", "Organic Carbon", "Silt", "Clay", 
+                          "Sand Coarse", "Sand Fine", "Organic Matter", "Total Carbon", "Total Carbon", 
+                          "Total Nitrogen", "Total Nitrogen", "Silt", "Clay", "Sand", "Water Mass", 
+                          "Saturation", "Air Dry Moisture", "Total Carbon", "Total Carbon", "C:N Ratio", 
+                          "Soil Bulk Density", "Gravimetric Water Content"),
+      col_depth_from  = "Depth From", # Optional if this matches the default
+      col_depth_to    = "Depth To",    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_profile.csv")
     )
   ),
   
@@ -108,22 +145,22 @@ list(
     format = "file"
   ),
   
-  tar_target(
-    name = df_soil_profile_clean,
-    command = {
-      force(raw_soil_tracker)
-      
-      process_soil_profile(
-        folder_name    = config_soil$folder_rawData,
-        file_name      = config_soil$file_excel,
-        sheet_name     = config_soil$sheet_name,
-        var_list       = config_soil$target_vars,
-        rep_name       = config_soil$rep_col,
-        col_depth_from = config_soil$col_depth_from,
-        col_depth_to   = config_soil$col_depth_to
-      )
-    }
-  ),
+  # tar_target(
+  #   name = df_soil_profile_clean,
+  #   command = {
+  #     force(raw_soil_tracker)
+  #     
+  #     process_soil_profile(
+  #       folder_name    = config_soil$folder_rawData,
+  #       file_name      = config_soil$file_excel,
+  #       sheet_name     = config_soil$sheet_name,
+  #       var_list       = config_soil$target_vars,
+  #       rep_name       = config_soil$rep_col,
+  #       col_depth_from = config_soil$col_depth_from,
+  #       col_depth_to   = config_soil$col_depth_to
+  #     )
+  #   }
+  # ),
   
   tar_target(
     name = processed_met_data,
@@ -171,13 +208,15 @@ list(
   tar_target(
     name = list_observed_dfs_raw,
     command = {
+      # The force() command ensures {targets} rebuilds this if the raw Excel file changes on your computer
       force(tracked_raw_excel) 
       
-      compile_all_observed(
+      compile_all_obs_by_one_key(
         folder      = config$folder_rawData,
-        excel_files = config$file_rawData_excel, 
+        excel_files = config$file_rawData_excel,
         df_obs_info = df_obs_meta_data,
-        df_simNames = df_simNameByCult
+        df_simNames = df_simNameByCult,
+        unique_key  = "Plot"  # <--- Change this to "Plot" if running Fords2025!
       )
     }
   ),
@@ -204,16 +243,54 @@ list(
     name = final_apsim_observed,
     command = prepare_apsim_observed(
       compiled_obs = list_observed_dfs_clean,
-      dfs_out      = c("ndvi_raw", "weather_qc_checks") # Datasets to exclude
+      dfs_out      = c("weather_qc_checks") # Datasets to exclude
     )
   ),
   
+  tar_target(
+    name = df_obs_plus_hi,
+    command = calc_harvest_index(
+      df          = final_apsim_observed,
+      grain_col   = "Wheat.Grain.Wt",
+      agb_col     = "Wheat.AboveGround.Wt",
+      hi_col_name = "HarvestIndex"
+    )
+  ),
+  
+  # tar_target(
+  #   name = df_obs_plus_hi_amounts,
+  #   command = calc_nutrient_absolute_amounts(
+  #     df           = df_obs_plus_hi,
+  #     crop_prefix  = "Wheat",
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"),
+  #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"),
+  #     mass_suffix  = "Wt",
+  #     ag_name      = "Wheat.AboveGround",
+  #     divisor      = 1
+  #   )
+  # ),
+  
+  tar_target(
+    name = df_obs_plus_hi_amounts,
+    command = calc_nutrient_absolute_amounts(
+      df             = df_obs_plus_hi, 
+      crop_prefix    = "Wheat",
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix    = "Wt",
+      ag_name        = "Wheat.AboveGround",
+      divisor        = 1,
+      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
+    )
+  ),
+
+  
   # Flag the final measurement dates as "HarvestRipe"
   tar_target(
-    name = df_final_observed_harv, 
+    name = df_obs_plus_hi_amounts_harv, 
     command = add_harv_into_obs(
-      df            = final_apsim_observed,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt"), 
+      df            = df_obs_plus_hi_amounts,
+      ref_vars      = c("Wheat.Grain.Wt"), 
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
@@ -221,8 +298,30 @@ list(
   
   # THE QC GATEKEEPER
   tar_target(
-    name = qc_apsim_observed_harv,
-    command = check_obs_health(df_final_observed_harv) # Stops the pipeline if it fails!
+    name = qc_apsim_observed,
+    command = check_obs_health(df_obs_plus_hi_amounts_harv) # Stops the pipeline if it fails!
+  ),
+  
+  
+  tar_target(
+    name = exported_pop_csv,
+    command = print_csv_with_select_obs(
+      df_in         = qc_apsim_observed, # Simulated dependency: replace with your actual final df
+      file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
+      select_vars   = c("[Wheat].Leaf.StemPopulation"),
+      primary_key   = "SimulationName" # Explicitly utilizing the default we set up
+    ),
+    format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
+  ),
+  
+  
+  tar_target(
+    name = manual_pheno_params,
+    command = check_pheno_manual_parameters(
+      folder_name  = config$folder_inputs,
+      proj_name    = config$proj_name,
+      sim_names_df = df_simNameByCult
+    )
   ),
   
   # ----------------------------------------------------------------------------
@@ -246,7 +345,7 @@ list(
   tar_target(
     name = msg_obs_saved,
     command = save_obs_to_excel(
-      df_final  = qc_apsim_observed_harv, 
+      df_final  = qc_apsim_observed, 
       obs_path  = config$folder_observed,
       file_name = config$file_saved_obs_excel,
       sheetName = "Observed"

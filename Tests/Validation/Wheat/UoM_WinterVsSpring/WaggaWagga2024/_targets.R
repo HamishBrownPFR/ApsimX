@@ -5,7 +5,7 @@
 # synthetic phenology stages, formatting soil/met inputs, and generating the 
 # final '_Observed.xlsx' file for APSIM-X injection.
 # ==============================================================================
-
+#options(warn = 1)
 library(targets)
 library(rstudioapi)
 library(here)
@@ -73,11 +73,11 @@ list(
       
       # Model parameters
       coord_thisLatLon        = data.frame(lat = -35.041, lon = 147.319),
-      target_stagePerc        = 0.5,     # % of stage development when event date is retrieved
+      target_stagePerc        = 50,     # % of stage development when event date is retrieved
       target_betwStages       = 0.5,     # fraction of period between adjacent events for synthetic dates
       var_df_name_stage       = "apsim_stage_raw",       # Synthetic var with observed PCSD data
       max_leaf_limit          = 0.95,   # Fractional max leaves assumed when terminal spikelet is set
-      pcd_stages_to_extract   = c("pcds_3_emergPlants","pcds_6_flagLeaf", "pcds_8_anthesis"),
+      pcd_stages_to_extract   = c("pcds_3_emergPlants_Perc","pcds_6_flagLeaf", "pcds_8_anthesis"),
       
       # Output file names
       file_name_input_pheno   = paste0(proj_name, "_PhenoDatesInput.csv"),
@@ -85,6 +85,23 @@ list(
       file_name_new_met       = paste0(proj_name, ".met") # Added to prevent Phase H crash
     )
   ),
+  
+  # THE PIPELINE TRACEABILITY TARGET
+  tar_target(
+    name = log_active_config,
+    command = {
+      cat("\n======================================================================\n")
+      cat(" ⚙️ ACTIVE PIPELINE CONFIGURATION \n")
+      cat("======================================================================\n")
+      
+      print(config)
+      
+      cat("======================================================================\n\n")
+      invisible(config)
+    },
+    cue = tar_cue(mode = "always")
+  ),
+  
   
   tar_target(
     name = df_simNameByCult,
@@ -99,19 +116,129 @@ list(
   # ----------------------------------------------------------------------------
   # PHASE B: SOIL & WEATHER PROCESSING
   # ----------------------------------------------------------------------------
+  
+  # --------------------
+  # SOILS
+  #---------------------
+  
+  # tar_target(
+  #   name = df_soil_water, 
+  #   command = read_soil_water_data(
+  #     config$folder_rawData, 
+  #     config$file_rawData_excel, 
+  #     config$sheetExcel_soilWater
+  #   )
+  # ),
+  # 
+  # tar_target(
+  #   name = json_soil_water, 
+  #   command = soil_water_into_json(df_soil_water)
+  # ),
+  
+  # # Soil data
+  # tar_target(
+  #   name = soilN_data_clean,
+  #   command = read_soil_data(
+  #     folder          = config$folder_rawData,
+  #     file            = config$file_rawData_excel,
+  #     # sheet           = "Soil sampling",
+  #     sheet          = "Soil sampling",
+  #     vars_to_extract = c("Nitrate Nitrogen",	"Ammonium Nitrogen"),
+  #     col_depth_from  = "Depth From", # Optional if this matches the default
+  #     col_depth_to    = "Depth To"    # Optional if this matches the default
+  #   )
+  # ),
+  # 
+  # tar_target(
+  #   name = soil_DUL,
+  #   command = read_soil_data(
+  #     folder          = config$folder_rawData,
+  #     file            = "PAW estimates Wagga 2024 JRH.xlsx",
+  #     # sheet           = "PAW estimates",
+  #     sheet          = "PAW estimates",
+  #     vars_to_extract = c("Bulk density (g/cm2)",	"CLL_wheat",	"DUL_wheat",	
+  #                         "Volumetric water content"),
+  #     col_depth_from  = "Depth From (cm)", # Optional if this matches the default
+  #     col_depth_to    = "Depth To (cm)"   # Optional if this matches the default
+  #   )
+  # ),
+  
+  # ---- New Stuff 
+  
+  # Soil data
   tar_target(
-    name = df_soil_water, 
-    command = read_soil_water_data(
-      config$folder_rawData, 
-      config$file_rawData_excel, 
-      config$sheetExcel_soilWater
+    name = soil_profile_data,
+    command = read_soil_data(
+      folder          = config$folder_rawData,
+      file            = config$file_rawData_excel,
+      sheet          = "Soil sampling",
+      vars_to_extract =   c("pH (1:5 Water)",
+                            "Electrical Conductivity",
+                            "Nitrate Nitrogen",
+                            "Ammonium Nitrogen",
+                            "Silt",
+                            "Clay",
+                            "Sand Coarse",
+                            "Sand Fine",
+                            "Organic Matter",
+                            "EC - Saturated Paste",
+                            "Total Carbon (Combustion)",
+                            "Silt",
+                            "Clay"),
+      col_depth_from  = "Depth From", # Optional if this matches the default
+      col_depth_to    = "Depth To",    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_profile_data.csv")
     )
-  ),
+  ),	
+  
+  
+  # Soil waterdata
+  tar_target(
+    name = soil_water_data,
+    command = read_soil_data(
+      folder          = config$folder_rawData,
+      file            = "PAW estimates Wagga 2024 JRH.xlsx", # separate water info file
+      sheet          = "PAW estimates",
+      vars_to_extract =    c("layer_thickness_mm",
+                             "pH (1:5 Water)",
+                             " Organic Carbon %",
+                             "pH (1:5 CaCl2)",
+                             "Nitrate Nitrogen",
+                             "Ammonium Nitrogen",
+                             "Gravimetric_Water_Content %",
+                             "Bulk density (g/cm2)",
+                             "CLL_wheat",
+                             "DUL_wheat",
+                             "Volumetric water content",
+                             "PAW_2024_04_22",
+                             "PAWC",
+                             "Porosity" ,
+                             "Saturation",
+                             "Rainfall period",
+                             "total (mm)",
+                             "Estimated crop water supply"),
+      col_depth_from  = "Depth From", # Optional if this matches the default
+      col_depth_to    = "Depth To",    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_water_data.csv")
+    )
+  ),	
   
   tar_target(
-    name = json_soil_water, 
-    command = soil_water_into_json(df_soil_water)
-  ),
+    name = soil_gravWaterContent_data,
+    command = read_soil_data(
+      folder          = config$folder_rawData,
+      file            = config$file_rawData_excel, # separate water info file
+      sheet          = "GravimetricMoistureNearSowing",
+      vars_to_extract =  c("Gravimetric_Water_Content %"),
+      col_depth_from  = "Depth", # Optional if this matches the default
+      col_depth_to    = NULL,    # Optional if this matches the default
+      log_file_name   = paste0(config$proj_name,"_soil_gravWaterContent_data.csv")
+    )
+  ),	
+  
+  #------------
+  # MET DATA
+  #------------
   
   tar_target(
     name = processed_met_data, 
@@ -153,19 +280,64 @@ list(
     )
   ),
   
+  # tar_target(
+  #   name = list_observed_dfs_raw,
+  #   command = {
+  #     force(tracked_raw_excel)
+  #     compile_all_observed(
+  #       folder      = config$folder_rawData,
+  #       excel_files = config$file_rawData_excel,
+  #       df_obs_info = df_obs_meta_data,
+  #       df_simNames = df_simNameByCult
+  #     )
+  #   }
+  # ),
+  
   tar_target(
-    name = list_observed_dfs,
+    name = list_observed_dfs_raw,
     command = {
-      force(tracked_raw_excel) 
-      compile_all_observed(
+      force(tracked_raw_excel)
+      compile_all_obs_by_one_key(
         folder      = config$folder_rawData,
-        excel_files = config$file_rawData_excel, 
+        excel_files = config$file_rawData_excel,
         df_obs_info = df_obs_meta_data,
-        df_simNames = df_simNameByCult
+        df_simNames = df_simNameByCult,
+        unique_key  = "Plot"                          # <--- THE NEW EXPLICIT CONTRACT
+        #exp_keys    = config$exp_key_by_rawData_file   # Keeps your WWHI/EVA logic intact
+
+      )
+    }
+  ),
+
+  tar_target(
+    name = audit_report_raw_data_checked,
+    command = {
+      audit_observed_data_tibble_list(
+        df_tbl        = list_observed_dfs_raw,  # Your compiled nested tibble
+        expected_sims = df_simNameByCult,       # The function will automatically extract the names from this df!
+        min_year      = 2024,
+        max_year      = 2024
       )
     }
   ),
   
+  tar_target(
+    name = list_observed_dfs,
+    command = calc_emerg_perc(
+      df_tbl            = list_observed_dfs_raw,  # <--- Change this from df_list to df_tbl
+      df_input_var_name = "pcds_3_emergPlants",
+      df_new_var_name   = "pcds_3_emergPlants_Perc"
+    )
+  ),
+  
+  tar_target(
+    name = list_observed_clean,
+    command = apply_corrections_Wagga24(
+      df_tbl         = list_observed_dfs, 
+      df_pheno_final = df_pheno_final,
+      ref_date = config$ref_date
+    )
+  ),
   # ----------------------------------------------------------------------------
   # PHASE D: PHENOLOGY STAGE SYNTHESIS (Universal)
   # ----------------------------------------------------------------------------
@@ -212,16 +384,22 @@ list(
     command = format_apsim_pheno_params(df_pheno_final)
   ),
   
+  
+  # ---------------------------------------------------------
+  # NEW: The Phenology Integrity Gatekeeper
+  # ---------------------------------------------------------
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(
+      df_pheno      = df_pheno_input_param,
+      expected_sims = df_simNameByCult
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE E: FINAL OBSERVATION FORMATTING & QC
   # ----------------------------------------------------------------------------
-  tar_target(
-    name = list_observed_clean,
-    command = apply_corrections_Wagga24(
-      df_tbl         = list_observed_dfs, 
-      df_pheno_final = df_pheno_final
-    )
-  ),
+
   
   tar_target(
     name = df_obs_wide,
@@ -240,18 +418,34 @@ list(
     )
   ),
   
+  # tar_target(
+  #   name = df_obs_plus_pheno_with_amounts,
+  #   command = calc_nutrient_absolute_amounts(
+  #     df           = df_obs_plus_pheno, 
+  #     crop_prefix  = "Wheat",
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+  #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
+  #     mass_suffix  = "Wt",
+  #     ag_name      = "Wheat.AboveGround",
+  #     divisor      = 1  # Note: Assuming your conc values are already fractions (g/g). If they are %, change to 100!
+  #   )
+  # ),
+  
+  
   tar_target(
     name = df_obs_plus_pheno_with_amounts,
     command = calc_nutrient_absolute_amounts(
-      df           = df_obs_plus_pheno, 
-      crop_prefix  = "Wheat",
-      organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
-      conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix  = "Wt",
-      ag_name      = "Wheat.AboveGround",
-      divisor      = 1  # Note: Assuming your conc values are already fractions (g/g). If they are %, change to 100!
+      df             = df_obs_plus_pheno, 
+      crop_prefix    = "Wheat",
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix    = "Wt",
+      ag_name        = "Wheat.AboveGround",
+      divisor        = 1,
+      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
     )
   ),
+  
   
   tar_target(
     name = df_obs_plus_pheno_harv,
@@ -277,6 +471,26 @@ list(
     )
   ),
   
+  tar_target(
+    name = manual_pheno_params,
+    command = check_pheno_manual_parameters(
+      folder_name  = config$folder_inputs,
+      proj_name    = config$proj_name,
+      sim_names_df = df_simNameByCult
+    )
+  ),
+  
+  tar_target(
+    name = exported_pop_csv,
+    command = print_csv_with_select_obs(
+      df_in         = qc_apsim_observed_harv, # Simulated dependency: replace with your actual final df
+      file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
+      select_vars   = c("[Wheat].Leaf.StemPopulation"),
+      primary_key   = "SimulationName" # Explicitly utilizing the default we set up
+    ),
+    format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE F: OUTPUT GENERATION
   # ----------------------------------------------------------------------------
@@ -294,7 +508,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_integrity,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

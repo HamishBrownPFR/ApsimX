@@ -48,6 +48,27 @@ tar_destroy()
 ```
 
 
+
+# Run pipeline and save pipeline logs (ideal final run)
+- Re-runs all pipeline
+- Prints log with all warnings
+```{r}
+targets::tar_destroy(ask = FALSE)
+targets::tar_make(
+  callr_arguments = list(
+    stdout = "pipeline_log.txt",
+    stderr = "pipeline_log.txt"
+  )
+)
+```
+
+
+# -----------------------------------------------------
+# Debugging and other miscelaneous functionalities below 
+#------------------------------------------------------
+
+
+
 # DEBUG
 ```{r}
 tar_load(df_simNameByCult)
@@ -90,5 +111,10 @@ date_qc_table <- my_raw_data %>%
 date_qc_table %>% 
   as_tibble() %>% 
   print(n = Inf)
+```
+
+```{r}
+tar_load(list_observed_dfs_raw)
+tar_load(qc_apsim_observed_harv)
 ```
 

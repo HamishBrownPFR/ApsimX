@@ -51,10 +51,34 @@ tar_destroy()
 ```
 
 
+# Run pipeline and save pipeline logs (ideal final run)
+- Re-runs all pipeline
+- Prints log with all warnings
+```{r}
+targets::tar_destroy(ask = FALSE)
+targets::tar_make(
+  callr_arguments = list(
+    stdout = "pipeline_log.txt",
+    stderr = "pipeline_log.txt"
+  )
+)
+```
+
+
+# -----------------------------------------------------
+# Debugging and other miscelaneous functionalities below 
+#------------------------------------------------------
+
 # Get soil parameters in json format
 ```{r}
 tar_read(json_soil_water)
-
+x<-tar_read(df_obs_renamed)
+names(x)
+x<-tar_read(df_obs_mean)
+names(x)
+x<-tar_read(df_obs_plus_pheno_hi_amounts)
+names(x)
+x %>% dplyr::select("Wheat.Stem.N", "Wheat.Spike.N") %>% summary()
 ```
 
 ```{r}

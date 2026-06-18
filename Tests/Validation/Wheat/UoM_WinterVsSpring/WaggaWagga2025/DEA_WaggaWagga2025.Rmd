@@ -47,6 +47,27 @@ tar_destroy()
 
 ```
 
+
+# Run pipeline and save pipeline logs (ideal final run)
+- Re-runs all pipeline
+- Prints log with all warnings
+```{r}
+targets::tar_destroy(ask = FALSE)
+targets::tar_make(
+  callr_arguments = list(
+    stdout = "pipeline_log.txt",
+    stderr = "pipeline_log.txt"
+  )
+)
+```
+
+
+# -----------------------------------------------------
+# Debugging and other miscelaneous functionalities below 
+#------------------------------------------------------
+
+
+
 # Get soil parameters in json format
 ```{r}
 tar_load(df_apsimStageInput)
@@ -74,7 +95,18 @@ tar_load(df_stages_Observ)
 df2<-tar_read(list_observed_dfs_raw)
 df3<-tar_read(df_stages_Observ)
 ```
+
 ```{r}
 names(targets::tar_read(df_pheno_final))
+```
+
+Create template to parameterise soils
+```{r}
+tar_load(df_soil_water)
+readr::write_csv(df_soil_water, "soilW_data_clean.csv", na = "")
+tar_load(soilN_data_clean)
+readr::write_csv(soilN_data_clean, "soilN_data_clean.csv", na = "")
+tar_load(soil_DUL)
+readr::write_csv(soil_DUL, "soilCaract_data_clean.csv", na = "")
 ```
 
