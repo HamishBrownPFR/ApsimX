@@ -10512,10 +10512,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 200",
-                "[Phenology].VernSensitivity.FixedValue = 0.0",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.93",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 78.6985",
+                "[Phenology].VernSensitivity.FixedValue = 0.8996",
+                "[Phenology].InductiveBase.FixedValue = 32.1505",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.4294"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
