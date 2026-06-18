@@ -1,17 +1,65 @@
-Cultivar,SimulationName
-Osprey,WaggaWagga2024CvOspreySow22-Apr
-Illabo,WaggaWagga2024CvIllaboSow22-Apr
-LRPB Kittyhawk,WaggaWagga2024CvKittyhawkSow22-Apr
-Rosella,WaggaWagga2024CvRosellaSow22-Apr
-Whistler,WaggaWagga2024CvWhistlerSow22-Apr
-EGA Wedgetail,WaggaWagga2024CvWedgetailSow22-Apr
-Wylah,WaggaWagga2024CvWylahSow22-Apr
-Mowhawk,WaggaWagga2024CvMowhawkSow22-Apr
-Meering,WaggaWagga2024CvMeeringSow13-May
-Yitpi,WaggaWagga2024CvYitpiSow13-May
-Janz,WaggaWagga2024CvJanzSow13-May
-Wyalkatchem,WaggaWagga2024CvWyalkatchemSow13-May
-Scepter,WaggaWagga2024CvScepterSow13-May
-EGA Gregory,WaggaWagga2024CvGregorySow13-May
-Mace,WaggaWagga2024CvMaceSow13-May
-Sunmaster,WaggaWagga2024CvSunmasterSow13-May
+Plot,Cultivar,SimulationName
+1,Rosella,WaggaWagga2024CvRosellaSow22-Apr
+2,Osprey,WaggaWagga2024CvOspreySow22-Apr
+3,Mowhawk,WaggaWagga2024CvMowhawkSow22-Apr
+4,Wylah,WaggaWagga2024CvWylahSow22-Apr
+5,EGA Wedgetail,WaggaWagga2024CvWedgetailSow22-Apr
+6,Illabo,WaggaWagga2024CvIllaboSow22-Apr
+7,Whistler,WaggaWagga2024CvWhistlerSow22-Apr
+8,LRPB Kittyhawk,WaggaWagga2024CvKittyhawkSow22-Apr
+9,Scepter,WaggaWagga2024CvScepterSow13-May
+10,Yitpi,WaggaWagga2024CvYitpiSow13-May
+11,Sunmaster,WaggaWagga2024CvSunmasterSow13-May
+12,Mace,WaggaWagga2024CvMaceSow13-May
+13,Janz,WaggaWagga2024CvJanzSow13-May
+14,EGA Gregory,WaggaWagga2024CvGregorySow13-May
+15,Meering,WaggaWagga2024CvMeeringSow13-May
+16,Wyalkatchem,WaggaWagga2024CvWyalkatchemSow13-May
+17,Mowhawk,WaggaWagga2024CvMowhawkSow22-Apr
+18,Whistler,WaggaWagga2024CvWhistlerSow22-Apr
+19,Osprey,WaggaWagga2024CvOspreySow22-Apr
+20,EGA Wedgetail,WaggaWagga2024CvWedgetailSow22-Apr
+21,Wylah,WaggaWagga2024CvWylahSow22-Apr
+22,LRPB Kittyhawk,WaggaWagga2024CvKittyhawkSow22-Apr
+23,Illabo,WaggaWagga2024CvIllaboSow22-Apr
+24,Rosella,WaggaWagga2024CvRosellaSow22-Apr
+25,EGA Gregory,WaggaWagga2024CvGregorySow13-May
+26,Sunmaster,WaggaWagga2024CvSunmasterSow13-May
+27,Yitpi,WaggaWagga2024CvYitpiSow13-May
+28,Wyalkatchem,WaggaWagga2024CvWyalkatchemSow13-May
+29,Scepter,WaggaWagga2024CvScepterSow13-May
+30,Meering,WaggaWagga2024CvMeeringSow13-May
+31,Mace,WaggaWagga2024CvMaceSow13-May
+32,Janz,WaggaWagga2024CvJanzSow13-May
+33,EGA Wedgetail,WaggaWagga2024CvWedgetailSow22-Apr
+34,LRPB Kittyhawk,WaggaWagga2024CvKittyhawkSow22-Apr
+35,Illabo,WaggaWagga2024CvIllaboSow22-Apr
+36,Whistler,WaggaWagga2024CvWhistlerSow22-Apr
+37,Rosella,WaggaWagga2024CvRosellaSow22-Apr
+38,Mowhawk,WaggaWagga2024CvMowhawkSow22-Apr
+39,Wylah,WaggaWagga2024CvWylahSow22-Apr
+40,Osprey,WaggaWagga2024CvOspreySow22-Apr
+41,Mace,WaggaWagga2024CvMaceSow13-May
+42,Meering,WaggaWagga2024CvMeeringSow13-May
+43,Janz,WaggaWagga2024CvJanzSow13-May
+44,Scepter,WaggaWagga2024CvScepterSow13-May
+45,Sunmaster,WaggaWagga2024CvSunmasterSow13-May
+46,Wyalkatchem,WaggaWagga2024CvWyalkatchemSow13-May
+47,Yitpi,WaggaWagga2024CvYitpiSow13-May
+48,EGA Gregory,WaggaWagga2024CvGregorySow13-May
+49,Illabo,WaggaWagga2024CvIllaboSow22-Apr
+50,Wylah,WaggaWagga2024CvWylahSow22-Apr
+51,LRPB Kittyhawk,WaggaWagga2024CvKittyhawkSow22-Apr
+52,Rosella,WaggaWagga2024CvRosellaSow22-Apr
+53,Whistler,WaggaWagga2024CvWhistlerSow22-Apr
+54,Osprey,WaggaWagga2024CvOspreySow22-Apr
+55,Mowhawk,WaggaWagga2024CvMowhawkSow22-Apr
+56,EGA Wedgetail,WaggaWagga2024CvWedgetailSow22-Apr
+57,Wyalkatchem,WaggaWagga2024CvWyalkatchemSow13-May
+58,Janz,WaggaWagga2024CvJanzSow13-May
+59,Meering,WaggaWagga2024CvMeeringSow13-May
+60,EGA Gregory,WaggaWagga2024CvGregorySow13-May
+61,Mace,WaggaWagga2024CvMaceSow13-May
+62,Yitpi,WaggaWagga2024CvYitpiSow13-May
+63,Scepter,WaggaWagga2024CvScepterSow13-May
+64,Sunmaster,WaggaWagga2024CvSunmasterSow13-May

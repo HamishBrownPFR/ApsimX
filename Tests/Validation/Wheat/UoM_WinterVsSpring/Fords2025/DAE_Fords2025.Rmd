@@ -90,17 +90,37 @@ df_suspect %>%
 ```
 
 
-```{r}
-targets::tar_make(
-  callr_arguments = list(
-    stdout = "pipeline_log.txt",
-    stderr = "pipeline_log.txt"
-  )
-)
-```
 
 ```{r}
 tar_load(soil_profile)
 readr::write_csv(soil_profile, "soil_profile.csv", na = "")
+```
+
+```{r}
+
+x <- tar_read(df_obs_plus_pheno_hi)
+
+y<-x %>%
+#  dplyr::filter(SimulationName == "WaggaWagga2024CvKittyhawkSow22-Apr") %>%
+  dplyr::filter(SimulationName == "Fords2025SowApril_Illabo") %>%
+  dplyr::select(SimulationName, Clock.Today, contains("Leaf.Dead"))
+```
+
+```{r}
+# 1. Pull the raw emergence counts
+raw_emergence <- tar_read(list_observed_dfs_raw) %>%
+  dplyr::filter(df_name == "pcds_3_emergPlants") %>%
+  dplyr::pull(data) %>%
+  .[[1]]
+
+# 2. Filter for Sunmaster
+raw_emergence %>%
+  dplyr::filter(grepl("Sunmaster", SimulationName, ignore.case = TRUE)) %>%
+  dplyr::arrange(Date)
+```
+
+```{r}
+tar_load(df_pheno_input_param)
+tar_load(qc_pheno_integrity)
 ```
 

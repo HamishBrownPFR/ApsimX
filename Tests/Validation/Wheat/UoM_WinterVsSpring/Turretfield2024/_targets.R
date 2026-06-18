@@ -27,7 +27,8 @@ tar_option_set(
 # Load master scripts
 targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
-targets::tar_source("R")
+#targets::tar_source("R")
+source("R/apply_local_fixes.R") 
 
 
 # ------------------------------------------------------------------------------
@@ -289,7 +290,7 @@ list(
     name = df_obs_plus_hi_amounts_harv, 
     command = add_harv_into_obs(
       df            = df_obs_plus_hi_amounts,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt"), 
+      ref_vars      = c("Wheat.Grain.Wt"), 
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )

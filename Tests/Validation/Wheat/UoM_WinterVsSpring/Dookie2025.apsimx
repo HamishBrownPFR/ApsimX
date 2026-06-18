@@ -6615,7 +6615,7 @@
                       "YAxis": 0,
                       "ColourArgb": 0,
                       "FactorToVaryColours": "Sow",
-                      "FactorToVaryMarkers": "TOS",
+                      "FactorToVaryMarkers": "Cv",
                       "FactorToVaryLines": null,
                       "Marker": 0,
                       "MarkerSize": 0,
@@ -6626,7 +6626,7 @@
                       "YFieldName": "Predicted.Wheat.AboveGround.Wt",
                       "X2FieldName": null,
                       "Y2FieldName": null,
-                      "ShowInLegend": false,
+                      "ShowInLegend": true,
                       "IncludeSeriesNameInLegend": false,
                       "Cumulative": false,
                       "CumulativeX": false,
@@ -6695,7 +6695,7 @@
                       "YAxis": 0,
                       "ColourArgb": 0,
                       "FactorToVaryColours": "Sow",
-                      "FactorToVaryMarkers": "TOS",
+                      "FactorToVaryMarkers": "Cv",
                       "FactorToVaryLines": null,
                       "Marker": 0,
                       "MarkerSize": 0,
@@ -6706,7 +6706,7 @@
                       "YFieldName": "Predicted.Wheat.Grain.Wt",
                       "X2FieldName": null,
                       "Y2FieldName": null,
-                      "ShowInLegend": false,
+                      "ShowInLegend": true,
                       "IncludeSeriesNameInLegend": false,
                       "Cumulative": false,
                       "CumulativeX": false,
@@ -6775,7 +6775,7 @@
                       "YAxis": 0,
                       "ColourArgb": 0,
                       "FactorToVaryColours": "Sow",
-                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryMarkers": "Cv",
                       "FactorToVaryLines": null,
                       "Marker": 0,
                       "MarkerSize": 0,
@@ -6786,7 +6786,7 @@
                       "YFieldName": "Predicted.Wheat.Leaf.Live.Wt",
                       "X2FieldName": null,
                       "Y2FieldName": null,
-                      "ShowInLegend": false,
+                      "ShowInLegend": true,
                       "IncludeSeriesNameInLegend": false,
                       "Cumulative": false,
                       "CumulativeX": false,
@@ -8624,6 +8624,86 @@
                       "TableName": "DailyObsPred",
                       "XFieldName": "Observed.Wheat.Spike.Live.WSC",
                       "YFieldName": "Predicted.Wheat.Spike.Live.WSC",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Sow",
+                      "FactorToVaryMarkers": "Cv",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.Wt",
+                      "YFieldName": "Predicted.Wheat.Ear.Wt",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": false,
@@ -14205,7 +14285,7 @@
                       "YFieldName": "Predicted.Wheat.AboveGround.Wt",
                       "X2FieldName": null,
                       "Y2FieldName": null,
-                      "ShowInLegend": false,
+                      "ShowInLegend": true,
                       "IncludeSeriesNameInLegend": false,
                       "Cumulative": false,
                       "CumulativeX": false,
@@ -14861,15 +14941,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
@@ -16230,6 +16310,86 @@
                     }
                   ],
                   "Enabled": false,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Sow",
+                      "FactorToVaryMarkers": "Cv",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.Wt",
+                      "YFieldName": "Predicted.Wheat.Ear.Wt",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
                   "ReadOnly": false
                 }
               ],
