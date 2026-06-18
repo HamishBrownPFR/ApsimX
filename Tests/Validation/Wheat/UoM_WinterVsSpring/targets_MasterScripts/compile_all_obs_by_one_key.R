@@ -13,27 +13,19 @@
 #' **Duplicate Key Defense:** Before attempting any joins, the function aggressively scans 
 #' the mapping dictionary (`df_simNames`). If it detects that a single unique key maps to 
 #' multiple different SimulationNames, it will trigger a fatal alarm to prevent silent data duplication.
+#' 
+#' **Date Auto-Repair:** Automatically detects and fixes 2-digit Excel year parsing bugs (e.g., Year 0024 to 2024).
+#' 
+#' **Missing Date Extraction:** Safely extracts data even if the Date column is missing or blank, 
+#' assigning `NA` to the date so downstream scripts can attempt to patch it.
 #'
-#' @param folder Character string. The directory path where the raw Excel files are stored.
-#' @param excel_files Character vector. A list of specific Excel file names to read and compile.
-#' @param df_obs_info Data frame. The metadata dictionary dictating which sheets and columns to extract. 
-#'   Must contain: \code{df_name}, \code{sheet_name}, \code{column_name}, \code{apsim_var_name}, and \code{corr_fact}.
-#' @param df_simNames Data frame. The lookup table that maps your raw data keys to actual APSIM 
-#'   \code{SimulationName}s.
-#' @param unique_key Character string. The exact column name present in BOTH the raw data and 
-#'   \code{df_simNames} used to link the data (e.g., \code{"Cultivar"} or \code{"Plot"}).
-#' @param exp_keys Character vector, optional. A list of experiment identifiers matching the exact 
-#'   length and order of \code{excel_files}. Used to separate duplicate keys across different trials. 
-#'   Defaults to \code{NULL}.
-#'
-#' @return A nested tibble containing two columns: \code{df_name} (the assigned APSIM variable group) 
-#'   and \code{data} (the compiled, joined, and aggregated data frame for that variable).
 #' @export
 compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simNames, unique_key, exp_keys = NULL) {
   
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("Package 'dplyr' required.")
   if (!requireNamespace("purrr", quietly = TRUE)) stop("Package 'purrr' required.")
   if (!requireNamespace("tidyr", quietly = TRUE)) stop("Package 'tidyr' required.")
+  if (!requireNamespace("lubridate", quietly = TRUE)) stop("Package 'lubridate' required.")
   
   # ------------------------------------------------------------------
   # 1. DEFENSIVE CHECKS: STRICT COLUMN VALIDATION
@@ -95,8 +87,6 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
     stop(paste(stop_msg, collapse = "\n"), call. = FALSE)
   }
   
-  # Prepare mapping table by dropping everything except the keys and target
-  # Forces keys to character to prevent integer/character join mismatch!
   clean_mapping_df <- df_simNames %>% 
     dplyr::select(dplyr::all_of(c(join_keys, "SimulationName"))) %>%
     dplyr::mutate(dplyr::across(dplyr::all_of(join_keys), as.character))
@@ -113,6 +103,9 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
         list(df_name, sheet_name, column_name, apsim_var_name, corr_fact),
         function(name_val, sh, col, new_col, corr) {
           
+          # Force evaluation of variable name to prevent tidyverse scoping bugs
+          target_var <- as.character(new_col)
+          
           raw_df <- purrr::map2_dfr(full_paths, iter_keys, function(path, key) {
             
             temp_df <- tryCatch({
@@ -120,7 +113,7 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
                 file_path   = path,
                 SheetName   = as.character(sh),
                 VarName     = as.character(col),
-                NewVarName  = as.character(new_col),
+                NewVarName  = target_var,
                 UnitCorrect = as.numeric(corr),
                 unique_key  = unique_key          
               )
@@ -157,21 +150,69 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
           }
           
           # ---------------------------------------------------------
+          # 3.5. BULLETPROOF DATE CORRECTION (The "Year 24" Fix)
+          # ---------------------------------------------------------
+          if ("Date" %in% names(raw_df)) {
+            raw_df$Date <- as.Date(raw_df$Date) # Ensure it's a date object
+            
+            # Extract years and find bugs safely ignoring NAs
+            yrs <- suppressWarnings(lubridate::year(raw_df$Date))
+            bad_idx <- which(!is.na(yrs) & yrs < 100)
+            
+            if (length(bad_idx) > 0) {
+              # If year < 50, assume 20xx. If >= 50, assume 19xx.
+              fixed_years <- ifelse(yrs[bad_idx] < 50, yrs[bad_idx] + 2000, yrs[bad_idx] + 1900)
+              lubridate::year(raw_df$Date)[bad_idx] <- fixed_years
+              
+              message(sprintf("   -> \U0001F527 DATE REPAIR: Auto-corrected %d '2-digit year' bugs (e.g., 0024 -> 2024) for '%s'.", length(bad_idx), target_var))
+            }
+          }
+          
+          # ---------------------------------------------------------
+          # 3.75. MISSING DATE ALARMS (DATA SURVIVES AS NA)
+          # ---------------------------------------------------------
+          if (!"Date" %in% names(raw_df)) {
+            message("\n", strrep("=", 60))
+            message(" \U0001F6A8  DATE WARNING: NO DATE COLUMN FOUND \U0001F6A8 ")
+            message(strrep("=", 60))
+            message(sprintf(" -> df_name       : '%s'", name_val))
+            message(sprintf(" -> Target Var    : '%s'", target_var))
+            message(" -> ISSUE         : The 'Date' column is completely missing from the raw data.")
+            message(" -> ACTION        : Data is extracted, but dates are set to NA. Will require downstream patching.")
+            message(strrep("-", 60), "\n")
+            
+            raw_df$Date <- as.Date(NA) # Inject an NA date column so the pipeline doesn't crash
+            
+          } else {
+            na_dates <- sum(is.na(raw_df$Date))
+            if (na_dates > 0) {
+              message("\n", strrep("=", 60))
+              message(" \U0001F6A8  MISSING DATE ALARM: ORPHANED DATA \U0001F6A8 ")
+              message(strrep("=", 60))
+              message(sprintf(" -> df_name       : '%s'", name_val))
+              message(sprintf(" -> Target Var    : '%s'", target_var))
+              message(sprintf(" -> ISSUE         : %d row(s) have 'NA' or blank values in the Date column.", na_dates))
+              message(" -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.")
+              message(strrep("-", 60), "\n")
+            }
+          }
+          
+          # ---------------------------------------------------------
           # 4. REPLICATE AGGREGATION & NA PURGE
           # ---------------------------------------------------------
           # This averages all replicate plots that share the same SimulationName and Date
           raw_df <- raw_df %>%
-            dplyr::select(dplyr::any_of(c("SimulationName", "Date", new_col))) %>%
+            dplyr::select(dplyr::any_of(c("SimulationName", "Date", target_var))) %>%
             dplyr::filter(!is.na(SimulationName)) %>%
             dplyr::group_by(SimulationName, Date) %>%
             dplyr::summarise(
               dplyr::across(
-                dplyr::all_of(new_col),
+                dplyr::all_of(target_var),
                 ~ replace(mean(.x, na.rm = TRUE), is.nan(mean(.x, na.rm = TRUE)), NA)
               ),
               .groups = "drop"
             ) %>%
-            tidyr::drop_na(dplyr::all_of(new_col))
+            tidyr::drop_na(dplyr::all_of(target_var))
           
           return(raw_df)
         }

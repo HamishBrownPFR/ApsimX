@@ -1,67 +1,86 @@
-#' Universal Phenology Integrity Gatekeeper
+#' Universal Phenology Integrity Gatekeeper (Upgraded)
 #'
 #' @description
-#' Scans the final APSIM phenology parameter matrix for missing dates (NAs).
-#' If any missing values are found, it halts the pipeline and prints a detailed
-#' report of the offending simulations and missing parameters to prevent APSIM crashes.
+#' Scans the final APSIM phenology parameter matrix for missing dates (NAs) AND missing rows.
+#' If any missing values or missing simulations are found, it halts the pipeline and prints 
+#' a detailed report to prevent APSIM crashes.
 #'
 #' @param df_pheno The wide dataframe containing SimulationName and DateToProgress columns.
+#' @param expected_sims A dataframe containing all expected 'SimulationName's (e.g., your mapping table).
 #' @return The original dataframe (if it passes) or throws a fatal error (if it fails).
 #' @export
-check_pheno_integrity <- function(df_pheno) {
+check_pheno_integrity <- function(df_pheno, expected_sims) {
   
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("Package 'dplyr' required.")
   if (!requireNamespace("tidyr", quietly = TRUE)) stop("Package 'tidyr' required.")
   
-  # 1. Look for any NAs in the entire dataframe
-  has_nas <- any(is.na(df_pheno))
-  
-  # 2. If no NAs, pass the data through safely
-  if (!has_nas) {
-    message("✅ SUCCESS: Phenology Input Matrix passed integrity check. No missing dates.")
-    return(df_pheno)
+  # 0. Extract Expected Simulations
+  if (is.data.frame(expected_sims)) {
+    expected_list <- unique(as.character(expected_sims$SimulationName))
+  } else {
+    expected_list <- expected_sims
   }
   
-  # 3. If NAs exist, build a diagnostic report
-  missing_report <- df_pheno %>%
-    dplyr::filter(dplyr::if_any(dplyr::everything(), is.na)) %>%
-    # Pivot long to figure out exactly which columns are missing
-    tidyr::pivot_longer(
-      cols = -SimulationName, 
-      names_to = "Parameter", 
-      values_to = "Value"
-    ) %>%
-    dplyr::filter(is.na(Value)) %>%
-    dplyr::select(SimulationName, Parameter)
-  
-  # 4. Format the error message
   error_msg <- c(
     "",
     "======================================================================",
-    " 🚨 FATAL ERROR: MISSING PHENOLOGY DATES DETECTED 🚨 ",
+    " \U0001F6A8 FATAL ERROR: PHENOLOGY INTEGRITY CHECK FAILED \U0001F6A8 ",
     "======================================================================",
-    " APSIM will crash if 'DateToProgress' parameters are left blank.",
-    " The following simulations are missing data:",
+    " APSIM will crash if 'DateToProgress' parameters are missing.",
     ""
   )
   
-  # Add the specific broken rows to the message
-  for (i in 1:nrow(missing_report)) {
-    error_msg <- c(
-      error_msg, 
-      sprintf(" -> Simulation: '%s' | Missing: '%s'", 
-              missing_report$SimulationName[i], missing_report$Parameter[i])
-    )
+  has_fatal_error <- FALSE
+  
+  # 1. CHECK FOR DROPPED ROWS (Completely missing simulations)
+  missing_sims <- setdiff(expected_list, df_pheno$SimulationName)
+  if (length(missing_sims) > 0) {
+    has_fatal_error <- TRUE
+    error_msg <- c(error_msg, " [!] MISSING ROWS: The following simulations were completely dropped:")
+    for (sim in missing_sims) {
+      error_msg <- c(error_msg, sprintf("  -> Simulation: '%s'", sim))
+    }
+    error_msg <- c(error_msg, "")
   }
   
-  error_msg <- c(
-    error_msg,
-    "======================================================================",
-    " ACTION REQUIRED: Fix the raw data or apply an imputation function.",
-    ""
-  )
+  # 2. CHECK FOR MISSING CELLS (NAs inside existing rows)
+  if (any(is.na(df_pheno))) {
+    has_fatal_error <- TRUE
+    error_msg <- c(error_msg, " [!] MISSING VALUES: The following simulations have NA dates:")
+    
+    missing_report <- df_pheno %>%
+      dplyr::filter(dplyr::if_any(dplyr::everything(), is.na)) %>%
+      tidyr::pivot_longer(
+        cols = -SimulationName, 
+        names_to = "Parameter", 
+        values_to = "Value"
+      ) %>%
+      dplyr::filter(is.na(Value)) %>%
+      dplyr::select(SimulationName, Parameter)
+    
+    for (i in 1:nrow(missing_report)) {
+      error_msg <- c(
+        error_msg, 
+        sprintf("  -> Simulation: '%s' | Missing: '%s'", 
+                missing_report$SimulationName[i], missing_report$Parameter[i])
+      )
+    }
+  }
   
-  # Print the massive warning and stop the pipeline
-  message(paste(error_msg, collapse = "\n"))
-  stop("Pipeline Halted: Phenology Matrix Integrity Check Failed.")
+  # 3. RESOLUTION
+  if (!has_fatal_error) {
+    message("\n\U0001F7E2 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.")
+    return(df_pheno)
+  } else {
+    error_msg <- c(
+      error_msg,
+      "======================================================================",
+      " ACTION REQUIRED: Fix the raw data, adjust upstream drop_na() filters, ",
+      " or apply an imputation function.",
+      "======================================================================",
+      ""
+    )
+    message(paste(error_msg, collapse = "\n"))
+    stop("Pipeline Halted: Phenology Matrix Integrity Check Failed.", call. = FALSE)
+  }
 }

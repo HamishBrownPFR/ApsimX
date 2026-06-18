@@ -9,11 +9,13 @@ shoot_8_N,2025-10-15
 shoot_8_WSCc,2025-10-15
 leaf_8_Nconc,2025-10-15
 leaf_8_WSCc,2025-10-15
-leafDead_8_Nconc,2025-05-15
-leafDead_8_WSCc,2025-05-15
+leafDead_8_Nconc,2025-10-15
+leafDead_8_WSCc,2025-10-15
 stem_8_Nconc,2025-10-15
 stem_8_WSCc,2025-10-15
 spike_8_Nconc,2025-10-15
 spike_8_WSCc,2025-10-15
 shoot_10_N,2025-11-20
 shoot_10_WSCc,2025-11-20
+earYield_8_raw,2025-10-15
+earYield_10_raw,2025-11-20

@@ -26,7 +26,7 @@ targets::tar_source("../targets_MasterScripts")
 
 # Load THIS project's specific local scripts
 source("R/apply_corrections_For25.R") 
-
+source("R/fix_pheno_input.R")
 # ------------------------------------------------------------------------------
 # 3. PROJECT DEFINITION
 # ------------------------------------------------------------------------------
@@ -260,11 +260,27 @@ list(
   # ),
   
   tar_target(
-    name = df_pheno_input_param,
+    name = df_pheno_input_param_raw,
     #command = format_apsim_pheno_params(df_pheno_final) # TODO: swap: Fords has only emerg so far
     command = format_apsim_pheno_params(df_pheno_raw)
   ),
-   
+  
+  
+  # --- THE EMERGENCY FIX ---
+  tar_target(
+    name = df_pheno_input_param,
+    command = fix_pheno_input(df_pheno_input_param_raw)
+  ),
+  
+  
+  
+  # 2. THE GATEKEEPER (The new Universal script)
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(df_pheno_input_param, 
+                                    expected_sims = df_simNameByCult)
+  ),
+  
   # # ----------------------------------------------------------------------------
   # # PHASE E: FINAL OBSERVATION FORMATTING & QC
   # # ----------------------------------------------------------------------------
@@ -329,7 +345,7 @@ list(
     name = df_obs_plus_pheno_harv,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_hi_with_amounts,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "HarvestIndex","Wheat.Leaf.Live.NConc"),
+      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "HarvestIndex"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
@@ -378,7 +394,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_integrity,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

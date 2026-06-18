@@ -246,10 +246,18 @@ list(
     name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", 
-                        "HarvestIndex", "Wheat.Spike.Live.Wt"),
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
+    )
+  ),
+  
+  tar_target(
+    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,
+    command = fix_ear_calc(
+      df_obs_wide       = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv, 
+      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+      ear_orig_var_name  = "Wheat.Spike.Live.Wt"  # The new safe column we are building
     )
   ),
   
@@ -259,7 +267,7 @@ list(
   # THE QC GATEKEEPER
   tar_target(
     name = qc_apsim_observed,
-    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv)
+    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear)
   ),
   
   

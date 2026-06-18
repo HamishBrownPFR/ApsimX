@@ -280,15 +280,43 @@ list(
     )
   ),
   
+  # tar_target(
+  #   name = list_observed_dfs_raw,
+  #   command = {
+  #     force(tracked_raw_excel)
+  #     compile_all_observed(
+  #       folder      = config$folder_rawData,
+  #       excel_files = config$file_rawData_excel,
+  #       df_obs_info = df_obs_meta_data,
+  #       df_simNames = df_simNameByCult
+  #     )
+  #   }
+  # ),
+  
   tar_target(
     name = list_observed_dfs_raw,
     command = {
-      force(tracked_raw_excel) 
-      compile_all_observed(
+      force(tracked_raw_excel)
+      compile_all_obs_by_one_key(
         folder      = config$folder_rawData,
-        excel_files = config$file_rawData_excel, 
+        excel_files = config$file_rawData_excel,
         df_obs_info = df_obs_meta_data,
-        df_simNames = df_simNameByCult
+        df_simNames = df_simNameByCult,
+        unique_key  = "Plot"                          # <--- THE NEW EXPLICIT CONTRACT
+        #exp_keys    = config$exp_key_by_rawData_file   # Keeps your WWHI/EVA logic intact
+
+      )
+    }
+  ),
+
+  tar_target(
+    name = audit_report_raw_data_checked,
+    command = {
+      audit_observed_data_tibble_list(
+        df_tbl        = list_observed_dfs_raw,  # Your compiled nested tibble
+        expected_sims = df_simNameByCult,       # The function will automatically extract the names from this df!
+        min_year      = 2024,
+        max_year      = 2024
       )
     }
   ),
@@ -302,7 +330,14 @@ list(
     )
   ),
   
-  
+  tar_target(
+    name = list_observed_clean,
+    command = apply_corrections_Wagga24(
+      df_tbl         = list_observed_dfs, 
+      df_pheno_final = df_pheno_final,
+      ref_date = config$ref_date
+    )
+  ),
   # ----------------------------------------------------------------------------
   # PHASE D: PHENOLOGY STAGE SYNTHESIS (Universal)
   # ----------------------------------------------------------------------------
@@ -349,16 +384,22 @@ list(
     command = format_apsim_pheno_params(df_pheno_final)
   ),
   
+  
+  # ---------------------------------------------------------
+  # NEW: The Phenology Integrity Gatekeeper
+  # ---------------------------------------------------------
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(
+      df_pheno      = df_pheno_input_param,
+      expected_sims = df_simNameByCult
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE E: FINAL OBSERVATION FORMATTING & QC
   # ----------------------------------------------------------------------------
-  tar_target(
-    name = list_observed_clean,
-    command = apply_corrections_Wagga24(
-      df_tbl         = list_observed_dfs, 
-      df_pheno_final = df_pheno_final
-    )
-  ),
+
   
   tar_target(
     name = df_obs_wide,
@@ -467,7 +508,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_integrity,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

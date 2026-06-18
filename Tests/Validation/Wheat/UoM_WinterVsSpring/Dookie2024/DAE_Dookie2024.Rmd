@@ -252,3 +252,7 @@ x<-tar_read(df_pheno_raw)
 write.csv(x, "test.csv")
 ```
 
+```{r}
+tar_read(df_simNameByCult)
+```
+
