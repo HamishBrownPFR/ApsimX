@@ -106,3 +106,16 @@ y<-x %>%
   dplyr::select(SimulationName, Clock.Today, contains("Leaf.Dead"))
 ```
 
+```{r}
+# 1. Pull the raw emergence counts
+raw_emergence <- tar_read(list_observed_dfs_raw) %>%
+  dplyr::filter(df_name == "pcds_3_emergPlants") %>%
+  dplyr::pull(data) %>%
+  .[[1]]
+
+# 2. Filter for Sunmaster
+raw_emergence %>%
+  dplyr::filter(grepl("Sunmaster", SimulationName, ignore.case = TRUE)) %>%
+  dplyr::arrange(Date)
+```
+
