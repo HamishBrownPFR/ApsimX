@@ -186,7 +186,7 @@ list(
   ),
   tar_target(
     name = qc_pheno_param,
-    command = check_pheno_integrity(df_pheno_input_imputed)
+    command = check_pheno_integrity(df_pheno_input_imputed, df_obs_raw)
   ),
   
   # ----------------------------------------------------------------------------
@@ -236,10 +236,32 @@ list(
     )
   ),
   
+  
+  tar_target(
+    name = df_obs_plus_pheno_hi_amounts_ear,
+    command = fix_ear_calc(
+      df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
+      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+      ear_orig_var_name  = "Wheat.Spike.Live.Wt"  # The new safe column we are building
+    )
+  ),
+  
+  # --- NEW: Phase 2 Chaff to Spike Swap ---
+  tar_target(
+    name = df_obs_plus_pheno_hi_amounts_ear_spike,
+    command = fix_last_spike_value(
+      df_obs_wide = df_obs_plus_pheno_hi_amounts_ear,          # Points to the previous step's output
+      spike_var   = "Wheat.Spike.Live.Wt",          # Your APSIM Spike column
+      chaff_var   = "Wheat.Spike.Chaff.Weight"           # Your raw Chaff column
+    )
+  ),
+  
+  
+  
   tar_target(
     name = df_obs_final,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_hi_amounts,
+      df            = df_obs_plus_pheno_hi_amounts_ear_spike,
       ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "HarvestIndex", "Wheat.Spike.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
