@@ -2362,7 +2362,7 @@
                       "ColourArgb": 0,
                       "FactorToVaryColours": "Cv",
                       "FactorToVaryMarkers": null,
-                      "FactorToVaryLines": "Sow",
+                      "FactorToVaryLines": "PGR",
                       "Marker": 11,
                       "MarkerSize": 0,
                       "Line": 0,
