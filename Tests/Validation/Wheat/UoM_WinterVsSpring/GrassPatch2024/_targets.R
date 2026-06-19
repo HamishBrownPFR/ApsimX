@@ -261,13 +261,24 @@ list(
     )
   ),
   
+  
+  # --- NEW: Phase 2 Chaff to Spike Swap ---
+  tar_target(
+    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike,
+    command = fix_last_spike_value(
+      df_obs_wide = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,          # Points to the previous step's output
+      spike_var   = "Wheat.Spike.Live.Wt",          # Your APSIM Spike column
+      chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE F: VALIDATION & EXPORT  
   # ----------------------------------------------------------------------------
   # THE QC GATEKEEPER
   tar_target(
     name = qc_apsim_observed,
-    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear)
+    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike)
   ),
   
   
