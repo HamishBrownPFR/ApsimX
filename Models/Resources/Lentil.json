@@ -6248,8 +6248,8 @@
                                                   "Y": [
                                                     1.0,
                                                     1.0,
-                                                    1.0,
-                                                    1.0
+                                                    0.0,
+                                                    0.0
                                                   ],
                                                   "Name": "XYPairs",
                                                   "ResourceName": null,
@@ -10512,10 +10512,12 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 78.6985",
-                "[Phenology].VernSensitivity.FixedValue = 0.8996",
-                "[Phenology].InductiveBase.FixedValue = 32.1505",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.4294"
+                "[Phenology].JuvenileBase.FixedValue = 110",
+                "[Phenology].VernSensitivity.FixedValue = .82",
+                "[Phenology].InductiveBase.FixedValue = 5",
+                "[Phenology].InductivePpSensitivity.FixedValue = .47",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 160",
+                "[Phenology].TtPodDevelopment.FixedValue = 230"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10673,10 +10675,12 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 75",
-                "[Phenology].VernSensitivity.FixedValue = 0.89",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.36",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 205",
+                "[Phenology].VernSensitivity.FixedValue = 0.2",
+                "[Phenology].InductiveBase.FixedValue = 5",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.9",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 145",
+                "[Phenology].TtPodDevelopment.FixedValue = 285"
               ],
               "Name": "Terrier",
               "ResourceName": null,
@@ -10687,10 +10691,12 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 67",
-                "[Phenology].VernSensitivity.FixedValue = 0.5",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.25",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 60",
+                "[Phenology].VernSensitivity.FixedValue = 1.93",
+                "[Phenology].InductiveBase.FixedValue = 145",
+                "[Phenology].InductivePpSensitivity.FixedValue = 1.52",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 280",
+                "[Phenology].TtPodDevelopment.FixedValue = 280"
               ],
               "Name": "Precoz",
               "ResourceName": null,
