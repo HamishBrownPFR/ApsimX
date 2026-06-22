@@ -262,7 +262,7 @@ list(
     name = df_obs_final,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_hi_amounts_ear_spike,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "HarvestIndex", "Wheat.Spike.Wt"),
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
