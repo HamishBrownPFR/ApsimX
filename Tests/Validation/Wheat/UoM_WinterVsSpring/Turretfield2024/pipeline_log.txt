@@ -11,9 +11,10 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.86 seconds]
+● built target config [1.02 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
+▶ start target config_soil
 📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
@@ -23,8 +24,7 @@ The following objects are masked from 'package:base':
    -> Column 'Air Dry Moisture' found 2 times, but ALL instances appear empty. Defaulted to Index 173.
 ------------------------------------------------
 💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
-▶ start target config_soil
-● built target config_soil [1.67 seconds]
+● built target config_soil [2.28 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 ▶ start target df_simNameByCult
@@ -109,7 +109,7 @@ $file_name_input_haun
 ======================================================================
 
 ▶ start target log_active_config
-● built target log_active_config [0 seconds]
+● built target log_active_config [0.01 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 Loading required package: rlang
@@ -136,7 +136,9 @@ The following objects are masked from 'package:purrr':
 ======================================================================
 
 ▶ start target processed_met_data
-● built target processed_met_data [0.17 seconds]
+● built target processed_met_data [0.51 seconds]
+▶ start target raw_soil_tracker
+● built target raw_soil_tracker [0 seconds]
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -427,11 +429,8 @@ The following objects are masked from 'package:purrr':
  -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
-▶ start target raw_soil_tracker
-● built target raw_soil_tracker [0 seconds]
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [8.22 seconds]
-▶ start target manual_pheno_params
+● built target list_observed_dfs_raw [10.7 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -440,13 +439,14 @@ The following objects are masked from 'package:purrr':
  -> Checking: Turretfield2024_GermDatesInput.csv 
 ======================================================================
 
+▶ start target manual_pheno_params
 ● built target manual_pheno_params [0.32 seconds]
-▶ start target encrypted_zip_artifact
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-● built target encrypted_zip_artifact [0.3 seconds]
+▶ start target encrypted_zip_artifact
+● built target encrypted_zip_artifact [0.28 seconds]
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.01 seconds]
+● built target msg_met_saved [0.02 seconds]
 
 ======================================================================
  ⚠️ APPROXIMATE SAMPLE DATES APPLIED ⚠️
@@ -543,21 +543,21 @@ Encrypting archive...
 ======================================================================
 
 ▶ start target list_observed_dfs_clean
-● built target list_observed_dfs_clean [0.33 seconds]
+● built target list_observed_dfs_clean [0.35 seconds]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target final_apsim_observed
-● built target final_apsim_observed [0.19 seconds]
-▶ start target df_obs_plus_hi
+● built target final_apsim_observed [0.25 seconds]
 
 ============================================================
- ⚠️  CALCULATION COMPLETE: HARVEST INDEX ⚠️ 
+ ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
 ============================================================
  -> SUCCESS      : 16 valid HI values generated.
  -> VALUE RANGE  : 0.322 to 0.425
  -> QC STATUS    : PASS (All HI values <= 1.0)
-------------------------------------------------------------
+============================================================
 
-● built target df_obs_plus_hi [0.06 seconds]
+▶ start target df_obs_plus_hi
+● built target df_obs_plus_hi [0.08 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -577,7 +577,7 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 
 
 ▶ start target df_obs_plus_hi_amounts
-● built target df_obs_plus_hi_amounts [0.17 seconds]
+● built target df_obs_plus_hi_amounts [0.21 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -588,13 +588,13 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 ------------------------------------------------------------
 
 ▶ start target df_obs_plus_hi_amounts_harv
-● built target df_obs_plus_hi_amounts_harv [0.12 seconds]
+● built target df_obs_plus_hi_amounts_harv [0.14 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_apsim_observed
-● built target qc_apsim_observed [0.08 seconds]
+● built target qc_apsim_observed [0.11 seconds]
 ✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.19 seconds]
+● built target msg_obs_saved [0.2 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: Turretfield2024_population.csv
@@ -603,12 +603,12 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.05 seconds]
+● built target exported_pop_csv [0.07 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target verify_dependencies
-● built target verify_dependencies [0.01 seconds]
+● built target verify_dependencies [0.02 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
 ● built target verify_data_backup [0.03 seconds]
-▶ end pipeline [14.02 seconds]
+▶ end pipeline [18.06 seconds]
 There were 16 warnings (use warnings() to see them)
