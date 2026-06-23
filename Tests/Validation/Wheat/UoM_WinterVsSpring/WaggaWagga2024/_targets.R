@@ -451,15 +451,25 @@ list(
     name = df_obs_plus_pheno_harv,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_with_amounts,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "WSCs", "Nconc","HarvestIndex"),
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
   ),
   
   tar_target(
+    name = df_obs_plus_pheno_harv_hi,
+    command = calc_harvest_index(
+      df          = df_obs_plus_pheno_harv,
+      grain_col   = "Wheat.Grain.Wt",
+      agb_col     = "Wheat.AboveGround.Wt",
+      hi_col_name = "HarvestIndex"
+    )
+  ),
+  
+  tar_target(
     name = qc_apsim_observed_harv,
-    command = check_obs_health(df_obs_plus_pheno_harv)
+    command = check_obs_health(df_obs_plus_pheno_harv_hi)
   ),
   
   tar_target(
