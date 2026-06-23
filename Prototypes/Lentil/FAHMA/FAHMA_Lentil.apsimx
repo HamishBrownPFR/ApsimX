@@ -1146,6 +1146,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jun",
+                        "[Sowing].Script.EmergeDate = 24-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -1177,6 +1178,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 26-Jul",
+                        "[Sowing].Script.EmergeDate = 3-Aug",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -1208,6 +1210,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jun",
+                        "[Sowing].Script.EmergeDate = 24-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -1260,6 +1263,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 26-Jul",
+                        "[Sowing].Script.EmergeDate = 3-Aug",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -1572,12 +1576,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -1597,7 +1603,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -1608,11 +1616,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
@@ -5498,6 +5510,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 23-May",
+                        "[Sowing].Script.EmergeDate = 30-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -5529,6 +5542,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jul",
+                        "[Sowing].Script.EmergeDate = 25-Jul",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -5560,6 +5574,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 23-May",
+                        "[Sowing].Script.EmergeDate = 30-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -5619,6 +5634,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jul",
+                        "[Sowing].Script.EmergeDate = 25-Jul",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -5917,12 +5933,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -5942,7 +5960,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -5953,11 +5973,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
@@ -10037,6 +10061,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 13-May",
+                        "[sowing].Script.EmergeDate = 19-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -10068,6 +10093,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 16-Jun",
+                        "[sowing].Script.EmergeDate = 24-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -10099,6 +10125,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 13-May",
+                        "[sowing].Script.EmergeDate = 19-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -10165,6 +10192,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 16-Jun",
+                        "[sowing].Script.EmergeDate = 24-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -10470,12 +10498,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -10495,7 +10525,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -10506,11 +10538,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
@@ -14590,6 +14626,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Apr",
+                        "[Sowing].Script.EmergeDate = 21-Apr",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -14620,7 +14657,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 29-Apr",
+                        "[Sowing].Script.SowDate = 30-Apr",
+                        "[Sowing].Script.EmergeDate = 7-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -14652,6 +14690,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 14-May",
+                        "[Sowing].Script.EmergeDate = 21-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -14683,6 +14722,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 29-May",
+                        "[Sowing].Script.EmergeDate = 6-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -14714,6 +14754,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 13-Jun",
+                        "[Sowing].Script.EmergeDate = 23-Jun",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
@@ -15512,12 +15553,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -15537,7 +15580,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -15548,11 +15593,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
@@ -19094,7 +19143,7 @@
               "XAxis": 3,
               "YAxis": 0,
               "ColourArgb": 0,
-              "FactorToVaryColours": "Predicted.TOS",
+              "FactorToVaryColours": "Variety",
               "FactorToVaryMarkers": "Experiment",
               "FactorToVaryLines": null,
               "Marker": 2,
