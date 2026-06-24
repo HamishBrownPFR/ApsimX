@@ -10337,12 +10337,83 @@
           "ResourceName": null,
           "Children": [
             {
+              "$type": "Models.Core.Folder, Models",
+              "ShowInDocs": false,
+              "Name": "ControlledEnvironmentData",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 230",
+                    "[Phenology].VernSensitivity.FixedValue = 0.51",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.34",
+                    "[Phenology].TtFlowerDevelopment.FixedValue = 300",
+                    "[Phenology].TtPodDevelopment.FixedValue = 250"
+                  ],
+                  "Name": "Laird",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 0",
+                    "[Phenology].VernSensitivity.FixedValue = 0.32",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 1.78",
+                    "[Phenology].TtFlowerDevelopment.FixedValue = 300",
+                    "[Phenology].TtPodDevelopment.FixedValue = 195"
+                  ],
+                  "Name": "Syrian",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 200",
+                    "[Phenology].VernSensitivity.FixedValue = 0.71",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
+                    "[Phenology].TtFlowerDevelopment.FixedValue = 135",
+                    "[Phenology].TtPodDevelopment.FixedValue = 50"
+                  ],
+                  "Name": "Ethiopian",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 110",
+                    "[Phenology].VernSensitivity.FixedValue = 0.45",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.23",
+                    "[Phenology].TtFlowerDevelopment.FixedValue = 135",
+                    "[Phenology].TtPodDevelopment.FixedValue = 30"
+                  ],
+                  "Name": "Precoz",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 91",
-                "[Phenology].VernSensitivity.FixedValue = 0.85",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.37",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 100",
+                "[Phenology].VernSensitivity.FixedValue = 0.89",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 125",
+                "[Phenology].TtPodDevelopment.FixedValue = 165"
               ],
               "Name": "Ace",
               "ResourceName": null,
@@ -10353,9 +10424,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 90",
-                "[Phenology].VernSensitivity.FixedValue = 0.97",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.48"
+                "[Phenology].JuvenileBase.FixedValue = 5",
+                "[Phenology].VernSensitivity.FixedValue = 1.79",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.63",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 110",
+                "[Phenology].TtPodDevelopment.FixedValue = 120"
               ],
               "Name": "Aldinga",
               "ResourceName": null,
@@ -10366,10 +10439,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 70",
-                "[Phenology].VernSensitivity.FixedValue = 0.35",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 240",
+                "[Phenology].VernSensitivity.FixedValue = 0.16",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.51",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 60",
+                "[Phenology].TtPodDevelopment.FixedValue = 145"
               ],
               "Name": "Blitz",
               "ResourceName": null,
@@ -10380,9 +10454,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 258.38874096601245",
-                "[Phenology].VernSensitivity.FixedValue = 1.7356423413985977",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.1314321415573885"
+                "[Phenology].JuvenileBase.FixedValue = 240",
+                "[Phenology].VernSensitivity.FixedValue = 0.19",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.50",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 185",
+                "[Phenology].TtPodDevelopment.FixedValue = 95"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10393,9 +10469,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 131",
-                "[Phenology].VernSensitivity.FixedValue = .76",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.43"
+                "[Phenology].JuvenileBase.FixedValue = 305",
+                "[Phenology].VernSensitivity.FixedValue = 1.20",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.11",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 295",
+                "[Phenology].TtPodDevelopment.FixedValue = 80"
               ],
               "Name": "Boomer",
               "ResourceName": null,
@@ -10406,9 +10484,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 180",
-                "[Phenology].VernSensitivity.FixedValue = 0.73",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.21"
+                "[Phenology].JuvenileBase.FixedValue = 0",
+                "[Phenology].VernSensitivity.FixedValue = 1.15",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.38",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 175",
+                "[Phenology].TtPodDevelopment.FixedValue = 105"
               ],
               "Name": "CIPAL0901",
               "ResourceName": null,
@@ -10419,9 +10499,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 86",
-                "[Phenology].VernSensitivity.FixedValue = 1.13",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.34"
+                "[Phenology].JuvenileBase.FixedValue = 0",
+                "[Phenology].VernSensitivity.FixedValue = 1.10",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.75",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 70",
+                "[Phenology].TtPodDevelopment.FixedValue = 60"
               ],
               "Name": "CIPAL1504",
               "ResourceName": null,
@@ -10432,9 +10514,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 112",
-                "[Phenology].VernSensitivity.FixedValue = 1.12",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.15"
+                "[Phenology].JuvenileBase.FixedValue = 180",
+                "[Phenology].VernSensitivity.FixedValue = 1.21",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.24",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 145",
+                "[Phenology].TtPodDevelopment.FixedValue = 115"
               ],
               "Name": "CIPAL1701",
               "ResourceName": null,
@@ -10445,9 +10529,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 160",
-                "[Phenology].VernSensitivity.FixedValue = 0.75",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.82"
+                "[Phenology].JuvenileBase.FixedValue = 85",
+                "[Phenology].VernSensitivity.FixedValue = 1.07",
+                "[Phenology].InductivePpSensitivity.FixedValue = 1.46",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 30",
+                "[Phenology].TtPodDevelopment.FixedValue = 30"
               ],
               "Name": "Commando",
               "ResourceName": null,
@@ -10458,23 +10544,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 150",
-                "[Phenology].VernSensitivity.FixedValue = 0.85",
-                "[Phenology].InductivePpSensitivity.FixedValue = 1.1",
-                "[Leaf].AreaOfLargest.FixedValue = 0.0005"
-              ],
-              "Name": "Digger",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 146",
-                "[Phenology].VernSensitivity.FixedValue = 0.91",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.4"
+                "[Phenology].JuvenileBase.FixedValue = 120",
+                "[Phenology].VernSensitivity.FixedValue = 1.13",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 145",
+                "[Phenology].TtPodDevelopment.FixedValue = 50"
               ],
               "Name": "Flash",
               "ResourceName": null,
@@ -10485,23 +10559,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 305",
-                "[Phenology].VernSensitivity.FixedValue = 0",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.67",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
-              ],
-              "Name": "Greenfield",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 127",
-                "[Phenology].VernSensitivity.FixedValue = 0.81",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.28"
+                "[Phenology].JuvenileBase.FixedValue = 50",
+                "[Phenology].VernSensitivity.FixedValue = 0.90",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.50",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 150",
+                "[Phenology].TtPodDevelopment.FixedValue = 95"
               ],
               "Name": "Giant",
               "ResourceName": null,
@@ -10513,11 +10575,25 @@
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
                 "[Phenology].JuvenileBase.FixedValue = 110",
-                "[Phenology].VernSensitivity.FixedValue = .82",
-                "[Phenology].InductiveBase.FixedValue = 5",
-                "[Phenology].InductivePpSensitivity.FixedValue = .47",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 160",
-                "[Phenology].TtPodDevelopment.FixedValue = 230"
+                "[Phenology].VernSensitivity.FixedValue = 0.92",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.44",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 165",
+                "[Phenology].TtPodDevelopment.FixedValue = 100"
+              ],
+              "Name": "Greenfield",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.PMF.Cultivar, Models",
+              "Command": [
+                "[Phenology].JuvenileBase.FixedValue = 155",
+                "[Phenology].VernSensitivity.FixedValue = 0.44",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.54",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 175",
+                "[Phenology].TtPodDevelopment.FixedValue = 210"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10528,9 +10604,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 293",
-                "[Phenology].VernSensitivity.FixedValue = 0.45",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.30"
+                "[Phenology].JuvenileBase.FixedValue = 210",
+                "[Phenology].VernSensitivity.FixedValue = 0.21",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.62",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 200",
+                "[Phenology].TtPodDevelopment.FixedValue = 90"
               ],
               "Name": "Hurricane",
               "ResourceName": null,
@@ -10541,9 +10619,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 49",
-                "[Phenology].VernSensitivity.FixedValue = 0.92",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.86"
+                "[Phenology].JuvenileBase.FixedValue = 45",
+                "[Phenology].VernSensitivity.FixedValue = 1.95",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.80",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 180",
+                "[Phenology].TtPodDevelopment.FixedValue = 120"
               ],
               "Name": "Indianhead",
               "ResourceName": null,
@@ -10554,9 +10634,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 81",
-                "[Phenology].VernSensitivity.FixedValue = 0.96",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.37"
+                "[Phenology].JuvenileBase.FixedValue = 0",
+                "[Phenology].VernSensitivity.FixedValue = 1.30",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.59",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 165",
+                "[Phenology].TtPodDevelopment.FixedValue = 35"
               ],
               "Name": "Jumbo",
               "ResourceName": null,
@@ -10567,10 +10649,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 75",
-                "[Phenology].VernSensitivity.FixedValue = 0.89",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.36",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                "[Phenology].JuvenileBase.FixedValue = 110",
+                "[Phenology].VernSensitivity.FixedValue = 0.90",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.43",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 130",
+                "[Phenology].TtPodDevelopment.FixedValue = 165"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10581,9 +10664,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 131",
-                "[Phenology].VernSensitivity.FixedValue = .76",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.43"
+                "[Phenology].JuvenileBase.FixedValue = 105",
+                "[Phenology].VernSensitivity.FixedValue = 1.31",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.39",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 140",
+                "[Phenology].TtPodDevelopment.FixedValue = 170"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
@@ -10594,37 +10679,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 70",
-                "[Phenology].VernSensitivity.FixedValue = 0.35",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
-              ],
-              "Name": "Leader",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 91",
-                "[Phenology].VernSensitivity.FixedValue = 0.85",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.37",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
-              ],
-              "Name": "Lightning",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 78",
-                "[Phenology].VernSensitivity.FixedValue = 0.87",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.37"
+                "[Phenology].JuvenileBase.FixedValue = 310",
+                "[Phenology].VernSensitivity.FixedValue = 1.14",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.17",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 275",
+                "[Phenology].TtPodDevelopment.FixedValue = 80"
               ],
               "Name": "Matilda",
               "ResourceName": null,
@@ -10635,9 +10694,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 40",
-                "[Phenology].VernSensitivity.FixedValue = 0.85",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.65"
+                "[Phenology].JuvenileBase.FixedValue = 20",
+                "[Phenology].VernSensitivity.FixedValue = 1.54",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.61",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 175",
+                "[Phenology].TtPodDevelopment.FixedValue = 95"
               ],
               "Name": "Nipper",
               "ResourceName": null,
@@ -10649,8 +10710,10 @@
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
                 "[Phenology].JuvenileBase.FixedValue = 0",
-                "[Phenology].VernSensitivity.FixedValue = 1.38",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.59"
+                "[Phenology].VernSensitivity.FixedValue = 1.43",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.58",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 215",
+                "[Phenology].TtPodDevelopment.FixedValue = 125"
               ],
               "Name": "Northfield",
               "ResourceName": null,
@@ -10661,10 +10724,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 207",
-                "[Phenology].VernSensitivity.FixedValue = 0.74",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.21",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0.09"
+                "[Phenology].JuvenileBase.FixedValue = 55",
+                "[Phenology].VernSensitivity.FixedValue = 1.26",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.49",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 135",
+                "[Phenology].TtPodDevelopment.FixedValue = 180"
               ],
               "Name": "Nugget",
               "ResourceName": null,
@@ -10675,12 +10739,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 205",
-                "[Phenology].VernSensitivity.FixedValue = 0.2",
-                "[Phenology].InductiveBase.FixedValue = 5",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.9",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 145",
-                "[Phenology].TtPodDevelopment.FixedValue = 285"
+                "[Phenology].JuvenileBase.FixedValue = 235",
+                "[Phenology].VernSensitivity.FixedValue = 0.35",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.75",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 150",
+                "[Phenology].TtPodDevelopment.FixedValue = 245"
               ],
               "Name": "Terrier",
               "ResourceName": null,
@@ -10689,60 +10752,54 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 60",
-                "[Phenology].VernSensitivity.FixedValue = 1.93",
-                "[Phenology].InductiveBase.FixedValue = 145",
-                "[Phenology].InductivePpSensitivity.FixedValue = 1.52",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 280",
-                "[Phenology].TtPodDevelopment.FixedValue = 280"
-              ],
-              "Name": "Precoz",
+              "$type": "Models.Core.Folder, Models",
+              "ShowInDocs": false,
+              "Name": "NoPhenologyData",
               "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 360",
-                "[Phenology].VernSensitivity.FixedValue = 0.44",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.22",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0.44"
+              "Children": [
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 91",
+                    "[Phenology].VernSensitivity.FixedValue = 0.85",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.37",
+                    "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                  ],
+                  "Name": "Lightning",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 70",
+                    "[Phenology].VernSensitivity.FixedValue = 0.35",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
+                    "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                  ],
+                  "Name": "Leader",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.PMF.Cultivar, Models",
+                  "Command": [
+                    "[Phenology].JuvenileBase.FixedValue = 150",
+                    "[Phenology].VernSensitivity.FixedValue = 0.85",
+                    "[Phenology].InductivePpSensitivity.FixedValue = 1.1",
+                    "[Leaf].AreaOfLargest.FixedValue = 0.0005"
+                  ],
+                  "Name": "Digger",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
               ],
-              "Name": "Laird",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 0",
-                "[Phenology].VernSensitivity.FixedValue = .37",
-                "[Phenology].InductivePpSensitivity.FixedValue = 1.45",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = .56"
-              ],
-              "Name": "Syrian",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Cultivar, Models",
-              "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 240",
-                "[Phenology].VernSensitivity.FixedValue = 0.65",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0",
-                "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0.33"
-              ],
-              "Name": "Ethiopian",
-              "ResourceName": null,
-              "Children": [],
               "Enabled": true,
               "ReadOnly": false
             }
