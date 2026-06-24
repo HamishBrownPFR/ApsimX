@@ -88,7 +88,7 @@
                         "[Sowing].Script.SowDate = 09/05/2024",
                         "[Sowing].Script.EmergeDate = 18-May",
                         "[Sowing].Script.SowingDepth = 4.0",
-                        "[Sowing].Script.RowSpacing = 28.0",
+                        "[Sowing].Script.RowSpacing = 280.0",
                         "[Sowing].Script.Population = 100"
                       ],
                       "CustomDescriptors": [],
@@ -106,7 +106,7 @@
                         "[Sowing].Script.SowDate = 17/06/2024",
                         "[Sowing].Script.EmergeDate = 14-Jul",
                         "[Sowing].Script.SowingDepth = 4.0",
-                        "[Sowing].Script.RowSpacing = 28.0",
+                        "[Sowing].Script.RowSpacing = 280.0",
                         "[Sowing].Script.Population = 100"
                       ],
                       "CustomDescriptors": [],

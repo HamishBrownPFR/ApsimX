@@ -13,7 +13,7 @@
         {
           "$type": "Models.PostSimulationTools.ExcelInput, Models",
           "FileNames": [
-            "Observed.xlsx"
+            "C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA\\Observed.xlsx"
           ],
           "SheetNames": [
             "Observed"
@@ -88,7 +88,7 @@
                         "[Sowing].Script.SowDate = 23/05/2022",
                         "[Sowing].Script.EmergeDate = 06-Jun",
                         "[Sowing].Script.SowingDepth = 45.0",
-                        "[Sowing].Script.RowSpacing = 30.5",
+                        "[Sowing].Script.RowSpacing = 305.0",
                         "[Sowing].Script.Population = 100"
                       ],
                       "CustomDescriptors": [],
@@ -106,7 +106,7 @@
                         "[Sowing].Script.SowDate = 28/06/2022",
                         "[Sowing].Script.EmergeDate = null",
                         "[Sowing].Script.SowingDepth = 45.0",
-                        "[Sowing].Script.RowSpacing = 30.5",
+                        "[Sowing].Script.RowSpacing = 305.0",
                         "[Sowing].Script.Population = 100"
                       ],
                       "CustomDescriptors": [],

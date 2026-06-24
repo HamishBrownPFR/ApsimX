@@ -156,7 +156,7 @@ for e in Experiments:
             eStDf = eDf.loc[eDf.loc[:,'Design::TOS'] == st,:]
             sdic['emergeDate'] = formatDateSafe(eStDf['EmergenceDate'].mean())
             sdic['sowDepth'] = formatDoubleSafe(eStDf["SowingDepth_mm"].drop_duplicates().values[0]/10,30)
-            sdic['rowWidth'] = formatDoubleSafe(eStDf["Design::RowSpacing_cm"].drop_duplicates().values[0],400)
+            sdic['rowWidth'] = formatDoubleSafe(eStDf["Design::RowSpacing_cm"].drop_duplicates().values[0]*10,400)
         else:
             print(e)
             sdic['emergeDate'] = 'null'
