@@ -13404,7 +13404,7 @@
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
                         "[Sowing].Script.SowDate = 30-Apr",
-                        "[Sowing].Script.EmergeDate = 7-May",
+                        "[Sowing].Script.EmergeDate = 8-May",
                         "[IrrigationEvents]"
                       ],
                       "CustomDescriptors": [],
