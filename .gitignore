@@ -103,3 +103,7 @@ errors.txt
 /UpgradeLog.htm
 /Prototypes/Lentil/FAHMA/_apply_FAHMA_Lentil.txt
 /Prototypes/Lentil/FAHMA/tempApplyCLI.txt
+/Prototypes/Lentil/FAHMA/FAHMA2023Gatton_Lentil_Phenology.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_Phenology.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_fractionalPAR.xlsx
+/Prototypes/Lentil/PhenAnalysis.py
