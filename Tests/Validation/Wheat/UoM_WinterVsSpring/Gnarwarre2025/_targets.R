@@ -206,7 +206,8 @@ list(
       df          = df_obs_plus_pheno, 
       grain_col   = "Wheat.Grain.Wt", 
       agb_col     = "Wheat.AboveGround.Wt", 
-      hi_col_name = "HarvestIndex"
+      hi_col_name = "HarvestIndex",
+      agb_grain_asynch = TRUE # temporary dealing with misalignment between aboveG and grain weights
     )
   ),
   # tar_target(
@@ -262,7 +263,7 @@ list(
     name = df_obs_final,
     command = add_harv_into_obs(
       df            = df_obs_plus_pheno_hi_amounts_ear_spike,
-      ref_vars      = c("Wheat.AboveGround.Wt", "Wheat.Grain.Wt", "HarvestIndex", "Wheat.Spike.Wt"),
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )

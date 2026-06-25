@@ -185,7 +185,9 @@ list(
       df          = df_obs_plus_pheno, 
       grain_col   = "Wheat.Grain.Wt", 
       agb_col     = "Wheat.AboveGround.Wt", 
-      hi_col_name = "HarvestIndex"
+      hi_col_name = "HarvestIndex",
+      agb_grain_asynch = TRUE # temporary dealing with misalignment between aboveG and grain weights
+      
     )
   ),
   
