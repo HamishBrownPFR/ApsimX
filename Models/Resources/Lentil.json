@@ -10589,10 +10589,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 155",
-                "[Phenology].VernSensitivity.FixedValue = 0.44",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.54",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 175",
+                "[Phenology].JuvenileBase.FixedValue = 120",
+                "[Phenology].VernSensitivity.FixedValue = 1.06",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 155",
                 "[Phenology].TtPodDevelopment.FixedValue = 210"
               ],
               "Name": "HallmarkXT",
@@ -10739,11 +10739,11 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 235",
-                "[Phenology].VernSensitivity.FixedValue = 0.35",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.75",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 150",
-                "[Phenology].TtPodDevelopment.FixedValue = 245"
+                "[Phenology].JuvenileBase.FixedValue = 220",
+                "[Phenology].VernSensitivity.FixedValue = 0.42",
+                "[Phenology].InductivePpSensitivity.FixedValue = .82",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 130",
+                "[Phenology].TtPodDevelopment.FixedValue = 250"
               ],
               "Name": "Terrier",
               "ResourceName": null,
