@@ -85,10 +85,18 @@ Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints
 # Stop tracking the mutex related errors file.
 errors.txt
 /Prototypes/Lentil/FAHMA/Characterisation Blenheim.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA2023Gatton_Lentil_Phenology.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_Phenology.xlsx
+/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_fractionalPAR.xlsx
 /Prototypes/Lentil/FAHMA/FAHMA_Observed.xlsx
 /Prototypes/Lentil/FAHMA/FAHMA_biomass_yield.xlsx
 /Prototypes/Lentil/FAHMA/FAHMA_weather_Wellcamp.xlsx
+/Prototypes/Lentil/FAHMA/_apply_FAHMA_Lentil.txt
+/Prototypes/Lentil/FAHMA/tempApplyCLI.txt
+/Prototypes/Lentil/NaPA/NaPA_Biomass_SampleDate_PredictedMeans.xlsx
+/Prototypes/Lentil/NaPA/Phenology_StagesDates_202603.xlsx
 /Prototypes/Lentil/NaPA/tempApplyCLI.txt
+/Prototypes/Lentil/PhenAnalysis.py
 /Tests/Validation/Wheat/GxExM/Inputs/GxExM_ConstantPhenology.csv
 /Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Dookie2024.txt
 /Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_Dookie2025.txt
@@ -101,9 +109,3 @@ errors.txt
 /Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_WaggaWagga2024.txt
 /Tests/Validation/Wheat/UoM_WinterVsSpring/_apply_WaggaWagga2025.txt
 /UpgradeLog.htm
-/Prototypes/Lentil/FAHMA/_apply_FAHMA_Lentil.txt
-/Prototypes/Lentil/FAHMA/tempApplyCLI.txt
-/Prototypes/Lentil/FAHMA/FAHMA2023Gatton_Lentil_Phenology.xlsx
-/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_Phenology.xlsx
-/Prototypes/Lentil/FAHMA/FAHMA2024Gatton_Lentil_fractionalPAR.xlsx
-/Prototypes/Lentil/PhenAnalysis.py
