@@ -38,6 +38,9 @@
         "[Lentil].Stem.Dead.Wt",
         "[Lentil].Stem.Wt",
         "[Lentil].Grain.Dead.Wt",
+        "[Lentil].Grain.Size",
+        "[Lentil].Grain.HarvestIndex",
+        "[Lentil].Grain.Number",
         "[Lentil].Grain.Wt",
         "[Lentil].Pod.Dead.Wt",
         "[Lentil].Pod.Wt",
@@ -61,10 +64,7 @@
         "[Lentil].Phenology.MaturityDAS",
         "[Lentil].Phenology.EarlyWaterStress",
         "[Lentil].Phenology.FloweringWaterStress",
-        "[Lentil].Phenology.GrainFillingWaterStress",
-        "[Lentil].Grain.Size",
-        "[Lentil].AboveGround.Wt",
-        "[Lentil].Grain.HarvestIndex"
+        "[Lentil].Phenology.GrainFillingWaterStress"
       ],
       "EventNames": [
         "[Clock].EndOfDay"
