@@ -97,3 +97,19 @@ tar_load(df_obs_plus_pheno_harv_renamed_corrected_with_amounts)
 tar_load(qc_apsim_observed)
 ```
 
+```{r}
+x<-tar_read(df_obs_plus_pheno_plus_hi) %>%
+  filter(HarvestIndex>0)%>%
+  dplyr::select(SimulationName,HarvestIndex, Wheat.AboveGround.Wt, Wheat.Grain.Wt)%>%
+  mutate(HI_checked = Wheat.Grain.Wt/Wheat.AboveGround.Wt)%>%
+  mutate(Diff = HI_checked/HarvestIndex)
+```
+
+```{r}
+
+
+tar_read(df_obs_plus_pheno) %>%
+  filter(HarvestIndex>0)%>%
+  dplyr::select(SimulationName,HarvestIndex, Wheat.AboveGround.Wt, Wheat.Grain.Wt)
+```
+
