@@ -6040,288 +6040,11 @@
                                   "ReadOnly": false
                                 },
                                 {
-                                  "$type": "Models.Functions.AddFunction, Models",
+                                  "$type": "Models.Functions.VariableReference, Models",
+                                  "VariableName": "[Leaf].BranchNumber",
                                   "Name": "BranchNumber",
                                   "ResourceName": null,
-                                  "Children": [
-                                    {
-                                      "$type": "Models.Functions.Constant, Models",
-                                      "FixedValue": 1.0,
-                                      "Units": null,
-                                      "Name": "One",
-                                      "ResourceName": null,
-                                      "Children": [],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    },
-                                    {
-                                      "$type": "Models.Functions.AccumulateFunction, Models",
-                                      "StartStageName": "Emergence",
-                                      "EndStageName": "TerminalNode",
-                                      "ResetStageName": null,
-                                      "FractionRemovedOnCut": 1.0,
-                                      "FractionRemovedOnHarvest": 1.0,
-                                      "FractionRemovedOnGraze": 1.0,
-                                      "FractionRemovedOnPrune": 0.0,
-                                      "Name": "CumulativeBranching",
-                                      "ResourceName": null,
-                                      "Children": [
-                                        {
-                                          "$type": "Models.Functions.MultiplyFunction, Models",
-                                          "Name": "DeltaBranch",
-                                          "ResourceName": null,
-                                          "Children": [
-                                            {
-                                              "$type": "Models.Functions.VariableReference, Models",
-                                              "VariableName": "[Leaf].NodeNumber.DeltaNode",
-                                              "Name": "DeltaNode",
-                                              "ResourceName": null,
-                                              "Children": [],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            },
-                                            {
-                                              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                              "Name": "BranchingRate",
-                                              "ResourceName": null,
-                                              "Children": [
-                                                {
-                                                  "$type": "Models.Memo, Models",
-                                                  "Text": "From Hammer Paper\n",
-                                                  "Name": "Memo",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.XYPairs, Models",
-                                                  "X": [
-                                                    0.0,
-                                                    1.0,
-                                                    2.0,
-                                                    8.0,
-                                                    9.0,
-                                                    10.0
-                                                  ],
-                                                  "Y": [
-                                                    0.0,
-                                                    1.0,
-                                                    0.0,
-                                                    0.0,
-                                                    1.0,
-                                                    2.0
-                                                  ],
-                                                  "Name": "XYPairs",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.VariableReference, Models",
-                                                  "VariableName": "[Leaf].NodeNumber",
-                                                  "Name": "XValue",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                }
-                                              ],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            },
-                                            {
-                                              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                              "Name": "TemperatureFactor",
-                                              "ResourceName": null,
-                                              "Children": [
-                                                {
-                                                  "$type": "Models.Memo, Models",
-                                                  "Text": "",
-                                                  "Name": "Memo",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.XYPairs, Models",
-                                                  "X": [
-                                                    20.0,
-                                                    28.0,
-                                                    32.0,
-                                                    40.0
-                                                  ],
-                                                  "Y": [
-                                                    1.0,
-                                                    1.0,
-                                                    1.0,
-                                                    1.0
-                                                  ],
-                                                  "Name": "XYPairs",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.VariableReference, Models",
-                                                  "VariableName": "[IWeather].MeanT",
-                                                  "Name": "XValue",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                }
-                                              ],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            },
-                                            {
-                                              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                              "Name": "WaterFactor",
-                                              "ResourceName": null,
-                                              "Children": [
-                                                {
-                                                  "$type": "Models.Memo, Models",
-                                                  "Text": "",
-                                                  "Name": "Memo",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.XYPairs, Models",
-                                                  "X": [
-                                                    0.0,
-                                                    0.5,
-                                                    1.0
-                                                  ],
-                                                  "Y": [
-                                                    0.0,
-                                                    0.5,
-                                                    1.0
-                                                  ],
-                                                  "Name": "XYPairs",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.VariableReference, Models",
-                                                  "VariableName": "[Leaf].Canopy.Fw",
-                                                  "Name": "XValue",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                }
-                                              ],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            },
-                                            {
-                                              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                              "Name": "CoverFactor",
-                                              "ResourceName": null,
-                                              "Children": [
-                                                {
-                                                  "$type": "Models.Memo, Models",
-                                                  "Text": "",
-                                                  "Name": "Memo",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.XYPairs, Models",
-                                                  "X": [
-                                                    0.0,
-                                                    0.33,
-                                                    0.5,
-                                                    1.0
-                                                  ],
-                                                  "Y": [
-                                                    1.0,
-                                                    1.0,
-                                                    0.0,
-                                                    0.0
-                                                  ],
-                                                  "Name": "XYPairs",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.VariableReference, Models",
-                                                  "VariableName": "[Leaf].Canopy.CoverTotal",
-                                                  "Name": "XValue",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                }
-                                              ],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            },
-                                            {
-                                              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                              "Name": "PPFactor",
-                                              "ResourceName": null,
-                                              "Children": [
-                                                {
-                                                  "$type": "Models.Memo, Models",
-                                                  "Text": "",
-                                                  "Name": "Memo",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.XYPairs, Models",
-                                                  "X": [
-                                                    12.0,
-                                                    13.0
-                                                  ],
-                                                  "Y": [
-                                                    1.0,
-                                                    1.0
-                                                  ],
-                                                  "Name": "XYPairs",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                },
-                                                {
-                                                  "$type": "Models.Functions.VariableReference, Models",
-                                                  "VariableName": "[Phenology].Photoperiod",
-                                                  "Name": "XValue",
-                                                  "ResourceName": null,
-                                                  "Children": [],
-                                                  "Enabled": true,
-                                                  "ReadOnly": false
-                                                }
-                                              ],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            }
-                                          ],
-                                          "Enabled": true,
-                                          "ReadOnly": false
-                                        }
-                                      ],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    }
-                                  ],
+                                  "Children": [],
                                   "Enabled": true,
                                   "ReadOnly": false
                                 },
@@ -6467,6 +6190,329 @@
                   "Name": "Cconc",
                   "ResourceName": null,
                   "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": "Lentil",
+              "StartStageName": "FirstBudsVisiable",
+              "EndStageName": "TerminalNode",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 1.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "FloweringNodes",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Leaf].NodeNumber.DeltaNode",
+                  "Name": "NodeAppearance",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.AddFunction, Models",
+              "Name": "BranchNumber",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 1.0,
+                  "Units": null,
+                  "Name": "One",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.AccumulateFunction, Models",
+                  "StartStageName": "Emergence",
+                  "EndStageName": "TerminalNode",
+                  "ResetStageName": null,
+                  "FractionRemovedOnCut": 1.0,
+                  "FractionRemovedOnHarvest": 1.0,
+                  "FractionRemovedOnGraze": 1.0,
+                  "FractionRemovedOnPrune": 0.0,
+                  "Name": "CumulativeBranching",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.MultiplyFunction, Models",
+                      "Name": "DeltaBranch",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Leaf].NodeNumber.DeltaNode",
+                          "Name": "DeltaNode",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "BranchingRate",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "From Hammer Paper\n",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                0.0,
+                                1.0,
+                                2.0,
+                                8.0,
+                                9.0,
+                                10.0
+                              ],
+                              "Y": [
+                                0.0,
+                                1.0,
+                                0.0,
+                                0.0,
+                                1.0,
+                                2.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Leaf].NodeNumber",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "TemperatureFactor",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                20.0,
+                                28.0,
+                                32.0,
+                                40.0
+                              ],
+                              "Y": [
+                                1.0,
+                                1.0,
+                                1.0,
+                                1.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[IWeather].MeanT",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "WaterFactor",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                0.0,
+                                0.5,
+                                1.0
+                              ],
+                              "Y": [
+                                0.0,
+                                0.5,
+                                1.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Leaf].Canopy.Fw",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "CoverFactor",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                0.0,
+                                0.33,
+                                0.5,
+                                1.0
+                              ],
+                              "Y": [
+                                1.0,
+                                1.0,
+                                0.0,
+                                0.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Leaf].Canopy.CoverTotal",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "PPFactor",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                12.0,
+                                13.0
+                              ],
+                              "Y": [
+                                1.0,
+                                1.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Phenology].Photoperiod",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -9074,12 +9120,39 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 800.0,
-              "Units": "g/m2",
+              "$type": "Models.Functions.MultiplyFunction, Models",
               "Name": "Number",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Leaf].FloweringNodes",
+                  "Name": "FloweringNodes",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Leaf].BranchNumber",
+                  "Name": "BranchNumber",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 0.5,
+                  "Units": null,
+                  "Name": "PodAbortion",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             },
@@ -9211,7 +9284,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 10.0,
+              "FixedValue": 1.05,
               "Units": "g/m2",
               "Name": "GrainNumber",
               "ResourceName": null,
