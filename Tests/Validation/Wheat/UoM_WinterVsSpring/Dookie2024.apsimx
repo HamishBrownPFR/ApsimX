@@ -13686,7 +13686,7 @@
                       "MarkerSize": 0,
                       "Line": 4,
                       "LineThickness": 0,
-                      "TableName": "HarvestObsPred",
+                      "TableName": "DailyObsPred",
                       "XFieldName": "Observed.Wheat.AboveGround.Wt",
                       "YFieldName": "Predicted.Wheat.AboveGround.Wt",
                       "X2FieldName": null,
