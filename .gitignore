@@ -93,6 +93,8 @@ errors.txt
 /Prototypes/Lentil/FAHMA/FAHMA_weather_Wellcamp.xlsx
 /Prototypes/Lentil/FAHMA/_apply_FAHMA_Lentil.txt
 /Prototypes/Lentil/FAHMA/tempApplyCLI.txt
+/Prototypes/Lentil/NaPA/NaPA_Biomass_SampleDate_PredictedMeans.xlsx
+/Prototypes/Lentil/NaPA/Phenology_StagesDates_202603.xlsx
 /Prototypes/Lentil/NaPA/tempApplyCLI.txt
 /Prototypes/Lentil/PhenAnalysis.py
 /Tests/Validation/Wheat/GxExM/Inputs/GxExM_ConstantPhenology.csv
