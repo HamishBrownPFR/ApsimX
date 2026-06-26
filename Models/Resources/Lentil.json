@@ -6198,43 +6198,6 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
-              "AccumulateToday": false,
-              "AccumulateEventName": null,
-              "NameOfPlantToLink": "Lentil",
-              "StartStageName": "FirstBudsVisiable",
-              "EndStageName": "TerminalNode",
-              "StartEventName": null,
-              "EndEventName": null,
-              "StartDate": null,
-              "EndDate": null,
-              "ReduceStageName": null,
-              "FractionRemovedOnStage": 0.0,
-              "ReduceEventName": null,
-              "FractionRemovedOnEvent": 0.0,
-              "ReduceDates": null,
-              "FractionRemovedOnDate": 0.0,
-              "FractionRemovedOnCut": 0.0,
-              "FractionRemovedOnHarvest": 1.0,
-              "FractionRemovedOnGraze": 0.0,
-              "FractionRemovedOnPrune": 0.0,
-              "Name": "FloweringNodes",
-              "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].NodeNumber.DeltaNode",
-                  "Name": "NodeAppearance",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
               "$type": "Models.Functions.AddFunction, Models",
               "Name": "BranchNumber",
               "ResourceName": null,
@@ -9135,27 +9098,8 @@
                 },
                 {
                   "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].FloweringNodes",
-                  "Name": "FloweringNodes",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].BranchNumber",
-                  "Name": "BranchNumber",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.Constant, Models",
-                  "FixedValue": 0.5,
-                  "Units": null,
-                  "Name": "PodAbortion",
+                  "VariableName": "[Pod].ViableNodesPerPlant",
+                  "Name": "ViableFloweringNodes",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -9352,6 +9296,81 @@
                   "Name": "Cconc",
                   "ResourceName": null,
                   "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": "Lentil",
+              "StartStageName": "FirstBudsVisiable",
+              "EndStageName": "TerminalNode",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 1.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "ViableNodesPerPlant",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "DailyViableNodes",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].NodeNumber.DeltaNode",
+                      "Name": "MainStemNodes",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].BranchNumber",
+                      "Name": "Branches",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.MovingAverageFunction, Models",
+                      "NumberOfDays": 5,
+                      "StageToStartMovingAverage": "FloralInitiation",
+                      "Name": "PodAbortion",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Leaf].Canopy.Fw",
+                          "Name": "WaterStress",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 }
