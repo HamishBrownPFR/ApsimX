@@ -13,7 +13,7 @@
         {
           "$type": "Models.PostSimulationTools.ExcelInput, Models",
           "FileNames": [
-            "C:\\GitHubRepos\\ApsimX\\Prototypes\\Lentil\\NaPA\\Observed.xlsx"
+            "%root%/Prototypes/Lentil/NaPA/Observed.xlsx"
           ],
           "SheetNames": [
             "Observed"
@@ -619,6 +619,7 @@
                     "[Lentil].Grain.Dead.Wt",
                     "[Lentil].Grain.Wt",
                     "[Lentil].Pod.Dead.Wt",
+                    "[Lentil].Pod.Number",
                     "[Lentil].Pod.Wt",
                     "[Lentil].Root.Wt",
                     "[Lentil].Nodule.Dead.Wt",
@@ -674,7 +675,7 @@
                     "[Lentil].Phenology.StartPoddingTt",
                     "[Lentil].Phenology.MaturityTt",
                     "[Lentil].Pod.Number",
-                    "[Lentil].Pod.SeedNumber"
+                    "[Lentil].Pod.GrainNumber"
                   ],
                   "EventNames": [
                     "[Lentil].Harvesting"
