@@ -370,6 +370,86 @@
           "AnnotationLocation": 0,
           "DisabledSeries": [],
           "LegendOutsideGraph": false,
+          "Name": "EmergenceDAS",
+          "ResourceName": null,
+          "Children": [
+            {
+              "$type": "Models.Series, Models",
+              "Type": 1,
+              "XAxis": 3,
+              "YAxis": 0,
+              "ColourArgb": 0,
+              "FactorToVaryColours": "Experiment",
+              "FactorToVaryMarkers": "Experiment",
+              "FactorToVaryLines": null,
+              "Marker": 0,
+              "MarkerSize": 0,
+              "Line": 4,
+              "LineThickness": 0,
+              "TableName": "HarvestObsPred",
+              "XFieldName": "Observed.Lentil.Phenology.EmergenceDAS",
+              "YFieldName": "Predicted.Lentil.Phenology.EmergenceDAS",
+              "X2FieldName": null,
+              "Y2FieldName": null,
+              "ShowInLegend": true,
+              "IncludeSeriesNameInLegend": false,
+              "Cumulative": false,
+              "CumulativeX": false,
+              "Filter": null,
+              "Name": "Predicted",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Regression, Models",
+                  "ForEachSeries": false,
+                  "showOneToOne": true,
+                  "showEquation": true,
+                  "Name": "Regression",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            }
+          ],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Graph, Models",
+          "Caption": null,
+          "Axis": [
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 3,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": "NaN",
+              "Maximum": "NaN",
+              "Interval": null
+            },
+            {
+              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+              "Title": null,
+              "Position": 0,
+              "Inverted": false,
+              "CrossesAtZero": false,
+              "LabelOnOneLine": false,
+              "Minimum": null,
+              "Maximum": null,
+              "Interval": null
+            }
+          ],
+          "LegendPosition": 5,
+          "LegendOrientation": 0,
+          "AnnotationLocation": 0,
+          "DisabledSeries": [],
+          "LegendOutsideGraph": false,
           "Name": "StartBuddingDAS",
           "ResourceName": null,
           "Children": [
@@ -31236,7 +31316,8 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 30-Apr",
                         "[Sowing].Script.Population = 146",
-                        "[IrrigateOnSow_TOS2only].Script.Amount = 0.0"
+                        "[IrrigateOnSow_TOS2only].Script.Amount = 0.0",
+                        "[Sowing].Script.EmergeDate = 13-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "1",
@@ -31250,7 +31331,8 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 21-May",
                         "[Sowing].Script.Population = 126",
-                        "[IrrigateOnSow_TOS2only].Script.Amount = 15"
+                        "[IrrigateOnSow_TOS2only].Script.Amount = 15",
+                        "[Sowing].Script.EmergeDate = 5-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "2",
@@ -31264,7 +31346,8 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 12-Jun",
                         "[Sowing].Script.Population = 134",
-                        "[IrrigateOnSow_TOS2only].Script.Amount = 0.0"
+                        "[IrrigateOnSow_TOS2only].Script.Amount = 0.0",
+                        "[Sowing].Script.EmergeDate = 30-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "3",
@@ -31550,12 +31633,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -31575,7 +31660,12 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                {",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(SowDate,\"Germinating\");",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");",
+                    "                }    ",
                     "            }",
                     "        ",
                     "        }",
@@ -31586,15 +31676,19 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
-                      "Value": "20"
+                      "Value": "50"
                     },
                     {
                       "Key": "RowSpacing",
@@ -35898,7 +35992,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 18-Apr"
+                        "[Sowing].Script.SowDate = 18-Apr",
+                        "[Sowing].Script.EmergeDate = 27-Apr"
                       ],
                       "CustomDescriptors": [],
                       "Name": "1",
@@ -35910,7 +36005,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 21-May"
+                        "[Sowing].Script.SowDate = 21-May",
+                        "[Sowing].Script.EmergeDate = 5-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "2",
@@ -36162,12 +36258,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -36187,7 +36285,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -36198,11 +36298,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "30-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Amethyst"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
@@ -42979,7 +43083,8 @@
                         "[Clock].StartDate = 1-Nov-2017",
                         "[Clock].EndDate = 1-Jan-2019",
                         "[Sowing].Script.SowDate=24-Apr",
-                        "[IrrigationApplications]"
+                        "[IrrigationApplications]",
+                        "[Sowing].Script.EmergeDate = 3-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "24Apr2018Irrigated",
@@ -43026,7 +43131,8 @@
                         "[Clock].StartDate = 1-Nov-2017",
                         "[Clock].EndDate = 1-Jan-2019",
                         "[Sowing].Script.SowDate=24-Apr",
-                        "[ClimateController]"
+                        "[ClimateController]",
+                        "[Sowing].Script.EmergeDate = 3-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "24Apr2018Rainout",
@@ -43209,7 +43315,8 @@
                         "[Clock].StartDate = 1-Nov-2017",
                         "[Clock].EndDate = 1-Jan-2019",
                         "[Sowing].Script.SowDate=6-Jun",
-                        "[IrrigationApplications]"
+                        "[IrrigationApplications]",
+                        "[Sowing].Script.EmergeDate = 19-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "6Jun2018Irrigated",
@@ -43255,7 +43362,8 @@
                       "Specifications": [
                         "[Clock].StartDate = 1-Nov-2017",
                         "[Clock].EndDate = 1-Jan-2019",
-                        "[Sowing].Script.SowDate=6-Jun"
+                        "[Sowing].Script.SowDate=6-Jun",
+                        "[Sowing].Script.EmergeDate = 19-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "6Jun2018Rainfed",
@@ -43270,7 +43378,8 @@
                         "[Sowing].Script.SowDate=29-Apr",
                         "[IrrigationApplications]",
                         "[Clock].StartDate = 1-Nov-2018",
-                        "[Clock].EndDate = 1-Jan-2020"
+                        "[Clock].EndDate = 1-Jan-2020",
+                        "[Sowing].Script.EmergeDate = 11-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "29Apr2019Irrigated",
@@ -43332,7 +43441,8 @@
                         "[ClimateController]",
                         "[IrrigationApplications]",
                         "[Clock].StartDate = 1-Nov-2018",
-                        "[Clock].EndDate = 1-Jan-2020"
+                        "[Clock].EndDate = 1-Jan-2020",
+                        "[Sowing].Script.EmergeDate = 11-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "29Apr2019Rainout",
@@ -43532,7 +43642,8 @@
                         "[Sowing].Script.SowDate=24-Jun",
                         "[IrrigationApplications]",
                         "[Clock].StartDate = 1-Nov-2018",
-                        "[Clock].EndDate = 1-Jan-2020"
+                        "[Clock].EndDate = 1-Jan-2020",
+                        "[Sowing].Script.EmergeDate = 8-Jul"
                       ],
                       "CustomDescriptors": [],
                       "Name": "24Jun2019Irrigated",
@@ -43585,7 +43696,8 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate=24-Jun",
                         "[Clock].StartDate = 1-Nov-2018",
-                        "[Clock].EndDate = 1-Jan-2020"
+                        "[Clock].EndDate = 1-Jan-2020",
+                        "[Sowing].Script.EmergeDate = 8-Jul"
                       ],
                       "CustomDescriptors": [],
                       "Name": "24Jun2019Rainfed",
@@ -43686,8 +43798,6 @@
                     "using Models.PMF;",
                     "using Models.Core;",
                     "using System;",
-                    "using System.Linq;",
-                    "using System.Diagnostics;",
                     "",
                     "namespace Models",
                     "{",
@@ -43697,45 +43807,50 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
+                    "        Accumulator accumulatedRain;",
                     "        ",
-                    "        [Description(\"Crop\")]",
-                    "        public IPlant Crop { get; set; }",
-                    "",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
-                    "",
-                    "        [Display(Type = DisplayType.CultivarName)]",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
-                    "",
                     "        [Description(\"Sowing depth (mm)\")]",
                     "        public double SowingDepth { get; set; }",
-                    "",
                     "        [Description(\"Row spacing (mm)\")]",
                     "        public double RowSpacing { get; set; }",
-                    "",
                     "        [Description(\"Plant population (/m2)\")]",
                     "        public double Population { get; set; }",
+                    "        ",
+                    "        ",
+                    "",
                     "",
                     "        [EventSubscribe(\"DoManagement\")]",
                     "        private void OnDoManagement(object sender, EventArgs e)",
                     "        {",
+                    "        ",
+                    "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Crop.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
+                    "        ",
                     "        }",
+                    "        ",
                     "    }",
                     "}"
                   ],
                   "Parameters": [
                     {
-                      "Key": "Crop",
-                      "Value": "[Lentil]"
+                      "Key": "SowDate",
+                      "Value": ""
                     },
                     {
-                      "Key": "SowDate",
+                      "Key": "EmergeDate",
                       "Value": ""
                     },
                     {
@@ -45974,7 +46089,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 21-May"
+                        "[Sowing].Script.SowDate = 21-May",
+                        "[Sowing].Script.EmergeDate = 26-May"
                       ],
                       "CustomDescriptors": [],
                       "Name": "1",
@@ -45986,7 +46102,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 9-Jun"
+                        "[Sowing].Script.SowDate = 9-Jun",
+                        "[Sowing].Script.EmergeDate = 16-Jun"
                       ],
                       "CustomDescriptors": [],
                       "Name": "2",
@@ -45998,7 +46115,8 @@
                     {
                       "$type": "Models.Factorial.CompositeFactor, Models",
                       "Specifications": [
-                        "[Sowing].Script.SowDate = 28-Jun"
+                        "[Sowing].Script.SowDate = 28-Jun",
+                        "[Sowing].Script.EmergeDate = 9-Jul"
                       ],
                       "CustomDescriptors": [],
                       "Name": "3",
@@ -46260,12 +46378,14 @@
                     "        [Link] Clock Clock;",
                     "        [Link] Fertiliser Fertiliser;",
                     "        [Link] Summary Summary;",
-                    "        [Link] Plant Canola;",
+                    "        [Link] Plant Lentil;",
                     "        [Link] Soil Soil;",
                     "        Accumulator accumulatedRain;",
                     "        ",
                     "        [Description(\"Sowing date (d-mmm)\")]",
                     "        public string SowDate { get; set; }",
+                    "        [Description(\"Emergence date (d-mmm)\")]",
+                    "        public string EmergeDate { get; set; }",
                     "        [Description(\"Cultivar to be sown\")]",
                     "        public string CultivarName { get; set; }",
                     "        [Description(\"Sowing depth (mm)\")]",
@@ -46285,7 +46405,9 @@
                     "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Canola.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
+                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                if (EmergeDate != \"\")",
+                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
                     "            }",
                     "        ",
                     "        }",
@@ -46296,11 +46418,15 @@
                   "Parameters": [
                     {
                       "Key": "SowDate",
-                      "Value": "25-Apr"
+                      "Value": ""
+                    },
+                    {
+                      "Key": "EmergeDate",
+                      "Value": ""
                     },
                     {
                       "Key": "CultivarName",
-                      "Value": "Jumbo2"
+                      "Value": ""
                     },
                     {
                       "Key": "SowingDepth",
