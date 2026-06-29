@@ -2337,7 +2337,9 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.DivideFunction, Models",
+              "$type": "Models.Functions.ProtectedDivideFunction, Models",
+              "NumeratorErrVal": 0.0,
+              "DenominatorErrVal": 0.0,
               "Name": "HarvestIndex",
               "ResourceName": null,
               "Children": [
@@ -2968,7 +2970,9 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.DivideFunction, Models",
+              "$type": "Models.Functions.ProtectedDivideFunction, Models",
+              "NumeratorErrVal": 0.0,
+              "DenominatorErrVal": 0.0,
               "Name": "Size",
               "ResourceName": null,
               "Children": [
