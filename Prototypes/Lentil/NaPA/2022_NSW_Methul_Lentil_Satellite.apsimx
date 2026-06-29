@@ -104,7 +104,7 @@
                         "[Clock].StartDate = 14/06/2022",
                         "[Clock].EndDate = 31-dec-2022",
                         "[Sowing].Script.SowDate = 14/06/2022",
-                        "[Sowing].Script.EmergeDate = 29-Jun",
+                        "[Sowing].Script.EmergeDate = 28-Jun",
                         "[Sowing].Script.SowingDepth = 30.0",
                         "[Sowing].Script.RowSpacing = 300.0",
                         "[Sowing].Script.Population = 100"

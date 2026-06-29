@@ -86,7 +86,7 @@
                         "[Clock].StartDate = 18/06/2022",
                         "[Clock].EndDate = 31-dec-2022",
                         "[Sowing].Script.SowDate = 18/06/2022",
-                        "[Sowing].Script.EmergeDate = 12-Jul",
+                        "[Sowing].Script.EmergeDate = 29-Jun",
                         "[Sowing].Script.SowingDepth = 50.0",
                         "[Sowing].Script.RowSpacing = 230.0",
                         "[Sowing].Script.Population = 100"
@@ -104,7 +104,7 @@
                         "[Clock].StartDate = 14/07/2022",
                         "[Clock].EndDate = 31-dec-2022",
                         "[Sowing].Script.SowDate = 14/07/2022",
-                        "[Sowing].Script.EmergeDate = 20-Jul",
+                        "[Sowing].Script.EmergeDate = 26-Jul",
                         "[Sowing].Script.SowingDepth = 50.0",
                         "[Sowing].Script.RowSpacing = 230.0",
                         "[Sowing].Script.Population = 100"
