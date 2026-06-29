@@ -2374,6 +2374,16 @@
               "ReadOnly": false
             },
             {
+              "$type": "Models.Functions.Constant, Models",
+              "FixedValue": 0.1,
+              "Units": "g",
+              "Name": "MaximumGrainSize",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
               "$type": "Models.PMF.OrganNutrientDelta, Models",
               "Supplies": {
                 "$type": "Models.PMF.OrganNutrientSupplies, Models",
@@ -3053,82 +3063,102 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.MultiplyFunction, Models",
+              "$type": "Models.Functions.MinimumFunction, Models",
               "Name": "TotalDMDemand",
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.PhaseLookup, Models",
-                  "Name": "PartitionFraction",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "DMProportion",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "Emergence",
-                      "End": "FirstGrainsVisiable",
-                      "Name": "NonReproductive",
+                      "$type": "Models.Functions.PhaseLookup, Models",
+                      "Name": "PartitionFraction",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.0,
-                          "Units": "/d",
-                          "Name": "None",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "FirstGrainsVisiable",
-                      "End": "LastGrainsFilled",
-                      "Name": "Reproductive",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.MultiplyFunction, Models",
-                          "Name": "HIGrainDemand",
+                          "$type": "Models.Functions.PhaseLookupValue, Models",
+                          "Start": "Emergence",
+                          "End": "FirstGrainsVisiable",
+                          "Name": "NonReproductive",
                           "ResourceName": null,
                           "Children": [
                             {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[AboveGround].Wt",
-                              "Name": "AboveGroundWt",
+                              "$type": "Models.Functions.Constant, Models",
+                              "FixedValue": 0.0,
+                              "Units": "/d",
+                              "Name": "None",
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
-                            },
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.PhaseLookupValue, Models",
+                          "Start": "FirstGrainsVisiable",
+                          "End": "LastGrainsFilled",
+                          "Name": "Reproductive",
+                          "ResourceName": null,
+                          "Children": [
                             {
-                              "$type": "Models.Functions.DivideFunction, Models",
-                              "Name": "HarvestIndexIncrease",
+                              "$type": "Models.Functions.MultiplyFunction, Models",
+                              "Name": "HIGrainDemand",
                               "ResourceName": null,
                               "Children": [
                                 {
-                                  "$type": "Models.Functions.MaximumFunction, Models",
-                                  "Name": "OutstandingHarvestIndexIncrease",
+                                  "$type": "Models.Functions.VariableReference, Models",
+                                  "VariableName": "[AboveGround].Wt",
+                                  "Name": "AboveGroundWt",
+                                  "ResourceName": null,
+                                  "Children": [],
+                                  "Enabled": true,
+                                  "ReadOnly": false
+                                },
+                                {
+                                  "$type": "Models.Functions.DivideFunction, Models",
+                                  "Name": "HarvestIndexIncrease",
                                   "ResourceName": null,
                                   "Children": [
                                     {
-                                      "$type": "Models.Functions.ExpressionFunction, Models",
-                                      "Units": null,
-                                      "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
-                                      "Name": "Increase",
+                                      "$type": "Models.Functions.MaximumFunction, Models",
+                                      "Name": "OutstandingHarvestIndexIncrease",
                                       "ResourceName": null,
-                                      "Children": [],
+                                      "Children": [
+                                        {
+                                          "$type": "Models.Functions.ExpressionFunction, Models",
+                                          "Units": null,
+                                          "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
+                                          "Name": "Increase",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        },
+                                        {
+                                          "$type": "Models.Functions.Constant, Models",
+                                          "FixedValue": 0.0,
+                                          "Units": null,
+                                          "Name": "Zero",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        }
+                                      ],
                                       "Enabled": true,
                                       "ReadOnly": false
                                     },
                                     {
-                                      "$type": "Models.Functions.Constant, Models",
-                                      "FixedValue": 0.0,
-                                      "Units": null,
-                                      "Name": "Zero",
+                                      "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
+                                      "StartStageName": "FirstGrainsVisiable",
+                                      "EndStageName": "LastGrainsFilled",
+                                      "Method": 0,
+                                      "Name": "TTRemaining",
                                       "ResourceName": null,
                                       "Children": [],
                                       "Enabled": true,
@@ -3139,26 +3169,15 @@
                                   "ReadOnly": false
                                 },
                                 {
-                                  "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
-                                  "StartStageName": "FirstGrainsVisiable",
-                                  "EndStageName": "LastGrainsFilled",
-                                  "Method": 0,
-                                  "Name": "TTRemaining",
+                                  "$type": "Models.Functions.VariableReference, Models",
+                                  "VariableName": "[Phenology].ThermalTime",
+                                  "Name": "ThermalTime",
                                   "ResourceName": null,
                                   "Children": [],
                                   "Enabled": true,
                                   "ReadOnly": false
                                 }
                               ],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].ThermalTime",
-                              "Name": "ThermalTime",
-                              "ResourceName": null,
-                              "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             }
@@ -3169,17 +3188,75 @@
                       ],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].Photosynthesis",
+                      "Name": "PotentialPhotosynthesis",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].Photosynthesis",
-                  "Name": "PotentialPhotosynthesis",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "YieldComponents",
                   "ResourceName": null,
-                  "Children": [],
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Grain].MaximumGrianSize",
+                      "Name": "MaxGrainSize",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Grain].MaximumGrianSize",
+                      "Name": "GrainNumber",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
+                      "Name": "DailyIncrement",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Phenology].ThermalTime",
+                          "Name": "DailyTt",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
+                          "StartStageName": "FirstGrainsVisiable",
+                          "EndStageName": "LastGrainsFilled",
+                          "Method": 4,
+                          "Name": "AggregateOverMultiplePhases",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 }
