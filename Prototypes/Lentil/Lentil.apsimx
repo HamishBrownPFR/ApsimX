@@ -2547,6 +2547,78 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Report, Models",
+                      "VariableNames": [
+                        "[Clock].Today",
+                        "[Simulation].Name",
+                        "[IWeather].MeanT",
+                        "[Irrigation].IrrigationApplied",
+                        "[Lentil].AboveGround.Wt",
+                        "[Lentil].AboveGroundDead.Wt",
+                        "[Lentil].Fruit.Wt",
+                        "[Lentil].Leaf.Canopy.CoverGreen",
+                        "[Lentil].Leaf.Canopy.SpecificArea",
+                        "[Lentil].Leaf.Live.Wt",
+                        "[Lentil].Leaf.Dead.Wt",
+                        "[Lentil].Leaf.Wt",
+                        "[Lentil].Leaf.Canopy.LAI",
+                        "[Lentil].Leaf.TotalCarbonDemand.TotalDMDemand.DeltaLAIPotential.Vegetative.Delta.BranchNumber",
+                        "[Lentil].Leaf.Canopy.Fw",
+                        "[Lentil].Leaf.NodeNumber",
+                        "[Lentil].Leaf.SpecificAreaTotal",
+                        "[Lentil].Phenology.CurrentStageName",
+                        "[Lentil].Phenology.AbortedFlowerBuds",
+                        "[Lentil].Phenology.AccumulatedTT",
+                        "[Lentil].Phenology.ThermalTime",
+                        "[Lentil].Phenology.Stage",
+                        "[Lentil].Phenology.Photoperiod",
+                        "[Lentil].Phenology.AccumulatedVernalisation",
+                        "[Lentil].Phenology.VernalisationSaturation",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Root.Network.Depth",
+                        "[Lentil].Stem.Dead.Wt",
+                        "[Lentil].Stem.Wt",
+                        "[Lentil].Grain.Dead.Wt",
+                        "[Lentil].Grain.Size",
+                        "[Lentil].Grain.HarvestIndex",
+                        "[Lentil].Grain.Number",
+                        "[Lentil].Grain.Wt",
+                        "[Lentil].Pod.Dead.Wt",
+                        "[Lentil].Pod.Wt",
+                        "[Lentil].Root.Wt",
+                        "[Lentil].Nodule.Dead.Wt",
+                        "[Lentil].Nodule.Wt",
+                        "[Soil].Water.Volumetric",
+                        "sum([Soil].Water.MM)",
+                        "[Lentil].SowingDate",
+                        "[Lentil].SowingData.Cultivar",
+                        "[Lentil].SowingData.Population",
+                        "[Lentil].SowingDate.DayOfYear",
+                        "[Lentil].SowingData.RowSpacing",
+                        "[IWeather].Latitude",
+                        "[IWeather].Longitude",
+                        "[IWeather].FileName",
+                        "[Lentil].Phenology.EmergenceDAS",
+                        "[Lentil].Phenology.StartBuddingDAS",
+                        "[Lentil].Phenology.StartFloweringDAS",
+                        "[Lentil].Phenology.StartPoddingDAS",
+                        "[Lentil].Phenology.MaturityDAS",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Phenology.GrainFillingWaterStress"
+                      ],
+                      "EventNames": [
+                        "[Clock].EndOfDay"
+                      ],
+                      "GroupByVariableName": null,
+                      "Name": "AnalysisReport",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
@@ -5314,6 +5386,78 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Report, Models",
+                      "VariableNames": [
+                        "[Clock].Today",
+                        "[Simulation].Name",
+                        "[IWeather].MeanT",
+                        "[Irrigation].IrrigationApplied",
+                        "[Lentil].AboveGround.Wt",
+                        "[Lentil].AboveGroundDead.Wt",
+                        "[Lentil].Fruit.Wt",
+                        "[Lentil].Leaf.Canopy.CoverGreen",
+                        "[Lentil].Leaf.Canopy.SpecificArea",
+                        "[Lentil].Leaf.Live.Wt",
+                        "[Lentil].Leaf.Dead.Wt",
+                        "[Lentil].Leaf.Wt",
+                        "[Lentil].Leaf.Canopy.LAI",
+                        "[Lentil].Leaf.TotalCarbonDemand.TotalDMDemand.DeltaLAIPotential.Vegetative.Delta.BranchNumber",
+                        "[Lentil].Leaf.Canopy.Fw",
+                        "[Lentil].Leaf.NodeNumber",
+                        "[Lentil].Leaf.SpecificAreaTotal",
+                        "[Lentil].Phenology.CurrentStageName",
+                        "[Lentil].Phenology.AbortedFlowerBuds",
+                        "[Lentil].Phenology.AccumulatedTT",
+                        "[Lentil].Phenology.ThermalTime",
+                        "[Lentil].Phenology.Stage",
+                        "[Lentil].Phenology.Photoperiod",
+                        "[Lentil].Phenology.AccumulatedVernalisation",
+                        "[Lentil].Phenology.VernalisationSaturation",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Root.Network.Depth",
+                        "[Lentil].Stem.Dead.Wt",
+                        "[Lentil].Stem.Wt",
+                        "[Lentil].Grain.Dead.Wt",
+                        "[Lentil].Grain.Size",
+                        "[Lentil].Grain.HarvestIndex",
+                        "[Lentil].Grain.Number",
+                        "[Lentil].Grain.Wt",
+                        "[Lentil].Pod.Dead.Wt",
+                        "[Lentil].Pod.Wt",
+                        "[Lentil].Root.Wt",
+                        "[Lentil].Nodule.Dead.Wt",
+                        "[Lentil].Nodule.Wt",
+                        "[Soil].Water.Volumetric",
+                        "sum([Soil].Water.MM)",
+                        "[Lentil].SowingDate",
+                        "[Lentil].SowingData.Cultivar",
+                        "[Lentil].SowingData.Population",
+                        "[Lentil].SowingDate.DayOfYear",
+                        "[Lentil].SowingData.RowSpacing",
+                        "[IWeather].Latitude",
+                        "[IWeather].Longitude",
+                        "[IWeather].FileName",
+                        "[Lentil].Phenology.EmergenceDAS",
+                        "[Lentil].Phenology.StartBuddingDAS",
+                        "[Lentil].Phenology.StartFloweringDAS",
+                        "[Lentil].Phenology.StartPoddingDAS",
+                        "[Lentil].Phenology.MaturityDAS",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Phenology.GrainFillingWaterStress"
+                      ],
+                      "EventNames": [
+                        "[Clock].EndOfDay"
+                      ],
+                      "GroupByVariableName": null,
+                      "Name": "AnalysisReport",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
@@ -7801,6 +7945,78 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Report, Models",
+                      "VariableNames": [
+                        "[Clock].Today",
+                        "[Simulation].Name",
+                        "[IWeather].MeanT",
+                        "[Irrigation].IrrigationApplied",
+                        "[Lentil].AboveGround.Wt",
+                        "[Lentil].AboveGroundDead.Wt",
+                        "[Lentil].Fruit.Wt",
+                        "[Lentil].Leaf.Canopy.CoverGreen",
+                        "[Lentil].Leaf.Canopy.SpecificArea",
+                        "[Lentil].Leaf.Live.Wt",
+                        "[Lentil].Leaf.Dead.Wt",
+                        "[Lentil].Leaf.Wt",
+                        "[Lentil].Leaf.Canopy.LAI",
+                        "[Lentil].Leaf.TotalCarbonDemand.TotalDMDemand.DeltaLAIPotential.Vegetative.Delta.BranchNumber",
+                        "[Lentil].Leaf.Canopy.Fw",
+                        "[Lentil].Leaf.NodeNumber",
+                        "[Lentil].Leaf.SpecificAreaTotal",
+                        "[Lentil].Phenology.CurrentStageName",
+                        "[Lentil].Phenology.AbortedFlowerBuds",
+                        "[Lentil].Phenology.AccumulatedTT",
+                        "[Lentil].Phenology.ThermalTime",
+                        "[Lentil].Phenology.Stage",
+                        "[Lentil].Phenology.Photoperiod",
+                        "[Lentil].Phenology.AccumulatedVernalisation",
+                        "[Lentil].Phenology.VernalisationSaturation",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Root.Network.Depth",
+                        "[Lentil].Stem.Dead.Wt",
+                        "[Lentil].Stem.Wt",
+                        "[Lentil].Grain.Dead.Wt",
+                        "[Lentil].Grain.Size",
+                        "[Lentil].Grain.HarvestIndex",
+                        "[Lentil].Grain.Number",
+                        "[Lentil].Grain.Wt",
+                        "[Lentil].Pod.Dead.Wt",
+                        "[Lentil].Pod.Wt",
+                        "[Lentil].Root.Wt",
+                        "[Lentil].Nodule.Dead.Wt",
+                        "[Lentil].Nodule.Wt",
+                        "[Soil].Water.Volumetric",
+                        "sum([Soil].Water.MM)",
+                        "[Lentil].SowingDate",
+                        "[Lentil].SowingData.Cultivar",
+                        "[Lentil].SowingData.Population",
+                        "[Lentil].SowingDate.DayOfYear",
+                        "[Lentil].SowingData.RowSpacing",
+                        "[IWeather].Latitude",
+                        "[IWeather].Longitude",
+                        "[IWeather].FileName",
+                        "[Lentil].Phenology.EmergenceDAS",
+                        "[Lentil].Phenology.StartBuddingDAS",
+                        "[Lentil].Phenology.StartFloweringDAS",
+                        "[Lentil].Phenology.StartPoddingDAS",
+                        "[Lentil].Phenology.MaturityDAS",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Phenology.GrainFillingWaterStress"
+                      ],
+                      "EventNames": [
+                        "[Clock].EndOfDay"
+                      ],
+                      "GroupByVariableName": null,
+                      "Name": "AnalysisReport",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
@@ -10224,6 +10440,78 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Report, Models",
+                      "VariableNames": [
+                        "[Clock].Today",
+                        "[Simulation].Name",
+                        "[IWeather].MeanT",
+                        "[Irrigation].IrrigationApplied",
+                        "[Lentil].AboveGround.Wt",
+                        "[Lentil].AboveGroundDead.Wt",
+                        "[Lentil].Fruit.Wt",
+                        "[Lentil].Leaf.Canopy.CoverGreen",
+                        "[Lentil].Leaf.Canopy.SpecificArea",
+                        "[Lentil].Leaf.Live.Wt",
+                        "[Lentil].Leaf.Dead.Wt",
+                        "[Lentil].Leaf.Wt",
+                        "[Lentil].Leaf.Canopy.LAI",
+                        "[Lentil].Leaf.TotalCarbonDemand.TotalDMDemand.DeltaLAIPotential.Vegetative.Delta.BranchNumber",
+                        "[Lentil].Leaf.Canopy.Fw",
+                        "[Lentil].Leaf.NodeNumber",
+                        "[Lentil].Leaf.SpecificAreaTotal",
+                        "[Lentil].Phenology.CurrentStageName",
+                        "[Lentil].Phenology.AbortedFlowerBuds",
+                        "[Lentil].Phenology.AccumulatedTT",
+                        "[Lentil].Phenology.ThermalTime",
+                        "[Lentil].Phenology.Stage",
+                        "[Lentil].Phenology.Photoperiod",
+                        "[Lentil].Phenology.AccumulatedVernalisation",
+                        "[Lentil].Phenology.VernalisationSaturation",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Root.Network.Depth",
+                        "[Lentil].Stem.Dead.Wt",
+                        "[Lentil].Stem.Wt",
+                        "[Lentil].Grain.Dead.Wt",
+                        "[Lentil].Grain.Size",
+                        "[Lentil].Grain.HarvestIndex",
+                        "[Lentil].Grain.Number",
+                        "[Lentil].Grain.Wt",
+                        "[Lentil].Pod.Dead.Wt",
+                        "[Lentil].Pod.Wt",
+                        "[Lentil].Root.Wt",
+                        "[Lentil].Nodule.Dead.Wt",
+                        "[Lentil].Nodule.Wt",
+                        "[Soil].Water.Volumetric",
+                        "sum([Soil].Water.MM)",
+                        "[Lentil].SowingDate",
+                        "[Lentil].SowingData.Cultivar",
+                        "[Lentil].SowingData.Population",
+                        "[Lentil].SowingDate.DayOfYear",
+                        "[Lentil].SowingData.RowSpacing",
+                        "[IWeather].Latitude",
+                        "[IWeather].Longitude",
+                        "[IWeather].FileName",
+                        "[Lentil].Phenology.EmergenceDAS",
+                        "[Lentil].Phenology.StartBuddingDAS",
+                        "[Lentil].Phenology.StartFloweringDAS",
+                        "[Lentil].Phenology.StartPoddingDAS",
+                        "[Lentil].Phenology.MaturityDAS",
+                        "[Lentil].Phenology.EarlyWaterStress",
+                        "[Lentil].Phenology.FloweringWaterStress",
+                        "[Lentil].Phenology.GrainFillingWaterStress"
+                      ],
+                      "EventNames": [
+                        "[Clock].EndOfDay"
+                      ],
+                      "GroupByVariableName": null,
+                      "Name": "AnalysisReport",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
@@ -12089,6 +12377,78 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Report, Models",
+                  "VariableNames": [
+                    "[Clock].Today",
+                    "[Simulation].Name",
+                    "[IWeather].MeanT",
+                    "[Irrigation].IrrigationApplied",
+                    "[Lentil].AboveGround.Wt",
+                    "[Lentil].AboveGroundDead.Wt",
+                    "[Lentil].Fruit.Wt",
+                    "[Lentil].Leaf.Canopy.CoverGreen",
+                    "[Lentil].Leaf.Canopy.SpecificArea",
+                    "[Lentil].Leaf.Live.Wt",
+                    "[Lentil].Leaf.Dead.Wt",
+                    "[Lentil].Leaf.Wt",
+                    "[Lentil].Leaf.Canopy.LAI",
+                    "[Lentil].Leaf.TotalCarbonDemand.TotalDMDemand.DeltaLAIPotential.Vegetative.Delta.BranchNumber",
+                    "[Lentil].Leaf.Canopy.Fw",
+                    "[Lentil].Leaf.NodeNumber",
+                    "[Lentil].Leaf.SpecificAreaTotal",
+                    "[Lentil].Phenology.CurrentStageName",
+                    "[Lentil].Phenology.AbortedFlowerBuds",
+                    "[Lentil].Phenology.AccumulatedTT",
+                    "[Lentil].Phenology.ThermalTime",
+                    "[Lentil].Phenology.Stage",
+                    "[Lentil].Phenology.Photoperiod",
+                    "[Lentil].Phenology.AccumulatedVernalisation",
+                    "[Lentil].Phenology.VernalisationSaturation",
+                    "[Lentil].Phenology.EarlyWaterStress",
+                    "[Lentil].Phenology.FloweringWaterStress",
+                    "[Lentil].Root.Network.Depth",
+                    "[Lentil].Stem.Dead.Wt",
+                    "[Lentil].Stem.Wt",
+                    "[Lentil].Grain.Dead.Wt",
+                    "[Lentil].Grain.Size",
+                    "[Lentil].Grain.HarvestIndex",
+                    "[Lentil].Grain.Number",
+                    "[Lentil].Grain.Wt",
+                    "[Lentil].Pod.Dead.Wt",
+                    "[Lentil].Pod.Wt",
+                    "[Lentil].Root.Wt",
+                    "[Lentil].Nodule.Dead.Wt",
+                    "[Lentil].Nodule.Wt",
+                    "[Soil].Water.Volumetric",
+                    "sum([Soil].Water.MM)",
+                    "[Lentil].SowingDate",
+                    "[Lentil].SowingData.Cultivar",
+                    "[Lentil].SowingData.Population",
+                    "[Lentil].SowingDate.DayOfYear",
+                    "[Lentil].SowingData.RowSpacing",
+                    "[IWeather].Latitude",
+                    "[IWeather].Longitude",
+                    "[IWeather].FileName",
+                    "[Lentil].Phenology.EmergenceDAS",
+                    "[Lentil].Phenology.StartBuddingDAS",
+                    "[Lentil].Phenology.StartFloweringDAS",
+                    "[Lentil].Phenology.StartPoddingDAS",
+                    "[Lentil].Phenology.MaturityDAS",
+                    "[Lentil].Phenology.EarlyWaterStress",
+                    "[Lentil].Phenology.FloweringWaterStress",
+                    "[Lentil].Phenology.GrainFillingWaterStress"
+                  ],
+                  "EventNames": [
+                    "[Clock].EndOfDay"
+                  ],
+                  "GroupByVariableName": null,
+                  "Name": "AnalysisReport",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -23735,6 +24095,46 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -24764,6 +25164,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -26734,6 +27151,46 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -27700,6 +28157,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -29462,6 +29936,46 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -30554,6 +31068,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -36027,6 +36558,46 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -37056,6 +37627,23 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -37757,6 +38345,46 @@
                   "Name": "Variety",
                   "ResourceName": null,
                   "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -38905,6 +39533,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -40542,6 +41187,46 @@
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -41657,6 +42342,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
@@ -46140,8 +46842,48 @@
                 },
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[Sowing].Script.Population = 132,150",
-                  "Name": "Pop",
+                  "Specification": "",
+                  "Name": "WaterTrt",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Factorial.CompositeFactor, Models",
+                      "Specifications": [
+                        "[IrrigationApplications]"
+                      ],
+                      "CustomDescriptors": [],
+                      "Name": "RainFed",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Operations, Models",
+                          "OperationsList": [
+                            {
+                              "$type": "Models.Operation, Models",
+                              "Enabled": false,
+                              "Date": null,
+                              "Action": null,
+                              "Line": ""
+                            }
+                          ],
+                          "Name": "IrrigationApplications",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Factorial.Factor, Models",
+                  "Specification": "[Sowing].Script.TrtName  = Density_0.88, Density_1",
+                  "Name": "Agronomy",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
@@ -46394,6 +47136,8 @@
                     "        public double RowSpacing { get; set; }",
                     "        [Description(\"Plant population (/m2)\")]",
                     "        public double Population { get; set; }",
+                    "        [Description(\"Population Modifier (0-)\")]",
+                    "        public string TrtName { get; set; }",
                     "        ",
                     "        ",
                     "",
@@ -46401,17 +47145,16 @@
                     "        [EventSubscribe(\"DoManagement\")]",
                     "        private void OnDoManagement(object sender, EventArgs e)",
                     "        {",
-                    "        ",
-                    "            ",
                     "            if (DateUtilities.WithinDates(SowDate, Clock.Today, SowDate))",
                     "            {",
-                    "                Lentil.Sow(population: Population, cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);",
+                    "                double estPopn = Population;",
+                    "                if (TrtName == \"Density_0.88\")",
+                    "                    estPopn = Population * 0.88;",
+                    "                Lentil.Sow(population: estPopn  , cultivar: CultivarName, depth: SowingDepth, rowSpacing: RowSpacing);    ",
                     "                if (EmergeDate != \"\")",
-                    "                    Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");    ",
+                    "                Lentil.Phenology.SetPhaseCompletionDate(EmergeDate,\"Emerging\");",
                     "            }",
-                    "        ",
                     "        }",
-                    "        ",
                     "    }",
                     "}"
                   ],
@@ -46434,11 +47177,15 @@
                     },
                     {
                       "Key": "RowSpacing",
-                      "Value": "375"
+                      "Value": "370"
                     },
                     {
                       "Key": "Population",
-                      "Value": "120"
+                      "Value": "150"
+                    },
+                    {
+                      "Key": "TrtName",
+                      "Value": ""
                     }
                   ],
                   "Name": "Sowing",
@@ -47201,6 +47948,23 @@
                   "$type": "Models.PMF.Plant, Models",
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Operations, Models",
+                  "OperationsList": [
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": ""
+                    }
+                  ],
+                  "Name": "IrrigationApplications",
+                  "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
