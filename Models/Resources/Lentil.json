@@ -1238,7 +1238,7 @@
                         },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Phenology.PpResponse",
+                          "VariableName": "[Lentil].Phenology.PpResponse.PpResponseDaily",
                           "Name": "Shape",
                           "ResourceName": null,
                           "Children": [],
