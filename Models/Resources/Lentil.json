@@ -142,7 +142,7 @@
               "$type": "Models.Functions.Constant, Models",
               "FixedValue": 15.0,
               "Units": "Nodes",
-              "Name": "MaxFloralNodes",
+              "Name": "PpFloralNodes",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -1216,37 +1216,19 @@
                           "Children": [
                             {
                               "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Lentil].Leaf.Phyllochron",
-                              "Name": "Phyllochron",
+                              "VariableName": "[Lentil].Phenology.PpFloralNodes",
+                              "Name": "PpFloralNodes",
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             },
                             {
-                              "$type": "Models.Functions.SubtractFunction, Models",
-                              "Name": "MaxAdditionalLeaves",
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Lentil].Leaf.Phyllochron",
+                              "Name": "Phyllochron",
                               "ResourceName": null,
-                              "Children": [
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Lentil].Phenology.MaxFloralNodes",
-                                  "Name": "MaxFloralNodes",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                },
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Lentil].Phenology.MinFloralNodes",
-                                  "Name": "MinFloralNodes",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                }
-                              ],
+                              "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             }
