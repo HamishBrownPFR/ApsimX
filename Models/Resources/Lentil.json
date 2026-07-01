@@ -130,7 +130,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 8.0,
+              "FixedValue": 0.0,
               "Units": "Nodes",
               "Name": "MinFloralNodes",
               "ResourceName": null,
@@ -140,7 +140,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 15.0,
+              "FixedValue": 32.0,
               "Units": "Nodes",
               "Name": "PpFloralNodes",
               "ResourceName": null,
@@ -3284,7 +3284,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 40.0,
+              "FixedValue": 50.0,
               "Units": null,
               "Name": "BasePhyllochron",
               "ResourceName": null,
