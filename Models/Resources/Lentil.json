@@ -10622,7 +10622,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.19",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.50",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 185",
-                "[Phenology].TtPodDevelopment.FixedValue = 95"
+                "[Phenology].TtPodDevelopment.FixedValue = 95",
+                "[Phenology].MinFloralNodes.FixedValue = 12",
+                "[Phenology].PpFloralNodes.FixedValue = 40",
+                "[Leaf].BasePhyllochron.FixedValue = 56"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10757,7 +10760,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.06",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 155",
-                "[Phenology].TtPodDevelopment.FixedValue = 210"
+                "[Phenology].TtPodDevelopment.FixedValue = 210",
+                "[Phenology].MinFloralNodes.FixedValue = 11",
+                "[Phenology].PpFloralNodes.FixedValue = 40",
+                "[Leaf].BasePhyllochron.FixedValue = 58"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10817,7 +10823,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.90",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.43",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 130",
-                "[Phenology].TtPodDevelopment.FixedValue = 165"
+                "[Phenology].TtPodDevelopment.FixedValue = 165",
+                "[Phenology].MinFloralNodes.FixedValue = 39",
+                "[Phenology].PpFloralNodes.FixedValue = 8",
+                "[Leaf].BasePhyllochron.FixedValue = 55"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10832,7 +10841,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.31",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.39",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140",
-                "[Phenology].TtPodDevelopment.FixedValue = 170"
+                "[Phenology].TtPodDevelopment.FixedValue = 170",
+                "[Phenology].MinFloralNodes.FixedValue = 0",
+                "[Phenology].PpFloralNodes.FixedValue = 4",
+                "[Leaf].BasePhyllochron.FixedValue = 39"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
