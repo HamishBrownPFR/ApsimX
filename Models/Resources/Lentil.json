@@ -10577,7 +10577,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.89",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 125",
-                "[Phenology].TtPodDevelopment.FixedValue = 165"
+                "[Phenology].TtPodDevelopment.FixedValue = 165",
+                "[Phenology].MinFloralNodes.FixedValue = 0",
+                "[Phenology].PpFloralNodes.FixedValue = 39",
+                "[Leaf].BasePhyllochron.FixedValue = 55"
               ],
               "Name": "Ace",
               "ResourceName": null,
@@ -10607,7 +10610,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.16",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.51",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 60",
-                "[Phenology].TtPodDevelopment.FixedValue = 145"
+                "[Phenology].TtPodDevelopment.FixedValue = 145",
+                "[Phenology].MinFloralNodes.FixedValue = 10",
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 55"
               ],
               "Name": "Blitz",
               "ResourceName": null,
@@ -10624,8 +10630,8 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 185",
                 "[Phenology].TtPodDevelopment.FixedValue = 95",
                 "[Phenology].MinFloralNodes.FixedValue = 12",
-                "[Phenology].PpFloralNodes.FixedValue = 40",
-                "[Leaf].BasePhyllochron.FixedValue = 56"
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 52"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10745,7 +10751,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.92",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.44",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 165",
-                "[Phenology].TtPodDevelopment.FixedValue = 100"
+                "[Phenology].TtPodDevelopment.FixedValue = 100",
+                "[Phenology].MinFloralNodes.FixedValue = 13",
+                "[Phenology].PpFloralNodes.FixedValue = 1",
+                "[Leaf].BasePhyllochron.FixedValue = 59"
               ],
               "Name": "Greenfield",
               "ResourceName": null,
@@ -10761,9 +10770,9 @@
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 155",
                 "[Phenology].TtPodDevelopment.FixedValue = 210",
-                "[Phenology].MinFloralNodes.FixedValue = 11",
-                "[Phenology].PpFloralNodes.FixedValue = 40",
-                "[Leaf].BasePhyllochron.FixedValue = 58"
+                "[Phenology].MinFloralNodes.FixedValue = 14",
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 54"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10824,9 +10833,9 @@
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.43",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 130",
                 "[Phenology].TtPodDevelopment.FixedValue = 165",
-                "[Phenology].MinFloralNodes.FixedValue = 39",
-                "[Phenology].PpFloralNodes.FixedValue = 8",
-                "[Leaf].BasePhyllochron.FixedValue = 55"
+                "[Phenology].MinFloralNodes.FixedValue = 13",
+                "[Phenology].PpFloralNodes.FixedValue = 1",
+                "[Leaf].BasePhyllochron.FixedValue = 48"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10842,9 +10851,9 @@
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.39",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140",
                 "[Phenology].TtPodDevelopment.FixedValue = 170",
-                "[Phenology].MinFloralNodes.FixedValue = 0",
-                "[Phenology].PpFloralNodes.FixedValue = 4",
-                "[Leaf].BasePhyllochron.FixedValue = 39"
+                "[Phenology].MinFloralNodes.FixedValue = 8",
+                "[Phenology].PpFloralNodes.FixedValue = 39",
+                "[Leaf].BasePhyllochron.FixedValue = 45"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
@@ -10904,7 +10913,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.26",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.49",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 135",
-                "[Phenology].TtPodDevelopment.FixedValue = 180"
+                "[Phenology].TtPodDevelopment.FixedValue = 180",
+                "[Phenology].MinFloralNodes.FixedValue = 0",
+                "[Phenology].PpFloralNodes.FixedValue = 45",
+                "[Leaf].BasePhyllochron.FixedValue = 52"
               ],
               "Name": "Nugget",
               "ResourceName": null,
@@ -10967,7 +10979,8 @@
                     "[Phenology].JuvenileBase.FixedValue = 150",
                     "[Phenology].VernSensitivity.FixedValue = 0.85",
                     "[Phenology].InductivePpSensitivity.FixedValue = 1.1",
-                    "[Leaf].AreaOfLargest.FixedValue = 0.0005"
+                    "[Leaf].AreaOfLargest.FixedValue = 0.0005",
+                    "[Leaf].BasePhyllochron.FixedValue = 44"
                   ],
                   "Name": "Digger",
                   "ResourceName": null,
