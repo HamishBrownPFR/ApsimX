@@ -2308,7 +2308,7 @@
                   "Name": "SetPhenoDatesExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -2318,7 +2318,7 @@
                   "Name": "SetHaunRelatedExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {

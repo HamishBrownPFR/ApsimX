@@ -1,12 +1,13 @@
-#' Impute or Exclude Missing Phenology Dates
+#' Impute or Exclude Missing Phenology Dates (Chronologically Safe)
 #'
 #' @description
 #' Scans the final wide APSIM phenology input matrix for missing dates (NAs).
-#' - Tier 1: If an entire column is missing, it drops the column so APSIM can natively simulate it.
-#' - Tier 2: If a column is partially missing, it imputes the gaps using group-aware averages.
+#' - Tier 1: Drops columns entirely missing.
+#' - Tier 2: Imputes gaps using group averages.
+#' - Tier 3: If group average violates chronology, forces a mathematical mid-point and warns user.
 #'
-#' @param df Wide dataframe of APSIM phenology inputs (SimulationName + DateToProgress columns).
-#' @param group_keys Character vector of strings to group by (e.g., c("EVA", "WWHI")).
+#' @param df Wide dataframe of APSIM phenology inputs (SimulationName + DateToProgress).
+#' @param group_keys Character vector of strings to group by.
 #' @return The dataframe formatted safely for APSIM.
 #' @export
 do_averages_for_missing_pheno <- function(df, group_keys) {
@@ -16,29 +17,31 @@ do_averages_for_missing_pheno <- function(df, group_keys) {
   stage_cols <- setdiff(names(df), "SimulationName")
   imputation_logs <- c()
   dropped_logs <- c()
+  tier3_logs <- c() # Track the forced mid-points
   
-  for (col in stage_cols) {
-    # Find rows with NA or blank strings
-    na_idx <- which(is.na(df[[col]]) | df[[col]] == "")
+  for (col_idx in seq_along(stage_cols)) {
+    col <- stage_cols[col_idx]
+    actual_col_idx <- which(names(df) == col) 
+    
+    # Safe check that prevents strict type-cast errors on Date columns
+    na_idx <- which(is.na(df[[col]]) | as.character(df[[col]]) == "")
     
     # ==========================================================
-    # TIER 1: ENTIRE COLUMN MISSING (The Surgeon)
+    # TIER 1: ENTIRE COLUMN MISSING 
     # ==========================================================
     if (length(na_idx) == nrow(df)) {
-      
-      # Remove the column entirely from the dataframe
       df[[col]] <- NULL
       dropped_logs <- c(dropped_logs, sprintf(" -> EXCLUDED: '%s'", col))
       
       # ==========================================================
-      # TIER 2: PARTIALLY MISSING (The Group Imputer)
+      # TIER 2: PARTIALLY MISSING (With Tier 3 Safety Rails)
       # ==========================================================
     } else if (length(na_idx) > 0) {
       
       for (i in na_idx) {
         current_sim <- df$SimulationName[i]
         
-        # 1. Identify which group this simulation belongs to
+        # 1. Match Group
         matched_group <- NULL
         for (key in group_keys) {
           if (grepl(key, current_sim, ignore.case = TRUE)) {
@@ -47,33 +50,92 @@ do_averages_for_missing_pheno <- function(df, group_keys) {
           }
         }
         
-        # 2. Subset all rows for that specific group
+        # 2. Get Group Rows
         if (!is.null(matched_group)) {
           group_rows <- grep(matched_group, df$SimulationName, ignore.case = TRUE)
         } else {
-          group_rows <- 1:nrow(df) # Fallback to global average
+          group_rows <- 1:nrow(df) 
         }
         
-        # 3. Extract the valid dates for this column within the group
+        # 3. Calculate Initial Average
         raw_dates <- df[[col]][group_rows]
-        valid_dates_str <- raw_dates[!is.na(raw_dates) & raw_dates != ""]
+        valid_dates_str <- raw_dates[!is.na(raw_dates) & as.character(raw_dates) != ""]
         
         if (length(valid_dates_str) > 0) {
-          # Parse, average, and re-format
           valid_dates <- suppressWarnings(lubridate::parse_date_time(valid_dates_str, orders = c("dmy", "ymd", "Ymd")))
           valid_dates <- as.Date(valid_dates[!is.na(valid_dates)])
           
           if (length(valid_dates) > 0) {
             avg_date <- as.Date(round(mean(as.numeric(valid_dates))), origin = "1970-01-01")
-            formatted_avg <- format(avg_date, "%d-%m-%Y")
             
+            # ==========================================================
+            # 4. CHRONOLOGICAL INTEGRITY CHECK & TIER 3 INTERVENTION
+            # ==========================================================
+            prev_date <- NA
+            next_date <- NA
+            
+            # Search backward safely (using seq to count backwards properly)
+            if (actual_col_idx > 2) { 
+              for (p in seq(actual_col_idx - 1, 2, by = -1)) {
+                val <- df[[p]][i]
+                if (!is.na(val) && as.character(val) != "") {
+                  parsed_p <- suppressWarnings(lubridate::parse_date_time(val, orders = c("dmy", "ymd", "Ymd")))
+                  if (!is.na(parsed_p)) { prev_date <- as.Date(parsed_p); break }
+                }
+              }
+            }
+            
+            # Search forward safely (STRICTLY LESS THAN ncol to avoid 11:10 quirk)
+            if (actual_col_idx < ncol(df)) {
+              for (n in seq(actual_col_idx + 1, ncol(df), by = 1)) {
+                val <- df[[n]][i]
+                if (!is.na(val) && as.character(val) != "") {
+                  parsed_n <- suppressWarnings(lubridate::parse_date_time(val, orders = c("dmy", "ymd", "Ymd")))
+                  if (!is.na(parsed_n)) { next_date <- as.Date(parsed_n); break }
+                }
+              }
+            }
+            
+            # Validate Timeline
+            is_valid <- TRUE
+            if (!is.na(prev_date) && avg_date < prev_date) is_valid <- FALSE
+            if (!is.na(next_date) && avg_date > next_date) is_valid <- FALSE
+            
+            # TIER 3: MID-POINT CLAMPING (If timeline is invalid)
+            if (!is_valid) {
+              original_avg <- format(avg_date, "%d-%b-%Y") # Changed to dd-MMM-yyyy
+              
+              if (!is.na(prev_date) && !is.na(next_date)) {
+                mid_num <- as.numeric(prev_date) + (as.numeric(next_date) - as.numeric(prev_date)) / 2
+                avg_date <- as.Date(round(mid_num), origin = "1970-01-01")
+              } else if (!is.na(prev_date)) {
+                avg_date <- prev_date + 1
+              } else if (!is.na(next_date)) {
+                avg_date <- next_date - 1
+              }
+              
+              tier3_logs <- c(
+                tier3_logs,
+                sprintf(
+                  " -> [!] %s | Stage: %s \n      Invalid Avg: %s | FORCED MID-POINT: %s \n      (Bounds: Prev= %s, Next= %s)",
+                  current_sim, col, original_avg, format(avg_date, "%d-%b-%Y"), # Changed
+                  ifelse(is.na(prev_date), "None", format(prev_date, "%d-%b-%Y")), # Changed
+                  ifelse(is.na(next_date), "None", format(next_date, "%d-%b-%Y"))  # Changed
+                )
+              )
+            }
+            
+            # 5. Final Injection
+            formatted_avg <- format(avg_date, "%d-%b-%Y") # Changed to dd-MMM-yyyy
             df[[col]][i] <- formatted_avg
             
-            group_label <- ifelse(is.null(matched_group), "GLOBAL FALLBACK", matched_group)
-            imputation_logs <- c(
-              imputation_logs, 
-              sprintf(" -> IMPUTED: [%s] filled '%s' with %s (Group: %s)", current_sim, col, formatted_avg, group_label)
-            )
+            if (is_valid) {
+              group_label <- ifelse(is.null(matched_group), "GLOBAL FALLBACK", matched_group)
+              imputation_logs <- c(
+                imputation_logs, 
+                sprintf(" -> IMPUTED (Clean): [%s] filled '%s' with %s (Group: %s)", current_sim, col, formatted_avg, group_label)
+              )
+            }
           }
         }
       }
@@ -81,22 +143,32 @@ do_averages_for_missing_pheno <- function(df, group_keys) {
   }
   
   # ==========================================================
-  # REPORTING
+  # REPORTING (With loud warnings for Tier 3)
   # ==========================================================
-  if (length(dropped_logs) > 0 || length(imputation_logs) > 0) {
-    message("\n=== PHENOLOGY MATRIX ADJUSTMENTS ===")
+  if (length(dropped_logs) > 0 || length(imputation_logs) > 0 || length(tier3_logs) > 0) {
+    message("\n========================================================")
+    message("=== PHENOLOGY MATRIX ADJUSTMENTS (TEMPORARY FIXES) ===")
+    message("========================================================")
     
     if (length(dropped_logs) > 0) {
-      message("\n[1] PARAMETERS FULLY EXCLUDED (Lacking Data):")
+      message("\n[TIER 1] PARAMETERS FULLY EXCLUDED (Lacking Data):")
       message(paste(dropped_logs, collapse = "\n"))
-      message("    * APSIM will safely use its internal thermal-time engine for these stages.")
     }
     
     if (length(imputation_logs) > 0) {
-      message("\n[2] MISSING DATES IMPUTED (Group Averaged):")
+      message("\n[TIER 2] MISSING DATES IMPUTED (Group Averaged & Valid):")
       message(paste(imputation_logs, collapse = "\n"))
     }
-    message("====================================\n")
+    
+    if (length(tier3_logs) > 0) {
+      message("\n\U0001F6A8 [TIER 3] CRITICAL WARNING: CHRONOLOGY FORCED \U0001F6A8")
+      message("The following group averages violated chronological logic.")
+      message("Dates were artificially forced to the mid-point of available bounds.")
+      message(">>> YOU MUST REVIEW THE RAW DATA FOR THESE SIMULATIONS <<< \n")
+      message(paste(tier3_logs, collapse = "\n\n"))
+    }
+    
+    message("\n========================================================\n")
   }
   
   return(df)

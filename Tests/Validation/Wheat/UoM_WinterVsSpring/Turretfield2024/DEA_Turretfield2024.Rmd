@@ -67,6 +67,11 @@ targets::tar_make(
 # Debugging and other miscelaneous functionalities below 
 #------------------------------------------------------
 
+```{r}
+library(dplyr)
+library(purrr)
+library(targets)
+```
 
 
 # DEBUG
@@ -74,17 +79,19 @@ targets::tar_make(
 tar_load(df_simNameByCult)
 tar_load(df_soil_profile_clean)
 tar_load(df_obs_meta_data)
-tar_load(list_observed_dfs_raw)
-tar_load(list_observed_dfs_clean)
+
 tar_load(final_apsim_observed)
 tar_load(df_final_observed_harv)
 tar_load(export_apsim_file)
+tar_load(list_observed_dfs_raw_plus_emerg)
+
+tar_load(list_observed_dfs_raw)
+tar_load(list_observed_dfs_clean)
+tar_load(list_observed_dfs_fix)
 ```
 
 ```{r}
-library(dplyr)
-library(purrr)
-library(targets)
+
 
 # 1. Load the compiled data from the targets cache
 my_raw_data <- tar_read(list_observed_dfs_raw)
@@ -116,5 +123,60 @@ date_qc_table %>%
 ```{r}
 tar_load(list_observed_dfs_raw)
 tar_load(qc_apsim_observed_harv)
+```
+
+```{r}
+library(targets)
+tar_load(df_pheno_raw)
+tar_load(df_pheno_haun)
+tar_load(df_pheno_int)      
+tar_load(df_pheno_final)      
+tar_load(df_pheno_input_param)
+      
+```
+
+```{r}
+with_na<-tar_read(df_pheno_input_param) %>%
+  filter(if_any(everything(), is.na)) 
+with_na
+
+
+list_na_sims <- with_na %>%
+  dplyr::select(SimulationName) %>%
+  as.vector()
+
+list_na_sims
+```
+
+
+
+```{r}
+
+for (i in 1:length(list_na_sims[[1]])) {
+  print(i)
+  print(nm <- list_na_sims[[1]][i])
+  print(tar_read(df_pheno_final) %>%
+  filter(SimulationName == nm))
+}
+
+nm <- list_na_sims[[1]][1]
+
+nm <- "Turretfield2024CvWylahSow16-Apr"
+
+tar_read(df_pheno_final) %>%
+  filter(SimulationName == nm)
+
+
+tar_read(df_pheno_raw) %>%
+  filter(SimulationName == nm)
+
+
+tar_read(df_pheno_int) %>%
+  filter(SimulationName == nm)
+
+tar_read(df_pheno_haun) %>%
+  filter(SimulationName == nm)
+
+tar_load(list_observed_dfs_clean)
 ```
 
