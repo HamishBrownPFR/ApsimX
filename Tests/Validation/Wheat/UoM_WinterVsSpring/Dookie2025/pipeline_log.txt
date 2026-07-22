@@ -11,7 +11,7 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.9 seconds]
+● built target config [0.98 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 Loading required package: rlang
@@ -24,18 +24,56 @@ The following objects are masked from 'package:purrr':
     flatten_raw, invoke, splice
 
 [1m[22mNew names:
+[36m•[39m `` -> `...1`
+[36m•[39m `` -> `...2`
+[36m•[39m `` -> `...3`
+[36m•[39m `` -> `...4`
+[36m•[39m `` -> `...5`
+[36m•[39m `` -> `...6`
+[36m•[39m `` -> `...7`
+[36m•[39m `` -> `...8`
+[36m•[39m `` -> `...9`
 [36m•[39m `` -> `...10`
 [36m•[39m `` -> `...11`
 [36m•[39m `` -> `...12`
 [36m•[39m `` -> `...13`
 [36m•[39m `` -> `...14`
+[36m•[39m `` -> `...15`
+[36m•[39m `` -> `...16`
+[36m•[39m `` -> `...17`
+[36m•[39m `` -> `...18`
+[36m•[39m `` -> `...19`
+[36m•[39m `` -> `...20`
+[36m•[39m `` -> `...21`
+[36m•[39m `` -> `...22`
+[36m•[39m `` -> `...23`
+[36m•[39m `` -> `...24`
+[36m•[39m `` -> `...25`
+[36m•[39m `` -> `...26`
+[36m•[39m `` -> `...27`
+[1m[22mNew names:
+[36m•[39m `` -> `...10`
+[36m•[39m `` -> `...11`
+[36m•[39m `` -> `...12`
+[36m•[39m `` -> `...13`
+[36m•[39m `` -> `...14`
+
+=======================================================
+ WEATHER DATA CREATION LOG: UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx
+=======================================================
+  [✓] RADN  -> 'Radiation (MJ/m2)'
+  [✓] MAXT  -> 'Maximum Temperature (McPoyles 3 2025)  (°C)'
+  [✓] MINT  -> 'Minimum Temperature (McPoyles 3 2025) (°C)'
+  [✓] RAIN  -> 'Rain (mm)'
+  [✓] VP    -> 'Vapour Pressure (hPa)'
+  [X] ET    -> NOT FOUND (Optional - Skipped)
+=======================================================
 ▶ start target processed_met_data
-● built target processed_met_data [0.26 seconds]
+● built target processed_met_data [0.89 seconds]
 📖 Reading soil data from: UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx (Sheet: Presowing soil test results)
 💾 Success: Exported cleaned soil profile to 'Dookie2025_soil_pre_sow.csv'
 ▶ start target soil_pre_sow
-● built target soil_pre_sow [0.77 seconds]
-▶ start target log_active_config
+● built target soil_pre_sow [1 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -120,17 +158,24 @@ $file_name_new_met
 
 ======================================================================
 
-● built target log_active_config [0 seconds]
+▶ start target log_active_config
+● built target log_active_config [0.01 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
 ▶ start target df_simNameByCult
+● built target df_simNameByCult [0 seconds]
 📖 Reading soil data from: UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx (Sheet: McPoyles 3 APSIM)
 💾 Success: Exported cleaned soil profile to 'Dookie2025_soil_water_cond.csv'
-● built target df_simNameByCult [0 seconds]
 ▶ start target soil_water_cond
-● built target soil_water_cond [0.28 seconds]
+● built target soil_water_cond [0.34 seconds]
 ▶ start target msg_met_saved
-● built target msg_met_saved [0 seconds]
+Building APSIM .met file: Dookie2025.met
+  [✓] Included RADN (mapped from Excel col: 'Radiation (MJ/m2)')
+  [✓] Included MAXT (mapped from Excel col: 'Maximum Temperature (McPoyles 3 2025)  (°C)')
+  [✓] Included MINT (mapped from Excel col: 'Minimum Temperature (McPoyles 3 2025) (°C)')
+  [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
+  [✓] Included VP (mapped from Excel col: 'Vapour Pressure (hPa)')
+● built target msg_met_saved [0.03 seconds]
 ▶ start target list_observed_dfs_raw
 
 ======================================================================
@@ -363,7 +408,8 @@ $file_name_new_met
  Action: Skipping this extraction. The pipeline will continue.
 ======================================================================
 
-● built target list_observed_dfs_raw [26.39 seconds]
+● built target list_observed_dfs_raw [32.31 seconds]
+▶ start target manual_pheno_params
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -372,8 +418,7 @@ $file_name_new_met
  -> Checking: Dookie2025_GermDatesInput.csv 
 ======================================================================
 
-▶ start target manual_pheno_params
-● built target manual_pheno_params [0.25 seconds]
+● built target manual_pheno_params [0.26 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -385,7 +430,7 @@ $file_name_new_met
 ----------------------------------------------------------------------
 
 ▶ start target list_observed_dfs_raw_plus_emergPerc
-● built target list_observed_dfs_raw_plus_emergPerc [0.06 seconds]
+● built target list_observed_dfs_raw_plus_emergPerc [0.08 seconds]
 
 ======================================================================
  ⚠️  CRITICAL WARNING: RAW DATE TYPOS AUTO-CORRECTED ⚠️ 
@@ -590,11 +635,12 @@ $file_name_new_met
 ======================================================================
 
 ▶ start target list_observed_clean
-● built target list_observed_clean [0.18 seconds]
+● built target list_observed_clean [0.19 seconds]
 ▶ start target df_obs_wide
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
-● built target df_obs_wide [0.54 seconds]
+● built target df_obs_wide [0.47 seconds]
+▶ start target df_pheno_haun
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -654,10 +700,9 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 Success [derive_pheno_stages_from_haun]: Morphologically generated milestone rows from Haun counts. (Mode: list_dfs)
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 24 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 24 simulations.
-▶ start target df_pheno_haun
 ● built target df_pheno_haun [0.15 seconds]
-▶ start target list_pcds_extracted
 ✅ Successfully extracted 3 target dataframes.
+▶ start target list_pcds_extracted
 ● built target list_pcds_extracted [0.02 seconds]
 
 ======================================================================
@@ -685,10 +730,10 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
 
 Success [get_pheno_dates_from_pcd_list]: Standardized 72 raw records at 50% progress.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.15 seconds]
+● built target df_pheno_raw [0.19 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 48 missing micro-milestone rows (Stages 4/7).
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.09 seconds]
+● built target df_pheno_int [0.08 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -744,10 +789,11 @@ Success [create_interp_pheno_dates]: Linearly generated 48 missing micro-milesto
 24 2025-07-06 vs 2025-07-23  Haun vs Int
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 144 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.18 seconds]
+● built target df_pheno_final [0.22 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 144 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [0.75 seconds]
+● built target df_obs_plus_pheno [0.77 seconds]
+▶ start target df_pheno_input_param
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -758,8 +804,8 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
 ----------------------------------------------------------------------
 
 Success [format_apsim_pheno_params]: Translated 24 simulations into wide APSIM parameter format.
-▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.1 seconds]
+● built target df_pheno_input_param [0.19 seconds]
+▶ start target df_obs_plus_pheno_hi
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -768,12 +814,11 @@ Success [format_apsim_pheno_params]: Translated 24 simulations into wide APSIM p
  -> VALUE RANGE  : 0.370 to 0.504
 ============================================================
 
-▶ start target df_obs_plus_pheno_hi
-● built target df_obs_plus_pheno_hi [0.09 seconds]
+● built target df_obs_plus_pheno_hi [0.24 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
 ▶ start target qc_pheno_integrity
-● built target qc_pheno_integrity [0.03 seconds]
+● built target qc_pheno_integrity [0.05 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -806,13 +851,13 @@ Success [format_apsim_pheno_params]: Translated 24 simulations into wide APSIM p
 ------------------------------------------------------------
 
 ▶ start target df_obs_plus_pheno_harv
-● built target df_obs_plus_pheno_harv [0.18 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target df_obs_plus_pheno_harv [0.14 seconds]
 ▶ start target qc_apsim_observed_harv
-● built target qc_apsim_observed_harv [0.13 seconds]
-Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Dookie2025_Observed.xlsx' (Sheet: 'Observed').
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target qc_apsim_observed_harv [0.12 seconds]
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.39 seconds]
+Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Dookie2025_Observed.xlsx' (Sheet: 'Observed').
+● built target msg_obs_saved [0.32 seconds]
 ▶ start target haun_input_checked
 ● built target haun_input_checked [0.04 seconds]
 
@@ -823,20 +868,20 @@ Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validat
 ----------------------------------------------------------------------
 💾 Success: Exported 24 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.06 seconds]
+● built target exported_pop_csv [0.1 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-▶ start target check_depend
 ✅ Pre-flight check passed: All required APSIM dependencies found.
-● built target check_depend [0.03 seconds]
+▶ start target check_depend
+● built target check_depend [0.01 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.29 seconds]
-▶ start target verify_data_backup
+● built target encrypted_zip_artifact [0.31 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
-● built target verify_data_backup [0.03 seconds]
-▶ end pipeline [34.34 seconds]
+▶ start target verify_data_backup
+● built target verify_data_backup [0.05 seconds]
+▶ end pipeline [41.67 seconds]
 Warning messages:
 1: package 'targets' was built under R version 4.3.2 
 2: package 'readxl' was built under R version 4.3.2 
@@ -844,6 +889,7 @@ Warning messages:
 4: package 'purrr' was built under R version 4.3.2 
 5: package 'stringr' was built under R version 4.3.2 
 6: package 'lubridate' was built under R version 4.3.2 
-7: Raw date typos were auto-corrected. See console for exact mapping. 
-8: Some phenology stages failed to reach the target threshold and required fallback assumptions. See console. 
-9: 3 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+7: Met file 'Dookie2025.met' generated WITHOUT optional variables: ET 
+8: Raw date typos were auto-corrected. See console for exact mapping. 
+9: Some phenology stages failed to reach the target threshold and required fallback assumptions. See console. 
+10: 4 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
