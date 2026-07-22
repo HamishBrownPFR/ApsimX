@@ -10,10 +10,14 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-✔ skip target config
-✔ skip target df_obs_meta_data
-✔ skip target df_simNameByCult
-✔ skip target tracked_raw_excel
+▶ start target config
+● built target config [1.05 seconds]
+▶ start target df_obs_meta_data
+● built target df_obs_meta_data [0 seconds]
+▶ start target df_simNameByCult
+● built target df_simNameByCult [0 seconds]
+▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
 Loading required package: rlang
 
 Attaching package: 'rlang'
@@ -45,8 +49,7 @@ The following objects are masked from 'package:purrr':
   [X] ET    -> NOT FOUND (Optional - Skipped)
 =======================================================
 ▶ start target processed_met_data
-● built target processed_met_data [0.47 seconds]
-▶ start target log_active_config
+● built target processed_met_data [0.49 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -129,51 +132,530 @@ $pcd_stages_to_extract
 
 ======================================================================
 
+▶ start target log_active_config
 ● built target log_active_config [0 seconds]
-✔ skip target soil_profile
+📖 Reading soil data from: Fords_RawData_2025.xlsx (Sheet: Soil sampling)
+
+--- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
+   -> Column 'Depth From' found 2 times. Safely extracted Index 3.
+   -> Column 'Silt' found 2 times. Safely extracted Index 158.
+   -> Column 'Clay' found 2 times. Safely extracted Index 159.
+   -> Column 'Sand' found 3 times. Safely extracted Index 160.
+   -> Column 'Total Carbon (Combustion)' found 4 times. Safely extracted Index 181.
+   -> Column 'Depth To' found 2 times. Safely extracted Index 4.
+------------------------------------------------
+💾 Success: Exported cleaned soil profile to 'Fords2025_soil_profile.csv'
+▶ start target soil_profile
+● built target soil_profile [2.58 seconds]
+▶ start target list_observed_dfs_raw
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'stemYield_8_raw'
+ -> Target Var    : 'Wheat.Stem.Live.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'spikeYield_8_raw'
+ -> Target Var    : 'Wheat.Spike.Live.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'senescLeafYield_8_raw'
+ -> Target Var    : 'Wheat.Leaf.Dead.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'greenLeaf_8_raw'
+ -> Target Var    : 'Wheat.Leaf.Live.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'totalAboveGround_8_raw'
+ -> Target Var    : 'Wheat.AboveGround.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'plant_population_m2'
+ -> Target Var    : '[Wheat].Leaf.StemPopulation'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'shoot_8_N'
+ -> Target Var    : 'Wheat.AboveGround.Live.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'shoot_8_WSCc'
+ -> Target Var    : 'Wheat.AboveGround.Live.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'leaf_8_Nconc'
+ -> Target Var    : 'Wheat.Leaf.Live.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'leaf_8_WSCc'
+ -> Target Var    : 'Wheat.Leaf.Live.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'leafDead_8_Nconc'
+ -> Target Var    : 'Wheat.Leaf.Dead.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'leafDead_8_WSCc'
+ -> Target Var    : 'Wheat.Leaf.Dead.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'stem_8_Nconc'
+ -> Target Var    : 'Wheat.Stem.Live.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'stem_8_WSCc'
+ -> Target Var    : 'Wheat.Stem.Live.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'spike_8_Nconc'
+ -> Target Var    : 'Wheat.Spike.Live.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'spike_8_WSCc'
+ -> Target Var    : 'Wheat.Spike.Live.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'shoot_10_N'
+ -> Target Var    : 'Wheat.AboveGround.Live.NConc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'shoot_10_WSCc'
+ -> Target Var    : 'Wheat.AboveGround.Live.WSCc'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name       : 'earYield_8_raw'
+ -> Target Var    : 'Wheat.Ear.Wt'
+ -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+● built target list_observed_dfs_raw [9.19 seconds]
 Building APSIM .met file: Fords2025.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
-✔ skip target list_observed_dfs_raw
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.03 seconds]
-✔ skip target list_observed_raw_clean
-✔ skip target list_observed_clean
-✔ skip target df_obs_wide
-✔ skip target list_pcds_extracted
-✔ skip target df_pheno_raw
-✔ skip target df_obs_plus_pheno
-✔ skip target df_pheno_input_param_raw
-✔ skip target df_obs_plus_pheno_hi
-✔ skip target df_pheno_input_param
-✔ skip target df_obs_plus_pheno_hi_with_amounts
-✔ skip target qc_pheno_integrity
-✔ skip target df_obs_plus_pheno_harv
-✔ skip target msg_pheno_param_saved
-✔ skip target qc_apsim_observed_harv
-✔ skip target manual_pheno_params
-✔ skip target exported_pop_csv
-✔ skip target haun_input_checked
-✅ Pre-flight check passed: All required APSIM dependencies found.
-✔ skip target msg_obs_saved
+● built target msg_met_saved [0.05 seconds]
+
+======================================================================
+ 🛠️  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS 
+======================================================================
+   [📅 REFERENCE] Target Year securely locked as: 2025
+   [⏳ THRESHOLD] Earliest Sowing Date locked as: 2025-04-15
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'stemYield_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Stem.Live.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'spikeYield_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Spike.Live.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'senescLeafYield_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Dead.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'greenLeaf_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Live.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'totalAboveGround_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.AboveGround.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'plant_population_m2' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [[Wheat].Leaf.StemPopulation]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'shoot_8_N' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.AboveGround.Live.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'shoot_8_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.AboveGround.Live.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'leaf_8_Nconc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Live.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'leaf_8_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Live.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'leafDead_8_Nconc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Dead.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'leafDead_8_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Leaf.Dead.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'stem_8_Nconc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Stem.Live.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'stem_8_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Stem.Live.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'spike_8_Nconc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Spike.Live.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'spike_8_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Spike.Live.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'shoot_10_N' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.AboveGround.Live.NConc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'shoot_10_WSCc' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.AboveGround.Live.WSCc]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+
+----------------------------------------------------------------------
+ ⚠️  MISSING DATE ALARM: 'earYield_8_raw' ⚠️
+----------------------------------------------------------------------
+ -> Variable(s)    : [Wheat.Ear.Wt]
+ -> Missing Dates  : 16 rows found without a valid Date!
+---------------------------------------------------------------------- 
+   [✔️ FIXED NAs] 'earYield_10_raw' | Original: NA (0 rows) -> Corrected: 2025-11-20
+   [✔️ FIXED NAs] 'stemYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'spikeYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'senescLeafYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'greenLeaf_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'totalAboveGround_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'plant_population_m2' | Original: NA (16 rows) -> Corrected: 2025-11-20
+   [✔️ FIXED NAs] 'shoot_8_N' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'shoot_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'leaf_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'leaf_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'leafDead_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'leafDead_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'stem_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'stem_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'spike_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'spike_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'shoot_10_N' | Original: NA (16 rows) -> Corrected: 2025-11-20
+   [✔️ FIXED NAs] 'shoot_10_WSCc' | Original: NA (16 rows) -> Corrected: 2025-11-20
+   [✔️ FIXED NAs] 'earYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
+   [✔️ FIXED NAs] 'earYield_10_raw' | Original: NA (0 rows) -> Corrected: 2025-11-20
+   [🔄 YEAR SWAP] 'haun_raw' | Original: [2024-05-03, 2024-05-27, 2024-06-27, 2024-07-03, 2024-07-10, 2024-07-18, 2024-07-26, 2024-07-30, 2024-08-10, 2024-08-24] -> Corrected: [2025-05-03, 2025-05-27, 2025-06-27, 2025-07-03, 2025-07-10, 2025-07-18, 2025-07-26, 2025-07-30, 2025-08-10, 2025-08-24]
+      -> Affected Sims: Fords2025SowApril_Illabo, Fords2025SowApril_Kittyhawk, Fords2025SowApril_Mowhawk, Fords2025SowApril_Osprey, Fords2025SowApril_Rosella
+   [✂️  PRUNED] 'height_raw' | Removed 32 row(s) recorded before 2025-04-15
+      -> Affected Sims: Fords2025SowApril_Illabo, Fords2025SowApril_Kittyhawk, Fords2025SowApril_Mowhawk, Fords2025SowApril_Osprey, Fords2025SowApril_Rosella (...and 11 more)
+======================================================================
+
+▶ start target list_observed_raw_clean
+● built target list_observed_raw_clean [0.67 seconds]
+
+----------------------------------------------------------------------
+ 📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
+----------------------------------------------------------------------
+ -> Input Source  : 'pcds_3_emergPlants'
+ -> Target Column : '[Wheat].Phenology.Emerging.DateToProgress' (Internal variable preserved)
+ -> Output Target : 'pcds_3_emergPlants_Perc' (Appended as new row)
+ -> Action        : Converted raw counts to 0-100% scale per SimulationName
+----------------------------------------------------------------------
+
+▶ start target list_observed_clean
+● built target list_observed_clean [0.07 seconds]
+   -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc]
+Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
+▶ start target df_obs_wide
+● built target df_obs_wide [0.5 seconds]
+✅ Successfully extracted 1 target dataframes.
+▶ start target list_pcds_extracted
+● built target list_pcds_extracted [0.03 seconds]
+Success [get_pheno_dates_from_pcd_list]: Standardized 16 raw records at 50% progress.
+▶ start target df_pheno_raw
+● built target df_pheno_raw [0.14 seconds]
+Success [add_new_var_to_obs]: Appended and collapsed 16 events into master observations under column 'Wheat.Phenology.Stage'.
+▶ start target df_obs_plus_pheno
+● built target df_obs_plus_pheno [0.59 seconds]
+
+----------------------------------------------------------------------
+ 🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
+----------------------------------------------------------------------
+ The following phenology stages contained no data (100% NA) across all
+ simulations and were safely removed from the final APSIM output:
+   - [Wheat].Phenology.LeavesInitiating.DateToProgress
+   - [Wheat].Phenology.SpikeletsDifferentiating.DateToProgress
+   - [Wheat].Phenology.StemElongating.DateToProgress
+   - [Wheat].Phenology.Heading.DateToProgress
+   - [Wheat].Phenology.Flowering.DateToProgress
+   - [Wheat].Phenology.GrainFilling.DateToProgress
+----------------------------------------------------------------------
+
+Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
+▶ start target df_pheno_input_param_raw
+● built target df_pheno_input_param_raw [0.1 seconds]
+
+============================================================
+ ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
+============================================================
+ -> SUCCESS      : 16 valid HI values generated.
+ -> VALUE RANGE  : 0.327 to 0.410
+============================================================
+
+▶ start target df_obs_plus_pheno_hi
+● built target df_obs_plus_pheno_hi [0.13 seconds]
+
+======================================================================
+ 🚨 MANUAL DATA OVERRIDE: BIOLOGICAL IMPOSSIBILITY FIXED 🚨
+======================================================================
+ -> Target Simulation : 'Fords2025SowMay_Sunmaster'
+ -> Target Parameter  : '[Wheat].Phenology.Emerging.DateToProgress'
+ -> Root Cause        : Raw data indicated emergence occurred before sowing
+                        (likely a stray volunteer plant or data typo).
+ -> Old Value         : 14-May-2025
+ -> New Value         : 20-May-2025
+ -> Action            : Force-synced emergence to the sowing date.
+======================================================================
+
+▶ start target df_pheno_input_param
+● built target df_pheno_input_param [0.02 seconds]
+
+------------------------------------------------------------
+ 🧪 NUTRIENT AGGREGATION & QC CHECK
+------------------------------------------------------------
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 🚨 ACTION REQUIRED: FATAL LAB DATA MISMATCH DETECTED 🚨
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 32 instances found where physical organs had Mass but no Conc
+ (or vice versa), corrupting the aggregate totals.
+
+ A detailed diagnostic log has been exported.
+ You MUST review the following file to see exactly what to fix:
+ -> Fords2025_nutrient_calc_logs.csv
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+▶ start target df_obs_plus_pheno_hi_with_amounts
+● built target df_obs_plus_pheno_hi_with_amounts [0.45 seconds]
+▶ start target qc_pheno_integrity
+
+🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
+● built target qc_pheno_integrity [0.04 seconds]
+▶ start target df_obs_plus_pheno_harv
+
+============================================================
+ ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
+============================================================
+ -> STRATEGY     : Asynchronous Max Date Search
+ -> OVERALL SPAN : 2025-11-20 to 2025-11-20
+ -> STATUS       : All reference variables share the exact same harvest date.
+------------------------------------------------------------
+
+● built target df_obs_plus_pheno_harv [0.16 seconds]
+▶ start target msg_pheno_param_saved
+● built target msg_pheno_param_saved [0.02 seconds]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+▶ start target qc_apsim_observed_harv
+● built target qc_apsim_observed_harv [0.14 seconds]
+
+======================================================================
+ 🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
+======================================================================
+ -> Checking: Fords2025_ConstantPhenology.csv 
+ -> Checking: Fords2025_GermDatesInput.csv 
+======================================================================
+
+▶ start target manual_pheno_params
+● built target manual_pheno_params [0.19 seconds]
+
+----------------------------------------------------------------------
+ 📋 EXTRACTION SUMMARY: Fords2025_population.csv
+----------------------------------------------------------------------
+   -> '[Wheat].Leaf.StemPopulation': Extracted 16 records | Range [91.54 to 129.43]
+----------------------------------------------------------------------
+💾 Success: Exported 16 valid rows and 2 columns.
+▶ start target exported_pop_csv
+● built target exported_pop_csv [0.08 seconds]
+▶ start target haun_input_checked
+● built target haun_input_checked [0.05 seconds]
+Success [save_df_to_excel]: Exported 591 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Fords2025_Observed.xlsx' (Sheet: 'Observed').
+▶ start target msg_obs_saved
+● built target msg_obs_saved [0.32 seconds]
 ▶ start target check_depend
-● built target check_depend [0.04 seconds]
+✅ Pre-flight check passed: All required APSIM dependencies found.
+● built target check_depend [0.02 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-✔ skip target verify_data_backup
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+▶ start target verify_data_backup
+● built target verify_data_backup [0.04 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.33 seconds]
-▶ end pipeline [2.92 seconds]
-Warning messages:
-1: package 'targets' was built under R version 4.3.2 
-2: package 'readxl' was built under R version 4.3.2 
-3: package 'ggplot2' was built under R version 4.3.2 
-4: package 'purrr' was built under R version 4.3.2 
-5: package 'stringr' was built under R version 4.3.2 
-6: package 'lubridate' was built under R version 4.3.2 
-7: Met file 'Fords2025.met' generated WITHOUT optional variables: VP, ET 
-8: 1 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+● built target encrypted_zip_artifact [0.31 seconds]
+▶ end pipeline [19.2 seconds]
+There were 12 warnings (use warnings() to see them)
