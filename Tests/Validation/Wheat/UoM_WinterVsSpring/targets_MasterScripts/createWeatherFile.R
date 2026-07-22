@@ -34,8 +34,8 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     maxt = "(?i)max.*t|t.*max|maximum",
     mint = "(?i)min.*t|t.*min|minimum",
     rain = "(?i)rain|precip",
-    vp   = "(?i)vp|vapour|vapor",
-    et   = "(?i)et|evapotranspiration" # Intentionally ignores just "Evaporation"
+    vp   = "(?i)\\bvp\\b|\\bvapour|\\bvapor", # Added word boundaries (\b)
+    et   = "(?i)\\bet\\b|evapotranspiration"  # Added word boundaries to 'et' as well
   )
   
   col_map <- list()
