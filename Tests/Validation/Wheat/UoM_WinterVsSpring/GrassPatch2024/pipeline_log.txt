@@ -10,12 +10,9 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-▶ start target config
-● built target config [0.97 seconds]
-▶ start target validated_met_file
-✅ MET data passed all quality checks.
-Successfully verified and copied to: GrassPatch2024.met
-● built target validated_met_file [0.12 seconds]
+✔ skip target config
+✔ skip target validated_met_file
+▶ start target log_active_config
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -82,246 +79,43 @@ $file_name_new_met
 
 ======================================================================
 
-▶ start target log_active_config
 ● built target log_active_config [0 seconds]
-▶ start target df_obs_raw
-● built target df_obs_raw [0.06 seconds]
-▶ start target track_mapping_csv
-● built target track_mapping_csv [0 seconds]
-▶ start target df_obs_mean
-● built target df_obs_mean [0.31 seconds]
-
-======================================================================
- 🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
-======================================================================
- -> Checking: GrassPatch2024_ConstantPhenology.csv 
- -> Checking: GrassPatch2024_GermDatesInput.csv 
-======================================================================
-
-▶ start target manual_pheno_params
-● built target manual_pheno_params [0.3 seconds]
-Success [get_pheno_dates_from_DOY_wide_obs]: Extracted 64 standardized raw records from wide DOY entries.
-▶ start target df_pheno_raw
-● built target df_pheno_raw [0.08 seconds]
-Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 200 rows while preserving 2 standard metadata keys.
-▶ start target df_haun
-● built target df_haun [0.06 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
-▶ start target df_pheno_int
-● built target df_pheno_int [0.09 seconds]
-
-===========================================================
-           HAUN DERIVATION INTERNAL TRACE LOGIC            
-===========================================================
-                SimulationName LeafNumberMaximum FLN LeafNumberLimit
-1      GrassPatch2024CvGregory         11.666667  12       11.083333
-2       GrassPatch2024CvIllabo         14.500000  14       13.775000
-3         GrassPatch2024CvJanz         11.150000  11       10.592500
-4    GrassPatch2024CvKittyhawk         14.400000  14       13.680000
-5         GrassPatch2024CvMace         10.666667  11       10.133333
-6      GrassPatch2024CvMeering         11.333333  11       10.766667
-7      GrassPatch2024CvMowhawk         14.833333  15       14.091667
-8       GrassPatch2024CvOsprey         15.983333  16       15.184167
-9      GrassPatch2024CvRosella         14.316667  14       13.600833
-10     GrassPatch2024CvScepter         10.333333  10        9.816667
-11   GrassPatch2024CvSunmaster          9.833333  10        9.341667
-12   GrassPatch2024CvWedgetail         13.566667  14       12.888333
-13    GrassPatch2024CvWhistler         13.666667  14       12.983333
-14 GrassPatch2024CvWyalkatchem         10.733333  11       10.196667
-15       GrassPatch2024CvWylah         15.491667  15       14.717083
-16       GrassPatch2024CvYitpi         11.016667  11       10.465833
-   Date_MaxLeafLimit Date_Stage4_DR Date_Stage5_TS
-1         2024-08-25     2024-07-17     2024-08-12
-2         2024-08-14     2024-06-16     2024-07-28
-3         2024-08-31     2024-07-11     2024-08-03
-4         2024-08-20     2024-06-25     2024-07-28
-5         2024-08-27     2024-07-11     2024-07-31
-6         2024-08-25     2024-07-11     2024-08-03
-7         2024-08-15     2024-07-04     2024-07-31
-8         2024-08-19     2024-07-09     2024-08-05
-9         2024-08-16     2024-06-25     2024-07-27
-10        2024-08-22     2024-07-11     2024-07-28
-11        2024-08-24     2024-07-11     2024-07-28
-12        2024-08-18     2024-06-30     2024-08-04
-13        2024-08-12     2024-06-30     2024-07-29
-14        2024-08-27     2024-07-11     2024-08-07
-15        2024-08-23     2024-07-05     2024-08-05
-16        2024-08-26     2024-07-11     2024-08-06
-===========================================================
-
-Success [derive_pheno_stages_from_haun]: Morphologically generated milestone rows from Haun counts. (Mode: df_wide)
- -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
- -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
-▶ start target df_pheno_haun
-● built target df_pheno_haun [0.17 seconds]
-
-[!] NOTICE: Contrasting Dates Detected for Identical Stages
-    Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
-                SimulationName Wheat.Phenology.Stage               Date_Clash
-1      GrassPatch2024CvGregory                     4 2024-07-17 vs 2024-07-21
-2       GrassPatch2024CvIllabo                     4 2024-06-16 vs 2024-07-03
-3         GrassPatch2024CvJanz                     4 2024-07-11 vs 2024-07-19
-4    GrassPatch2024CvKittyhawk                     4 2024-06-25 vs 2024-07-05
-5         GrassPatch2024CvMace                     4 2024-07-11 vs 2024-07-14
-6      GrassPatch2024CvMeering                     4 2024-07-11 vs 2024-07-19
-7      GrassPatch2024CvMowhawk                     4 2024-07-04 vs 2024-06-30
-8       GrassPatch2024CvOsprey                     4 2024-07-09 vs 2024-07-07
-9      GrassPatch2024CvRosella                     4 2024-06-25 vs 2024-07-04
-10     GrassPatch2024CvScepter                     4 2024-07-11 vs 2024-07-16
-11   GrassPatch2024CvSunmaster                     4 2024-07-11 vs 2024-07-22
-12   GrassPatch2024CvWedgetail                     4 2024-06-30 vs 2024-07-05
-13    GrassPatch2024CvWhistler                     4 2024-06-30 vs 2024-07-02
-14 GrassPatch2024CvWyalkatchem                     4 2024-07-11 vs 2024-07-17
-15       GrassPatch2024CvWylah                     4 2024-07-05 vs 2024-07-05
-16       GrassPatch2024CvYitpi                     4 2024-07-11 vs 2024-07-17
-   Source_Clash
-1   Haun vs Int
-2   Haun vs Int
-3   Haun vs Int
-4   Haun vs Int
-5   Haun vs Int
-6   Haun vs Int
-7   Haun vs Int
-8   Haun vs Int
-9   Haun vs Int
-10  Haun vs Int
-11  Haun vs Int
-12  Haun vs Int
-13  Haun vs Int
-14  Haun vs Int
-15  Haun vs Int
-16  Haun vs Int
-Success [merge_and_qc_pheno]: Master timeline assembled. Retained 112 strictly chronological stage events.
-▶ start target df_pheno_final
-● built target df_pheno_final [0.15 seconds]
-Success [add_new_var_to_obs]: Appended and collapsed 112 events into master observations under column 'Wheat.Phenology.Stage'.
-▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [1.15 seconds]
-Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
-▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.11 seconds]
-
-============================================================
- ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
-============================================================
- -> SUCCESS      : 16 valid HI values generated.
- -> VALUE RANGE  : 0.268 to 0.463
-============================================================
-
-▶ start target df_obs_plus_pheno_plus_hi
-● built target df_obs_plus_pheno_plus_hi [0.11 seconds]
-▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.01 seconds]
-Success [apply_name_corrections_Grass24]: Loaded translation matrix from CSV.
-
-----------------------------------------------------------------------
- 🔄 PIPELINE ACTION: VARIABLE NAMES REMAPPED 🔄
-----------------------------------------------------------------------
- Successfully standardized 10 columns:
-
-   [OLD] Wheat.Leaf.Dead.NConc --> [NEW] Wheat.Leaf.Dead.NConc
-   [OLD] Wheat.Leaf.Dead.WSC --> [NEW] Wheat.Leaf.Dead.WSCc
-   [OLD] Wheat.Leaf.Live.NConc --> [NEW] Wheat.Leaf.Live.NConc
-   [OLD] Wheat.Leaf.Live.WSC --> [NEW] Wheat.Leaf.Live.WSCc
-   [OLD] Wheat.Spike.NConc --> [NEW] Wheat.Spike.Live.NConc
-   [OLD] Wheat.Spike.WSC --> [NEW] Wheat.Spike.Live.WSCc
-   [OLD] Wheat.Stem.NConc --> [NEW] Wheat.Stem.Live.NConc
-   [OLD] Wheat.Stem.WSC --> [NEW] Wheat.Stem.Live.WSCc
-   [OLD] Wheat.Stem.Wt --> [NEW] Wheat.Stem.Live.Wt
-   [OLD] Wheat.Spike.Wt --> [NEW] Wheat.Spike.Live.Wt
-----------------------------------------------------------------------
-
-▶ start target df_obs_plus_pheno_hi_renamed
-● built target df_obs_plus_pheno_hi_renamed [0.03 seconds]
-Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s) to dry-weight fractions:
- -> Affected: (Wheat.Leaf.Dead.WSCc, Wheat.Leaf.Live.WSCc, Wheat.Spike.Live.WSCc, Wheat.Stem.Live.WSCc)
-▶ start target df_obs_plus_pheno_hi_renamed_corrected
-● built target df_obs_plus_pheno_hi_renamed_corrected [0.02 seconds]
-
-------------------------------------------------------------
- 🧪 NUTRIENT AGGREGATION & QC CHECK
-------------------------------------------------------------
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 🚨 ACTION REQUIRED: FATAL LAB DATA MISMATCH DETECTED 🚨
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 32 instances found where physical organs had Mass but no Conc
- (or vice versa), corrupting the aggregate totals.
-
- A detailed diagnostic log has been exported.
- You MUST review the following file to see exactly what to fix:
- -> GrassPatch2024_nutrient_calc_logs.csv
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts [0.17 seconds]
-
-============================================================
- ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
-============================================================
- -> STRATEGY     : Asynchronous Max Date Search
- -> OVERALL SPAN : 2024-11-28 to 2024-11-28
- -> STATUS       : All reference variables share the exact same harvest date.
-------------------------------------------------------------
-
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv [0.17 seconds]
-
-======================================================================
- ⚙️ PIPELINE ACTION: EAR MASS VARIABLE INITIALIZED ⚙️
-======================================================================
- -> Source Column : 'Wheat.Spike.Live.Wt'
- -> Target Column : 'Wheat.Ear.Wt'
- -> Action Taken  : Direct 1:1 copy (Phase 1 Pass-through).
- -> Status        : Ready for future mathematical enhancements.
-======================================================================
-
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear [0 seconds]
-
-======================================================================
- 🔧 TERMINOLOGY PATCH: FINAL SPIKE MASS OVERWRITTEN BY CHAFF 🔧
-======================================================================
- -> Target Spike Var : 'Wheat.Spike.Live.Wt'
- -> Source Chaff Var : 'Wheat.Spike.Chaff.Wt'
- -> Root Cause       : Model vs. Field naming consistency.
-                       (Spikes are threshed at harvest, leaving Chaff).
- -> Action Taken     : Identified the final measurement date per simulation
-                       and injected the Chaff value into the Spike column.
-======================================================================
-
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike [0.03 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
-▶ start target qc_apsim_observed
-● built target qc_apsim_observed [0.11 seconds]
-Success [save_df_to_excel]: Exported 627 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2024_Observed.xlsx' (Sheet: 'Observed').
-▶ start target msg_obs_saved
-● built target msg_obs_saved [0.41 seconds]
-▶ start target haun_input_checked
-● built target haun_input_checked [0.06 seconds]
-▶ start target exported_pop_csv
-
-----------------------------------------------------------------------
- 📋 EXTRACTION SUMMARY: GrassPatch2024_population.csv
-----------------------------------------------------------------------
-   -> 'Wheat.SowingData.Population': Extracted 16 records | Range [54.03 to 98.89]
-----------------------------------------------------------------------
-💾 Success: Exported 16 valid rows and 2 columns.
-● built target exported_pop_csv [0.07 seconds]
+✔ skip target df_obs_raw
+✔ skip target track_mapping_csv
+✔ skip target df_obs_mean
+✔ skip target manual_pheno_params
+✔ skip target df_pheno_raw
+✔ skip target df_haun
+✔ skip target df_pheno_int
+✔ skip target df_pheno_haun
+✔ skip target df_pheno_final
+✔ skip target df_obs_plus_pheno
+✔ skip target df_pheno_input_param
+✔ skip target df_obs_plus_pheno_plus_hi
+✔ skip target msg_pheno_param_saved
+✔ skip target df_obs_plus_pheno_hi_renamed
+✔ skip target df_obs_plus_pheno_hi_renamed_corrected
+✔ skip target df_obs_plus_pheno_hi_renamed_corrected_with_amounts
+✔ skip target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv
+✔ skip target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear
+✔ skip target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike
+✔ skip target qc_apsim_observed
+✔ skip target msg_obs_saved
+✔ skip target haun_input_checked
+✔ skip target exported_pop_csv
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-✅ Pre-flight check passed: All required APSIM dependencies found.
-▶ start target check_depend
-● built target check_depend [0.02 seconds]
-▶ start target encrypted_zip_artifact
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-● built target encrypted_zip_artifact [0.29 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
-▶ start target verify_data_backup
-● built target verify_data_backup [0.03 seconds]
-▶ end pipeline [6.59 seconds]
-There were 13 warnings (use warnings() to see them)
+✔ skip target check_depend
+▶ start target encrypted_zip_artifact
+● built target encrypted_zip_artifact [0.46 seconds]
+✔ skip target verify_data_backup
+▶ end pipeline [2.65 seconds]
+Warning messages:
+1: package 'targets' was built under R version 4.3.2 
+2: package 'readxl' was built under R version 4.3.2 
+3: package 'ggplot2' was built under R version 4.3.2 
+4: package 'purrr' was built under R version 4.3.2 
+5: package 'stringr' was built under R version 4.3.2 
+6: package 'lubridate' was built under R version 4.3.2 
