@@ -1230,12 +1230,12 @@
                             0.06,
                             0.06,
                             0.06,
-                            0.04,
-                            0.04,
-                            0.04,
-                            0.02,
-                            0.02,
-                            0.01
+                            0.06,
+                            0.06,
+                            0.06,
+                            0.06,
+                            0.06,
+                            0.06
                           ],
                           "XF": [
                             1.0,
@@ -2308,7 +2308,7 @@
                   "Name": "SetPhenoDatesExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -2318,7 +2318,7 @@
                   "Name": "SetHaunRelatedExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {

@@ -1,122 +1,137 @@
-#' Read and Process Weather Data from Excel
-#'
-#' Reads raw weather data, calculates daily values, extracts APSIM-required 
-#' columns, and calculates annual average temperature (tav) and amplitude (amp).
-#' Automatically detects and scrubs invalid "ghost rows" at the end of the file.
+#' Read and Process Weather Data from Excel with QA/QC and Hard-Stop Time Checks
 #'
 #' @param thisFolder Character. Directory containing the raw Excel file.
 #' @param thisExcelFile Character. Name of the Excel file.
 #' @param thisSheet Character. Name of the weather sheet.
-#' @return A list containing `data` (the met dataframe), `tav`, and `amp`.
+#' @return A list containing `data`, `tav`, `amp`, `mapped_cols`, and `missing_vars`.
 #' @export
 createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
   
   require(dplyr)
   require(lubridate)
-  require(stringr)
   require(readxl)
   require(rlang)
   
-  # Path to the Excel file
   file_path <- file.path(thisFolder, thisExcelFile)
-  
-  if (!file.exists(file_path)) {
-    stop("CRITICAL: Weather file not found: ", file_path)
-  }
-  
-  # Read sheet "Weather"
-  Weather_raw <- readxl::read_excel(
-    path = file_path,
-    sheet = thisSheet,
-    col_types = "text"   # read everything as text first to control date parsing
-  )
+  if (!file.exists(file_path)) stop("CRITICAL ERROR: Weather file not found: ", file_path)
   
   # ------------------------------------------------------------------
-  # THE FIREWALL: Safe & Generic Column Detection
+  # 1. SMART HEADER DETECTION
   # ------------------------------------------------------------------
-  # Protects against minor naming variations across different project files
+  temp_col <- readxl::read_excel(file_path, sheet = thisSheet, col_names = FALSE, n_max = 50)
+  header_row_idx <- which(grepl("(?i)date|time", temp_col[[1]]))[1]
+  
+  if (is.na(header_row_idx)) stop(sprintf("CRITICAL ERROR: Could not locate a 'Date' column in %s.", thisExcelFile))
+  
+  Weather_raw <- readxl::read_excel(file_path, sheet = thisSheet, skip = header_row_idx - 1, col_types = "text")
   raw_cols <- names(Weather_raw)
   
-  col_radn <- grep("rad",         raw_cols, ignore.case = TRUE, value = TRUE)[1]
-  col_maxt <- grep("max",         raw_cols, ignore.case = TRUE, value = TRUE)[1]
-  col_mint <- grep("min",         raw_cols, ignore.case = TRUE, value = TRUE)[1]
-  col_rain <- grep("rain|precip", raw_cols, ignore.case = TRUE, value = TRUE)[1]
+  # ------------------------------------------------------------------
+  # 2. DYNAMIC COLUMN MAPPING
+  # ------------------------------------------------------------------
+  patterns <- list(
+    radn = "(?i)rad",
+    maxt = "(?i)max.*t|t.*max|maximum",
+    mint = "(?i)min.*t|t.*min|minimum",
+    rain = "(?i)rain|precip",
+    vp   = "(?i)\\bvp\\b|\\bvapour|\\bvapor", # Added word boundaries (\b)
+    et   = "(?i)\\bet\\b|evapotranspiration"  # Added word boundaries to 'et' as well
+  )
   
-  if (any(is.na(c(col_radn, col_maxt, col_mint, col_rain)))) {
-    stop("CRITICAL: Missing required weather columns in the raw Excel data. Ensure Rad, Max, Min, and Rain/Precip are present.")
+  col_map <- list()
+  missing_vars <- c()
+  
+  # Map essentials
+  for (var in c("radn", "maxt", "mint", "rain")) {
+    match <- grep(patterns[[var]], raw_cols, value = TRUE)[1]
+    if (is.na(match)) stop(sprintf("CRITICAL ERROR: Could not find essential '%s' in %s.", var, thisExcelFile))
+    col_map[[var]] <- match
+  }
+  
+  # Map facultatives
+  for (var in c("vp", "et")) {
+    match <- grep(patterns[[var]], raw_cols, value = TRUE)[1]
+    if (!is.na(match)) {
+      col_map[[var]] <- match
+    } else {
+      missing_vars <- c(missing_vars, var)
+    }
   }
   
   # ------------------------------------------------------------------
-  # DATA PROCESSING
+  # 3. WEATHER DATA CREATION LOG (Standard Output)
   # ------------------------------------------------------------------
-  # Convert first column to Date (dd/mm/yyyy) and clean data
-  Weather_worked <- Weather_raw %>%
+  log_msg <- c(
+    "",
+    "=======================================================",
+    sprintf(" WEATHER DATA CREATION LOG: %s", thisExcelFile),
+    "======================================================="
+  )
+  for (var in names(col_map)) {
+    log_msg <- c(log_msg, sprintf("  [\u2713] %-5s -> '%s'", toupper(var), col_map[[var]]))
+  }
+  if (length(missing_vars) > 0) {
+    log_msg <- c(log_msg, sprintf("  [X] %-5s -> NOT FOUND (Optional - Skipped)", toupper(missing_vars)))
+  }
+  log_msg <- c(log_msg, "=======================================================", "")
+  
+  # Print the dedicated log block directly to targets console output
+  cat(paste(log_msg, collapse = "\n"))
+  
+  # ------------------------------------------------------------------
+  # 4. DATA CLEANING, COERCION & DATE BULLETPROOFING
+  # ------------------------------------------------------------------
+  Weather_worked <- Weather_raw
+  
+  # Bulletproof Date Parsing (Handles both Excel Serials and dd/mm/yyyy strings)
+  raw_dates <- suppressWarnings(as.numeric(Weather_worked[[1]]))
+  if (all(is.na(raw_dates) | is.null(raw_dates))) {
+    Clock.Today <- lubridate::dmy(Weather_worked[[1]])
+  } else {
+    Clock.Today <- as.Date(lubridate::ymd("1899-12-30") + raw_dates)
+  }
+  
+  Weather_worked <- Weather_worked %>%
     dplyr::mutate(
-      Clock.Today = as.Date(lubridate::ymd("1899-12-30") + as.numeric(Date)),
+      Clock.Today = Clock.Today,
       year = lubridate::year(Clock.Today),
       day = lubridate::yday(Clock.Today)
-    ) %>%
-    dplyr::rename(
-      radn = !!rlang::sym(col_radn),
-      maxt = !!rlang::sym(col_maxt),
-      mint = !!rlang::sym(col_mint),
-      rain = !!rlang::sym(col_rain)
-    ) %>%
-    dplyr::mutate(
-      radn = as.numeric(as.character(radn)),
-      maxt = as.numeric(as.character(maxt)),
-      mint = as.numeric(as.character(mint)),
-      rain = as.numeric(as.character(rain)),
-      tav  = ((maxt + mint) * 0.5),
-      amp  = maxt - mint
     )
   
-  # Calculate weather stats required for the APSIM header
+  for (var in names(col_map)) {
+    orig_name <- col_map[[var]]
+    Weather_worked[[var]] <- as.numeric(as.character(Weather_worked[[orig_name]]))
+  }
+  
+  Weather_worked <- Weather_worked %>%
+    dplyr::mutate(tav_daily = (maxt + mint) / 2, amp_daily = maxt - mint)
+  
   stats_average <- Weather_worked %>%
-    dplyr::summarise(
-      tav = round(mean(tav, na.rm = TRUE), 1), 
-      amp = round(mean(amp, na.rm = TRUE), 1)
-    )
+    dplyr::summarise(tav = round(mean(tav_daily, na.rm = TRUE), 1), amp = round(mean(amp_daily, na.rm = TRUE), 1))
   
-  # ------------------------------------------------------------------
-  # THE GHOST BUSTER: Filter and Warn
-  # ------------------------------------------------------------------
-  # First, select the target columns
-  met_selected <- Weather_worked %>%
-    dplyr::select(year, day, radn, maxt, mint, rain)
+  target_cols <- c("Clock.Today", "year", "day", names(col_map))
+  met_selected <- Weather_worked %>% dplyr::select(dplyr::all_of(target_cols))
   
-  # Next, aggressively filter out the ghost rows
   met_out <- met_selected %>%
     dplyr::filter(!is.na(year) & !is.na(day)) %>%
     dplyr::filter(!(is.na(radn) & is.na(maxt) & is.na(mint) & is.na(rain)))
   
-  # Calculate exactly how many rows were destroyed
-  ghost_count <- nrow(met_selected) - nrow(met_out)
+  # ------------------------------------------------------------------
+  # 5. TIME-SERIES CHECKS 
+  # ------------------------------------------------------------------
+  if (any(is.na(met_out$Clock.Today))) stop("CRITICAL ERROR: Unparseable dates detected.")
+  if (any(duplicated(met_out$Clock.Today))) stop("CRITICAL ERROR: Duplicate dates detected.")
+  expected_dates <- seq.Date(from = min(met_out$Clock.Today), to = max(met_out$Clock.Today), by = "day")
+  if (length(expected_dates) != nrow(met_out)) stop("CRITICAL ERROR: Missing days in time-series.")
   
-  # If we killed any ghosts, sound the alarm!
-  if (ghost_count > 0) {
-    warning_box <- c(
-      "",
-      "======================================================================",
-      " \u26A0\uFE0F GHOST ROWS DETECTED AND DELETED IN WEATHER DATA \u26A0\uFE0F ",
-      "======================================================================",
-      sprintf(" File: %s | Sheet: %s", thisExcelFile, thisSheet),
-      sprintf(" Action: %d empty/invalid row(s) were scrubbed from the end of the file.", ghost_count),
-      " Note: APSIM will now run safely, but check the bottom of your raw Excel",
-      "       sheet for stray spaces or accidental keystrokes.",
-      "======================================================================",
-      ""
-    )
-    message(paste(warning_box, collapse = "\n"))
-    
-    # Trigger a native warning so targets flags it in tar_meta(fields = warnings)
-    warning(sprintf("%d ghost rows were deleted from %s.", ghost_count, thisExcelFile), call. = FALSE)
-  }
+  met_out <- met_out %>% dplyr::select(-Clock.Today)
   
-  # Return a list containing the data and the calculated constants
+  # Return EVERYTHING we need for the next step to document the file properly
   return(list(
-    data = met_out,
-    tav  = stats_average$tav,
-    amp  = stats_average$amp
+    data         = met_out,
+    tav          = stats_average$tav,
+    amp          = stats_average$amp,
+    mapped_cols  = col_map,        
+    missing_vars = missing_vars    
   ))
 }
