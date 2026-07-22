@@ -1954,7 +1954,7 @@
                   "Name": "SetHaunStageExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
