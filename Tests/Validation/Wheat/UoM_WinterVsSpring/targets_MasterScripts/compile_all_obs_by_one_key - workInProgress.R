@@ -6,7 +6,7 @@
 #' APSIM-X `SimulationName`s using a strictly defined unique key (e.g., "Cultivar" or "Plot").
 #'
 #' @export
-compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simNames, unique_key, exp_keys = NULL) {
+compile_all_obs_by_one_keyOLD <- function(folder, excel_files, df_obs_info, df_simNames, unique_key, exp_keys = NULL) {
   
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("Package 'dplyr' required.")
   if (!requireNamespace("purrr", quietly = TRUE)) stop("Package 'purrr' required.")

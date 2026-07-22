@@ -29,6 +29,7 @@ targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
 #targets::tar_source("R")
 source("R/apply_local_fixes.R") 
+source("R/fix_missing_dates.R")
 
 
 # ------------------------------------------------------------------------------
@@ -77,6 +78,8 @@ list(
       var_name_stage         = "apsim_stage_raw",       # Synthetic var with observed PCSD data
       varName_addedToObserv  = "Wheat.Phenology.Stage", # Synthetic var added into observations
       max_leaf_limit         = 0.95,   # Fractional max leaves assumed when terminal spikelet is set
+      pcd_stages_to_extract      = c("pcds_3_emergPlants_Perc","pcds_6_flagLeaf", "pcds_8_anthesis"),
+      
       
       # Output file names
       file_name_input_pheno  = paste0(proj_name, "_PhenoDatesInput.csv"),
@@ -100,19 +103,9 @@ list(
     cue = tar_cue(mode = "always")
   ),
   
-  # tar_target(
-  #   name = config_soil,
-  #   command = list(
-  #     folder_rawData  = config$folder_rawData,       
-  #     file_excel      = config$file_rawData_excel, 
-  #     sheet_name      = "Soil sampling",
-  #     rep_col         = "Block",
-  #     col_depth_from  = "Depth From",
-  #     col_depth_to    = "Depth To",
-  #     target_vars     = c("Bulk density", "LL", "Soil moisture", 
-  #                         "Available water", "Nitrate Nitrogen", "Ammonium Nitrogen") 
-  #   )
-  # ),
+  # ----------------------------------------------------------------------------
+  # PHASE B: SOIL & WEATHER PROCESSING
+  # ----------------------------------------------------------------------------
   
   
   tar_target(
@@ -134,33 +127,13 @@ list(
     )
   ),
   
-  # ----------------------------------------------------------------------------
-  # PHASE B: SOIL & WEATHER PROCESSING
-  # ----------------------------------------------------------------------------
-  
+
   # Track the raw soil file independently
   tar_target(
     name = raw_soil_tracker,
     command = file.path(config_soil$folder_rawData, config_soil$file_excel),
     format = "file"
   ),
-  
-  # tar_target(
-  #   name = df_soil_profile_clean,
-  #   command = {
-  #     force(raw_soil_tracker)
-  #     
-  #     process_soil_profile(
-  #       folder_name    = config_soil$folder_rawData,
-  #       file_name      = config_soil$file_excel,
-  #       sheet_name     = config_soil$sheet_name,
-  #       var_list       = config_soil$target_vars,
-  #       rep_name       = config_soil$rep_col,
-  #       col_depth_from = config_soil$col_depth_from,
-  #       col_depth_to   = config_soil$col_depth_to
-  #     )
-  #   }
-  # ),
   
   tar_target(
     name = processed_met_data,
@@ -221,13 +194,26 @@ list(
     }
   ),
   
-  # 5. THE LOCAL INTERCEPTOR (Project-Specific Fixes)
   tar_target(
-    name = list_observed_dfs_clean,
+    name = list_observed_dfs_raw_plus_emerg,
+    command = calc_emerg_perc(
+      df_tbl            = list_observed_dfs_raw,  # <--- Change this from df_list to df_tbl
+      df_input_var_name = "pcds_3_emergPlants",
+      df_new_var_name   = "pcds_3_emergPlants_Perc"
+    )
+  ),
+  
+  # 5. THE LOCAL INTERCEPTOR (Project-Specific Fixes)
+  # --- MAY BE REMOVED OR CHANGED AS RAW DATA IS IMPROVED -----
+  tar_target(
+    name = list_observed_dfs_fix,
     command = apply_local_fixes(
-      compiled_obs = list_observed_dfs_raw,
+      compiled_obs = list_observed_dfs_raw_plus_emerg,
       df_obs_info  = df_obs_meta_data,
-      ref_date     = config$ref_date
+      ref_date     = config$ref_date,
+      max_haun     = 12,
+      min_spr_sow_date="16-Apr", 
+      min_wint_sow_date="15-May"
     )
   ),
   
@@ -235,10 +221,78 @@ list(
   # PHASE D: PHENOLOGY STAGE SYNTHESIS
   # ----------------------------------------------------------------------------
   # TO BE ADDED LATER - NO PHENO_STAGE DATA AVAILABLE YET (2026-05-17)
+
+  tar_target(
+    name = list_pcds_extracted,
+    command = filter_and_extract_pcds(
+      list_observed_dfs = list_observed_dfs_fix, 
+      pcd_stages        = config$pcd_stages_to_extract
+    )
+  ),
   
+  tar_target(
+    name = df_pheno_raw,
+    command = get_pheno_dates_from_pcd_list(list_pcds_extracted, 
+                                            config$target_stagePerc)
+  ),
+    
+    tar_target(
+      name = list_observed_dfs_clean,
+      command = fix_missing_dates(df_obs=list_observed_dfs_fix,
+                                  df_pheno=df_pheno_raw)
+    ),  
+  
+  tar_target(
+    name = df_pheno_int, 
+    command = create_interp_pheno_dates(
+      df_raw     = df_pheno_raw, 
+      btwStgPerc = config$target_betwStages
+    )
+  ),
+  
+  tar_target(
+    name = df_pheno_haun, 
+    command = derive_pheno_stages_from_haun(
+      df_input       = list_observed_dfs_clean, 
+      max_leaf_limit = config$max_leaf_limit
+    )
+  ),
+  
+  tar_target(
+    name = df_pheno_final, 
+    command = merge_and_qc_pheno(
+      df_raw  = df_pheno_raw, 
+      df_haun = df_pheno_haun, 
+      df_int  = df_pheno_int
+    )
+  ),
+  
+  tar_target(
+    name = df_pheno_input_param, 
+    command = format_apsim_pheno_params(df_pheno_final)
+  ),
+  
+   # Temporary fix to be removed once raw data is scrutinized
+   # DANGER !!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXME !!!!!!!!!!!!!
+    tar_target(
+      name = df_pheno_input_param_temp, 
+      command = do_averages_for_missing_pheno(
+        df=df_pheno_input_param,
+        group_keys = c("16-Apr","15-May"))
+    ),
+  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  
+  
+  # 2. THE GATEKEEPER (The new Universal script)
+  tar_target(
+    name = qc_pheno_integrity,
+    command = check_pheno_integrity(df_pheno_input_param_temp, 
+                                    expected_sims = df_simNameByCult),
+  ), 
   # ----------------------------------------------------------------------------
   # PHASE E: FINAL OBSERVATION FORMATTING
   # ----------------------------------------------------------------------------
+  
   tar_target(
     name = final_apsim_observed,
     command = prepare_apsim_observed(
@@ -256,19 +310,6 @@ list(
       hi_col_name = "HarvestIndex"
     )
   ),
-  
-  # tar_target(
-  #   name = df_obs_plus_hi_amounts,
-  #   command = calc_nutrient_absolute_amounts(
-  #     df           = df_obs_plus_hi,
-  #     crop_prefix  = "Wheat",
-  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"),
-  #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"),
-  #     mass_suffix  = "Wt",
-  #     ag_name      = "Wheat.AboveGround",
-  #     divisor      = 1
-  #   )
-  # ),
   
   tar_target(
     name = df_obs_plus_hi_amounts,
@@ -296,10 +337,19 @@ list(
     )
   ),
   
+  tar_target(
+    name = df_obs_plus_hi_amounts_harv_pheno,
+    command = add_new_var_to_obs(
+      df_obs          = df_obs_plus_hi_amounts_harv,
+      df_new_data     = df_pheno_final,
+      target_col_name = "Wheat.Phenology.Stage"
+    )
+  ),
+  
   # THE QC GATEKEEPER
   tar_target(
     name = qc_apsim_observed,
-    command = check_obs_health(df_obs_plus_hi_amounts_harv) # Stops the pipeline if it fails!
+    command = check_obs_health(df_obs_plus_hi_amounts_harv_pheno) # Stops the pipeline if it fails!
   ),
   
   
@@ -354,7 +404,26 @@ list(
   ),
   
   # 3. EXPORT INPUT PARAMETERS
-  # TO BE IMPLEMENTED
+  
+  tar_target(
+    name = haun_input_checked,
+    command = check_manual_params(
+      config$folder_inputs,
+      config$file_name_input_haun,
+      qc_apsim_observed
+    )
+  ),
+  
+  tar_target(
+    name = msg_pheno_param_saved,
+    command = save_df_into_csv(
+      df       = qc_pheno_integrity,
+      folder   = config$folder_inputs,
+      filename = config$file_name_input_pheno
+    ),
+    format = "file"
+  ),
+  
   
   # ----------------------------------------------------------------------------
   # PHASE G: SECURITY & ZIPPING 
@@ -394,7 +463,7 @@ list(
     command = {
       # 1. Force dependency tracking
       msg_obs_saved
-      # msg_param_saved # TO BE IMPLEMENTED
+      msg_pheno_param_saved
       msg_met_saved
       
       # 2. Execute validation
