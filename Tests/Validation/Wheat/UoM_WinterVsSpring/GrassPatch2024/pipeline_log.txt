@@ -11,11 +11,12 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [1 seconds]
-▶ start target validated_met_file
+● built target config [1.14 seconds]
 ✅ MET data passed all quality checks.
 Successfully verified and copied to: GrassPatch2024.met
-● built target validated_met_file [0.08 seconds]
+▶ start target validated_met_file
+● built target validated_met_file [0.11 seconds]
+▶ start target log_active_config
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -82,14 +83,13 @@ $file_name_new_met
 
 ======================================================================
 
-▶ start target log_active_config
 ● built target log_active_config [0 seconds]
 ▶ start target df_obs_raw
 ● built target df_obs_raw [0.06 seconds]
 ▶ start target track_mapping_csv
 ● built target track_mapping_csv [0 seconds]
 ▶ start target df_obs_mean
-● built target df_obs_mean [0.28 seconds]
+● built target df_obs_mean [0.39 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -99,16 +99,16 @@ $file_name_new_met
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.27 seconds]
+● built target manual_pheno_params [0.44 seconds]
 Success [get_pheno_dates_from_DOY_wide_obs]: Extracted 64 standardized raw records from wide DOY entries.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.08 seconds]
-Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 200 rows while preserving 2 standard metadata keys.
+● built target df_pheno_raw [0.11 seconds]
 ▶ start target df_haun
-● built target df_haun [0.04 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 200 rows while preserving 2 standard metadata keys.
+● built target df_haun [0.03 seconds]
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.08 seconds]
+Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+● built target df_pheno_int [0.1 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -153,8 +153,7 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.14 seconds]
-▶ start target df_pheno_final
+● built target df_pheno_haun [0.19 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -193,13 +192,15 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
 15  Haun vs Int
 16  Haun vs Int
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 112 strictly chronological stage events.
-● built target df_pheno_final [0.14 seconds]
+▶ start target df_pheno_final
+● built target df_pheno_final [0.19 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 112 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [0.97 seconds]
-Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
+● built target df_obs_plus_pheno [1.44 seconds]
 ▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.1 seconds]
+Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
+● built target df_pheno_input_param [0.11 seconds]
+▶ start target df_obs_plus_pheno_plus_hi
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -208,8 +209,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
  -> VALUE RANGE  : 0.268 to 0.463
 ============================================================
 
-▶ start target df_obs_plus_pheno_plus_hi
-● built target df_obs_plus_pheno_plus_hi [0.09 seconds]
+● built target df_obs_plus_pheno_plus_hi [0.11 seconds]
 ▶ start target msg_pheno_param_saved
 ● built target msg_pheno_param_saved [0 seconds]
 ▶ start target df_obs_plus_pheno_hi_renamed
@@ -232,12 +232,11 @@ Success [apply_name_corrections_Grass24]: Loaded translation matrix from CSV.
    [OLD] Wheat.Spike.Wt --> [NEW] Wheat.Spike.Live.Wt
 ----------------------------------------------------------------------
 
-● built target df_obs_plus_pheno_hi_renamed [0.03 seconds]
+● built target df_obs_plus_pheno_hi_renamed [0.06 seconds]
+▶ start target df_obs_plus_pheno_hi_renamed_corrected
 Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s) to dry-weight fractions:
  -> Affected: (Wheat.Leaf.Dead.WSCc, Wheat.Leaf.Live.WSCc, Wheat.Spike.Live.WSCc, Wheat.Stem.Live.WSCc)
-▶ start target df_obs_plus_pheno_hi_renamed_corrected
-● built target df_obs_plus_pheno_hi_renamed_corrected [0.02 seconds]
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts
+● built target df_obs_plus_pheno_hi_renamed_corrected [0.03 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -256,8 +255,8 @@ Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts [0.18 seconds]
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv
+▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts
+● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts [0.25 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -267,8 +266,8 @@ Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s)
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
+▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv
 ● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv [0.17 seconds]
-▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear
 
 ======================================================================
  ⚙️ PIPELINE ACTION: EAR MASS VARIABLE INITIALIZED ⚙️
@@ -279,6 +278,7 @@ Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s)
  -> Status        : Ready for future mathematical enhancements.
 ======================================================================
 
+▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear
 ● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear [0 seconds]
 
 ======================================================================
@@ -293,15 +293,15 @@ Success [apply_corrections_Grass24]: Normalized 4 WSCc concentration variable(s)
 ======================================================================
 
 ▶ start target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike
-● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike [0.05 seconds]
+● built target df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike [0.06 seconds]
 ▶ start target qc_apsim_observed
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
-● built target qc_apsim_observed [0.08 seconds]
+● built target qc_apsim_observed [0.09 seconds]
 Success [save_df_to_excel]: Exported 627 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2024_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.36 seconds]
+● built target msg_obs_saved [0.45 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
+● built target haun_input_checked [0.05 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: GrassPatch2024_population.csv
@@ -310,18 +310,18 @@ Success [save_df_to_excel]: Exported 627 rows to 'C:/github/ApsimX/Tests/Validat
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.07 seconds]
+● built target exported_pop_csv [0.14 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ▶ start target check_depend
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ● built target check_depend [0.01 seconds]
+▶ start target encrypted_zip_artifact
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.28 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target encrypted_zip_artifact [0.3 seconds]
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.05 seconds]
-▶ end pipeline [6.25 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target verify_data_backup [0.01 seconds]
+▶ end pipeline [8.12 seconds]
 There were 13 warnings (use warnings() to see them)

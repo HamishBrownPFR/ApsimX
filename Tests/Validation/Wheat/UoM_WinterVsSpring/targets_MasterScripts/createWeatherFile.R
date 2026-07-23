@@ -34,8 +34,8 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     maxt = "(?i)max.*t|t.*max|maximum",
     mint = "(?i)min.*t|t.*min|minimum",
     rain = "(?i)rain|precip",
-    vp   = "(?i)\\bvp\\b|\\bvapour|\\bvapor", # Added word boundaries (\b)
-    et   = "(?i)\\bet\\b|evapotranspiration"  # Added word boundaries to 'et' as well
+    vp   = "(?i)\\bvp\\b|\\bvapour|\\bvapor", 
+    et   = "(?i)\\bet\\b|evapotranspiration"  
   )
   
   col_map <- list()
@@ -58,6 +58,12 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     }
   }
   
+  # Trigger actual warning for targets pipeline tracking
+  if (length(missing_vars) > 0) {
+    warning(sprintf("Missing optional weather variables in '%s': %s", 
+                    thisExcelFile, paste(toupper(missing_vars), collapse = ", ")), call. = FALSE)
+  }
+  
   # ------------------------------------------------------------------
   # 3. WEATHER DATA CREATION LOG (Standard Output)
   # ------------------------------------------------------------------
@@ -71,11 +77,9 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     log_msg <- c(log_msg, sprintf("  [\u2713] %-5s -> '%s'", toupper(var), col_map[[var]]))
   }
   if (length(missing_vars) > 0) {
-    log_msg <- c(log_msg, sprintf("  [X] %-5s -> NOT FOUND (Optional - Skipped)", toupper(missing_vars)))
+    log_msg <- c(log_msg, sprintf("  [X] %-5s -> NOT FOUND (Optional - Skipped)", paste(toupper(missing_vars), collapse=", ")))
   }
   log_msg <- c(log_msg, "=======================================================", "")
-  
-  # Print the dedicated log block directly to targets console output
   cat(paste(log_msg, collapse = "\n"))
   
   # ------------------------------------------------------------------
@@ -83,7 +87,7 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
   # ------------------------------------------------------------------
   Weather_worked <- Weather_raw
   
-  # Bulletproof Date Parsing (Handles both Excel Serials and dd/mm/yyyy strings)
+  # Bulletproof Date Parsing
   raw_dates <- suppressWarnings(as.numeric(Weather_worked[[1]]))
   if (all(is.na(raw_dates) | is.null(raw_dates))) {
     Clock.Today <- lubridate::dmy(Weather_worked[[1]])
@@ -117,16 +121,62 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     dplyr::filter(!(is.na(radn) & is.na(maxt) & is.na(mint) & is.na(rain)))
   
   # ------------------------------------------------------------------
-  # 5. TIME-SERIES CHECKS 
+  # 5. TIME-SERIES CONTINUITY & DUPLICATION CHECKS (RESTORED HARD STOPS)
   # ------------------------------------------------------------------
-  if (any(is.na(met_out$Clock.Today))) stop("CRITICAL ERROR: Unparseable dates detected.")
-  if (any(duplicated(met_out$Clock.Today))) stop("CRITICAL ERROR: Duplicate dates detected.")
+  if (any(is.na(met_out$Clock.Today))) {
+    stop(sprintf("CRITICAL ERROR: Unparseable dates detected in %s.", thisExcelFile))
+  }
+  
+  dupes <- met_out$Clock.Today[duplicated(met_out$Clock.Today)]
+  if (length(dupes) > 0) {
+    dup_msg <- paste(head(as.character(dupes), 5), collapse = ", ")
+    stop(sprintf(
+      "CRITICAL ERROR: %d duplicate dates detected in %s! First occurrences: %s.", 
+      length(dupes), thisExcelFile, dup_msg
+    ))
+  }
+  
   expected_dates <- seq.Date(from = min(met_out$Clock.Today), to = max(met_out$Clock.Today), by = "day")
-  if (length(expected_dates) != nrow(met_out)) stop("CRITICAL ERROR: Missing days in time-series.")
+  missing_dates <- expected_dates[!expected_dates %in% met_out$Clock.Today]
+  
+  if (length(missing_dates) > 0) {
+    missing_msg <- paste(head(as.character(missing_dates), 5), collapse = ", ")
+    stop(sprintf(
+      "CRITICAL ERROR: Time-series is broken in %s! Found %d missing days. First missing dates: %s.", 
+      thisExcelFile, length(missing_dates), missing_msg
+    ))
+  }
   
   met_out <- met_out %>% dplyr::select(-Clock.Today)
   
-  # Return EVERYTHING we need for the next step to document the file properly
+  # ------------------------------------------------------------------
+  # 6. QA/QC BOUNDS CHECKING (RESTORED WARNINGS)
+  # ------------------------------------------------------------------
+  qc_limits <- list(
+    radn = c(0, 40),
+    maxt = c(-20, 50),
+    mint = c(-20, 50),
+    rain = c(0, 200),
+    vp   = c(0, 40),
+    et   = c(0, 20) 
+  )
+  
+  for (var in names(col_map)) {
+    vals <- met_out[[var]]
+    limits <- qc_limits[[var]]
+    outliers <- sum(vals < limits[1] | vals > limits[2], na.rm = TRUE)
+    
+    if (outliers > 0) {
+      warning(sprintf("QA/QC FLAG: '%s' has %d values outside acceptable range [%s, %s] in %s", 
+                      var, outliers, limits[1], limits[2], thisExcelFile), call. = FALSE)
+    }
+  }
+  
+  if (any(met_out$mint > met_out$maxt, na.rm = TRUE)) {
+    bad_temps <- sum(met_out$mint > met_out$maxt, na.rm = TRUE)
+    warning(sprintf("QA/QC FLAG: Found %d days where Min Temp > Max Temp in %s!", bad_temps, thisExcelFile), call. = FALSE)
+  }
+  
   return(list(
     data         = met_out,
     tav          = stats_average$tav,
