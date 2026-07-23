@@ -29,7 +29,7 @@ targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
 #targets::tar_source("R")
 source("R/apply_local_fixes.R") 
-source("R/fix_missing_dates.R")
+#source("R/fix_missing_dates.R")
 
 
 # ------------------------------------------------------------------------------
@@ -236,11 +236,11 @@ list(
                                             config$target_stagePerc)
   ),
     
-    tar_target(
-      name = list_observed_dfs_clean,
-      command = fix_missing_dates(df_obs=list_observed_dfs_fix,
-                                  df_pheno=df_pheno_raw)
-    ),  
+    # tar_target(
+    #   name = list_observed_dfs_clean,
+    #   command = fix_missing_dates(df_obs=list_observed_dfs_fix,
+    #                               df_pheno=df_pheno_raw)
+    # ),  
   
   tar_target(
     name = df_pheno_int, 
@@ -253,7 +253,7 @@ list(
   tar_target(
     name = df_pheno_haun, 
     command = derive_pheno_stages_from_haun(
-      df_input       = list_observed_dfs_clean, 
+      df_input       = list_observed_dfs_fix, 
       max_leaf_limit = config$max_leaf_limit
     )
   ),
@@ -296,7 +296,7 @@ list(
   tar_target(
     name = final_apsim_observed,
     command = prepare_apsim_observed(
-      compiled_obs = list_observed_dfs_clean,
+      compiled_obs = list_observed_dfs_fix,
       dfs_out      = c("weather_qc_checks") # Datasets to exclude
     )
   ),

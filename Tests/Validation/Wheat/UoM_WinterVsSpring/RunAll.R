@@ -8,7 +8,7 @@
 # TRUE  = Destroys the _targets cache in every folder and rebuilds from scratch.
 # FALSE = Only runs nodes that are outdated or missing.
 clean_build <- TRUE
-clean_build <- FALSE
+#clean_build <- FALSE
 # ===================================================================
 
 # 1. Anchor the script to the root UoM_WinterVsSpring folder
