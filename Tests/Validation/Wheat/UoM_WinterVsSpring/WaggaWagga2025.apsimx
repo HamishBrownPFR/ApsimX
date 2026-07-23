@@ -2462,15 +2462,15 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "CERESSoilTemperature",
+                      "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "Temperature",
+                      "Name": "CERESSoilTemperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
