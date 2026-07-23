@@ -130,7 +130,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 8.0,
+              "FixedValue": 0.0,
               "Units": "Nodes",
               "Name": "MinFloralNodes",
               "ResourceName": null,
@@ -140,9 +140,9 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 15.0,
+              "FixedValue": 32.0,
               "Units": "Nodes",
-              "Name": "MaxFloralNodes",
+              "Name": "PpFloralNodes",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -1216,37 +1216,19 @@
                           "Children": [
                             {
                               "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Lentil].Leaf.Phyllochron",
-                              "Name": "Phyllochron",
+                              "VariableName": "[Lentil].Phenology.PpFloralNodes",
+                              "Name": "PpFloralNodes",
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             },
                             {
-                              "$type": "Models.Functions.SubtractFunction, Models",
-                              "Name": "MaxAdditionalLeaves",
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Lentil].Leaf.Phyllochron",
+                              "Name": "Phyllochron",
                               "ResourceName": null,
-                              "Children": [
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Lentil].Phenology.MaxFloralNodes",
-                                  "Name": "MaxFloralNodes",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                },
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Lentil].Phenology.MinFloralNodes",
-                                  "Name": "MinFloralNodes",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                }
-                              ],
+                              "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             }
@@ -1256,7 +1238,7 @@
                         },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Phenology.PpResponse",
+                          "VariableName": "[Lentil].Phenology.PpResponse.PpResponseDaily",
                           "Name": "Shape",
                           "ResourceName": null,
                           "Children": [],
@@ -2337,7 +2319,9 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.DivideFunction, Models",
+              "$type": "Models.Functions.ProtectedDivideFunction, Models",
+              "NumeratorErrVal": 0.0,
+              "DenominatorErrVal": 0.0,
               "Name": "HarvestIndex",
               "ResourceName": null,
               "Children": [
@@ -2368,6 +2352,16 @@
               "FixedValue": 0.0,
               "Units": null,
               "Name": "InitialWt",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.Constant, Models",
+              "FixedValue": 0.1,
+              "Units": "g",
+              "Name": "MaximumGrainSize",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -2958,7 +2952,9 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.DivideFunction, Models",
+              "$type": "Models.Functions.ProtectedDivideFunction, Models",
+              "NumeratorErrVal": 0.0,
+              "DenominatorErrVal": 0.0,
               "Name": "Size",
               "ResourceName": null,
               "Children": [
@@ -3053,82 +3049,102 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.MultiplyFunction, Models",
+              "$type": "Models.Functions.MinimumFunction, Models",
               "Name": "TotalDMDemand",
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.PhaseLookup, Models",
-                  "Name": "PartitionFraction",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "DMProportion",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "Emergence",
-                      "End": "FirstGrainsVisiable",
-                      "Name": "NonReproductive",
+                      "$type": "Models.Functions.PhaseLookup, Models",
+                      "Name": "PartitionFraction",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.0,
-                          "Units": "/d",
-                          "Name": "None",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "FirstGrainsVisiable",
-                      "End": "LastGrainsFilled",
-                      "Name": "Reproductive",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.MultiplyFunction, Models",
-                          "Name": "HIGrainDemand",
+                          "$type": "Models.Functions.PhaseLookupValue, Models",
+                          "Start": "Emergence",
+                          "End": "FirstGrainsVisiable",
+                          "Name": "NonReproductive",
                           "ResourceName": null,
                           "Children": [
                             {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[AboveGround].Wt",
-                              "Name": "AboveGroundWt",
+                              "$type": "Models.Functions.Constant, Models",
+                              "FixedValue": 0.0,
+                              "Units": "/d",
+                              "Name": "None",
                               "ResourceName": null,
                               "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
-                            },
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.PhaseLookupValue, Models",
+                          "Start": "FirstGrainsVisiable",
+                          "End": "LastGrainsFilled",
+                          "Name": "Reproductive",
+                          "ResourceName": null,
+                          "Children": [
                             {
-                              "$type": "Models.Functions.DivideFunction, Models",
-                              "Name": "HarvestIndexIncrease",
+                              "$type": "Models.Functions.MultiplyFunction, Models",
+                              "Name": "HIGrainDemand",
                               "ResourceName": null,
                               "Children": [
                                 {
-                                  "$type": "Models.Functions.MaximumFunction, Models",
-                                  "Name": "OutstandingHarvestIndexIncrease",
+                                  "$type": "Models.Functions.VariableReference, Models",
+                                  "VariableName": "[AboveGround].Wt",
+                                  "Name": "AboveGroundWt",
+                                  "ResourceName": null,
+                                  "Children": [],
+                                  "Enabled": true,
+                                  "ReadOnly": false
+                                },
+                                {
+                                  "$type": "Models.Functions.DivideFunction, Models",
+                                  "Name": "HarvestIndexIncrease",
                                   "ResourceName": null,
                                   "Children": [
                                     {
-                                      "$type": "Models.Functions.ExpressionFunction, Models",
-                                      "Units": null,
-                                      "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
-                                      "Name": "Increase",
+                                      "$type": "Models.Functions.MaximumFunction, Models",
+                                      "Name": "OutstandingHarvestIndexIncrease",
                                       "ResourceName": null,
-                                      "Children": [],
+                                      "Children": [
+                                        {
+                                          "$type": "Models.Functions.ExpressionFunction, Models",
+                                          "Units": null,
+                                          "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
+                                          "Name": "Increase",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        },
+                                        {
+                                          "$type": "Models.Functions.Constant, Models",
+                                          "FixedValue": 0.0,
+                                          "Units": null,
+                                          "Name": "Zero",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        }
+                                      ],
                                       "Enabled": true,
                                       "ReadOnly": false
                                     },
                                     {
-                                      "$type": "Models.Functions.Constant, Models",
-                                      "FixedValue": 0.0,
-                                      "Units": null,
-                                      "Name": "Zero",
+                                      "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
+                                      "StartStageName": "FirstGrainsVisiable",
+                                      "EndStageName": "LastGrainsFilled",
+                                      "Method": 0,
+                                      "Name": "TTRemaining",
                                       "ResourceName": null,
                                       "Children": [],
                                       "Enabled": true,
@@ -3139,26 +3155,15 @@
                                   "ReadOnly": false
                                 },
                                 {
-                                  "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
-                                  "StartStageName": "FirstGrainsVisiable",
-                                  "EndStageName": "LastGrainsFilled",
-                                  "Method": 0,
-                                  "Name": "TTRemaining",
+                                  "$type": "Models.Functions.VariableReference, Models",
+                                  "VariableName": "[Phenology].ThermalTime",
+                                  "Name": "ThermalTime",
                                   "ResourceName": null,
                                   "Children": [],
                                   "Enabled": true,
                                   "ReadOnly": false
                                 }
                               ],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].ThermalTime",
-                              "Name": "ThermalTime",
-                              "ResourceName": null,
-                              "Children": [],
                               "Enabled": true,
                               "ReadOnly": false
                             }
@@ -3169,17 +3174,75 @@
                       ],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].Photosynthesis",
+                      "Name": "PotentialPhotosynthesis",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].Photosynthesis",
-                  "Name": "PotentialPhotosynthesis",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "YieldComponents",
                   "ResourceName": null,
-                  "Children": [],
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Grain].MaximumGrianSize",
+                      "Name": "MaxGrainSize",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Grain].MaximumGrianSize",
+                      "Name": "GrainNumber",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
+                      "NumeratorErrVal": 0.0,
+                      "DenominatorErrVal": 0.0,
+                      "Name": "DailyIncrement",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Phenology].ThermalTime",
+                          "Name": "DailyTt",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.AggregateOverMultiplePhases, Models",
+                          "StartStageName": "FirstGrainsVisiable",
+                          "EndStageName": "LastGrainsFilled",
+                          "Method": 4,
+                          "Name": "AggregateOverMultiplePhases",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -3221,7 +3284,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 40.0,
+              "FixedValue": 50.0,
               "Units": null,
               "Name": "BasePhyllochron",
               "ResourceName": null,
@@ -10514,7 +10577,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.89",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 125",
-                "[Phenology].TtPodDevelopment.FixedValue = 165"
+                "[Phenology].TtPodDevelopment.FixedValue = 165",
+                "[Phenology].MinFloralNodes.FixedValue = 0",
+                "[Phenology].PpFloralNodes.FixedValue = 39",
+                "[Leaf].BasePhyllochron.FixedValue = 55"
               ],
               "Name": "Ace",
               "ResourceName": null,
@@ -10544,7 +10610,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.16",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.51",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 60",
-                "[Phenology].TtPodDevelopment.FixedValue = 145"
+                "[Phenology].TtPodDevelopment.FixedValue = 145",
+                "[Phenology].MinFloralNodes.FixedValue = 10",
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 55"
               ],
               "Name": "Blitz",
               "ResourceName": null,
@@ -10559,7 +10628,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.19",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.50",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 185",
-                "[Phenology].TtPodDevelopment.FixedValue = 95"
+                "[Phenology].TtPodDevelopment.FixedValue = 95",
+                "[Phenology].MinFloralNodes.FixedValue = 12",
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 52"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10679,7 +10751,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.92",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.44",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 165",
-                "[Phenology].TtPodDevelopment.FixedValue = 100"
+                "[Phenology].TtPodDevelopment.FixedValue = 100",
+                "[Phenology].MinFloralNodes.FixedValue = 13",
+                "[Phenology].PpFloralNodes.FixedValue = 1",
+                "[Leaf].BasePhyllochron.FixedValue = 59"
               ],
               "Name": "Greenfield",
               "ResourceName": null,
@@ -10694,7 +10769,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.06",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 155",
-                "[Phenology].TtPodDevelopment.FixedValue = 210"
+                "[Phenology].TtPodDevelopment.FixedValue = 210",
+                "[Phenology].MinFloralNodes.FixedValue = 14",
+                "[Phenology].PpFloralNodes.FixedValue = 0",
+                "[Leaf].BasePhyllochron.FixedValue = 54"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10754,7 +10832,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 0.90",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.43",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 130",
-                "[Phenology].TtPodDevelopment.FixedValue = 165"
+                "[Phenology].TtPodDevelopment.FixedValue = 165",
+                "[Phenology].MinFloralNodes.FixedValue = 13",
+                "[Phenology].PpFloralNodes.FixedValue = 1",
+                "[Leaf].BasePhyllochron.FixedValue = 48"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10769,7 +10850,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.31",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.39",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140",
-                "[Phenology].TtPodDevelopment.FixedValue = 170"
+                "[Phenology].TtPodDevelopment.FixedValue = 170",
+                "[Phenology].MinFloralNodes.FixedValue = 8",
+                "[Phenology].PpFloralNodes.FixedValue = 39",
+                "[Leaf].BasePhyllochron.FixedValue = 45"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
@@ -10829,7 +10913,10 @@
                 "[Phenology].VernSensitivity.FixedValue = 1.26",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.49",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 135",
-                "[Phenology].TtPodDevelopment.FixedValue = 180"
+                "[Phenology].TtPodDevelopment.FixedValue = 180",
+                "[Phenology].MinFloralNodes.FixedValue = 0",
+                "[Phenology].PpFloralNodes.FixedValue = 45",
+                "[Leaf].BasePhyllochron.FixedValue = 52"
               ],
               "Name": "Nugget",
               "ResourceName": null,
@@ -10892,7 +10979,8 @@
                     "[Phenology].JuvenileBase.FixedValue = 150",
                     "[Phenology].VernSensitivity.FixedValue = 0.85",
                     "[Phenology].InductivePpSensitivity.FixedValue = 1.1",
-                    "[Leaf].AreaOfLargest.FixedValue = 0.0005"
+                    "[Leaf].AreaOfLargest.FixedValue = 0.0005",
+                    "[Leaf].BasePhyllochron.FixedValue = 44"
                   ],
                   "Name": "Digger",
                   "ResourceName": null,

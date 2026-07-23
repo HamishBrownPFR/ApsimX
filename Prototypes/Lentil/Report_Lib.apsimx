@@ -15,6 +15,7 @@
         "[Lentil].AboveGroundDead.Wt",
         "[Lentil].Fruit.Wt",
         "[Lentil].Leaf.Canopy.CoverGreen",
+        "[Lentil].Leaf.Canopy.CoverTotal",
         "[Lentil].Leaf.Canopy.SpecificArea",
         "[Lentil].Leaf.Live.Wt",
         "[Lentil].Leaf.Dead.Wt",
