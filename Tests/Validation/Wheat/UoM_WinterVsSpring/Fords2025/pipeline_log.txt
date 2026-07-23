@@ -11,7 +11,7 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [1.05 seconds]
+● built target config [1.11 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 ▶ start target df_simNameByCult
@@ -45,11 +45,10 @@ The following objects are masked from 'package:purrr':
   [✓] MAXT  -> 'Maximum temperature (°C)'
   [✓] MINT  -> 'Minimum temperature (°C)'
   [✓] RAIN  -> 'Rain (mm)'
-  [X] VP    -> NOT FOUND (Optional - Skipped)
-  [X] ET    -> NOT FOUND (Optional - Skipped)
+  [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
 ▶ start target processed_met_data
-● built target processed_met_data [0.49 seconds]
+● built target processed_met_data [0.56 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -146,7 +145,7 @@ $pcd_stages_to_extract
 ------------------------------------------------
 💾 Success: Exported cleaned soil profile to 'Fords2025_soil_profile.csv'
 ▶ start target soil_profile
-● built target soil_profile [2.58 seconds]
+● built target soil_profile [3.06 seconds]
 ▶ start target list_observed_dfs_raw
 
 ============================================================
@@ -338,14 +337,14 @@ $pcd_stages_to_extract
  -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
-● built target list_observed_dfs_raw [9.19 seconds]
+● built target list_observed_dfs_raw [10.54 seconds]
 Building APSIM .met file: Fords2025.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.05 seconds]
+● built target msg_met_saved [0.08 seconds]
 
 ======================================================================
  🛠️  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS 
@@ -513,7 +512,7 @@ Building APSIM .met file: Fords2025.met
 ======================================================================
 
 ▶ start target list_observed_raw_clean
-● built target list_observed_raw_clean [0.67 seconds]
+● built target list_observed_raw_clean [0.82 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -525,20 +524,21 @@ Building APSIM .met file: Fords2025.met
 ----------------------------------------------------------------------
 
 ▶ start target list_observed_clean
-● built target list_observed_clean [0.07 seconds]
+● built target list_observed_clean [0.08 seconds]
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
-● built target df_obs_wide [0.5 seconds]
+● built target df_obs_wide [0.43 seconds]
 ✅ Successfully extracted 1 target dataframes.
 ▶ start target list_pcds_extracted
-● built target list_pcds_extracted [0.03 seconds]
-Success [get_pheno_dates_from_pcd_list]: Standardized 16 raw records at 50% progress.
+● built target list_pcds_extracted [0.06 seconds]
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.14 seconds]
+Success [get_pheno_dates_from_pcd_list]: Standardized 16 raw records at 50% progress.
+● built target df_pheno_raw [0.19 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 16 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
 ● built target df_obs_plus_pheno [0.59 seconds]
+▶ start target df_pheno_input_param_raw
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -554,7 +554,6 @@ Success [add_new_var_to_obs]: Appended and collapsed 16 events into master obser
 ----------------------------------------------------------------------
 
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
-▶ start target df_pheno_input_param_raw
 ● built target df_pheno_input_param_raw [0.1 seconds]
 
 ============================================================
@@ -565,7 +564,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ============================================================
 
 ▶ start target df_obs_plus_pheno_hi
-● built target df_obs_plus_pheno_hi [0.13 seconds]
+● built target df_obs_plus_pheno_hi [0.2 seconds]
 
 ======================================================================
  🚨 MANUAL DATA OVERRIDE: BIOLOGICAL IMPOSSIBILITY FIXED 🚨
@@ -600,12 +599,11 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 
 ▶ start target df_obs_plus_pheno_hi_with_amounts
-● built target df_obs_plus_pheno_hi_with_amounts [0.45 seconds]
-▶ start target qc_pheno_integrity
+● built target df_obs_plus_pheno_hi_with_amounts [0.49 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
-● built target qc_pheno_integrity [0.04 seconds]
-▶ start target df_obs_plus_pheno_harv
+▶ start target qc_pheno_integrity
+● built target qc_pheno_integrity [0.05 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -615,12 +613,13 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
-● built target df_obs_plus_pheno_harv [0.16 seconds]
+▶ start target df_obs_plus_pheno_harv
+● built target df_obs_plus_pheno_harv [0.15 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.02 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target msg_pheno_param_saved [0 seconds]
 ▶ start target qc_apsim_observed_harv
-● built target qc_apsim_observed_harv [0.14 seconds]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target qc_apsim_observed_harv [0.11 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -631,6 +630,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 ▶ start target manual_pheno_params
 ● built target manual_pheno_params [0.19 seconds]
+▶ start target exported_pop_csv
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: Fords2025_population.csv
@@ -638,24 +638,23 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
    -> '[Wheat].Leaf.StemPopulation': Extracted 16 records | Range [91.54 to 129.43]
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
-▶ start target exported_pop_csv
-● built target exported_pop_csv [0.08 seconds]
+● built target exported_pop_csv [0.1 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.05 seconds]
+● built target haun_input_checked [0.06 seconds]
 Success [save_df_to_excel]: Exported 591 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Fords2025_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.32 seconds]
-▶ start target check_depend
+● built target msg_obs_saved [0.42 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
-● built target check_depend [0.02 seconds]
+▶ start target check_depend
+● built target check_depend [0.04 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.04 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target verify_data_backup [0.05 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.31 seconds]
-▶ end pipeline [19.2 seconds]
-There were 12 warnings (use warnings() to see them)
+● built target encrypted_zip_artifact [0.45 seconds]
+▶ end pipeline [22.11 seconds]
+There were 13 warnings (use warnings() to see them)
