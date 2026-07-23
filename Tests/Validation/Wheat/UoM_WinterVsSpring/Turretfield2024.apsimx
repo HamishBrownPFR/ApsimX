@@ -322,6 +322,7 @@
             "[Wheat].Spike.Live.N",
             "[Wheat].Spike.Live.NConc",
             "[Wheat].Spike.Live.StorageWt as Wheat.Spike.Live.WSC",
+            "[Wheat].Spike.HeadNumber",
             "[Wheat].Stem.Wt",
             "[Wheat].Stem.Live.Wt",
             "[Wheat].Stem.Live.N",
@@ -1712,15 +1713,15 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "CERESSoilTemperature",
+                      "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "Temperature",
+                      "Name": "CERESSoilTemperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -2308,7 +2309,7 @@
                   "Name": "SetPhenoDatesExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
@@ -2318,7 +2319,7 @@
                   "Name": "SetHaunRelatedExternally",
                   "ResourceName": null,
                   "Children": [],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
