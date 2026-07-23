@@ -211,6 +211,7 @@
             "[Wheat].Spike.Live.N",
             "[Wheat].Spike.Live.NConc",
             "[Wheat].Spike.Live.StorageWt as Wheat.Spike.Live.WSC",
+            "[Wheat].Spike.HeadNumber",
             "[Wheat].Stem.Wt",
             "[Wheat].Stem.Live.Wt",
             "[Wheat].Stem.Live.N",
