@@ -24,7 +24,7 @@ targets::tar_source("../targets_MasterScripts")
 
 # Load local corrections specific to this Gna24 dataset
 source("R/apply_corrections_Gna24.R")
-source("R/apply_name_corrections_Gna24.R")
+#source("R/apply_name_corrections_Gna24.R")
 # ------------------------------------------------------------------------------
 # 3. PROJECT DEFINITION
 # ------------------------------------------------------------------------------
@@ -128,7 +128,8 @@ list(
   ),
   tar_target(
     name = df_obs_renamed,
-    command = apply_name_corrections_Gna24(
+    #command = apply_name_corrections_Gna24(
+    command = rename_rescale_obs_vars(
       df_obs           = df_obs_raw,
       mapping_csv_path = track_mapping_csv
     )
@@ -200,7 +201,7 @@ list(
   #     df           = df_obs_plus_pheno_plus_hi, 
   #     crop_prefix  = "Wheat",
   #     # Note for Gnarwarre: Removed .Live from Stem and Spike to match lab data
-  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
   #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
   #     mass_suffix  = "Wt",
   #     ag_name      = "Wheat.AboveGround",
@@ -213,7 +214,7 @@ list(
     command = calc_nutrient_absolute_amounts(
       df             = df_obs_plus_pheno_plus_hi, 
       crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
       conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
       mass_suffix    = "Wt",
       ag_name        = "Wheat.AboveGround",
@@ -228,7 +229,7 @@ list(
     command = fix_ear_calc(
       df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
       ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Live.Wt"  # The new safe column we are building
+      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
     )
   ),
   
@@ -237,7 +238,7 @@ list(
     name = df_obs_plus_pheno_hi_amounts_ear_spike,
     command = fix_last_spike_value(
       df_obs_wide = df_obs_plus_pheno_hi_amounts_ear,          # Points to the previous step's output
-      spike_var   = "Wheat.Spike.Live.Wt",          # Your APSIM Spike column
+      spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
       chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
     )
   ),
