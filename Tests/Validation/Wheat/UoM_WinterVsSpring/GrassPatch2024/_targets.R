@@ -221,7 +221,7 @@ list(
   #   command = calc_nutrient_absolute_amounts(
   #     df           = df_obs_plus_pheno_hi_renamed_corrected, 
   #     crop_prefix  = "Wheat",
-  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike"), 
   #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
   #     mass_suffix  = "Wt",
   #     ag_name      = "Wheat.AboveGround",
@@ -234,7 +234,7 @@ list(
     command = calc_nutrient_absolute_amounts(
       df             = df_obs_plus_pheno_hi_renamed_corrected, 
       crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike"), 
       conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
       mass_suffix    = "Wt",
       ag_name        = "Wheat.AboveGround",
@@ -258,7 +258,7 @@ list(
     command = fix_ear_calc(
       df_obs_wide       = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv, 
       ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Live.Wt"  # The new safe column we are building
+      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
     )
   ),
   
@@ -268,7 +268,7 @@ list(
     name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike,
     command = fix_last_spike_value(
       df_obs_wide = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,          # Points to the previous step's output
-      spike_var   = "Wheat.Spike.Live.Wt",          # Your APSIM Spike column
+      spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
       chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
     )
   ),

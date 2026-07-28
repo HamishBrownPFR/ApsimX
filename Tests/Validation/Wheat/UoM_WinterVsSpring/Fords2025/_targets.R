@@ -317,7 +317,7 @@ list(
   #   command = calc_nutrient_absolute_amounts(
   #     df           = df_obs_plus_pheno_hi,
   #     crop_prefix  = "Wheat",
-  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"),
+  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike"),
   #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"),
   #     mass_suffix  = "Wt",
   #     ag_name      = "Wheat.AboveGround",
@@ -331,7 +331,7 @@ list(
     command = calc_nutrient_absolute_amounts(
       df             = df_obs_plus_pheno_hi, 
       crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike"), 
       conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
       mass_suffix    = "Wt",
       ag_name        = "Wheat.AboveGround",
