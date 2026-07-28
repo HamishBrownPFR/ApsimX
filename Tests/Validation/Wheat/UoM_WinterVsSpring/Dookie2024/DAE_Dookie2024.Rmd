@@ -44,7 +44,7 @@ targets::tar_make()
 - Re-runs all pipeline
 - Prints log with all warnings
 ```{r}
-targets::tar_destroy(ask = FALSE)
+#targets::tar_destroy(ask = FALSE)
 targets::tar_make(
   callr_arguments = list(
     stdout = "pipeline_log.txt",
@@ -254,5 +254,11 @@ write.csv(x, "test.csv")
 
 ```{r}
 tar_read(df_simNameByCult)
+```
+
+```{r}
+library(targets)
+tar_load(qc_apsim_observed_harv)
+tar_load(df_obs_plus_pheno_hi_with_amounts)
 ```
 

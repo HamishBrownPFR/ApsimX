@@ -382,7 +382,7 @@ list(
   ),
   
   tar_target(
-    name = df_obs_plus_pheno,
+    name = df_obs_wide_plus_pheno,
     command = add_new_var_to_obs(
       df_obs          = df_obs_wide,
       df_new_data     = df_pheno_final,
@@ -391,9 +391,9 @@ list(
   ),
   
   tar_target(
-    name = df_obs_plus_pheno_hi,
+    name = df_obs_wide_plus_pheno_hi,
     command = calc_harvest_index(
-      df          = df_obs_plus_pheno,
+      df          = df_obs_wide_plus_pheno,
       grain_col   = "Wheat.Grain.Wt",
       agb_col     = "Wheat.AboveGround.Wt",
       hi_col_name = "HarvestIndex"
@@ -414,9 +414,9 @@ list(
   # ),
   
   tar_target(
-    name = df_obs_plus_pheno_hi_with_amounts,
+    name = df_obs_wide_plus_pheno_hi_with_amounts,
     command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_pheno_hi, 
+      df             = df_obs_wide_plus_pheno_hi, 
       crop_prefix    = "Wheat",
       organs         = c("Leaf.Live", "Leaf.Dead", "Stem.Live", "Spike.Live"), 
       conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
@@ -427,10 +427,25 @@ list(
     )
   ),
   
+  
+  # Add spikes/m2
   tar_target(
-    name = df_obs_plus_pheno_harv,
+    name = df_obs_wide_plus_pheno_with_amounts_harv_hi_spike,
+    command = calc_new_obs_var(
+      df_obs = df_obs_wide_plus_pheno_hi_with_amounts,
+      col_name_A = "Wheat.AboveGround.Wt",
+      col_name_B = "Wheat.Culm.Wt",
+      oprt = "A/B",
+      col_name_Result = "Wheat.Spike.HeadNumber",
+      val_range = c(100,1000)
+    )
+  ),
+  
+  
+  tar_target(
+    name = df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_harv,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_hi_with_amounts,
+      df            = df_obs_wide_plus_pheno_with_amounts_harv_hi_spike,
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
@@ -438,8 +453,8 @@ list(
   ),
   
   tar_target(
-    name = qc_apsim_observed_harv,
-    command = check_obs_health(df_obs_plus_pheno_harv)
+    name = qc_obs_final,
+    command = check_obs_health(df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_harv)
   ),
   
   tar_target(
@@ -447,7 +462,7 @@ list(
     command = check_manual_params(
       config$folder_inputs,
       config$file_name_input_haun,
-      qc_apsim_observed_harv
+      qc_obs_final
     )
   ),
   
@@ -463,7 +478,7 @@ list(
   tar_target(
     name = exported_pop_csv,
     command = print_csv_with_select_obs(
-      df_in         = qc_apsim_observed_harv, # Simulated dependency: replace with your actual final df
+      df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
       select_vars   = c("[Wheat].Leaf.StemPopulation"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
@@ -478,7 +493,7 @@ list(
   tar_target(
     name = msg_obs_saved,
     command = save_df_to_excel(
-      df          = qc_apsim_observed_harv,
+      df          = qc_obs_final,
       folder_path = config$folder_observed,
       file_name   = config$file_saved_obs_excel,
       sheet_name  = config$sheet_name_observed
