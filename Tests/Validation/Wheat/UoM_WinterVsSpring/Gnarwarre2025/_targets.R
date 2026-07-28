@@ -24,7 +24,7 @@ targets::tar_source("../targets_MasterScripts")
 
 # Load local corrections specific to this Gna25 dataset
 source("R/apply_corrections_Gna25.R")
-source("R/apply_name_corrections_Gna25.R")
+#source("R/apply_name_corrections_Gna25.R")
 
 # ------------------------------------------------------------------------------
 # 3. PROJECT DEFINITION
@@ -128,7 +128,8 @@ list(
   ),
   tar_target(
     name = df_obs_renamed,
-    command = apply_name_corrections_Gna25(
+    #command = apply_name_corrections_Gna25(
+      command = rename_rescale_obs_vars(
       df_obs           = df_obs_raw,
       mapping_csv_path = track_mapping_csv
     )
