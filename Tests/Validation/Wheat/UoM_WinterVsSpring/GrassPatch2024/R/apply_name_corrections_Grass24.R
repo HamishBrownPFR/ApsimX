@@ -70,9 +70,9 @@ apply_name_corrections_Grass24 <- function(df_obs, mapping_csv_path = NULL) {
       "Wheat.Leaf.Live.WSCc"   = "Wheat.Leaf.Live.WSC",
       "Wheat.Spike.NConc" = "Wheat.Spike.NConc",
       "Wheat.Spike.WSCc"  = "Wheat.Spike.WSC",
-      "Wheat.Stem.Live.Wt"     = "Wheat.Stem.Wt",
-      "Wheat.Stem.Live.NConc"  = "Wheat.Stem.NConc",
-      "Wheat.Stem.Live.WSCc"   = "Wheat.Stem.WSC"
+      "Wheat.Stem.Wt"     = "Wheat.Stem.Wt",
+      "Wheat.Stem.NConc"  = "Wheat.Stem.NConc",
+      "Wheat.Stem.WSCc"   = "Wheat.Stem.WSC"
     )
     message("Notice [apply_name_corrections_Grass24]: Utilizing built-in hardcoded dictionary mappings.")
   }

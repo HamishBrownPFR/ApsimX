@@ -5,9 +5,9 @@ haun_raw,Haun stage,Mean Haun stage,Wheat.Phenology.HaunStage,1
 grainSize_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Individual grain weight (mg),Wheat.Grain.Size,0.001
 grainNumber_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Grain number (grains/m²),Wheat.Grain.Number,1
 grainYield_10_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Grain dry matter (g/m²),Wheat.Grain.Wt,1
-stemYield_6_raw,PCDS 6.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Live.Wt,1
-stemYield_8_raw,PCDS 8.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Live.Wt,1
-stemYield_10_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Stem dry matter (g/m²),Wheat.Stem.Live.Wt,1
+stemYield_6_raw,PCDS 6.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Wt,1
+stemYield_8_raw,PCDS 8.0 harvest,Stem dry matter (g/m²),Wheat.Stem.Wt,1
+stemYield_10_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Stem dry matter (g/m²),Wheat.Stem.Wt,1
 spikeYield_6_raw,PCDS 6.0 harvest,Spike dry matter (g/m²),Wheat.Spike.Wt,1
 spikeYield_8_raw,PCDS 8.0 harvest,Spike dry matter (g/m²),Wheat.Spike.Wt,1
 spikeYield_10_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Chaff dry matter (g/m²),Wheat.Spike.Wt,1
@@ -29,22 +29,22 @@ leaf_6_Nconc,PCDS 6.0 harvest,N_Green leaves_mg_g,Wheat.Leaf.Live.NConc,0.001
 leaf_6_WSCc,PCDS 6.0 harvest,WSC_Green leaves_mg_g,Wheat.Leaf.Live.WSCc,0.001
 leaf_6_Nconc,PCDS 6.0 harvest,N_Dead leaves_mg_g,Wheat.Leaf.Dead.NConc,0.001
 leaf_6_WSCc,PCDS 6.0 harvest,WSC_Dead leaves_mg_g,Wheat.Leaf.Dead.WSCc,0.001
-stem_6_Nconc,PCDS 6.0 harvest,N_Stem_mg_g,Wheat.Stem.Live.NConc,0.001
-stem_6_WSCc,PCDS 6.0 harvest,WSC_Stem_mg_g,Wheat.Stem.Live.WSCc,0.001
+stem_6_Nconc,PCDS 6.0 harvest,N_Stem_mg_g,Wheat.Stem.NConc,0.001
+stem_6_WSCc,PCDS 6.0 harvest,WSC_Stem_mg_g,Wheat.Stem.WSCc,0.001
 spike_6_Nconc,PCDS 6.0 harvest,N_Spike_mg_g,Wheat.Spike.NConc,0.001
 spike_6_WSCc,PCDS 6.0 harvest,WSC_Spike_mg_g,Wheat.Spike.WSCc,0.001
 leaf_8_Nconc,PCDS 8.0 harvest,N_Green leaves_mg_g,Wheat.Leaf.Live.NConc,0.001
 leaf_8_WSCc,PCDS 8.0 harvest,WSC_Green leaves_mg_g,Wheat.Leaf.Live.WSCc,0.001
 leaf_8_Nconc,PCDS 8.0 harvest,N_Dead leaves_mg_g,Wheat.Leaf.Dead.NConc,0.001
 leaf_8_WSCc,PCDS 8.0 harvest,WSC_Dead leaves_mg_g,Wheat.Leaf.Dead.WSCc,0.001
-stem_8_Nconc,PCDS 8.0 harvest,N_Stem_mg_g,Wheat.Stem.Live.NConc,0.001
-stem_8_WSCc,PCDS 8.0 harvest,WSC_Stem_mg_g,Wheat.Stem.Live.WSCc,0.001
+stem_8_Nconc,PCDS 8.0 harvest,N_Stem_mg_g,Wheat.Stem.NConc,0.001
+stem_8_WSCc,PCDS 8.0 harvest,WSC_Stem_mg_g,Wheat.Stem.WSCc,0.001
 spike_8_Nconc,PCDS 8.0 harvest,N_Spike_mg_g,Wheat.Spike.NConc,0.001
 spike_8_WSCc,PCDS 8.0 harvest,WSC_Spike_mg_g,Wheat.Spike.WSCc,0.001
 leaf_10_Nconc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,N_Dead leaves_mg_g,Wheat.Leaf.Dead.NConc,0.001
 leaf_10_WSCc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,WSC_Dead leaves_mg_g,Wheat.Leaf.Dead.WSCc,0.001
-stem_10_Nconc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,N_Stem_mg_g,Wheat.Stem.Live.NConc,0.001
-stem_10_WSCc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,WSC_Stem_mg_g,Wheat.Stem.Live.WSCc,0.001
+stem_10_Nconc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,N_Stem_mg_g,Wheat.Stem.NConc,0.001
+stem_10_WSCc,PCDS 10.0 harvest | PCDS 10.0 harvest Final,WSC_Stem_mg_g,Wheat.Stem.WSCc,0.001
 earYield_6_raw,PCDS 6.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1
 earYield_8_raw,PCDS 8.0 harvest,Spike dry matter (g/m²),Wheat.Ear.Wt,1
 earYield_10_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Spike dry matter (g/m²),Wheat.Ear.Wt,1
