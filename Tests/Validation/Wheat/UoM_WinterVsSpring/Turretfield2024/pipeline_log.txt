@@ -10,16 +10,8 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-
-Attaching package: 'rlang'
-
-The following object is masked from 'package:base':
-
-    %||%
-
 ▶ start target config
-● built target config [0.76 seconds]
-▶ start target processed_met_data
+● built target config [0.64 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -38,7 +30,8 @@ The following object is masked from 'package:base':
   [✓] RAIN  -> 'Rain (mm)'
   [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
-● built target processed_met_data [0.28 seconds]
+▶ start target processed_met_data
+● built target processed_met_data [0.29 seconds]
 📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
@@ -49,15 +42,16 @@ The following object is masked from 'package:base':
 ------------------------------------------------
 💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
 ▶ start target config_soil
-● built target config_soil [1.19 seconds]
+● built target config_soil [0.99 seconds]
 ▶ start target tracked_excel_files
-● built target tracked_excel_files [0 seconds]
+● built target tracked_excel_files [0.01 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 ▶ start target df_simNameByCult
 ● built target df_simNameByCult [0 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
+▶ start target log_active_config
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -141,21 +135,20 @@ $file_name_input_haun
 
 ======================================================================
 
-▶ start target log_active_config
 ● built target log_active_config [0 seconds]
+▶ start target msg_met_saved
 Building APSIM .met file: Turretfield2024.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
-▶ start target msg_met_saved
 ● built target msg_met_saved [0.01 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target raw_soil_tracker
 ● built target raw_soil_tracker [0 seconds]
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.25 seconds]
+● built target encrypted_zip_artifact [0.27 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -165,8 +158,7 @@ Encrypting archive...
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.18 seconds]
-▶ start target list_observed_dfs_raw
+● built target manual_pheno_params [0.19 seconds]
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -457,7 +449,8 @@ Encrypting archive...
  -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
-● built target list_observed_dfs_raw [5.61 seconds]
+▶ start target list_observed_dfs_raw
+● built target list_observed_dfs_raw [4.59 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -469,7 +462,7 @@ Encrypting archive...
 ----------------------------------------------------------------------
 
 ▶ start target list_observed_dfs_raw_plus_emerg
-● built target list_observed_dfs_raw_plus_emerg [0.04 seconds]
+● built target list_observed_dfs_raw_plus_emerg [0.05 seconds]
 
 ======================================================================
  ⚠️ APPROXIMATE SAMPLE DATES APPLIED ⚠️
@@ -587,7 +580,7 @@ Warning:
 
 
 ▶ start target list_observed_dfs_fix
-● built target list_observed_dfs_fix [0.17 seconds]
+● built target list_observed_dfs_fix [0.14 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -632,12 +625,12 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.08 seconds]
+● built target df_pheno_haun [0.06 seconds]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target final_apsim_observed
-● built target final_apsim_observed [0.14 seconds]
-✅ Successfully extracted 3 target dataframes.
+● built target final_apsim_observed [0.13 seconds]
 ▶ start target list_pcds_extracted
+✅ Successfully extracted 3 target dataframes.
 ● built target list_pcds_extracted [0.02 seconds]
 
 ============================================================
@@ -648,10 +641,10 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 ============================================================
 
 ▶ start target df_obs_plus_hi
-● built target df_obs_plus_hi [0.06 seconds]
+● built target df_obs_plus_hi [0.04 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.07 seconds]
+● built target df_pheno_raw [0.06 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -671,10 +664,11 @@ Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% prog
 
 
 ▶ start target df_obs_plus_hi_amounts
-● built target df_obs_plus_hi_amounts [0.13 seconds]
+● built target df_obs_plus_hi_amounts [0.08 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.04 seconds]
+● built target df_pheno_int [0.03 seconds]
+▶ start target df_obs_plus_hi_amounts_harv
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -684,8 +678,7 @@ Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milesto
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
-▶ start target df_obs_plus_hi_amounts_harv
-● built target df_obs_plus_hi_amounts_harv [0.08 seconds]
+● built target df_obs_plus_hi_amounts_harv [0.06 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -735,7 +728,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 95 strictly ch
 ● built target df_pheno_final [0.08 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 95 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_hi_amounts_harv_pheno
-● built target df_obs_plus_hi_amounts_harv_pheno [0.31 seconds]
+● built target df_obs_plus_hi_amounts_harv_pheno [0.27 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -750,7 +743,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ● built target df_pheno_input_param [0.06 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_apsim_observed
-● built target qc_apsim_observed [0.04 seconds]
+● built target qc_apsim_observed [0.05 seconds]
 
 ========================================================
 === PHENOLOGY MATRIX ADJUSTMENTS (TEMPORARY FIXES) ===
@@ -771,25 +764,25 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ----------------------------------------------------------------------
 💾 Success: Exported 0 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.04 seconds]
+● built target exported_pop_csv [0.01 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
+● built target haun_input_checked [0.01 seconds]
 ✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.16 seconds]
+● built target msg_obs_saved [0.12 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
 ▶ start target qc_pheno_integrity
-● built target qc_pheno_integrity [0.01 seconds]
+● built target qc_pheno_integrity [0.02 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
+● built target msg_pheno_param_saved [0 seconds]
 ▶ start target verify_dependencies
 ● built target verify_dependencies [0.02 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.02 seconds]
-▶ end pipeline [11.27 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target verify_data_backup [0 seconds]
+▶ end pipeline [9.31 seconds]
 Warning messages:
 1: Missing optional weather variables in 'Turretfield_RawData_2024.xlsx': VP, ET 
 2: 
