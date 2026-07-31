@@ -271,16 +271,45 @@ list(
     )
   ),
   
+    tar_target(
+    name = qc_obs_final,
+    command = check_obs_health(df_obs_final)
+  ),
+  
+  # -------------------------------------------
+  # CHECK BIOMASS COMPONENTS
+  # -------------------------------------------
+  
+  # Target 2: Run the composite biomass validation
+  tar_target(
+    name = validation_biomass_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.AboveGround.Wt",
+      comp_vars = c("Wheat.Leaf.Live.Wt","Wheat.Leaf.Dead.Wt", 
+                    "Wheat.Stem.Wt", "Wheat.Spike.Wt", "Wheat.Grain.Wt")
+    )
+  ),
+  
+  # Target 2: Run the composite ear validation
+  tar_target(
+    name = validation_ear_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.Ear.Wt",
+      comp_vars = c("Wheat.Spike.Wt", "Wheat.Grain.Wt")
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE F: EXPORT & VALIDATION
   # ----------------------------------------------------------------------------
-  tar_target(
-    name = qc_apsim_observed,
-    command = check_obs_health(df_obs_final)
-  ),
+
+  
+  
   tar_target(
     name = haun_input_checked, 
-    command = check_manual_params(config$folder_inputs, config$file_name_input_haun, qc_apsim_observed)
+    command = check_manual_params(config$folder_inputs, config$file_name_input_haun, qc_obs_final)
   ),
   tar_target(
     name = msg_pheno_param_saved,
@@ -295,7 +324,7 @@ list(
   tar_target(
     name = exported_pop_csv,
     command = print_csv_with_select_obs(
-      df_in         = qc_apsim_observed, # Simulated dependency: replace with your actual final df
+      df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
       select_vars   = c("Wheat.SowingData.Population"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
@@ -306,7 +335,7 @@ list(
   tar_target(
     name = msg_obs_saved,
     command = save_df_to_excel(
-      df          = qc_apsim_observed, 
+      df          = qc_obs_final, 
       folder_path = config$folder_observed, 
       file_name   = config$file_workData_excel,
       sheet_name  = config$sheet_name_observed
@@ -319,7 +348,7 @@ list(
     command = check_pheno_manual_parameters(
       folder_name  = config$folder_inputs,
       proj_name    = config$proj_name,
-      sim_names_df = qc_apsim_observed
+      sim_names_df = qc_obs_final
     )
   ),
   
