@@ -89,3 +89,45 @@ x %>%
   dplyr::select(SimulationName, Wheat.Phenology.CurrentStageName, Wheat.Grain.Wt)
 ```
 
+
+```{r}
+
+library(targets)
+library(tidyverse)
+# View the full validation table
+tar_read(validation_biomass_sums) %>%
+  filter(DiffPerc!=0)
+```
+
+```{r}
+# View the full validation table
+tar_read(validation_ear_sums) %>%
+  filter(DiffPerc!=0)
+```
+
+
+```{r}
+library(plotly)
+
+df_diff <- tar_read(validation_biomass_sums) %>%
+    mutate(SimName = str_extract(SimulationName, "^.*?(2024|2025)")) %>%
+    filter(DiffAbs != 0) #%>%
+    #dplyr::select(SimulationName, SimName,Wheat.AboveGround.Wt,Comp_Sum)
+
+head(df_diff)
+
+p <- df_diff %>% 
+  #filter(str_detect(SimulationName, "Big")) %>% 
+  ggplot(aes(x=Wheat.AboveGround.Wt, y= Comp_Sum, colour=SimulationName)) + 
+  geom_point()  +
+  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed")
+
+# 2. Convert it to an interactive graph
+ggplotly(p)
+
+tar_load(df_obs_renamed)
+names(tar_read(df_obs_renamed))
+names(tar_read(df_obs_mean))
+
+
+```

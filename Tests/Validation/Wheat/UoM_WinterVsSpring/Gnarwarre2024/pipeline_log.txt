@@ -10,20 +10,10 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-
-Attaching package: 'rlang'
-
-The following object is masked from 'package:base':
-
-    %||%
-
 ▶ start target config
-● built target config [0.59 seconds]
-▶ start target track_mapping_csv
-● built target track_mapping_csv [0 seconds]
+● built target config [0.64 seconds]
 ▶ start target df_obs_raw
 ● built target df_obs_raw [0.05 seconds]
-▶ start target raw_met_tracker
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -90,10 +80,10 @@ $file_name_mapping_csv
 
 ======================================================================
 
-● built target raw_met_tracker [0 seconds]
+▶ start target track_mapping_csv
+● built target track_mapping_csv [0 seconds]
 ▶ start target log_active_config
 ● built target log_active_config [0 seconds]
-▶ start target df_obs_renamed
 
 ======================================================================
  🔄 PIPELINE ACTION: VARIABLES REMAPPED 🔄 
@@ -111,11 +101,15 @@ $file_name_mapping_csv
  -> Wheat.Structure.Height    ==>  Wheat.Leaf.Height
  -> Wheat.Spike.HeadNumber    ==>  Wheat.Spike.HeadNumber
 ----------------------------------------------------------------------
-● built target df_obs_renamed [0.03 seconds]
+▶ start target raw_met_tracker
+● built target raw_met_tracker [0 seconds]
+▶ start target df_obs_renamed
+● built target df_obs_renamed [0.05 seconds]
 ✅ MET data passed all quality checks.
 Successfully verified and copied to: Gnarwarre2024.met
 ▶ start target validated_met_file
-● built target validated_met_file [0.03 seconds]
+● built target validated_met_file [0.04 seconds]
+▶ start target df_obs_corrected
 
 ======================================================================
  ⚠️  TAILORED CORRECTIONS APPLIED TO WIDE OBS DATAFRAME ⚠️ 
@@ -130,16 +124,18 @@ Successfully verified and copied to: Gnarwarre2024.met
  -> CONVERTED : 'Wheat.Leaf.Height' multiplied by 10 (unit scaling)
 ======================================================================
 
-▶ start target df_obs_corrected
-● built target df_obs_corrected [0.02 seconds]
+● built target df_obs_corrected [0.01 seconds]
 ▶ start target df_obs_mean
-● built target df_obs_mean [0.07 seconds]
-Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 48 rows while preserving 2 standard metadata keys.
-▶ start target df_haun
-● built target df_haun [0.02 seconds]
+● built target df_obs_mean [0.1 seconds]
 Success [get_pheno_dates_from_DOY_wide_obs]: Extracted 16 standardized raw records from wide DOY entries.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.05 seconds]
+● built target df_pheno_raw [0.04 seconds]
+▶ start target df_haun
+Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 48 rows while preserving 2 standard metadata keys.
+● built target df_haun [0.06 seconds]
+Success [create_interp_pheno_dates]: Linearly generated 8 missing micro-milestone rows (Stages 4/7).
+▶ start target df_pheno_int
+● built target df_pheno_int [0.03 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -160,10 +156,8 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 4 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 4 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.06 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 8 missing micro-milestone rows (Stages 4/7).
-▶ start target df_pheno_int
-● built target df_pheno_int [0.05 seconds]
+● built target df_pheno_haun [0.07 seconds]
+▶ start target df_pheno_final
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -178,11 +172,10 @@ Success [create_interp_pheno_dates]: Linearly generated 8 missing micro-mileston
 3  Haun vs Int
 4  Haun vs Int
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 28 strictly chronological stage events.
-▶ start target df_pheno_final
-● built target df_pheno_final [0.06 seconds]
+● built target df_pheno_final [0.05 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 28 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [0.19 seconds]
+● built target df_obs_plus_pheno [0.2 seconds]
 Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM parameter format.
 ▶ start target df_pheno_input_param
 ● built target df_pheno_input_param [0.05 seconds]
@@ -195,7 +188,7 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 ============================================================
 
 ▶ start target df_obs_plus_pheno_plus_hi
-● built target df_obs_plus_pheno_plus_hi [0.06 seconds]
+● built target df_obs_plus_pheno_plus_hi [0.04 seconds]
 ▶ start target msg_pheno_param_saved
 ● built target msg_pheno_param_saved [0.08 seconds]
 
@@ -217,7 +210,7 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 
 
 ▶ start target df_obs_plus_pheno_hi_amounts
-● built target df_obs_plus_pheno_hi_amounts [0.15 seconds]
+● built target df_obs_plus_pheno_hi_amounts [0.09 seconds]
 
 ======================================================================
  ⚙️ PIPELINE ACTION: EAR MASS VARIABLE INITIALIZED ⚙️
@@ -232,18 +225,17 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 ● built target df_obs_plus_pheno_hi_amounts_ear [0 seconds]
 
 ======================================================================
- 🔧 TERMINOLOGY PATCH: FINAL SPIKE MASS OVERWRITTEN BY CHAFF 🔧
+ 🔧 TERMINOLOGY PATCH: SPIKE OVERWRITTEN BY CHAFF 🔧
 ======================================================================
  -> Target Spike Var : 'Wheat.Spike.Wt'
  -> Source Chaff Var : 'Wheat.Spike.Chaff.Wt'
- -> Root Cause       : Model vs. Field naming consistency.
-                       (Spikes are threshed at harvest, leaving Chaff).
- -> Action Taken     : Identified the final measurement date per simulation
-                       and injected the Chaff value into the Spike column.
+ -> Logic Applied    : Chaff < Spike validation passed.
+                       For every Sim/Date combination where both exist,
+                       Spike was successfully overwritten with Chaff.
 ======================================================================
 
 ▶ start target df_obs_plus_pheno_hi_amounts_ear_spike
-● built target df_obs_plus_pheno_hi_amounts_ear_spike [0.01 seconds]
+● built target df_obs_plus_pheno_hi_amounts_ear_spike [0.03 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -256,10 +248,50 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 ------------------------------------------------------------
 
 ▶ start target df_obs_final
-● built target df_obs_final [0.08 seconds]
+● built target df_obs_final [0.07 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
-▶ start target qc_apsim_observed
-● built target qc_apsim_observed [0.06 seconds]
+▶ start target qc_obs_final
+● built target qc_obs_final [0.06 seconds]
+Success [save_df_to_excel]: Exported 174 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Gnarwarre2024_Observed.xlsx' (Sheet: 'Observed').
+▶ start target msg_obs_saved
+● built target msg_obs_saved [0.13 seconds]
+▶ start target haun_input_checked
+● built target haun_input_checked [0.05 seconds]
+
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.Ear.Wt
+ Component Fractions       : Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold     : > 5%
+ Flagged Observations      : 8 row(s) out of 174
+----------------------------------------------------------------------
+
+           SimulationName Clock.Today Wheat.Ear.Wt  Comp_Sum DiffAbs DiffPerc
+    Gnarwarre2024CvBigRed  2024-11-07     391.9113 138.74287 -253.17   -64.60
+    Gnarwarre2024CvBigRed  2024-12-05     550.1096 480.09066  -70.02   -12.73
+    Gnarwarre2024CvIllabo  2024-10-30     253.7316  99.52199 -154.21   -60.78
+    Gnarwarre2024CvIllabo  2024-11-29     470.6258 434.75919  -35.87    -7.62
+ Gnarwarre2024CvSunmaster  2024-10-30     241.0324 101.05045 -139.98   -58.08
+ Gnarwarre2024CvSunmaster  2024-12-02     468.5105 439.80433  -28.71    -6.13
+  Gnarwarre2024CvZanzibar  2024-10-30     246.6806 137.60012 -109.08   -44.22
+  Gnarwarre2024CvZanzibar  2024-12-02     531.9336 480.21153  -51.72    -9.72
+ Wheat.Spike.Wt Wheat.Grain.Wt
+      138.74287             NA
+       91.49638       388.5943
+       99.52199             NA
+      111.97076       322.7884
+      101.05045             NA
+      101.96989       337.8344
+      137.60012             NA
+      110.12706       370.0845
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+▶ start target validation_ear_sums
+● built target validation_ear_sums [0.01 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -271,6 +303,44 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 ▶ start target manual_pheno_params
 ● built target manual_pheno_params [0.11 seconds]
 
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.AboveGround.Wt
+ Component Fractions       : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold     : > 5%
+ Flagged Observations      : 6 row(s) out of 174
+----------------------------------------------------------------------
+
+           SimulationName Clock.Today Wheat.AboveGround.Wt Comp_Sum DiffAbs
+    Gnarwarre2024CvBigRed  2024-11-07             999.7235 710.6994 -289.02
+    Gnarwarre2024CvBigRed  2024-12-05             882.4077 812.3888  -70.02
+    Gnarwarre2024CvIllabo  2024-10-30             683.6229 477.4659 -206.16
+ Gnarwarre2024CvSunmaster  2024-10-30             678.6701 498.8837 -179.79
+  Gnarwarre2024CvZanzibar  2024-10-30             710.9755 598.4113 -112.56
+  Gnarwarre2024CvZanzibar  2024-12-02             842.8533 791.1313  -51.72
+ DiffPerc Wheat.Leaf.Live.Wt Wheat.Leaf.Dead.Wt Wheat.Stem.Wt Wheat.Spike.Wt
+   -28.91           41.00964          51.470175      479.4767      138.74287
+    -7.93                 NA          90.377785      241.9203       91.49638
+   -30.16           38.22357          23.202468      316.5179       99.52199
+   -26.49           54.86421          14.723200      328.2458      101.05045
+   -15.83           77.84604           6.284011      376.6811      137.60012
+    -6.14                 NA          70.945007      239.9748      110.12706
+ Wheat.Grain.Wt
+             NA
+       388.5943
+             NA
+             NA
+             NA
+       370.0845
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+▶ start target validation_biomass_sums
+● built target validation_biomass_sums [0.01 seconds]
+
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: Gnarwarre2024_population.csv
 ----------------------------------------------------------------------
@@ -278,32 +348,18 @@ Success [format_apsim_pheno_params]: Translated 4 simulations into wide APSIM pa
 ----------------------------------------------------------------------
 💾 Success: Exported 4 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.03 seconds]
-▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
-▶ start target msg_obs_saved
-Success [save_df_to_excel]: Exported 174 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Gnarwarre2024_Observed.xlsx' (Sheet: 'Observed').
-● built target msg_obs_saved [0.13 seconds]
-▶ start target check_depend
-✅ Pre-flight check passed: All required APSIM dependencies found.
-● built target check_depend [0 seconds]
+● built target exported_pop_csv [0.17 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
-▶ start target verify_data_backup
-● built target verify_data_backup [0.02 seconds]
+✅ Pre-flight check passed: All required APSIM dependencies found.
+▶ start target check_depend
+● built target check_depend [0.01 seconds]
 Encrypting archive...
-✅ Successfully created password-protected archive: Observed.zip
+
+
+System ERROR:
+The process cannot access the file because it is being used by another process.
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.25 seconds]
-▶ end pipeline [3.28 seconds]
-Warning messages:
-1: Tailored structural corrections were applied. See console for details. 
-2: QC WARNING: Found values below 0 in column 'Wheat.Leaf.Dead.CID'. Check for data entry errors. 
-3: QC WARNING: Found values below 0 in column 'Wheat.Leaf.Live.CID'. Check for data entry errors. 
-4: QC WARNING: Found values below 0 in column 'Wheat.Spike.CID'. Check for data entry errors. 
-5: QC WARNING: Found values below 0 in column 'Wheat.Stem.CID'. Check for data entry errors. 
-6: QC WARNING: Found values below 0 in column 'Wheat.Stem.Infertile.CID'. Check for data entry errors. 
-7: QC WARNING: Found values below 0 in column 'Wheat.Stem.NConc'. Check for data entry errors. 
-8: QC WARNING: Found values below 0 in column 'Wheat.Stem.N'. Check for data entry errors. 
-9: 2 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+✖ error target encrypted_zip_artifact
+▶ end pipeline [3.47 seconds]
+There were 13 warnings (use warnings() to see them)

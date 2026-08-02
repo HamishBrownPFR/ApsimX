@@ -395,6 +395,32 @@ list(
     format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
   ),
   
+  
+  # -------------------------------------------
+  # CHECK BIOMASS COMPONENTS
+  # -------------------------------------------
+  
+  # Target 2: Run the composite biomass validation
+  tar_target(
+    name = validation_biomass_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.AboveGround.Wt",
+      comp_vars = c("Wheat.Leaf.Live.Wt","Wheat.Leaf.Dead.Wt", 
+                    "Wheat.Stem.Wt", "Wheat.Spike.Wt", "Wheat.Grain.Wt") # Spike is Grain+Chaff in raw
+    )
+  ),
+  
+  # Target 2: Run the composite ear validation
+  tar_target(
+    name = validation_ear_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.Ear.Wt",
+      comp_vars = c("Wheat.Spike.Wt", "Wheat.Grain.Wt")
+    )
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE F: EXPORT & VALIDATION
   # ----------------------------------------------------------------------------

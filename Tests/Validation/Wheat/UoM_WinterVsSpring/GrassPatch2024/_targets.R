@@ -266,7 +266,8 @@ list(
   # --- NEW: Phase 2 Chaff to Spike Swap ---
   tar_target(
     name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike,
-    command = fix_last_spike_value(
+    #command = fix_last_spike_value(
+      command = fix_spike_value(
       df_obs_wide = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,          # Points to the previous step's output
       spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
       chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
