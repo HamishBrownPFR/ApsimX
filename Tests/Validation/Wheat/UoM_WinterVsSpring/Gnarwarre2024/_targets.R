@@ -225,31 +225,32 @@ list(
   ),
   
   
-  tar_target(
-    name = df_obs_plus_pheno_hi_amounts_ear,
-    command = fix_ear_calc(
-      df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
-      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
-    )
-  ),
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_amounts_ear,
+  #   command = fix_ear_calc(
+  #     df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
+  #     ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+  #     ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
+  #   )
+  # ),
   
   # --- NEW: Phase 2 Chaff to Spike Swap ---
-  tar_target(
-    name = df_obs_plus_pheno_hi_amounts_ear_spike,
-    #command = fix_last_spike_value(
-      command = fix_spike_value(
-      df_obs_wide = df_obs_plus_pheno_hi_amounts_ear,          # Points to the previous step's output
-      spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
-      chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
-    )
-  ),
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_amounts_ear_spike,
+  #   #command = fix_last_spike_value(
+  #     command = fix_spike_value(
+  #     df_obs_wide = df_obs_plus_pheno_hi_amounts_ear,          # Points to the previous step's output
+  #     spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
+  #     chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
+  #   )
+  # ),
   
   
   tar_target(
     name = df_obs_final,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_hi_amounts_ear_spike,
+     # df            = df_obs_plus_pheno_hi_amounts_ear_spike,
+      df            = df_obs_plus_pheno_hi_amounts,
       # Note for Gnarwarre: Using Wheat.Spike.Wt
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",

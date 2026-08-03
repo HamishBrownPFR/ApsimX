@@ -114,7 +114,7 @@ ggplotly(p) %>%
 # Get soil parameters in json format
 ```{r}
 tar_read(json_soil_water)
-
+tar_read(haun_input_checked)
 ```
 
 ```{r}

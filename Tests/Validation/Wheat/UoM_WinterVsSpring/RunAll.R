@@ -77,3 +77,20 @@ for (p_dir in pipeline_dirs) {
 message("\n=======================================================")
 message(" ALL PIPELINES EXECUTED.")
 message("=======================================================\n")
+
+
+
+# ===================================================================
+# GENERATE QUALITY CONTROL REPORT
+# ===================================================================
+message("\n=======================================================")
+message(" GENERATING QUARTO QC REPORT...")
+message("=======================================================")
+
+# Ensure the quarto package is installed before running: install.packages("quarto")
+tryCatch({
+  quarto::quarto_render("QC_Report.qmd")
+  message(" [\u2713] QC Report generated successfully: QC_Report.html")
+}, error = function(e) {
+  warning(" [X] Failed to generate QC Report: ", e$message)
+})

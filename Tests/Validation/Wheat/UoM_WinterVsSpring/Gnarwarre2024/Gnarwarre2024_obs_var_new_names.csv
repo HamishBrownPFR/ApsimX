@@ -1,4 +1,5 @@
 RawDataName,ObservedFileName,ScaleBy
+Wheat.Grain.Wt,Wheat.Grain_NotUsed.Wt,1
 Wheat.Leaf.Dead.NConc,Wheat.Leaf.Dead.NConc,1
 Wheat.Leaf.Dead.WSC,Wheat.Leaf.Dead.WSCc,1
 Wheat.Leaf.Live.NConc,Wheat.Leaf.Live.NConc,1
@@ -7,7 +8,8 @@ Wheat.Spike.NConc,Wheat.Spike.NConc,1
 Wheat.Spike.WSC,Wheat.Spike.WSCc,1
 Wheat.Stem.NConc,Wheat.Stem.NConc,1
 Wheat.Stem.WSC,Wheat.Stem.WSCc,1
-Wheat.Stem.Wt,Wheat.Stem.Wt,1
-Wheat.Spike.Wt,Wheat.Spike.Wt,1
+Wheat.Spike.Wt,Wheat.Ear.Wt,1
 Wheat.Structure.Height,Wheat.Leaf.Height,1
 Wheat.Spike.HeadNumber,Wheat.Spike.HeadNumber,1
+Wheat.Spike.Chaff.Wt,Wheat.Spike.Wt,1
+Wheat.Spike.Grain.Wt,Wheat.Grain.Wt,1
