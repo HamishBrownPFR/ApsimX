@@ -11,7 +11,7 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.75 seconds]
+● built target config [0.78 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ▶ start target df_obs_meta_data
@@ -19,6 +19,7 @@ The following objects are masked from 'package:base':
 ▶ start target df_simNameByCult
 ● built target df_simNameByCult [0 seconds]
 ▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -102,9 +103,8 @@ $file_name_input_haun
 
 ======================================================================
 
-● built target tracked_raw_excel [0 seconds]
 ▶ start target log_active_config
-● built target log_active_config [0.01 seconds]
+● built target log_active_config [0 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -113,6 +113,7 @@ $file_name_input_haun
 [36m•[39m `` -> `...5`
 [36m•[39m `` -> `...6`
 [36m•[39m `` -> `...7`
+[Q-FLAG] | INFO | WEATHER | Missing optional weather variable(s) in 'Turretfield_RawData_2024.xlsx': [VP, ET]
 
 =======================================================
  WEATHER DATA CREATION LOG: Turretfield_RawData_2024.xlsx
@@ -123,24 +124,25 @@ $file_name_input_haun
   [✓] RAIN  -> 'Rain (mm)'
   [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
+[Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'Turretfield_RawData_2024.xlsx' with 4 mapped column(s).
 ▶ start target processed_met_data
-● built target processed_met_data [0.32 seconds]
+● built target processed_met_data [0.33 seconds]
 📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
-   -> Column 'Total Carbon' found 4 times. Safely extracted Index 179.
-   -> Column 'Total Nitrogen' found 4 times. Safely extracted Index 181.
-   -> Column 'Sand' found 3 times. Safely extracted Index 158.
-   -> Column 'Air Dry Moisture' found 2 times, but ALL instances appear empty. Defaulted to Index 173.
+    -> Column 'Total Carbon' found 4 times. Safely extracted Index 179.
+    -> Column 'Total Nitrogen' found 4 times. Safely extracted Index 181.
+    -> Column 'Sand' found 3 times. Safely extracted Index 158.
+    -> Column 'Air Dry Moisture' found 2 times, but ALL instances appear empty. Defaulted to Index 173.
 ------------------------------------------------
+[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coarse, Sand Fine, Organic Matter, Water Mass, Saturation, Air Dry Moisture, Soil Bulk Density, Gravimetric Water Content]
 💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
 ▶ start target config_soil
 ● built target config_soil [1.19 seconds]
+▶ start target encrypted_zip_artifact
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.27 seconds]
-▶ start target manual_pheno_params
+● built target encrypted_zip_artifact [0.25 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -149,308 +151,336 @@ Encrypting archive...
  -> Checking: Turretfield2024_GermDatesInput.csv 
 ======================================================================
 
-● built target manual_pheno_params [0.2 seconds]
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'grainSize_10_raw'
- -> Target Var    : 'Wheat.Grain.Size'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'grainNumber_10_raw'
- -> Target Var    : 'Wheat.Grain.Number'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'grainYield_10_raw'
- -> Target Var    : 'Wheat.Grain.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stemYield_8_raw'
- -> Target Var    : 'Wheat.Stem.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stemYield_10_raw'
- -> Target Var    : 'Wheat.Stem.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'spikeYield_8_raw'
- -> Target Var    : 'Wheat.Spike.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'spikeYield_10_raw'
- -> Target Var    : 'Wheat.Spike.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'senescLeafYield_8_raw'
- -> Target Var    : 'Wheat.Leaf.Dead.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'senescLeafYield_10_raw'
- -> Target Var    : 'Wheat.Leaf.Dead.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'greenLeaf_8_raw'
- -> Target Var    : 'Wheat.Leaf.Live.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'totalAboveGround_8_raw'
- -> Target Var    : 'Wheat.AboveGround.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'totalAboveGround_10_raw'
- -> Target Var    : 'Wheat.AboveGround.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'plant_population_m2'
- -> Target Var    : '[Wheat].Leaf.StemPopulation'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leaf_8_Nconc'
- -> Target Var    : 'Wheat.Leaf.Live.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leaf_8_WSCc'
- -> Target Var    : 'Wheat.Leaf.Live.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leafDead_8_Nconc'
- -> Target Var    : 'Wheat.Leaf.Dead.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leafDead_8_WSCc'
- -> Target Var    : 'Wheat.Leaf.Dead.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stem_8_Nconc'
- -> Target Var    : 'Wheat.Stem.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stem_8_WSCc'
- -> Target Var    : 'Wheat.Stem.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'spike_8_Nconc'
- -> Target Var    : 'Wheat.Spike.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'spike_8_WSCc'
- -> Target Var    : 'Wheat.Spike.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leafDead_10_Nconc'
- -> Target Var    : 'Wheat.Leaf.Dead.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'leafDead_10_WSCc'
- -> Target Var    : 'Wheat.Leaf.Dead.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stem_10_Nconc'
- -> Target Var    : 'Wheat.Stem.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'stem_10_WSCc'
- -> Target Var    : 'Wheat.Stem.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'height_8_raw'
- -> Target Var    : 'Wheat.Leaf.Height'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'plant_population_m2'
- -> Target Var    : '[Wheat].Leaf.StemPopulation'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'earYield_8_raw'
- -> Target Var    : 'Wheat.Ear.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
-
-============================================================
- 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
-============================================================
- -> df_name       : 'earYield_10_raw'
- -> Target Var    : 'Wheat.Ear.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
-------------------------------------------------------------
-
+▶ start target manual_pheno_params
+● built target manual_pheno_params [0.25 seconds]
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [5.36 seconds]
-▶ start target msg_met_saved
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'grainSize_10_raw'
+ -> Target Var     : 'Wheat.Grain.Size'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'grainSize_10_raw' ('Wheat.Grain.Size'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'grainNumber_10_raw'
+ -> Target Var     : 'Wheat.Grain.Number'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'grainNumber_10_raw' ('Wheat.Grain.Number'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'grainYield_10_raw'
+ -> Target Var     : 'Wheat.Grain.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'grainYield_10_raw' ('Wheat.Grain.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stemYield_8_raw'
+ -> Target Var     : 'Wheat.Stem.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stemYield_8_raw' ('Wheat.Stem.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stemYield_10_raw'
+ -> Target Var     : 'Wheat.Stem.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stemYield_10_raw' ('Wheat.Stem.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'spikeYield_8_raw'
+ -> Target Var     : 'Wheat.Spike.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spikeYield_8_raw' ('Wheat.Spike.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'spikeYield_10_raw'
+ -> Target Var     : 'Wheat.Spike.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spikeYield_10_raw' ('Wheat.Spike.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'senescLeafYield_8_raw'
+ -> Target Var     : 'Wheat.Leaf.Dead.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'senescLeafYield_8_raw' ('Wheat.Leaf.Dead.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'senescLeafYield_10_raw'
+ -> Target Var     : 'Wheat.Leaf.Dead.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'senescLeafYield_10_raw' ('Wheat.Leaf.Dead.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'greenLeaf_8_raw'
+ -> Target Var     : 'Wheat.Leaf.Live.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'greenLeaf_8_raw' ('Wheat.Leaf.Live.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'totalAboveGround_8_raw'
+ -> Target Var     : 'Wheat.AboveGround.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'totalAboveGround_8_raw' ('Wheat.AboveGround.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'totalAboveGround_10_raw'
+ -> Target Var     : 'Wheat.AboveGround.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'totalAboveGround_10_raw' ('Wheat.AboveGround.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'plant_population_m2'
+ -> Target Var     : '[Wheat].Leaf.StemPopulation'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'plant_population_m2' ('[Wheat].Leaf.StemPopulation'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leaf_8_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Live.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_8_Nconc' ('Wheat.Leaf.Live.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leaf_8_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Live.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_8_WSCc' ('Wheat.Leaf.Live.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leafDead_8_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Dead.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_8_Nconc' ('Wheat.Leaf.Dead.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leafDead_8_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Dead.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_8_WSCc' ('Wheat.Leaf.Dead.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stem_8_Nconc'
+ -> Target Var     : 'Wheat.Stem.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_8_Nconc' ('Wheat.Stem.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stem_8_WSCc'
+ -> Target Var     : 'Wheat.Stem.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_8_WSCc' ('Wheat.Stem.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'spike_8_Nconc'
+ -> Target Var     : 'Wheat.Spike.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_8_Nconc' ('Wheat.Spike.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'spike_8_WSCc'
+ -> Target Var     : 'Wheat.Spike.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_8_WSCc' ('Wheat.Spike.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leafDead_10_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Dead.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_10_Nconc' ('Wheat.Leaf.Dead.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'leafDead_10_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Dead.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_10_WSCc' ('Wheat.Leaf.Dead.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stem_10_Nconc'
+ -> Target Var     : 'Wheat.Stem.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_10_Nconc' ('Wheat.Stem.NConc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'stem_10_WSCc'
+ -> Target Var     : 'Wheat.Stem.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_10_WSCc' ('Wheat.Stem.WSCc'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'height_8_raw'
+ -> Target Var     : 'Wheat.Leaf.Height'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'height_8_raw' ('Wheat.Leaf.Height'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'plant_population_m2'
+ -> Target Var     : '[Wheat].Leaf.StemPopulation'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'plant_population_m2' ('[Wheat].Leaf.StemPopulation'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'earYield_8_raw'
+ -> Target Var     : 'Wheat.Ear.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_8_raw' ('Wheat.Ear.Wt'): 64 row(s) have NA/blank dates requiring patching.
+
+============================================================
+ 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
+============================================================
+ -> df_name        : 'earYield_10_raw'
+ -> Target Var     : 'Wheat.Ear.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
+------------------------------------------------------------
+
+[Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_10_raw' ('Wheat.Ear.Wt'): 64 row(s) have NA/blank dates requiring patching.
+● built target list_observed_dfs_raw [5.5 seconds]
 Building APSIM .met file: Turretfield2024.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
-● built target msg_met_saved [0.02 seconds]
-▶ start target raw_soil_tracker
-● built target raw_soil_tracker [0.01 seconds]
+▶ start target msg_met_saved
+● built target msg_met_saved [0.01 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -461,9 +491,11 @@ Building APSIM .met file: Turretfield2024.met
  -> Action        : Converted raw counts to 0-100% scale per SimulationName
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
+▶ start target raw_soil_tracker
+● built target raw_soil_tracker [0 seconds]
 ▶ start target list_observed_dfs_raw_plus_emerg
-● built target list_observed_dfs_raw_plus_emerg [0.03 seconds]
-▶ start target list_observed_dfs_fix
+● built target list_observed_dfs_raw_plus_emerg [0.04 seconds]
 
 ======================================================================
  ⚠️ APPROXIMATE SAMPLE DATES APPLIED ⚠️
@@ -580,7 +612,8 @@ Warning:
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-● built target list_observed_dfs_fix [0.15 seconds]
+▶ start target list_observed_dfs_fix
+● built target list_observed_dfs_fix [0.16 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -625,13 +658,14 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.06 seconds]
+● built target df_pheno_haun [0.07 seconds]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target final_apsim_observed
-● built target final_apsim_observed [0.15 seconds]
+● built target final_apsim_observed [0.16 seconds]
 ✅ Successfully extracted 3 target dataframes.
+[Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
 ▶ start target list_pcds_extracted
-● built target list_pcds_extracted [0.02 seconds]
+● built target list_pcds_extracted [0.03 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -641,10 +675,10 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 ============================================================
 
 ▶ start target df_obs_plus_hi
-● built target df_obs_plus_hi [0.04 seconds]
+● built target df_obs_plus_hi [0.05 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.08 seconds]
+● built target df_pheno_raw [0.09 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -663,12 +697,12 @@ Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% prog
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+[Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_plus_hi_amounts
-● built target df_obs_plus_hi_amounts [0.08 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+● built target df_obs_plus_hi_amounts [0.1 seconds]
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.04 seconds]
-▶ start target df_obs_plus_hi_amounts_harv
+Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+● built target df_pheno_int [0.03 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -678,7 +712,8 @@ Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milesto
  -> STATUS       : All reference variables share the exact same harvest date.
 ------------------------------------------------------------
 
-● built target df_obs_plus_hi_amounts_harv [0.06 seconds]
+▶ start target df_obs_plus_hi_amounts_harv
+● built target df_obs_plus_hi_amounts_harv [0.08 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -725,22 +760,24 @@ Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milesto
 
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 95 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.07 seconds]
+● built target df_pheno_final [0.08 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
 ----------------------------------------------------------------------
  The following phenology stages contained no data (100% NA) across all
  simulations and were safely removed from the final APSIM output:
-   - [Wheat].Phenology.GrainFilling.DateToProgress
+    - [Wheat].Phenology.GrainFilling.DateToProgress
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | PHENOLOGY | Pruned 1 empty phenology stage column(s) (100% NA): [[Wheat].Phenology.GrainFilling.DateToProgress]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
+[Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
 ▶ start target df_pheno_input_param
 ● built target df_pheno_input_param [0.05 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 95 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_hi_amounts_harv_pheno
-● built target df_obs_plus_hi_amounts_harv_pheno [0.3 seconds]
+● built target df_obs_plus_hi_amounts_harv_pheno [0.32 seconds]
 
 ========================================================
 === PHENOLOGY MATRIX ADJUSTMENTS (TEMPORARY FIXES) ===
@@ -752,27 +789,27 @@ Success [add_new_var_to_obs]: Appended and collapsed 95 events into master obser
 ========================================================
 
 ▶ start target df_pheno_input_param_temp
-● built target df_pheno_input_param_temp [0.08 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target df_pheno_input_param_temp [0.06 seconds]
 ▶ start target qc_obs_final
+[Q-FLAG] | WARN | QC | Entirely empty columns detected: [[Wheat].Leaf.StemPopulation]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ● built target qc_obs_final [0.05 seconds]
+▶ start target qc_pheno_integrity
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
-▶ start target qc_pheno_integrity
-● built target qc_pheno_integrity [0.01 seconds]
+● built target qc_pheno_integrity [0.02 seconds]
 ✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
 ▶ start target msg_obs_saved
 ● built target msg_obs_saved [0.15 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
-▶ start target validation_biomass_sums
+● built target haun_input_checked [0.05 seconds]
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
 ======================================================================
  Target Reference Variable : Wheat.AboveGround.Wt
- Component Fractions       : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold     : > 5%
+ Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
  Flagged Observations      : 9 row(s) out of 475
 ----------------------------------------------------------------------
 
@@ -811,7 +848,9 @@ Success [add_new_var_to_obs]: Appended and collapsed 95 events into master obser
  Action Required: Please inspect the component variables for the rows above.
 ======================================================================
 
-● built target validation_biomass_sums [0.02 seconds]
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 9 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
+▶ start target validation_biomass_sums
+● built target validation_biomass_sums [0.03 seconds]
 ▶ start target exported_pop_csv
 
 ----------------------------------------------------------------------
@@ -821,14 +860,13 @@ Success [add_new_var_to_obs]: Appended and collapsed 95 events into master obser
 ----------------------------------------------------------------------
 💾 Success: Exported 0 valid rows and 2 columns.
 ● built target exported_pop_csv [0.03 seconds]
-▶ start target validation_ear_sums
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
 ======================================================================
  Target Reference Variable : Wheat.Ear.Wt
- Component Fractions       : Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold     : > 5%
+ Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
  Flagged Observations      : 16 row(s) out of 475
 ----------------------------------------------------------------------
 
@@ -871,14 +909,16 @@ Success [add_new_var_to_obs]: Appended and collapsed 95 events into master obser
  Action Required: Please inspect the component variables for the rows above.
 ======================================================================
 
-● built target validation_ear_sums [0 seconds]
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
+▶ start target validation_ear_sums
+● built target validation_ear_sums [0.02 seconds]
 ▶ start target msg_pheno_param_saved
 ● built target msg_pheno_param_saved [0 seconds]
-▶ start target verify_dependencies
 ✅ Pre-flight check passed: All required APSIM dependencies found.
+▶ start target verify_dependencies
 ● built target verify_dependencies [0 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
 ● built target verify_data_backup [0.02 seconds]
-▶ end pipeline [10.82 seconds]
+▶ end pipeline [11.12 seconds]
 There were 12 warnings (use warnings() to see them)

@@ -2,7 +2,7 @@
 title: "Simulation Pipeline Quality Control"
 subtitle: "Winter vs Spring Wheat Cultivars"
 date: today
-author: Edmar Teixeira
+author: BSI-PFR
 format: 
   html:
     theme: flatly
@@ -101,11 +101,11 @@ df_sim_metadata <- df_sims %>%
 head(df_sim_metadata)
 ```
 
-### Simulation metadata
+#### Simulation metadata
 
+These are factors associated with each **SimulationName** 
 
 ```{r}
-
 #| label: Define-directories
 #| results: asis
 #| include: false
@@ -220,7 +220,6 @@ head(df_combined_haun_param)
 
 
 ```{r}
-
 #| label: Clean-data-haun
 #| message: false
 #| warning: false
@@ -247,7 +246,6 @@ if(nrow(missing_cultivars) > 0) {
 
 
 ```{r}
-
 #| label: show-data-haun
 #| message: false
 #| warning: false
@@ -560,34 +558,6 @@ ggplotly(p)
 
 ### 4. Phenology data
 
-
-```{r}
-#| label: Get-data-pheno
-
-target_to_pull <- "df_pheno_input_param" 
-
-# Apply function across all dirs and bind rows
-df_combined_pheno_param <- map_dfr(pipeline_dirs, pull_regional_data)
-
-head(df_combined_pheno_param)
-
-df_final <- df_combined_pheno_param %>%
-   dplyr::select(-Experiment)  %>%
-  left_join(sim_name_lookup_table, by = "SimulationName") %>%
-  mutate(
-    Cultivar = factor(Cultivar), 
-    Experiment = factor(Experiment)
-  ) %>%
-  # dmy automatically parses "08-Oct-2024" perfectly
-  mutate(across(contains("DateToProgress"), dmy)) %>%
-  dplyr::select(-SimulationName)
-
-#head(df_final)
-
-#summary(df_final)
-
-```
-
 ```{r}
 #| label: tbl-pheno-summary
 #| tbl-cap: "Ranges of dates for each Experiment and Pheno-Stage"
@@ -658,13 +628,19 @@ kable(
 )
 ```
 
-
+The full progression of observed and estimated pheno stages is shown in @fig-graph-pheno.
 
 ```{r}
-#| label: plot-phenology
+#| label: fig-graph-pheno
+#| fig-cap: "Timeline of phenological stages for each Cultivar and Experiment."
+#| echo: false
 #| message: false
-#| warning: false
-#| column: page
+
+# 0. Define the lookup table mapping stages to their data sources
+stage_source_map <- data.frame(
+  Stage = c("Emerging", "LeavesInitiating", "SpikeletsDifferentiating", "StemElongating", "Heading", "Flowering", "GrainFilling"),
+  Source = c("DataRaw", "HaunCalc", "HaunCalc", "DataRaw", "InterpCalc", "DataRaw", "DataRaw")
+)
 
 # 1. Extract the chronological order directly from the original dataframe's columns
 stage_levels <- df_final %>%
@@ -672,7 +648,7 @@ stage_levels <- df_final %>%
   names() %>%
   str_remove_all("\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress")
 
-# 2. Reshape the data from wide to long
+# 2. Reshape the data from wide to long and join the source metadata
 df_pheno_long <- df_final %>%
   pivot_longer(
     cols = contains("DateToProgress"),
@@ -684,19 +660,23 @@ df_pheno_long <- df_final %>%
     Stage = str_remove_all(Stage, "\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress"),
     # Convert Stage to a factor and lock in the chronological order we extracted above!
     Stage = factor(Stage, levels = stage_levels)
-  )
+  ) %>%
+  left_join(stage_source_map, by = "Stage") %>%
+  # Fallback if any stage name doesn't match the map
+  mutate(Source = coalesce(Source, "Unknown"))
 
-# 3. Build the ggplot
+# 3. Build the ggplot (Mapping Source to shape)
 p_pheno <- ggplot(df_pheno_long, aes(
     x = Date, 
     y = Cultivar, 
     color = Stage,
-    text = paste("Cultivar:", Cultivar, "<br>Stage:", Stage, "<br>Date:", format(Date, "%d-%b"))
+    shape = Source,
+    text = paste("Cultivar:", Cultivar, "<br>Stage:", Stage, "<br>Date:", format(Date, "%d-%b"), "<br>Source:", Source)
   )) +
-  geom_point(size = 1.5, alpha = 0.8) +
+  geom_point(size = 2, alpha = 0.85) +
   
   # Allow each facet to have its own unique x-axis range
- facet_wrap(~ Experiment, scales = "free_x", ncol = 2) +
+  facet_wrap(~ Experiment, scales = "free_x", ncol = 2) +
   
   # Format the x-axis to show dd-MMM (e.g., 08-Oct)
   scale_x_date(date_labels = "%d-%b") +
@@ -706,21 +686,24 @@ p_pheno <- ggplot(df_pheno_long, aes(
     title = "Phenological Progress by Cultivar",
     x = "Date",
     y = "Cultivar",
-    color = "Phenological Stage"
+    color = "Phenological Stage",
+    shape = "Data Source"
   ) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = "bottom" 
   )
 
-# 4. Convert to an interactive plotly graph
 # 4. Convert to an interactive plotly graph with EXPLICIT dimensions
 ggplotly(p_pheno, tooltip = "text", height = 1200) %>%
   layout(
-    legend = list(orientation = "h", y = -0.05),
-    margin = list(b = 80) # Adds extra padding at the bottom so the legend isn't cut off
+    legend = list(orientation = "h", y = -0.1),
+    margin = list(b = 100) # Adds extra padding at the bottom so the expanded legend isn't cut off
   )
 ```
+
+
+
 
 
 ## 5. Management data

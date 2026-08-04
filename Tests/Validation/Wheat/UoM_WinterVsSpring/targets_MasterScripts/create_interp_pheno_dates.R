@@ -90,5 +90,12 @@ create_interp_pheno_dates <- function(df_raw, btwStgPerc) {
   message(sprintf("Success [create_interp_pheno_dates]: Linearly generated %d missing micro-milestone rows (Stages 4/7).", 
                   nrow(df_interp_long)))
   
+  # ---> NEW: Machine-readable Q-Flag for Linear Phenology Interpolation
+  log_qflag(
+    severity = "INFO", 
+    category = "PHENOLOGY", 
+    message = sprintf("Linear interpolation (Step 2): successfully generated %d intermediate micro-milestone row(s) for Stages 4 and 7 using fractional progress %.2f.", nrow(df_interp_long), btwStgPerc)
+  )
+  
   return(df_interp_long)
 }

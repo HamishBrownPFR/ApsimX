@@ -86,7 +86,7 @@ get_pheno_dates_from_pcd_list <- function(list_pcds, target_perc = 50) {
     warning_box <- c(
       "",
       "======================================================================",
-      "  ⚠️  WARNING: PHENOLOGY STAGES DID NOT REACH TARGET THRESHOLD  ⚠️",
+      "   ⚠️  WARNING: PHENOLOGY STAGES DID NOT REACH TARGET THRESHOLD  ⚠️",
       "======================================================================",
       sprintf(" Target Threshold Required: %.0f%%", target_perc),
       " The following simulations ended before the stage was fully reached:\n"
@@ -99,9 +99,9 @@ get_pheno_dates_from_pcd_list <- function(list_pcds, target_perc = 50) {
       max_d <- format(df_failures$MaxDate[i], "%Y-%m-%d")
       
       if (max_p == 0) {
-        msg <- sprintf("   -> [FAILED - NA]    '%s' | Stage: '%s' | Peaked at 0%%. Dropped from output.", sim, src)
+        msg <- sprintf("    -> [FAILED - NA]    '%s' | Stage: '%s' | Peaked at 0%%. Dropped from output.", sim, src)
       } else {
-        msg <- sprintf("   -> [FORCED - LATE]  '%s' | Stage: '%s' | Peaked at %.1f%%. Forced to final date (%s).", 
+        msg <- sprintf("    -> [FORCED - LATE]  '%s' | Stage: '%s' | Peaked at %.1f%%. Forced to final date (%s).", 
                        sim, src, max_p, max_d)
       }
       warning_box <- c(warning_box, msg)
@@ -109,6 +109,14 @@ get_pheno_dates_from_pcd_list <- function(list_pcds, target_perc = 50) {
     
     warning_box <- c(warning_box, "======================================================================", "")
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Incomplete Phenology Stages
+    log_qflag(
+      severity = "WARN", 
+      category = "PHENOLOGY", 
+      message = sprintf("Phenology stage target threshold failed for %d simulation/stage record(s): fallback assumptions applied.", nrow(df_failures))
+    )
+    
     warning("Some phenology stages failed to reach the target threshold and required fallback assumptions. See console.", call. = FALSE)
   }
   

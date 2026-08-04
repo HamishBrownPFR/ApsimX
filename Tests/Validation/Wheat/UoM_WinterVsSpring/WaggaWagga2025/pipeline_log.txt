@@ -20,15 +20,16 @@ The following objects are masked from 'package:base':
 📖 Reading soil data from: 2025_WaggaWagga_PHDA25WARI2.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
-   -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
-   -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 62.
-   -> Column 'Total Carb' found 4 times. Safely extracted Index 170.
-   -> Column 'Sand' found 3 times, but ALL instances appear empty. Defaulted to Index 63.
+    -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
+    -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 62.
+    -> Column 'Total Carb' found 4 times. Safely extracted Index 170.
+    -> Column 'Sand' found 3 times, but ALL instances appear empty. Defaulted to Index 63.
 ------------------------------------------------
+[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coar, Sand Fine, Gravel (>2m, Sand]
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2025_soil_profile_data.csv'
 ● built target tracked_raw_excel [0 seconds]
 ▶ start target soil_profile_data
-● built target soil_profile_data [1.22 seconds]
+● built target soil_profile_data [1.25 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -141,6 +142,7 @@ $vars_stage_8
 [36m•[39m `` -> `...7`
 [36m•[39m `` -> `...8`
 [36m•[39m `` -> `...9`
+[Q-FLAG] | INFO | WEATHER | Missing optional weather variable(s) in '2025_WaggaWagga_PHDA25WARI2.xlsx': [VP, ET]
 
 =======================================================
  WEATHER DATA CREATION LOG: 2025_WaggaWagga_PHDA25WARI2.xlsx
@@ -151,12 +153,13 @@ $vars_stage_8
   [✓] RAIN  -> 'Rain (mm)'
   [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
+[Q-FLAG] | INFO | WEATHER | Successfully processed weather file '2025_WaggaWagga_PHDA25WARI2.xlsx' with 4 mapped column(s).
 ▶ start target processed_met_data
-● built target processed_met_data [0.28 seconds]
+● built target processed_met_data [0.25 seconds]
+▶ start target soil_water_data
 📖 Reading soil data from: 2025_WaggaWagga_PHDA25WARI2.xlsx (Sheet: Soil Characterisation)
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2025_soil_water_data.csv'
-▶ start target soil_water_data
-● built target soil_water_data [0.2 seconds]
+● built target soil_water_data [0.15 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -166,7 +169,8 @@ $vars_stage_8
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.22 seconds]
+● built target manual_pheno_params [0.2 seconds]
+▶ start target list_observed_dfs_raw
 
 ======================================================================
  ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
@@ -178,8 +182,7 @@ $vars_stage_8
  Action: Skipping this extraction. The pipeline will continue.
 ======================================================================
 
-▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [4.11 seconds]
+● built target list_observed_dfs_raw [4.03 seconds]
 ▶ start target msg_met_saved
 Building APSIM .met file: WaggaWagga2025.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
@@ -197,6 +200,7 @@ Building APSIM .met file: WaggaWagga2025.met
  -> Action        : Converted raw counts to 0-100% scale per SimulationName
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
 ▶ start target list_observed_dfs
 ● built target list_observed_dfs [0.03 seconds]
 
@@ -243,16 +247,17 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.11 seconds]
+● built target df_pheno_haun [0.06 seconds]
 ✅ Successfully extracted 3 target dataframes.
+[Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
 ▶ start target list_pcds_extracted
-● built target list_pcds_extracted [0 seconds]
+● built target list_pcds_extracted [0.01 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 ▶ start target df_pheno_raw
 ● built target df_pheno_raw [0.08 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.05 seconds]
+● built target df_pheno_int [0.03 seconds]
 
 [!] NOTICE: Contrasting Dates Detected for Identical Stages
     Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
@@ -292,10 +297,40 @@ Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milesto
 16 2025-06-23 vs 2025-07-18  Haun vs Int
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.09 seconds]
+● built target df_pheno_final [0.08 seconds]
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'stemYield_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'stemYield_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'spikeYield_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'spikeYield_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'senescLeafYield_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'senescLeafYield_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'greenLeaf_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'greenLeaf_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'totalAboveGround_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'totalAboveGround_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'par_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'par_8_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'leaf_6_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'leaf_6_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'leafDead_6_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'leafDead_6_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'stem_6_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'stem_6_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'spike_6_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'spike_6_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'leaf_8_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'leaf_8_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'leafDead_8_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'leafDead_8_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'stem_8_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'stem_8_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'spike_8_Nconc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'spike_8_WSCc': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6, Wagga25) for 'earYield_6_raw': injected phenology timeline, patching 16 row(s).
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8, Wagga25) for 'earYield_8_raw': injected phenology timeline, patching 16 row(s).
 Success: Applied Wagga 2025 specific data corrections.
 ▶ start target list_observed_clean
-● built target list_observed_clean [0.14 seconds]
+● built target list_observed_clean [0.22 seconds]
 ▶ start target df_pheno_input_param
 
 ----------------------------------------------------------------------
@@ -303,24 +338,26 @@ Success: Applied Wagga 2025 specific data corrections.
 ----------------------------------------------------------------------
  The following phenology stages contained no data (100% NA) across all
  simulations and were safely removed from the final APSIM output:
-   - [Wheat].Phenology.GrainFilling.DateToProgress
+    - [Wheat].Phenology.GrainFilling.DateToProgress
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | PHENOLOGY | Pruned 1 empty phenology stage column(s) (100% NA): [[Wheat].Phenology.GrainFilling.DateToProgress]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
-● built target df_pheno_input_param [0.05 seconds]
+[Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
+● built target df_pheno_input_param [0.04 seconds]
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
-● built target df_obs_wide [0.17 seconds]
+● built target df_obs_wide [0.19 seconds]
+▶ start target qc_pheno_integrity
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
-▶ start target qc_pheno_integrity
 ● built target qc_pheno_integrity [0.02 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 96 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_wide_plus_pheno
-● built target df_obs_wide_plus_pheno [0.25 seconds]
+● built target df_obs_wide_plus_pheno [0.24 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.02 seconds]
+● built target msg_pheno_param_saved [0 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -330,8 +367,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ============================================================
 
 ▶ start target df_obs_wide_plus_pheno_hi
-● built target df_obs_wide_plus_pheno_hi [0.04 seconds]
-▶ start target df_obs_wide_plus_pheno_hi_with_amounts
+● built target df_obs_wide_plus_pheno_hi [0.06 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -350,7 +386,10 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+[Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
+▶ start target df_obs_wide_plus_pheno_hi_with_amounts
 ● built target df_obs_wide_plus_pheno_hi_with_amounts [0.09 seconds]
+▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike
 
 ============================================================
  ✅  RANGE CHECK PASSED: WHEAT.SPIKE.HEADNUMBER ✅ 
@@ -358,7 +397,6 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
  -> LIMITS       : 100 to 1000
  -> STATUS       : All calculated values are within boundaries.
 ------------------------------------------------------------
-▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike
 ● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike [0.03 seconds]
 
 ============================================================
@@ -373,20 +411,19 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_harv [0.07 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
-● built target qc_obs_final [0.07 seconds]
+● built target qc_obs_final [0.05 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.03 seconds]
+● built target haun_input_checked [0.05 seconds]
 Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2025_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.18 seconds]
-▶ start target validation_biomass_sums
+● built target msg_obs_saved [0.15 seconds]
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
 ======================================================================
  Target Reference Variable : Wheat.AboveGround.Wt
- Component Fractions       : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold     : > 5%
+ Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
  Flagged Observations      : 16 row(s) out of 517
 ----------------------------------------------------------------------
 
@@ -446,7 +483,9 @@ Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validat
  Action Required: Please inspect the component variables for the rows above.
 ======================================================================
 
-● built target validation_biomass_sums [0.02 seconds]
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
+▶ start target validation_biomass_sums
+● built target validation_biomass_sums [0.03 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: WaggaWagga2025_population.csv
@@ -461,8 +500,8 @@ Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validat
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
 ======================================================================
  Target Reference Variable : Wheat.Ear.Wt
- Component Fractions       : Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold     : > 5%
+ Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
  Flagged Observations      : 16 row(s) out of 517
 ----------------------------------------------------------------------
 
@@ -505,20 +544,21 @@ Success [save_df_to_excel]: Exported 517 rows to 'C:/github/ApsimX/Tests/Validat
  Action Required: Please inspect the component variables for the rows above.
 ======================================================================
 
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
 ▶ start target validation_ear_sums
-● built target validation_ear_sums [0 seconds]
+● built target validation_ear_sums [0.01 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-▶ start target check_depend
 ✅ Pre-flight check passed: All required APSIM dependencies found.
-● built target check_depend [0.01 seconds]
+▶ start target check_depend
+● built target check_depend [0.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.27 seconds]
+● built target encrypted_zip_artifact [0.25 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.01 seconds]
+● built target verify_data_backup [0.02 seconds]
 ▶ end pipeline [9.75 seconds]
 Warning messages:
 1: 

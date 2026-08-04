@@ -21,7 +21,7 @@ apply_corrections_Grass25 <- function(df_obs) {
   
   if (affected_rows > 0) {
     message("\n", strrep("=", 60))
-    message(" \u26A0\uFE0F  DATA CORRECTION APPLIED: SIMULATION NAME OVERRIDE \u26A0\uFE0F ")
+    message(" ⚠️  DATA CORRECTION APPLIED: SIMULATION NAME OVERRIDE ⚠️ ")
     message(strrep("=", 60))
     message(sprintf(" -> TARGET FOUND : '%s'", target_name))
     message(sprintf(" -> ACTION       : Renamed to '%s'", new_name))
@@ -33,6 +33,13 @@ apply_corrections_Grass25 <- function(df_obs) {
       dplyr::mutate(
         SimulationName = ifelse(SimulationName == target_name, new_name, SimulationName)
       )
+    
+    # ---> NEW: Machine-readable Q-Flag for Simulation Name Override (Grass25)
+    log_qflag(
+      severity = "WARN", 
+      category = "DATA MODIFIED", 
+      message = sprintf("Simulation name override (Grass25): renamed '%s' to '%s' (%d rows updated).", target_name, new_name, affected_rows)
+    )
   }
   
   # ------------------------------------------------------------------
@@ -55,7 +62,7 @@ apply_corrections_Grass25 <- function(df_obs) {
   # Sound the alarm if any nutrient columns had to be converted
   if (length(adjusted_cols) > 0) {
     message("\n", strrep("=", 60))
-    message(" \u26A0\uFE0F  DATA CORRECTION APPLIED: NUTRIENT CONVERSION \u26A0\uFE0F ")
+    message(" ⚠️  DATA CORRECTION APPLIED: NUTRIENT CONVERSION ⚠️ ")
     message(strrep("=", 60))
     message(" -> TRIGGER      : Values > 1 detected (assumed percentage format).")
     message(" -> ACTION       : Divided by 100 to force fractional format (g/g).")
@@ -64,6 +71,13 @@ apply_corrections_Grass25 <- function(df_obs) {
       message(sprintf("      - %s", col))
     }
     message(strrep("-", 60), "\n")
+    
+    # ---> NEW: Machine-readable Q-Flag for Nutrient Concentration Conversion (Grass25)
+    log_qflag(
+      severity = "WARN", 
+      category = "DATA MODIFIED", 
+      message = sprintf("Nutrient conversion (Grass25): converted %d column(s) from percentage to fraction space: [%s]", length(adjusted_cols), paste(adjusted_cols, collapse = ", "))
+    )
   }
   
   return(df_obs)

@@ -61,6 +61,13 @@ merge_and_qc_pheno <- function(df_raw, df_haun, df_int) {
     message("\n[!] NOTICE: Contrasting Dates Detected for Identical Stages")
     message("    Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:")
     print(as.data.frame(conflicts))
+    
+    # ---> NEW: Machine-readable Q-Flag for Hierarchy Conflict Resolution
+    log_qflag(
+      severity = "WARN", 
+      category = "PHENOLOGY", 
+      message = sprintf("Hierarchy conflict resolution: contrasting dates detected for identical stages across %d simulation(s). Truth hierarchy applied.", nrow(conflicts))
+    )
   }
   
   # Apply the Truth Hierarchy: Keep only the row with the lowest Priority score (1 is best)
@@ -136,6 +143,13 @@ merge_and_qc_pheno <- function(df_raw, df_haun, df_int) {
       message(" -> ", log_msg)
     }
     message("=========================================================================================\n")
+    
+    # ---> NEW: Machine-readable Q-Flag for Chronological Timeline Inversions
+    log_qflag(
+      severity = "WARN", 
+      category = "PHENOLOGY", 
+      message = sprintf("Chronological timeline inversions detected: %d inversion(s) corrected via hierarchy logic.", length(all_chrono_logs))
+    )
   }
   
   # ---- 4. CLEANUP AND FINAL INTERFACE ALIGNMENT ----

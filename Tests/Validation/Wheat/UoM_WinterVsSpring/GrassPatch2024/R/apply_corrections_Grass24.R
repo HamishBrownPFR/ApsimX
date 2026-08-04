@@ -61,5 +61,12 @@ apply_corrections_Grass24 <- function(df_obs) {
   message(sprintf("Success [apply_corrections_Grass24]: Normalized %d WSCc concentration variable(s) to dry-weight fractions:\n -> Affected: (%s)", 
                   length(wsc_cols), paste(wsc_cols, collapse = ", ")))
   
+  # ---> NEW: Machine-readable Q-Flag for WSCc Unit Normalization (Grass24)
+  log_qflag(
+    severity = "INFO", 
+    category = "DATA MODIFIED", 
+    message = sprintf("Structural unit normalization (Grass24): converted %d WSCc concentration variable(s) from percentage to fraction space: [%s]", length(wsc_cols), paste(wsc_cols, collapse = ", "))
+  )
+  
   return(df_corrected)
 }
