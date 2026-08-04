@@ -3284,7 +3284,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 50.0,
+              "FixedValue": 64.0,
               "Units": null,
               "Name": "BasePhyllochron",
               "ResourceName": null,
@@ -5298,165 +5298,113 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.PhaseLookup, Models",
+              "$type": "Models.Functions.PhaseLookupValue, Models",
+              "Start": "Emergence",
+              "End": "TerminalNode",
               "Name": "Phyllochron",
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "Emergence",
-                  "End": "FloralInitiation",
-                  "Name": "EarlyVegetative",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "Phyllochron",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.MultiplyFunction, Models",
-                      "Name": "Phyllochron",
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].BasePhyllochron",
+                      "Name": "BasePhyllochron",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                      "Name": "Shape",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Leaf].BasePhyllochron",
-                          "Name": "BasePhyllochron",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.SubtractFunction, Models",
-                          "Name": "EarlyLeafResponse",
+                          "$type": "Models.Functions.XYPairs, Models",
+                          "X": [
+                            0.0,
+                            7.0,
+                            9.0,
+                            14.0,
+                            16.0,
+                            25.0
+                          ],
+                          "Y": [
+                            0.4,
+                            0.4,
+                            1.0,
+                            1.0,
+                            0.7,
+                            0.7
+                          ],
+                          "Name": "XYPairs",
                           "ResourceName": null,
                           "Children": [
                             {
-                              "$type": "Models.Functions.Constant, Models",
-                              "FixedValue": 1.0,
-                              "Units": null,
-                              "Name": "One",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.MultiplyFunction, Models",
-                              "Name": "Decrease",
+                              "$type": "Models.Graph, Models",
+                              "Caption": null,
+                              "Axis": [
+                                {
+                                  "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                                  "Title": "Y",
+                                  "Position": 0,
+                                  "Inverted": false,
+                                  "CrossesAtZero": false,
+                                  "LabelOnOneLine": false,
+                                  "Minimum": null,
+                                  "Maximum": null,
+                                  "Interval": null
+                                },
+                                {
+                                  "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                                  "Title": "X",
+                                  "Position": 3,
+                                  "Inverted": false,
+                                  "CrossesAtZero": false,
+                                  "LabelOnOneLine": false,
+                                  "Minimum": null,
+                                  "Maximum": null,
+                                  "Interval": null
+                                }
+                              ],
+                              "LegendPosition": 5,
+                              "LegendOrientation": 0,
+                              "AnnotationLocation": 0,
+                              "DisabledSeries": [],
+                              "LegendOutsideGraph": false,
+                              "Name": "Graph",
                               "ResourceName": null,
                               "Children": [
                                 {
-                                  "$type": "Models.Functions.Constant, Models",
-                                  "FixedValue": 0.3,
-                                  "Units": null,
-                                  "Name": "Size",
+                                  "$type": "Models.Series, Models",
+                                  "Type": 1,
+                                  "XAxis": 3,
+                                  "YAxis": 0,
+                                  "ColourArgb": -65536,
+                                  "FactorToVaryColours": null,
+                                  "FactorToVaryMarkers": null,
+                                  "FactorToVaryLines": null,
+                                  "Marker": 11,
+                                  "MarkerSize": 0,
+                                  "Line": 0,
+                                  "LineThickness": 0,
+                                  "TableName": null,
+                                  "XFieldName": ".Simulations.Replacements.LentilHold.Leaf.SpecificArea.XYPairs.X",
+                                  "YFieldName": ".Simulations.Replacements.LentilHold.Leaf.SpecificArea.XYPairs.Y",
+                                  "X2FieldName": null,
+                                  "Y2FieldName": null,
+                                  "ShowInLegend": false,
+                                  "IncludeSeriesNameInLegend": false,
+                                  "Cumulative": false,
+                                  "CumulativeX": false,
+                                  "Filter": null,
+                                  "Name": "Series",
                                   "ResourceName": null,
                                   "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                },
-                                {
-                                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                  "Name": "Shape",
-                                  "ResourceName": null,
-                                  "Children": [
-                                    {
-                                      "$type": "Models.Functions.XYPairs, Models",
-                                      "X": [
-                                        0.0,
-                                        4.0,
-                                        6.0,
-                                        9.0
-                                      ],
-                                      "Y": [
-                                        0.0,
-                                        0.0,
-                                        1.0,
-                                        1.0
-                                      ],
-                                      "Name": "XYPairs",
-                                      "ResourceName": null,
-                                      "Children": [
-                                        {
-                                          "$type": "Models.Graph, Models",
-                                          "Caption": null,
-                                          "Axis": [
-                                            {
-                                              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                                              "Title": "Y",
-                                              "Position": 0,
-                                              "Inverted": false,
-                                              "CrossesAtZero": false,
-                                              "LabelOnOneLine": false,
-                                              "Minimum": null,
-                                              "Maximum": null,
-                                              "Interval": null
-                                            },
-                                            {
-                                              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                                              "Title": "X",
-                                              "Position": 3,
-                                              "Inverted": false,
-                                              "CrossesAtZero": false,
-                                              "LabelOnOneLine": false,
-                                              "Minimum": null,
-                                              "Maximum": null,
-                                              "Interval": null
-                                            }
-                                          ],
-                                          "LegendPosition": 5,
-                                          "LegendOrientation": 0,
-                                          "AnnotationLocation": 0,
-                                          "DisabledSeries": [],
-                                          "LegendOutsideGraph": false,
-                                          "Name": "Graph",
-                                          "ResourceName": null,
-                                          "Children": [
-                                            {
-                                              "$type": "Models.Series, Models",
-                                              "Type": 1,
-                                              "XAxis": 3,
-                                              "YAxis": 0,
-                                              "ColourArgb": -65536,
-                                              "FactorToVaryColours": null,
-                                              "FactorToVaryMarkers": null,
-                                              "FactorToVaryLines": null,
-                                              "Marker": 11,
-                                              "MarkerSize": 0,
-                                              "Line": 0,
-                                              "LineThickness": 0,
-                                              "TableName": null,
-                                              "XFieldName": ".Simulations.Replacements.LentilHold.Leaf.SpecificArea.XYPairs.X",
-                                              "YFieldName": ".Simulations.Replacements.LentilHold.Leaf.SpecificArea.XYPairs.Y",
-                                              "X2FieldName": null,
-                                              "Y2FieldName": null,
-                                              "ShowInLegend": false,
-                                              "IncludeSeriesNameInLegend": false,
-                                              "Cumulative": false,
-                                              "CumulativeX": false,
-                                              "Filter": null,
-                                              "Name": "Series",
-                                              "ResourceName": null,
-                                              "Children": [],
-                                              "Enabled": true,
-                                              "ReadOnly": false
-                                            }
-                                          ],
-                                          "Enabled": true,
-                                          "ReadOnly": false
-                                        }
-                                      ],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    },
-                                    {
-                                      "$type": "Models.Functions.VariableReference, Models",
-                                      "VariableName": "[Leaf].NodeNumber",
-                                      "Name": "XValue",
-                                      "ResourceName": null,
-                                      "Children": [],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    }
-                                  ],
                                   "Enabled": true,
                                   "ReadOnly": false
                                 }
@@ -5467,71 +5415,15 @@
                           ],
                           "Enabled": true,
                           "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "FloralInitiation",
-                  "End": "FirstBudsVisiable",
-                  "Name": "LateVegetative",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Functions.AddFunction, Models",
-                      "Name": "Phyllochron",
-                      "ResourceName": null,
-                      "Children": [
+                        },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Leaf].BasePhyllochron",
-                          "Name": "BasePhyllochron",
+                          "VariableName": "[Leaf].NodeNumber",
+                          "Name": "XValue",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
                           "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.MultiplyFunction, Models",
-                          "Name": "ShortDayRetardation",
-                          "ResourceName": null,
-                          "Children": [
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Leaf].BasePhyllochron",
-                              "Name": "BasePhyllochron",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].PpResponse.PpResponseDaily",
-                              "Name": "PpFactor",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].InductivePpSensitivity",
-                              "Name": "PpSensitivity",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            }
-                          ],
-                          "Enabled": true,
-                          "ReadOnly": false
                         }
                       ],
                       "Enabled": true,
@@ -5539,102 +5431,6 @@
                     }
                   ],
                   "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "FirstBudsVisiable",
-                  "End": "HarvestRipe",
-                  "Name": "EarlyReproductive",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Functions.AddFunction, Models",
-                      "Name": "Phyllochron",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Leaf].BasePhyllochron",
-                          "Name": "BasePhyllochron",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.MultiplyFunction, Models",
-                          "Name": "ShortDayRetardation",
-                          "ResourceName": null,
-                          "Children": [
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Leaf].BasePhyllochron",
-                              "Name": "BasePhyllochron",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].PpResponse.PpResponseDaily",
-                              "Name": "PpFactor",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[Phenology].InductivePpSensitivity",
-                              "Name": "PpSensitivity",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.Constant, Models",
-                              "FixedValue": 2.0,
-                              "Units": null,
-                              "Name": "AdditionalRetardation",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            }
-                          ],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "TerminalNode",
-                  "End": "HarvestRipe",
-                  "Name": "LateReproductive",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.0,
-                      "Units": null,
-                      "Name": "Constant",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": false,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": false,
                   "ReadOnly": false
                 }
               ],
@@ -10733,9 +10529,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 125",
                 "[Phenology].TtPodDevelopment.FixedValue = 165",
                 "[Phenology].MinFloralNodes.FixedValue = 10",
-                "[Phenology].PpFloralNodes.FixedValue = 1",
-                "[Leaf].BasePhyllochron.FixedValue = 54",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.0"
+                "[Phenology].PpFloralNodes.FixedValue = 1"
               ],
               "Name": "Ace",
               "ResourceName": null,
@@ -10767,9 +10561,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 60",
                 "[Phenology].TtPodDevelopment.FixedValue = 145",
                 "[Phenology].MinFloralNodes.FixedValue = 8",
-                "[Phenology].PpFloralNodes.FixedValue = 1",
-                "[Leaf].BasePhyllochron.FixedValue = 64",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.6"
+                "[Phenology].PpFloralNodes.FixedValue = 1"
               ],
               "Name": "Blitz",
               "ResourceName": null,
@@ -10786,9 +10578,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 185",
                 "[Phenology].TtPodDevelopment.FixedValue = 95",
                 "[Phenology].MinFloralNodes.FixedValue = 12",
-                "[Phenology].PpFloralNodes.FixedValue = 0",
-                "[Leaf].BasePhyllochron.FixedValue = 65",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.8"
+                "[Phenology].PpFloralNodes.FixedValue = 0"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10910,9 +10700,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 165",
                 "[Phenology].TtPodDevelopment.FixedValue = 100",
                 "[Phenology].MinFloralNodes.FixedValue = 4",
-                "[Phenology].PpFloralNodes.FixedValue = 33",
-                "[Leaf].BasePhyllochron.FixedValue = 69",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.8"
+                "[Phenology].PpFloralNodes.FixedValue = 33"
               ],
               "Name": "Greenfield",
               "ResourceName": null,
@@ -10929,9 +10717,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 155",
                 "[Phenology].TtPodDevelopment.FixedValue = 210",
                 "[Phenology].MinFloralNodes.FixedValue = 14",
-                "[Phenology].PpFloralNodes.FixedValue = 0",
-                "[Leaf].BasePhyllochron.FixedValue = 55",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.0"
+                "[Phenology].PpFloralNodes.FixedValue = 0"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10993,9 +10779,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 130",
                 "[Phenology].TtPodDevelopment.FixedValue = 165",
                 "[Phenology].MinFloralNodes.FixedValue = 7",
-                "[Phenology].PpFloralNodes.FixedValue = 17",
-                "[Leaf].BasePhyllochron.FixedValue = 61",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.8"
+                "[Phenology].PpFloralNodes.FixedValue = 17"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -11012,9 +10796,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140",
                 "[Phenology].TtPodDevelopment.FixedValue = 170",
                 "[Phenology].MinFloralNodes.FixedValue = 0",
-                "[Phenology].PpFloralNodes.FixedValue = 60",
-                "[Leaf].BasePhyllochron.FixedValue = 48",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.2"
+                "[Phenology].PpFloralNodes.FixedValue = 60"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
@@ -11076,9 +10858,7 @@
                 "[Phenology].TtFlowerDevelopment.FixedValue = 135",
                 "[Phenology].TtPodDevelopment.FixedValue = 180",
                 "[Phenology].MinFloralNodes.FixedValue = 5",
-                "[Phenology].PpFloralNodes.FixedValue = 13",
-                "[Leaf].BasePhyllochron.FixedValue = 67",
-                "[Leaf].Phyllochron.EarlyVegetative.Phyllochron.EarlyLeafResponse.Decrease.Size.FixedValue = 0.8"
+                "[Phenology].PpFloralNodes.FixedValue = 13"
               ],
               "Name": "Nugget",
               "ResourceName": null,
