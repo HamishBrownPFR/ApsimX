@@ -109,9 +109,9 @@ read_soil_data <- function(folder, file, sheet, vars_to_extract,
           }
         }
         if (data_found) {
-          duplicate_logs <- c(duplicate_logs, sprintf("   -> Column '%s' found %d times. Safely extracted Index %d.", tgt_clean, length(matches), best_match))
+          duplicate_logs <- c(duplicate_logs, sprintf("    -> Column '%s' found %d times. Safely extracted Index %d.", tgt_clean, length(matches), best_match))
         } else {
-          duplicate_logs <- c(duplicate_logs, sprintf("   -> Column '%s' found %d times, but ALL instances appear empty. Defaulted to Index %d.", tgt_clean, length(matches), best_match))
+          duplicate_logs <- c(duplicate_logs, sprintf("    -> Column '%s' found %d times, but ALL instances appear empty. Defaulted to Index %d.", tgt_clean, length(matches), best_match))
         }
       }
       resolved_indices <- c(resolved_indices, best_match)
@@ -123,6 +123,13 @@ read_soil_data <- function(folder, file, sheet, vars_to_extract,
   # 3. FATAL ALARMS & INTERVENTION LOGS
   # ---------------------------------------------------------
   if (length(missing_depth_cols) > 0) {
+    # ---> NEW: Machine-readable Q-Flag for Missing Depth Columns
+    log_qflag(
+      severity = "FATAL", 
+      category = "SOIL DATA", 
+      message = sprintf("Essential depth columns are missing: [%s]", paste(missing_depth_cols, collapse = ", "))
+    )
+    
     stop(sprintf("\n🚨 FATAL ERROR: Essential depth columns are missing: [%s]\n", paste(missing_depth_cols, collapse = ", ")), call. = FALSE)
   }
   
@@ -195,6 +202,22 @@ read_soil_data <- function(folder, file, sheet, vars_to_extract,
       ""
     )
     warning(paste(warning_box, collapse = "\n"), call. = FALSE)
+    
+    # ---> NEW: Machine-readable Q-Flag for Missing or Empty Soil Variables
+    if (length(missing_var_cols) > 0) {
+      log_qflag(
+        severity = "WARN", 
+        category = "SOIL DATA", 
+        message = sprintf("Missing soil variable(s) not found in Excel: [%s]", paste(missing_var_cols, collapse = ", "))
+      )
+    }
+    if (length(empty_var_cols) > 0) {
+      log_qflag(
+        severity = "WARN", 
+        category = "SOIL DATA", 
+        message = sprintf("Empty soil variable(s) (100%% NA): [%s]", paste(empty_var_cols, collapse = ", "))
+      )
+    }
   }
   
   # ---------------------------------------------------------

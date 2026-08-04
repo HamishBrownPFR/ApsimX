@@ -62,6 +62,13 @@ check_manual_params <- function(folder, filename, df_active_sims) {
     param_df <- dplyr::bind_rows(param_df, new_rows)
     readr::write_csv(param_df, file_path)
     
+    # ---> NEW: Machine-readable Q-Flag for Auto-Appended Simulations
+    log_qflag(
+      severity = "WARN", 
+      category = "MANUAL PARAMS", 
+      message = sprintf("Auto-appended %d new simulation(s) to manual parameter file with default values.", length(missing_sims))
+    )
+    
     warning("New simulations were automatically added to the manual parameter file. Please review the defaults in Excel!", call. = FALSE)
   }
   
@@ -77,11 +84,27 @@ check_manual_params <- function(folder, filename, df_active_sims) {
   
   if (any(violations$phyllo_err)) {
     bad_p <- violations$SimulationName[violations$phyllo_err]
+    
+    # ---> NEW: Machine-readable Q-Flag for Phyllochron Range Outliers
+    log_qflag(
+      severity = "WARN", 
+      category = "MANUAL PARAMS", 
+      message = sprintf("Phyllochron out of range (80-120) for %d simulation(s): [%s]", length(bad_p), paste(bad_p, collapse = ", "))
+    )
+    
     warning("❌ Phyllochron out of range (80-120) for: ", paste(bad_p, collapse = ", "), call. = FALSE)
   }
   
   if (any(violations$sensit_err)) {
     bad_s <- violations$SimulationName[violations$sensit_err]
+    
+    # ---> NEW: Machine-readable Q-Flag for PpSensitivity Range Outliers
+    log_qflag(
+      severity = "WARN", 
+      category = "MANUAL PARAMS", 
+      message = sprintf("PpSensitivity out of range (0-0.6) for %d simulation(s): [%s]", length(bad_s), paste(bad_s, collapse = ", "))
+    )
+    
     warning("❌ PpSensitivity out of range (0-0.6) for: ", paste(bad_s, collapse = ", "), call. = FALSE)
   }
   

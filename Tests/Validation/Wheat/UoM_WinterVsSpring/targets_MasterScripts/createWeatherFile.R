@@ -60,8 +60,16 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
   
   # Trigger actual warning for targets pipeline tracking
   if (length(missing_vars) > 0) {
-    warning(sprintf("Missing optional weather variables in '%s': %s", 
-                    thisExcelFile, paste(toupper(missing_vars), collapse = ", ")), call. = FALSE)
+    warning_msg <- sprintf("Missing optional weather variables in '%s': %s", 
+                           thisExcelFile, paste(toupper(missing_vars), collapse = ", "))
+    warning(warning_msg, call. = FALSE)
+    
+    # ---> NEW: Machine-readable Q-Flag for Missing Optional Weather Variables
+    log_qflag(
+      severity = "INFO", 
+      category = "WEATHER", 
+      message = sprintf("Missing optional weather variable(s) in '%s': [%s]", thisExcelFile, paste(toupper(missing_vars), collapse = ", "))
+    )
   }
   
   # ------------------------------------------------------------------
@@ -81,6 +89,13 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
   }
   log_msg <- c(log_msg, "=======================================================", "")
   cat(paste(log_msg, collapse = "\n"))
+  
+  # ---> NEW: Machine-readable Q-Flag for Successful Weather Mapping
+  log_qflag(
+    severity = "INFO", 
+    category = "WEATHER", 
+    message = sprintf("Successfully processed weather file '%s' with %d mapped column(s).", thisExcelFile, length(col_map))
+  )
   
   # ------------------------------------------------------------------
   # 4. DATA CLEANING, COERCION & DATE BULLETPROOFING
@@ -167,14 +182,30 @@ createWeatherFile <- function(thisFolder, thisExcelFile, thisSheet) {
     outliers <- sum(vals < limits[1] | vals > limits[2], na.rm = TRUE)
     
     if (outliers > 0) {
-      warning(sprintf("QA/QC FLAG: '%s' has %d values outside acceptable range [%s, %s] in %s", 
-                      var, outliers, limits[1], limits[2], thisExcelFile), call. = FALSE)
+      warning_msg <- sprintf("QA/QC FLAG: '%s' has %d values outside acceptable range [%s, %s] in %s", 
+                             var, outliers, limits[1], limits[2], thisExcelFile)
+      warning(warning_msg, call. = FALSE)
+      
+      # ---> NEW: Machine-readable Q-Flag for Weather Outliers
+      log_qflag(
+        severity = "WARN", 
+        category = "WEATHER QAQC", 
+        message = sprintf("Weather outlier detected: '%s' has %d value(s) outside range [%s, %s] in %s.", var, outliers, limits[1], limits[2], thisExcelFile)
+      )
     }
   }
   
   if (any(met_out$mint > met_out$maxt, na.rm = TRUE)) {
     bad_temps <- sum(met_out$mint > met_out$maxt, na.rm = TRUE)
-    warning(sprintf("QA/QC FLAG: Found %d days where Min Temp > Max Temp in %s!", bad_temps, thisExcelFile), call. = FALSE)
+    warning_msg <- sprintf("QA/QC FLAG: Found %d days where Min Temp > Max Temp in %s!", bad_temps, thisExcelFile)
+    warning(warning_msg, call. = FALSE)
+    
+    # ---> NEW: Machine-readable Q-Flag for Temperature Inversion (Min > Max)
+    log_qflag(
+      severity = "WARN", 
+      category = "WEATHER QAQC", 
+      message = sprintf("Temperature inversion detected: Found %d day(s) where Min Temp > Max Temp in %s.", bad_temps, thisExcelFile)
+    )
   }
   
   return(list(

@@ -71,8 +71,8 @@ check_sums <- function(df, ref_var, comp_vars, tolerance = 5) {
       " \u26A0\uFE0F  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED \u26A0\uFE0F \n",
       "======================================================================\n",
       sprintf(" Target Reference Variable : %s\n", ref_var),
-      sprintf(" Component Fractions       : %s\n", paste(comp_vars, collapse = " + ")),
-      sprintf(" Discrepancy Threshold     : > %g%%\n", tolerance),
+      sprintf(" Component Fractions        : %s\n", paste(comp_vars, collapse = " + ")),
+      sprintf(" Discrepancy Threshold      : > %g%%\n", tolerance),
       sprintf(" Flagged Observations      : %d row(s) out of %d\n", flagged_count, nrow(df)),
       "----------------------------------------------------------------------\n\n"
     ))
@@ -85,6 +85,13 @@ check_sums <- function(df, ref_var, comp_vars, tolerance = 5) {
       " Action Required: Please inspect the component variables for the rows above.\n",
       "======================================================================\n\n"
     ))
+    
+    # ---> NEW: Machine-readable Q-Flag for Mass Balance Discrepancy
+    log_qflag(
+      severity = "WARN", 
+      category = "MASS BALANCE", 
+      message = sprintf("Mass balance audit failed: %d row(s) exceeded %g%% variance for '%s'.", flagged_count, tolerance, ref_var)
+    )
     
     # Official targets warning log
     warning(

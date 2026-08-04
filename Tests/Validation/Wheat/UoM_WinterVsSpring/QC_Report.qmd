@@ -866,7 +866,7 @@ reactable(
 ```
 
 
-### 6. Pipeline log warnings
+## 6. Pipeline log warnings
 
 Please **CHECK CARFULLY** these messages (@tbl-pipeline-health) and then the full **pipeline_log.txt** at the Experiment folder
 

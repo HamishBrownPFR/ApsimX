@@ -108,10 +108,18 @@ check_pheno_manual_parameters <- function(folder_name, proj_name, sim_names_df) 
         "",
         "🚨 FATAL ERROR: NON-NUMERIC DATA IN PHENOLOGY PARAMETERS 🚨",
         "The following columns contain text/letters instead of numbers:",
-        paste("   -", bad_numeric_cols),
+        paste("    -", bad_numeric_cols),
         sprintf(" -> File to fix: %s", file_pheno),
         "Please fix these in Excel before continuing."
       )
+      
+      # ---> NEW: Machine-readable Q-Flag for Non-Numeric Phenology Data
+      log_qflag(
+        severity = "FATAL", 
+        category = "MANUAL PARAMS", 
+        message = sprintf("Non-numeric data found in %d constant phenology column(s): [%s]", length(bad_numeric_cols), paste(bad_numeric_cols, collapse = ", "))
+      )
+      
       stop(paste(stop_msg, collapse = "\n"), call. = FALSE)
     }
   }
@@ -164,11 +172,19 @@ check_pheno_manual_parameters <- function(folder_name, proj_name, sim_names_df) 
           "🚨 FATAL ERROR: INVALID DATE FORMAT IN GERMINATION FILE 🚨",
           "APSIM strictly requires dates in the format 'dd-MMM-yyyy' (e.g., 15-May-2024).",
           "The following invalid entries were found:",
-          paste("   -", head(bad_dates, 5)),
+          paste("    -", head(bad_dates, 5)),
           if (length(bad_dates) > 5) "...and more.",
           sprintf(" -> File to fix: %s", file_germ),
           "Please fix these in Excel before continuing."
         )
+        
+        # ---> NEW: Machine-readable Q-Flag for Invalid Date Format
+        log_qflag(
+          severity = "FATAL", 
+          category = "MANUAL PARAMS", 
+          message = sprintf("Invalid date format in germination file: %d invalid entry(ies) found (expected 'dd-MMM-yyyy').", length(bad_dates))
+        )
+        
         stop(paste(stop_msg, collapse = "\n"), call. = FALSE)
       }
     }

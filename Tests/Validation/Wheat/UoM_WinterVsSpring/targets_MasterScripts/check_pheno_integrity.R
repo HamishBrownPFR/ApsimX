@@ -81,6 +81,14 @@ check_pheno_integrity <- function(df_pheno, expected_sims) {
       ""
     )
     message(paste(error_msg, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Phenology Integrity Failure
+    log_qflag(
+      severity = "FATAL", 
+      category = "PHENOLOGY", 
+      message = sprintf("Phenology integrity gatekeeper failed: %d missing row(s) and/or missing date value(s) detected.", length(missing_sims))
+    )
+    
     stop("Pipeline Halted: Phenology Matrix Integrity Check Failed.", call. = FALSE)
   }
 }
