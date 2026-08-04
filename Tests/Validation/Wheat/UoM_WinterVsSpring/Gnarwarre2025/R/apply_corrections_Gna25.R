@@ -90,6 +90,13 @@ apply_corrections_Gna25 <- function(df) {
       
       message(paste(apsim_warning, collapse = "\n"))
       
+      # ---> NEW: Machine-readable Q-Flag for Name Mismatch
+      log_qflag(
+        severity = "CRITICAL", 
+        category = "NAMES", 
+        message = "Simulation name mismatch between raw data and .apsimx. Pipeline forcibly renamed them."
+      )
+      
       correction_logs <- c(
         correction_logs, 
         " -> RENAMED   : 'SimulationName' strings swapped (See Critical Alarm above)"
@@ -111,6 +118,14 @@ apply_corrections_Gna25 <- function(df) {
       ""
     )
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for structural changes
+    log_qflag(
+      severity = "WARN", 
+      category = "DATA MODIFIED", 
+      message = "Tailored structural corrections applied (e.g., cm to mm, dropped columns)."
+    )
+    
     warning("Tailored structural corrections were applied. See console for details.", call. = FALSE)
   }
   

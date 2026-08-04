@@ -81,6 +81,13 @@ rename_rescale_obs_vars <- function(df_obs, mapping_csv_path = NULL) {
   }
   cat("----------------------------------------------------------------------\n")
   
+  # ---> NEW: Machine-readable Q-Flag for Remapping
+  log_qflag(
+    severity = "INFO", 
+    category = "DATA MODIFIED", 
+    message = sprintf("Remapped %d variable names to APSIM standards.", nrow(active_map))
+  )
+  
   # ---- 4. EXECUTE RESCALING ----
   scale_map <- active_map[active_map$ScaleBy != 1, ]
   
@@ -105,6 +112,13 @@ rename_rescale_obs_vars <- function(df_obs, mapping_csv_path = NULL) {
       }
     }
     cat("----------------------------------------------------------------------\n")
+    
+    # ---> NEW: Machine-readable Q-Flag for Scaling
+    log_qflag(
+      severity = "INFO", 
+      category = "DATA MODIFIED", 
+      message = sprintf("Scaled %d numeric column(s) based on CSV dictionary multipliers.", nrow(scale_map))
+    )
   }
   
   return(df_processed)

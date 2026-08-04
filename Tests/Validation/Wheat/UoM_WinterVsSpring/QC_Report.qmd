@@ -589,9 +589,10 @@ df_final <- df_combined_pheno_param %>%
 ```
 
 ```{r}
-#| label: Get-data-pheno2
+#| label: tbl-pheno-summary
+#| tbl-cap: "Ranges of dates for each Experiment and Pheno-Stage"
 #| message: false
-#| warning: false
+#| echo: false
 
 library(dplyr)
 library(purrr)
@@ -652,7 +653,7 @@ df_pheno_summary <- df_final %>%
 # 4. Print as a nicely formatted HTML table in the report
 kable(
   df_pheno_summary, 
-  caption = "**Table X: Phenological Phase Date Ranges by Experiment (Pooled across Cultivars)**",
+  #caption = "",
   align = c("l", "l", "c", "c")
 )
 ```
@@ -863,3 +864,292 @@ reactable(
   )
 )
 ```
+
+```{r}
+#| label: parse-pipeline-logs
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(stringr)
+library(purrr)
+library(readr)
+library(reactable)
+library(htmltools)
+
+# Function to parse a single log file
+extract_log_issues <- function(log_path) {
+  # Read all lines from the log file
+  log_text <- readLines(log_path, warn = FALSE)
+  
+  # 1. Extract the Experiment Name
+  proj_idx <- which(str_detect(log_text, "\\$proj_name"))
+  experiment_name <- if (length(proj_idx) > 0) {
+    str_extract(log_text[proj_idx + 1], '(?<=").*?(?=")')
+  } else {
+    basename(log_path)
+  }
+  
+  # 2. Create an empty tibble to store issues
+  issues <- tibble(
+    Experiment = character(),
+    Category = character(),
+    Message = character()
+  )
+  
+  # --- SCANNING FOR SPECIFIC ALARMS ---
+  
+  # A. Fatal Nutrient Data Mismatch
+  if (any(str_detect(log_text, "FATAL LAB DATA MISMATCH DETECTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, 
+      Category = "🚨 FATAL", 
+      Message = "Nutrient mass/conc mismatch detected. Check nutrient calc logs."
+    )
+  }
+  
+  # B. Mass Balance Failures (Extracting the specific warning strings at the bottom)
+  mass_lines <- log_text[str_detect(log_text, "Mass balance audit failed:")]
+  if (length(mass_lines) > 0) {
+    for (line in unique(mass_lines)) {
+      # Clean up the "7: " or "8: " prefix from the warnings list
+      clean_msg <- str_trim(str_remove(line, "^\\d+:\\s*"))
+      issues <- issues %>% add_row(
+        Experiment = experiment_name, 
+        Category = "⚠️ MASS BALANCE", 
+        Message = clean_msg
+      )
+    }
+  }
+  
+  # C. Phenology Thresholds Forced
+  if (any(str_detect(log_text, "PHENOLOGY STAGES DID NOT REACH TARGET THRESHOLD"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, 
+      Category = "⚠️ PHENOLOGY", 
+      Message = "Some stages failed to reach the 50% target and were forced to final date."
+    )
+  }
+  
+  # D. Manual Overrides (Biological Impossibility)
+  if (any(str_detect(log_text, "BIOLOGICAL IMPOSSIBILITY FIXED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, 
+      Category = "🚨 OVERRIDE", 
+      Message = "Emergence occurred before sowing. Forced to sowing date."
+    )
+  }
+  
+  # E. Auto-corrected Date Typos
+  if (any(str_detect(log_text, "RAW DATE TYPOS AUTO-CORRECTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, 
+      Category = "⚠️ DATES", 
+      Message = "Historical date typos (e.g., 2020) found and auto-corrected to target year."
+    )
+  }
+  
+  # F. Missing Orphaned Dates
+  if (any(str_detect(log_text, "MISSING DATE ALARM: ORPHANED DATA"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, 
+      Category = "⚠️ DATES", 
+      Message = "Rows found with NA dates. Required downstream patching."
+    )
+  }
+
+  return(issues)
+}
+```
+
+```{r}
+#| label: tbl-pipeline-health
+#| tbl-cap: "Pipeline Execution Health & Warnings Summary"
+#| message: false
+#| echo: false
+#| warning: false
+
+library(dplyr)
+library(stringr)
+library(purrr)
+library(readr)
+library(reactable)
+library(htmltools)
+
+# 1. Define the parsing function
+extract_log_issues <- function(log_path) {
+  log_text <- readLines(log_path, warn = FALSE)
+  
+  # Extract the Experiment Name from the log, fallback to folder name if missing
+  proj_idx <- which(str_detect(log_text, "\\$proj_name"))
+  experiment_name <- if (length(proj_idx) > 0) {
+    str_extract(log_text[proj_idx + 1], '(?<=").*?(?=")')
+  } else {
+    basename(dirname(log_path)) 
+  }
+  
+  issues <- tibble(
+    Experiment = character(),
+    Category = character(),
+    Message = character()
+  )
+  
+  # ==========================================
+  # 🚨 CRITICAL & FATAL ALARMS
+  # ==========================================
+  
+  if (any(str_detect(log_text, "FATAL LAB DATA MISMATCH DETECTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "🚨 FATAL", 
+      Message = "Nutrient mass/conc mismatch detected. Check nutrient calc logs."
+    )
+  }
+  
+  if (any(str_detect(log_text, "APSIM-X SIMULATION NAME MISMATCH DETECTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "🚨 CRITICAL", 
+      Message = "Simulation name mismatch between raw data and .apsimx. Pipeline forcibly renamed them."
+    )
+  }
+  
+  # ==========================================
+  # ⚠️ DATA DISCREPANCIES & AUDITS
+  # ==========================================
+  
+  # Mass Balance failures at the bottom of the log
+  mass_lines <- log_text[str_detect(log_text, "Mass balance audit failed:")]
+  if (length(mass_lines) > 0) {
+    for (line in unique(mass_lines)) {
+      clean_msg <- str_trim(str_remove(line, "^\\d+:\\s*"))
+      issues <- issues %>% add_row(
+        Experiment = experiment_name, Category = "⚠️ MASS BALANCE", Message = clean_msg
+      )
+    }
+  }
+  
+  # QC Warnings at the bottom of the log (Catches NA columns and Negative values)
+  qc_lines <- log_text[str_detect(log_text, "QC WARNING:")]
+  if (length(qc_lines) > 0) {
+    for (line in unique(qc_lines)) {
+      clean_msg <- str_trim(str_remove(line, "^\\d+:\\s*"))
+      issues <- issues %>% add_row(
+        Experiment = experiment_name, Category = "⚠️ QC WARNING", Message = clean_msg
+      )
+    }
+  }
+  
+  # Asynchronous Harvest Index / Dates
+  if (any(str_detect(log_text, "ASYNCHRONOUS DATE DISCREPANCY DETECTED|ASYNCHRONOUS HARVEST INDEX"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "⚠️ HI DISCREPANCY", 
+      Message = "Asynchronous Harvest Index: HI was calculated using maximum values from DIFFERENT DATES."
+    )
+  }
+  
+  # ==========================================
+  # 🔄 PIPELINE INTERVENTIONS & FIXES
+  # ==========================================
+  
+  if (any(str_detect(log_text, "TAILORED CORRECTIONS APPLIED|VARIABLES REMAPPED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "🔄 DATA MODIFIED", 
+      Message = "Variables were remapped or tailored structural corrections were applied (e.g., cm to mm, dropped columns)."
+    )
+  }
+  
+  if (any(str_detect(log_text, "MISSING DATES IMPUTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "🔄 IMPUTED", 
+      Message = "Missing phenology dates (Tier 2) were imputed using group averages."
+    )
+  }
+  
+  if (any(str_detect(log_text, "EAR MASS VARIABLE INITIALIZED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "⚙️ ACTION", 
+      Message = "Wheat.Ear.Wt was initialized via a 1:1 copy from Wheat.Spike.Wt."
+    )
+  }
+  
+  # Phenology forcing
+  if (any(str_detect(log_text, "PHENOLOGY STAGES DID NOT REACH TARGET THRESHOLD"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "⚠️ PHENOLOGY", 
+      Message = "Some stages failed to reach the 50% target and were forced to final date."
+    )
+  }
+  
+  # Biological overrides
+  if (any(str_detect(log_text, "BIOLOGICAL IMPOSSIBILITY FIXED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "🚨 OVERRIDE", 
+      Message = "Emergence occurred before sowing. Forced to sowing date."
+    )
+  }
+  
+  # Missing orphaned dates
+  if (any(str_detect(log_text, "MISSING DATE ALARM: ORPHANED DATA"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "⚠️ DATES", 
+      Message = "Rows found with NA dates. Required downstream patching."
+    )
+  }
+  
+  # Date typos autocorrected
+  if (any(str_detect(log_text, "RAW DATE TYPOS AUTO-CORRECTED"))) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "⚠️ DATES", 
+      Message = "Historical date typos (e.g., 2020) found and auto-corrected to target year."
+    )
+  }
+
+  # ==========================================
+  # ✅ FALLBACK (Clean run)
+  # ==========================================
+  
+  if (nrow(issues) == 0) {
+    issues <- issues %>% add_row(
+      Experiment = experiment_name, Category = "✅ PASS", 
+      Message = "No critical warnings or interventions detected."
+    )
+  }
+
+  return(issues)
+}
+
+# 2. Define locations
+base_dir <- "C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring"
+pipeline_dirs <- c(
+  "Dookie2024", "Dookie2025", "Fords2025", 
+  "Gnarwarre2024", "Gnarwarre2025", "GrassPatch2024", 
+  "GrassPatch2025", "Turretfield2024", "WaggaWagga2024", "WaggaWagga2025"
+)
+
+# 3. Build paths and filter to only those that exist
+log_files <- file.path(base_dir, pipeline_dirs, "pipeline_log.txt")
+valid_log_files <- log_files[file.exists(log_files)]
+
+# 4. Extract issues and bind into one master dataframe
+df_pipeline_health <- map_dfr(valid_log_files, extract_log_issues)
+
+# 5. Render the grouped interactive table
+reactable(
+  df_pipeline_health,
+  searchable = TRUE,
+  filterable = TRUE,
+  groupBy = "Experiment", 
+  striped = TRUE,
+  compact = TRUE,
+  defaultColDef = colDef(minWidth = 150),
+  columns = list(
+    Experiment = colDef(minWidth = 200, name = "Experiment / Pipeline"),
+    Category = colDef(
+      minWidth = 150, 
+      name = "Severity Level",
+      align = "center"
+    ),
+    Message = colDef(minWidth = 400, name = "Action Item / Description")
+  )
+)
+```
+
