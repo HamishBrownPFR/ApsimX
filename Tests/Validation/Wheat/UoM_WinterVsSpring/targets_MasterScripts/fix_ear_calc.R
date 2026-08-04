@@ -40,5 +40,12 @@ fix_ear_calc <- function(df_obs_wide, ear_orig_var_name, ear_new_var_name) {
   )
   message(paste(log_msg, collapse = "\n"))
   
+  # ---> NEW: Machine-readable Q-Flag for Ear Mass Initialization
+  log_qflag(
+    severity = "INFO", 
+    category = "DATA MODIFIED", 
+    message = sprintf("Ear mass variable initialized: '%s' copied to '%s' (Phase 1 Pass-through).", ear_orig_var_name, ear_new_var_name)
+  )
+  
   return(df_out)
 }

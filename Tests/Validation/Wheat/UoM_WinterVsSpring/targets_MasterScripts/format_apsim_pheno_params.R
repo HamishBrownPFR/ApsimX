@@ -43,16 +43,24 @@ format_apsim_pheno_params <- function(df_pheno_final) {
     warning_box <- c(
       "",
       "======================================================================",
-      "  ⚠️  CRITICAL: FINAL EXPORT CHRONOLOGY ERROR DETECTED ⚠️ ",
+      "   ⚠️  CRITICAL: FINAL EXPORT CHRONOLOGY ERROR DETECTED ⚠️ ",
       "======================================================================",
       " The following SimulationNames have non-sequential dates in the final",
       " export buffer (a later stage is dated before an earlier stage):",
-      paste("   -", bad_sims),
+      paste("    -", bad_sims),
       "======================================================================",
       " Action Required: Review Step 4 (merge_and_qc_pheno) execution logs.",
       ""
     )
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Chronology Error
+    log_qflag(
+      severity = "CRITICAL", 
+      category = "PHENOLOGY", 
+      message = sprintf("Final export chronology error detected in %d simulation(s): non-sequential dates found.", length(bad_sims))
+    )
+    
     warning("Export buffer contains chronological inversions. See console.", call. = FALSE)
   }
   
@@ -115,11 +123,18 @@ format_apsim_pheno_params <- function(df_pheno_final) {
       "----------------------------------------------------------------------",
       " The following phenology stages contained no data (100% NA) across all",
       " simulations and were safely removed from the final APSIM output:",
-      paste("   -", empty_cols),
+      paste("    -", empty_cols),
       "----------------------------------------------------------------------",
       ""
     )
     message(paste(log_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Pruned Empty Columns
+    log_qflag(
+      severity = "INFO", 
+      category = "PHENOLOGY", 
+      message = sprintf("Pruned %d empty phenology stage column(s) (100%% NA): [%s]", length(empty_cols), paste(empty_cols, collapse = ", "))
+    )
   }
   
   # Sort the remaining columns back into strict physiological order
@@ -148,6 +163,13 @@ format_apsim_pheno_params <- function(df_pheno_final) {
   # ---- 6. PIPELINE COMPLETION NOTIFICATION ----
   message(sprintf("Success [format_apsim_pheno_params]: Translated %d simulations into wide APSIM parameter format.", 
                   nrow(df_export)))
+  
+  # ---> NEW: Machine-readable Q-Flag for Successful Wide Format Translation
+  log_qflag(
+    severity = "INFO", 
+    category = "PHENOLOGY", 
+    message = sprintf("Translated %d simulations into wide APSIM parameter format.", nrow(df_export))
+  )
   
   return(df_export)
 }

@@ -34,7 +34,7 @@ calc_nutrient_absolute_amounts <- function(df,
   diagnostic_logs <- data.frame() 
   
   cat("\n------------------------------------------------------------\n")
-  cat(" \U0001F9EA NUTRIENT AGGREGATION & QC CHECK\n")
+  cat(" 🧪 NUTRIENT AGGREGATION & QC CHECK\n")
   cat("------------------------------------------------------------\n")
   
   # ---- 1. DYNAMIC EXPLICIT CROSS-MULTIPLICATION ----
@@ -57,7 +57,7 @@ calc_nutrient_absolute_amounts <- function(df,
       df_out[[conc_col]] <- suppressWarnings(as.numeric(as.character(df_out[[conc_col]])))
       
       if (all(is.na(df_out[[conc_col]]))) {
-        message(sprintf("   [!] Notice: '%s' is 100%% missing/empty in this dataset. Safely bypassing.", conc_col))
+        message(sprintf("    [!] Notice: '%s' is 100%% missing/empty in this dataset. Safely bypassing.", conc_col))
       }
       
       # 1A: Smart calculation (Strict NA preservation for individual organs!)
@@ -147,6 +147,14 @@ calc_nutrient_absolute_amounts <- function(df,
         "\n"
       )
       message(paste(big_alert_box, collapse = "\n"))
+      
+      # ---> NEW: Machine-readable Q-Flag for Fatal Nutrient Mismatch
+      log_qflag(
+        severity = "FATAL", 
+        category = "NUTRIENTS", 
+        message = sprintf("Fatal lab data mismatch: %d instance(s) found where organs had Mass but no Conc (or vice versa).", nrow(fatal_errors))
+      )
+      
     } else {
       message(sprintf("💾 Success: Derived %d pools. No FATAL errors detected.", total_calcs))
     }
