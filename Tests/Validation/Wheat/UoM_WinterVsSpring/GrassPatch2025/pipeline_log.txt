@@ -11,13 +11,13 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.72 seconds]
-▶ start target validated_met_file
+● built target config [0.67 seconds]
 ✅ MET data passed all quality checks.
 Successfully verified and copied to: GrassPatch2025.met
+▶ start target validated_met_file
 ● built target validated_met_file [0.05 seconds]
 ▶ start target df_obs
-● built target df_obs [0.07 seconds]
+● built target df_obs [0.04 seconds]
 ▶ start target track_mapping_csv
 ● built target track_mapping_csv [0 seconds]
 ▶ start target log_active_config
@@ -104,7 +104,7 @@ $file_name_mapping_csv
 [Q-FLAG] | WARN | DATA MODIFIED | Nutrient conversion (Grass25): converted 5 column(s) from percentage to fraction space: [Wheat.Leaf.Dead.WSC, Wheat.Leaf.Live.WSC, Wheat.Spike.WSC, Wheat.Stem.Infertile.WSC, Wheat.Stem.WSC]
 ● built target log_active_config [0 seconds]
 ▶ start target df_obs_corrected
-● built target df_obs_corrected [0.03 seconds]
+● built target df_obs_corrected [0.02 seconds]
 
 ======================================================================
  🔄 PIPELINE ACTION: VARIABLES REMAPPED 🔄 
@@ -131,18 +131,19 @@ $file_name_mapping_csv
 ----------------------------------------------------------------------
 [Q-FLAG] | INFO | DATA MODIFIED | Scaled 1 numeric column(s) based on CSV dictionary multipliers.
 ▶ start target df_obs_renamed
-● built target df_obs_renamed [0.08 seconds]
+● built target df_obs_renamed [0.04 seconds]
 ▶ start target df_obs_mean
 ● built target df_obs_mean [0.22 seconds]
 Success [get_pheno_dates_from_DOY_wide_obs]: Extracted 64 standardized raw records from wide DOY entries.
 ▶ start target df_pheno_raw
 ● built target df_pheno_raw [0.05 seconds]
-▶ start target df_haun
 Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 160 rows while preserving 2 standard metadata keys.
+▶ start target df_haun
 ● built target df_haun [0.01 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+Success [create_interp_pheno_dates]: Linearly generated 16 missing micro-milestone rows (Stage 7).
+[Q-FLAG] | INFO | PHENOLOGY | Linear interpolation (Step 2): successfully generated 16 intermediate micro-milestone row(s) for Stage 7 using fractional progress 0.50.
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.04 seconds]
+● built target df_pheno_int [0.03 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -186,78 +187,42 @@ Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milesto
 Success [derive_pheno_stages_from_haun]: Morphologically generated milestone rows from Haun counts. (Mode: df_wide)
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
+[Q-FLAG] | INFO | PHENOLOGY | Haun derivation (Step 3): successfully generated morphologically derived stages for 16 simulation(s) (Stage 4: 16, Stage 5: 16).
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.1 seconds]
-
-[!] NOTICE: Contrasting Dates Detected for Identical Stages
-    Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
-                SimulationName Wheat.Phenology.Stage               Date_Clash
-1      GrassPatch2025CvGregory                     4 2025-06-20 vs 2025-07-11
-2       GrassPatch2025CvIllabo                     4 2025-06-17 vs 2025-06-25
-3         GrassPatch2025CvJanz                     4 2025-06-19 vs 2025-07-09
-4    GrassPatch2025CvKittyhawk                     4 2025-06-15 vs 2025-06-30
-5         GrassPatch2025CvMace                     4 2025-06-19 vs 2025-07-07
-6      GrassPatch2025CvMeering                     4 2025-06-19 vs 2025-07-11
-7      GrassPatch2025CvMowhawk                     4 2025-06-15 vs 2025-06-25
-8       GrassPatch2025CvOsprey                     4 2025-06-16 vs 2025-06-27
-9      GrassPatch2025CvRosella                     4 2025-06-15 vs 2025-06-28
-10     GrassPatch2025CvScepter                     4 2025-06-19 vs 2025-07-08
-11   GrassPatch2025CvSunmaster                     4 2025-06-19 vs 2025-07-09
-12   GrassPatch2025CvWedgetail                     4 2025-06-08 vs 2025-06-28
-13    GrassPatch2025CvWhistler                     4 2025-06-06 vs 2025-06-23
-14 GrassPatch2025CvWyalkatchem                     4 2025-06-19 vs 2025-07-09
-15       GrassPatch2025CvWylah                     4 2025-06-14 vs 2025-06-29
-16       GrassPatch2025CvYitpi                     4 2025-06-19 vs 2025-07-12
-   Source_Clash
-1   Haun vs Int
-2   Haun vs Int
-3   Haun vs Int
-4   Haun vs Int
-5   Haun vs Int
-6   Haun vs Int
-7   Haun vs Int
-8   Haun vs Int
-9   Haun vs Int
-10  Haun vs Int
-11  Haun vs Int
-12  Haun vs Int
-13  Haun vs Int
-14  Haun vs Int
-15  Haun vs Int
-16  Haun vs Int
+● built target df_pheno_haun [0.06 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 112 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.09 seconds]
+● built target df_pheno_final [0.07 seconds]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
 [Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
 ▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.06 seconds]
-▶ start target df_obs_plus_pheno
+● built target df_pheno_input_param [0.05 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 112 events into master observations under column 'Wheat.Phenology.Stage'.
-● built target df_obs_plus_pheno [0.67 seconds]
+▶ start target df_obs_plus_pheno
+● built target df_obs_plus_pheno [0.59 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.09 seconds]
+● built target msg_pheno_param_saved [0.07 seconds]
 
 ============================================================
  🚨 CALCULATION OVERRIDE: ASYNCHRONOUS HARVEST INDEX 🚨 
 ============================================================
  -> SUCCESS      : 16 valid HI values generated.
- -> VALUE RANGE  : 0.235 to 0.389
+ -> VALUE RANGE  : 0.239 to 0.386
 ------------------------------------------------------------
  🔍 ASYNCHRONOUS DATE DISCREPANCY DETECTED 🔍
  -> WARNING      : HI was calculated using maximum values from DIFFERENT DATES.
  -> OFFSETS      : See timeline disparities below:
 [Q-FLAG] | WARN | HARVEST INDEX | Asynchronous Harvest Index: HI calculated using maximum values from DIFFERENT DATES.
-    * GrassPatch2025CvGregory: Grain Peak (2025-11-27) vs AGB Peak (2025-11-14)
-    * GrassPatch2025CvIllabo: Grain Peak (2025-11-27) vs AGB Peak (2025-11-14)
+    * GrassPatch2025CvGregory: Grain Peak (2025-11-27) vs AGB Peak (2025-09-23)
+    * GrassPatch2025CvIllabo: Grain Peak (2025-11-27) vs AGB Peak (2025-09-20)
     * GrassPatch2025CvJanz: Grain Peak (2025-11-27) vs AGB Peak (2025-09-20)
-    * GrassPatch2025CvKittyhawk: Grain Peak (2025-11-27) vs AGB Peak (2025-11-14)
+    * GrassPatch2025CvKittyhawk: Grain Peak (2025-11-27) vs AGB Peak (2025-09-25)
     * GrassPatch2025CvMace: Grain Peak (2025-11-27) vs AGB Peak (2025-11-14)
     * ... and 11 more.
 ============================================================
 
 ▶ start target df_obs_plus_pheno_plus_hi
-● built target df_obs_plus_pheno_plus_hi [0.06 seconds]
+● built target df_obs_plus_pheno_plus_hi [0.21 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK
@@ -278,7 +243,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 112 events into master obse
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_plus_pheno_plus_hi_amounts
-● built target df_obs_plus_pheno_plus_hi_amounts [0.11 seconds]
+● built target df_obs_plus_pheno_plus_hi_amounts [0.1 seconds]
 
 ======================================================================
  ⚙️ PIPELINE ACTION: EAR MASS VARIABLE INITIALIZED ⚙️
@@ -292,6 +257,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 112 events into master obse
 [Q-FLAG] | INFO | DATA MODIFIED | Ear mass variable initialized: 'Wheat.Spike.Wt' copied to 'Wheat.Ear.Wt' (Phase 1 Pass-through).
 ▶ start target df_obs_plus_pheno_plus_hi_amounts_ear
 ● built target df_obs_plus_pheno_plus_hi_amounts_ear [0.01 seconds]
+▶ start target df_obs_plus_pheno_plus_hi_amounts_ear_spike
 
 ======================================================================
  🔧 TERMINOLOGY PATCH: SPIKE OVERWRITTEN BY CHAFF 🔧
@@ -303,8 +269,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 112 events into master obse
                        Spike was successfully overwritten with Chaff.
 ======================================================================
 
-▶ start target df_obs_plus_pheno_plus_hi_amounts_ear_spike
-● built target df_obs_plus_pheno_plus_hi_amounts_ear_spike [0.04 seconds]
+● built target df_obs_plus_pheno_plus_hi_amounts_ear_spike [0.01 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -315,7 +280,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 112 events into master obse
 ------------------------------------------------------------
 
 ▶ start target df_obs_final
-● built target df_obs_final [0.08 seconds]
+● built target df_obs_final [0.06 seconds]
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Leaf.Dead.CID'. Check for data entry errors.
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Leaf.Live.CID'. Check for data entry errors.
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Spike.CID'. Check for data entry errors.
@@ -334,12 +299,12 @@ Success [add_new_var_to_obs]: Appended and collapsed 112 events into master obse
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Stem.N'. Check for data entry errors.
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
-● built target qc_obs_final [0.07 seconds]
+● built target qc_obs_final [0.05 seconds]
 Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2025_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.23 seconds]
+● built target msg_obs_saved [0.19 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.24 seconds]
+● built target haun_input_checked [0.04 seconds]
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
@@ -350,40 +315,40 @@ Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validat
  Flagged Observations      : 16 row(s) out of 593
 ----------------------------------------------------------------------
 
-              SimulationName Clock.Today Wheat.Ear.Wt Comp_Sum DiffAbs DiffPerc
-     GrassPatch2025CvGregory  2025-11-14     614.6169 141.6816 -472.94   -76.95
-      GrassPatch2025CvIllabo  2025-11-14     607.7102 160.0061 -447.70   -73.67
-        GrassPatch2025CvJanz  2025-11-14     540.5302 125.7850 -414.75   -76.73
-   GrassPatch2025CvKittyhawk  2025-11-14     478.7233 136.4326 -342.29   -71.50
-        GrassPatch2025CvMace  2025-11-14     664.8645 157.2486 -507.62   -76.35
-     GrassPatch2025CvMeering  2025-11-14     527.1066 128.5803 -398.53   -75.61
-     GrassPatch2025CvMowhawk  2025-11-14     630.9155 134.2353 -496.68   -78.72
-      GrassPatch2025CvOsprey  2025-11-14     449.6552 119.9481 -329.71   -73.32
-     GrassPatch2025CvRosella  2025-11-14     428.8961 102.3853 -326.51   -76.13
-     GrassPatch2025CvScepter  2025-11-14     632.3792 138.6740 -493.71   -78.07
-   GrassPatch2025CvSunmaster  2025-11-14     677.4522 139.9611 -537.49   -79.34
-   GrassPatch2025CvWedgetail  2025-11-14     506.6774 139.1625 -367.51   -72.53
-    GrassPatch2025CvWhistler  2025-11-14     544.9529 142.9557 -402.00   -73.77
- GrassPatch2025CvWyalkatchem  2025-11-14     587.6260 160.4680 -427.16   -72.69
-       GrassPatch2025CvWylah  2025-11-14     534.6006 147.9336 -386.67   -72.33
-       GrassPatch2025CvYitpi  2025-11-14     544.8401 123.0922 -421.75   -77.41
- Wheat.Spike.Wt Wheat.Grain.Wt
-       141.6816             NA
-       160.0061             NA
-       125.7850             NA
-       136.4326             NA
-       157.2486             NA
-       128.5803             NA
-       134.2353             NA
-       119.9481             NA
-       102.3853             NA
-       138.6740             NA
-       139.9611             NA
-       139.1625             NA
-       142.9557             NA
-       160.4680             NA
-       147.9336             NA
-       123.0922             NA
+              SimulationName Clock.Today Wheat.Ear.Wt  Comp_Sum DiffAbs
+     GrassPatch2025CvGregory  2025-11-14     476.7055  91.47114 -385.23
+      GrassPatch2025CvIllabo  2025-11-14     526.4708 117.48857 -408.98
+        GrassPatch2025CvJanz  2025-11-14     489.7202  89.03729 -400.68
+   GrassPatch2025CvKittyhawk  2025-11-14     443.1820 114.06706 -329.11
+        GrassPatch2025CvMace  2025-11-14     682.0614 131.86085 -550.20
+     GrassPatch2025CvMeering  2025-11-14     509.2246 103.61638 -405.61
+     GrassPatch2025CvMowhawk  2025-11-14     573.9246 100.85249 -473.07
+      GrassPatch2025CvOsprey  2025-11-14     418.1460  78.85663 -339.29
+     GrassPatch2025CvRosella  2025-11-14     406.6217  76.86612 -329.76
+     GrassPatch2025CvScepter  2025-11-14     639.1162 116.85942 -522.26
+   GrassPatch2025CvSunmaster  2025-11-14     654.9827 116.68998 -538.29
+   GrassPatch2025CvWedgetail  2025-11-14     466.1459 100.87791 -365.27
+    GrassPatch2025CvWhistler  2025-11-14     561.2750 130.53687 -430.74
+ GrassPatch2025CvWyalkatchem  2025-11-14     577.7598 121.05789 -456.70
+       GrassPatch2025CvWylah  2025-11-14     420.6107  84.42176 -336.19
+       GrassPatch2025CvYitpi  2025-11-14     532.1146  85.97433 -446.14
+ DiffPerc Wheat.Spike.Wt Wheat.Grain.Wt
+   -80.81       91.47114             NA
+   -77.68      117.48857             NA
+   -81.82       89.03729             NA
+   -74.26      114.06706             NA
+   -80.67      131.86085             NA
+   -79.65      103.61638             NA
+   -82.43      100.85249             NA
+   -81.14       78.85663             NA
+   -81.10       76.86612             NA
+   -81.72      116.85942             NA
+   -82.18      116.68998             NA
+   -78.36      100.87791             NA
+   -76.74      130.53687             NA
+   -79.05      121.05789             NA
+   -79.93       84.42176             NA
+   -83.84       85.97433             NA
 
 ----------------------------------------------------------------------
  Action Required: Please inspect the component variables for the rows above.
@@ -391,7 +356,7 @@ Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validat
 
 [Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
 ▶ start target validation_ear_sums
-● built target validation_ear_sums [0.02 seconds]
+● built target validation_ear_sums [0.03 seconds]
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
@@ -403,39 +368,39 @@ Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validat
 ----------------------------------------------------------------------
 
               SimulationName Clock.Today Wheat.AboveGround.Wt Comp_Sum DiffAbs
-     GrassPatch2025CvGregory  2025-11-14            1156.7922 679.1176 -477.67
-      GrassPatch2025CvIllabo  2025-11-14            1163.6076 703.2899 -460.32
-        GrassPatch2025CvJanz  2025-11-14             995.3585 577.0350 -418.32
-   GrassPatch2025CvKittyhawk  2025-11-14            1001.2482 650.2539 -350.99
-        GrassPatch2025CvMace  2025-11-14            1122.9591 607.2742 -515.68
-     GrassPatch2025CvMeering  2025-11-14             995.5818 592.9212 -402.66
-     GrassPatch2025CvMowhawk  2025-11-14            1106.1433 607.7092 -498.43
-      GrassPatch2025CvOsprey  2025-11-14             977.9526 642.0202 -335.93
-     GrassPatch2025CvRosella  2025-11-14             975.5927 572.7088 -402.88
-     GrassPatch2025CvScepter  2025-11-14            1089.5536 590.2777 -499.28
-   GrassPatch2025CvSunmaster  2025-11-14            1174.8308 628.9457 -545.89
-   GrassPatch2025CvWedgetail  2025-11-14             990.2904 613.5473 -376.74
-    GrassPatch2025CvWhistler  2025-11-14            1011.2721 604.2730 -407.00
- GrassPatch2025CvWyalkatchem  2025-11-14            1042.0228 607.3381 -434.68
-       GrassPatch2025CvWylah  2025-11-14            1081.9560 689.9817 -391.97
-       GrassPatch2025CvYitpi  2025-11-14             995.8752 570.9744 -424.90
+     GrassPatch2025CvGregory  2025-11-14             901.2342 515.9999 -385.23
+      GrassPatch2025CvIllabo  2025-11-14            1008.2167 599.2345 -408.98
+        GrassPatch2025CvJanz  2025-11-14             906.9898 506.3068 -400.68
+   GrassPatch2025CvKittyhawk  2025-11-14             931.7438 602.6288 -329.11
+        GrassPatch2025CvMace  2025-11-14            1152.1531 601.9526 -550.20
+     GrassPatch2025CvMeering  2025-11-14             961.9952 556.3869 -405.61
+     GrassPatch2025CvMowhawk  2025-11-14            1009.3036 536.2315 -473.07
+      GrassPatch2025CvOsprey  2025-11-14             913.8640 574.5746 -339.29
+     GrassPatch2025CvRosella  2025-11-14             932.9242 603.1687 -329.76
+     GrassPatch2025CvScepter  2025-11-14            1103.2957 581.0389 -522.26
+   GrassPatch2025CvSunmaster  2025-11-14            1135.6049 597.3122 -538.29
+   GrassPatch2025CvWedgetail  2025-11-14             911.4241 546.1561 -365.27
+    GrassPatch2025CvWhistler  2025-11-14            1043.3898 612.6517 -430.74
+ GrassPatch2025CvWyalkatchem  2025-11-14            1022.6324 565.9305 -456.70
+       GrassPatch2025CvWylah  2025-11-14             851.1941 515.0052 -336.19
+       GrassPatch2025CvYitpi  2025-11-14             975.3199 529.1796 -446.14
  DiffPerc Wheat.Leaf.Live.Wt Wheat.Leaf.Dead.Wt Wheat.Stem.Wt Wheat.Spike.Wt
-   -41.29                 NA          121.27216      416.1638       141.6816
-   -39.56                 NA          130.10575      413.1780       160.0061
-   -42.03                 NA          120.03953      331.2104       125.7850
-   -35.06                 NA          131.81706      382.0042       136.4326
-   -45.92                 NA           81.52538      368.5001       157.2486
-   -40.44                 NA          118.23849      346.1023       128.5803
-   -45.06                 NA           94.35074      379.1232       134.2353
-   -34.35                 NA          104.96738      417.1047       119.9481
-   -41.30                 NA          134.65474      335.6688       102.3853
-   -45.82                 NA           87.21369      364.3900       138.6740
-   -46.46                 NA           88.76389      400.2207       139.9611
-   -38.04                 NA          130.23930      344.1455       139.1625
-   -40.25                 NA          104.12149      357.1958       142.9557
-   -41.72                 NA           95.40931      351.4607       160.4680
-   -36.23                 NA          114.45951      427.5886       147.9336
-   -42.67                 NA          113.70666      334.1755       123.0922
+   -42.75                 NA          103.73501      320.7937       91.47114
+   -40.56                 NA          123.99492      357.7510      117.48857
+   -44.18                 NA          112.96275      304.3068       89.03729
+   -35.32                 NA          133.04792      355.5139      114.06706
+   -47.75                 NA           91.99920      378.0926      131.86085
+   -42.16                 NA          119.13777      333.6328      103.61638
+   -46.87                 NA           88.86704      346.5120      100.85249
+   -37.13                 NA          105.40220      390.3158       78.85663
+   -35.35                 NA          206.80572      319.4968       76.86612
+   -47.34                 NA           94.77025      369.4092      116.85942
+   -47.40                 NA           94.06165      386.5606      116.68998
+   -40.08                 NA          128.24496      317.0332      100.87791
+   -41.28                 NA          113.31876      368.7961      130.53687
+   -44.66                 NA           99.96673      344.9059      121.05789
+   -39.50                 NA           93.11650      337.4669       84.42176
+   -45.74                 NA          113.09614      330.1092       85.97433
  Wheat.Grain.Wt
              NA
              NA
@@ -470,7 +435,8 @@ Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validat
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.09 seconds]
+● built target manual_pheno_params [0.08 seconds]
+▶ start target exported_pop_csv
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: GrassPatch2025_population.csv
@@ -478,19 +444,18 @@ Success [save_df_to_excel]: Exported 593 rows to 'C:/github/ApsimX/Tests/Validat
    -> 'Wheat.SowingData.Population': Extracted 24 records | Range [0 to 174.17]
 ----------------------------------------------------------------------
 💾 Success: Exported 24 valid rows and 2 columns.
-▶ start target exported_pop_csv
-● built target exported_pop_csv [0.05 seconds]
+● built target exported_pop_csv [0.04 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target check_depend
-● built target check_depend [0.02 seconds]
+● built target check_depend [0 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.24 seconds]
+● built target encrypted_zip_artifact [0.25 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.02 seconds]
-▶ end pipeline [4.64 seconds]
+● built target verify_data_backup [0.01 seconds]
+▶ end pipeline [4.03 seconds]
 There were 19 warnings (use warnings() to see them)

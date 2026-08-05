@@ -1,6 +1,4 @@
 #' Master Script: Run All _targets Pipelines using Relative Paths
-#' 
-#' Place this script (RunAll.R) in the UoM_WinterVsSpring folder.
 
 # ===================================================================
 # PIPELINE EXECUTION OPTION
@@ -18,14 +16,14 @@ base_wd <- getwd()
 pipeline_dirs <- c(
   "Dookie2024",
   "Dookie2025",
-  "Fords2025",
   "Gnarwarre2024",
   "Gnarwarre2025",
   "GrassPatch2024",
   "GrassPatch2025",
-  "Turretfield2024",
   "WaggaWagga2024",
-  "WaggaWagga2025"
+  "WaggaWagga2025",
+  "Turretfield2024",
+  "Fords2025"
 )
 
 # 3. Loop through and execute safely

@@ -101,9 +101,9 @@ df_sim_metadata <- df_sims %>%
 head(df_sim_metadata)
 ```
 
-#### Simulation metadata
+## 2.Simulation metadata
 
-These are factors associated with each **SimulationName**
+These are factor levels associated with each **SimulationName**, the simulation names (**SimulationName**) pre-defined in *.apsimx* files determine the linking *keys* to associate data to metadata.
 
 ```{r}
 #| label: Define-directories
@@ -122,8 +122,6 @@ cat("Projects currently considered are:\n\n")
 # Paste a bullet point "-" in front of each directory and print on a new line
 cat(paste("->", pipeline_dirs), sep = "\n")
 ```
-
-The simulation names (**SimulationName**) pre-defined in *.apsimx* files determine the linking *keys* to associate data to metadata.
 
 The main metadata information is shown in @tbl-meta-data.
 
@@ -179,7 +177,7 @@ pull_regional_data <- function(dir_name) {
 }
 ```
 
-## 2. Haun-related parameter checks
+## 3. Haun-related parameter checks
 
 Currently, two APSIM parameters were manually calibrated based on a visual alignment of simulated and measured Haun stages.
 
@@ -392,7 +390,7 @@ p <- ggplot() +
 ggplotly(p, tooltip = c("x", "text"))
 ```
 
-## 3.Biomass component checks
+## 4.Biomass component checks
 
 In this project, by definition, we are assuming total above ground biomass (Wheat.AboveGround.Wt) composition as below:
 
@@ -538,29 +536,63 @@ p <- df_plot %>%
 ggplotly(p)
 ```
 
-### 4. Phenology parameter check
+### 5. Phenology parameter check
 
-Similar to Haun-related parameters, phenology was **forced-as-input** to perfectly match observations. For that, dates of pheno-stages were extracted from raw data (emergence\|3\|Emerging, flag-leaf\|6\|StemElongating and anthesis\|8\|Flowering and grain-filling\|10\|End-GrainFill). It was then necessary to estimate intermediary stages to avoid a conflict between APSIM phenological progression and observation. Two intermediary stages were estimated from Haun-stage observations (). Finally, hkhkhkj was estimated from interpolation between stages X and X (@tbl-pheno-method).
+Similar to Haun-related parameters, phenology was **forced-as-input** to perfectly match observations. 
+
+For that, dates of pheno-stages were extracted from raw data, calculated from Haun-index or interpolated (@tbl-pheno-method). 
 
 ```{r}
 #| label: tbl-pheno-method
-#| tbl-cap: "Nomenclature and code creteria for aligning raw data and APSIM pheno-stages"
+#| tbl-cap: "APSIM Phenology Stage Parameters and Data Sources"
+#| message: false
+#| echo: false
 ```
 
-| Treatment | Yield (t/ha) | Moisture (%) |
-|:----------|:-------------|:-------------|
-| Control   | 4.2          | 12.5         |
-| Nitrogen  | 5.8          | 13.1         |
 
-: Summary Trial Results
+| Stage | ParameterNameAPSIM | DataSource | RawDataEvent |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| 2 | \[Wheat\].Phenology.Germinating.DateToProgress | Assumed post-sow | Instant Germination |
+| 3 | \[Wheat\].Phenology.Emerging.DateToProgress | Raw data | 50% Emergence |
+| 4 | \[Wheat\].Phenology.LeavesInitiating.DateToProgress | Haun-index derived | see calc below |
+| 5 | \[Wheat\].Phenology.SpikeletsDifferentiating.DateToProgress | Haun-index derived | see calc below |
+| 6 | \[Wheat\].Phenology.StemElongating.DateToProgress | Raw data | 50% Flag leaves PCDS 6.0 |
+| 7 | \[Wheat\].Phenology.Heading.DateToProgress | Interpolation_6_8 | 50% interpolation |
+| 8 | \[Wheat\].Phenology.Flowering.DateToProgress | Raw data | 50% Anthesis PCDS 8.0 |
+| 10 | \[Wheat\].Phenology.GrainFilling.DateToProgress | Raw data | date when available |
 
-The resulting dates windows estimated for each APSIM PhaseName are shown in @tbl-pheno-summary.
+#### Haun-based estimation of dates for stages 4 and 5
+
+a.  Final Leaf Number (FLN) and target leaf-number estimation
+
+The Final Leaf Number is calculated by finding the maximum observed Haun stage in the dataset and rounding it to the nearest whole integer.The date for FLN was assumed at a close earlier (defaulting to 0.95FLN) to avoid confounding with multiple dates when a similar (or very close) maximum leaf number was measured. 
+
+$$Haun_{limit} = \max(Haun_{obs}) \times c_{limit}$$
+`<!-- -->`{=html}b. Double Ridge date date estimation
+
+The *Double Ridge date (APSIM Stage 4)* is assumed to occur six leaf stages prior to the Final Leaf Number date, with a hard floor set at Haun stage 2 to prevent biologically impossible negative stages.
+$$Haun_{DR} = \max(2, FLN - 6)$$
+
+
+`<!-- -->`{=html}c. Terminal Spikelet date estimation 
+
+The *Terminal Spikelet date (APSIM Stage 5)* is assumed to occur exactly three leaf stages prior to the Final Leaf Number.
+$$Haun_{TS} = FLN - 3$$
+The resulting phenology date windows estimated for each APSIM PhaseName are shown in @tbl-pheno-summary.
 
 ```{r}
 #| label: tbl-pheno-summary
 #| tbl-cap: "Ranges of dates for each Experiment and APSIM phase name."
 #| message: false
 #| echo: false
+```
+
+::: {.panel-tabset}
+
+```{r}
+#| message: false
+#| echo: false
+#| results: asis
 
 library(dplyr)
 library(purrr)
@@ -571,68 +603,104 @@ library(knitr)
 
 target_to_pull <- "df_pheno_input_param" 
 
-# 1. Apply function across all dirs and bind rows
+# ---- 1. Apply function across all dirs and bind rows ----
 df_combined_pheno_param <- map_dfr(pipeline_dirs, pull_regional_data)
 
-# 2. Clean data and parse dates
+# ---- 2. Clean data and parse dates ----
 df_final <- df_combined_pheno_param %>%
-   dplyr::select(-Experiment)  %>%
+  dplyr::select(-Experiment) %>%
   left_join(sim_name_lookup_table, by = "SimulationName") %>%
   mutate(
     Cultivar = factor(Cultivar), 
-    Experiment = factor(Experiment)
+    Experiment = factor(Experiment),
+    SeasonType = factor(SeasonType) # Ensure SeasonType is a clean factor
   ) %>%
-  # dmy automatically parses "08-Oct-2024" perfectly
   mutate(across(contains("DateToProgress"), dmy)) %>%
   dplyr::select(-SimulationName)
 
-# 3. Reshape, group, and calculate Min/Max Dates pooled across Cultivars
+# ---- 3. Reshape, group, and pivot Seasons side-by-side ----
 df_pheno_summary <- df_final %>%
-  # Pivot wide Date columns into 'Phase' and 'Date'
   pivot_longer(
     cols = contains("DateToProgress"),
     names_to = "Phase",
     values_to = "Date"
   ) %>%
-  # Remove NA dates (phases that didn't occur)
   filter(!is.na(Date)) %>%
-  # Clean up the APSIM Phase names for the table
   mutate(
     Phase = str_remove_all(Phase, "\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress")
   ) %>%
-  # Group by Experiment and Phase to pool all cultivars together
-  group_by(Experiment, Phase) %>%
+  # Group by Experiment, SeasonType, AND Phase to split the math
+  group_by(Experiment, SeasonType, Phase) %>%
   summarise(
     Min_Date = min(Date, na.rm = TRUE),
     Max_Date = max(Date, na.rm = TRUE),
     .groups = "drop"
   ) %>%
-  # Format dates cleanly for the table (e.g., 08-Oct-2024)
   mutate(
     Min_Date = format(Min_Date, "%d-%b-%Y"),
     Max_Date = format(Max_Date, "%d-%b-%Y")
   ) %>%
-  # Rename columns for a professional display
+  # Rename the variables before pivoting so the final column names look professional
   rename(
-    `Earliest Date` = Min_Date,
-    `Latest Date` = Max_Date
-  )
+    `Earliest` = Min_Date,
+    `Latest` = Max_Date
+  ) %>%
+  # Pivot wide: this creates columns like "Winter Earliest", "Spring Latest", etc.
+  pivot_wider(
+    names_from = SeasonType,
+    values_from = c(`Earliest`, `Latest`),
+    names_glue = "{SeasonType} {.value}"
+  ) %>%
+  # Dynamically order the columns (handles cases where a season might be missing)
+  dplyr::select(Experiment, Phase, contains("Winter"), contains("Spring"))
 
-# 4. Print as a nicely formatted HTML table in the report
-kable(
-  df_pheno_summary, 
-  #caption = "",
-  align = c("l", "l", "c", "c")
-)
+# ---- 4. Loop through experiments to build Tabset Tables ----
+experiments <- unique(df_pheno_summary$Experiment)
+
+for (exp in experiments) {
+  
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  df_sub <- df_pheno_summary %>%
+    filter(Experiment == exp) %>%
+    dplyr::select(-Experiment)
+  
+  # Generate the kable table using markdown format for safe 'asis' rendering
+  # Using rep("c", ncol(df_sub) - 1) automatically adjusts alignment based on column count
+  k_tbl <- kable(
+    df_sub, 
+    align = c("l", rep("c", ncol(df_sub) - 1)),
+    format = "markdown"
+  )
+  
+  print(k_tbl)
+  cat("\n\n")
+}
 ```
 
-The full progression of observed and estimated pheno stages is shown in @fig-graph-pheno.
+:::
+
+The full progression of observed and estimated pheno stages is shown in @fig-graph-pheno-tabs.
+
+
+#### Phenology Validation Results
 
 ```{r}
-#| label: fig-graph-pheno
-#| fig-cap: "Timeline of phenological stages for each Cultivar and Experiment."
+#| label: fig-graph-pheno-tabs
 #| echo: false
 #| message: false
+#| warning: false
+```
+
+
+::: {.panel-tabset}
+
+```{r}
+#| label: fig-graph-pheno-tabs2
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
 
 # 0. Define the lookup table mapping stages to their data sources
 stage_source_map <- data.frame(
@@ -656,61 +724,81 @@ df_pheno_long <- df_final %>%
   filter(!is.na(Date)) %>%
   mutate(
     Stage = str_remove_all(Stage, "\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress"),
-    # Convert Stage to a factor and lock in the chronological order we extracted above!
     Stage = factor(Stage, levels = stage_levels)
   ) %>%
   left_join(stage_source_map, by = "Stage") %>%
-  # Fallback if any stage name doesn't match the map
   mutate(Source = coalesce(Source, "Unknown"))
 
-# 3. Build the ggplot (Mapping Source to shape)
-p_pheno <- ggplot(df_pheno_long, aes(
-    x = Date, 
-    y = Cultivar, 
-    color = Stage,
-    shape = Source,
-    text = paste("Cultivar:", Cultivar, "<br>Stage:", Stage, "<br>Date:", format(Date, "%d-%b"), "<br>Source:", Source)
-  )) +
-  geom_point(size = 2, alpha = 0.85) +
-  
-  # Allow each facet to have its own unique x-axis range
-  facet_wrap(~ Experiment, scales = "free_x", ncol = 2) +
-  
-  # Format the x-axis to show dd-MMM (e.g., 08-Oct)
-  scale_x_date(date_labels = "%d-%b") +
-  
-  theme_bw() +
-  labs(
-    title = "Phenological Progress by Cultivar",
-    x = "Date",
-    y = "Cultivar",
-    color = "Phenological Stage",
-    shape = "Data Source"
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = "bottom" 
-  )
+# 3. & 4. Loop through experiments and build interactive plots inside tabs
+experiments <- unique(df_pheno_long$Experiment)
 
-# 4. Convert to an interactive plotly graph with EXPLICIT dimensions
-ggplotly(p_pheno, tooltip = "text", height = 1200) %>%
-  layout(
-    legend = list(orientation = "h", y = -0.1),
-    margin = list(b = 100) # Adds extra padding at the bottom so the expanded legend isn't cut off
-  )
+for (exp in experiments) {
+  
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  df_sub <- df_pheno_long %>% filter(Experiment == exp)
+  
+  # DYNAMIC HEIGHT CALCULATION: 
+  # Assign ~25 pixels of vertical space per unique cultivar to prevent compression, 
+  # plus 200 pixels for the legend and axis text. Ensure a minimum height of 500px.
+  n_cultivars <- length(unique(df_sub$Cultivar))
+  dynamic_height <- max(500, (n_cultivars * 25) + 200)
+  
+  # Build the ggplot
+  p_sub <- ggplot(df_sub, aes(
+      x = Date, 
+      y = Cultivar, 
+      color = Stage,
+      shape = Source,
+      text = paste("Cultivar:", Cultivar, "<br>Stage:", Stage, "<br>Date:", format(Date, "%d-%b"), "<br>Source:", Source)
+    )) +
+    geom_point(size = 2, alpha = 0.85) +
+    
+    # CRITICAL CHANGE: 'free_x' locks the Y-axis so Cultivars align horizontally, 
+    # but frees the X-axis so dates can shift for Winter vs. Spring.
+    facet_wrap(~SeasonType, scales = "free_x", ncol = 2) +
+    
+    scale_x_date(date_labels = "%d-%b") +
+    theme_bw() +
+    labs(
+      x = "Date",
+      y = "Cultivar",
+      color = "Phenological Stage",
+      shape = "Data Source"
+    ) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "bottom" 
+    )
+  
+  # Apply the dynamically calculated height to the Plotly widget
+  plt <- ggplotly(p_sub, tooltip = "text", height = dynamic_height) %>%
+    layout(
+      legend = list(orientation = "h", y = -0.15),
+      margin = list(b = 80)
+    )
+  
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
 ```
 
-## 5. Management data
+:::
 
-Within each *.apsimx* simulation there will be two nodes (**ManagementWinter and ManagementSpring**) where **ALL** the management should be included (water and N applications).
+## 6. Management data
 
-All extracted data is shown in @tbl-management-head
+Within each *.apsimx* simulation **ALL** the management should be only within two nodes (**ManagementWinter and ManagementSpring**).
+
+Please advise if any other auto-management script left-over is found for water and N fertiliser applications.
 
 ```{r}
 #| label: tbl-management-head
 #| tbl-cap: "Extract of management data to check"
 #| message: false
 #| echo: false
+#| include: false
+
+# All extracted data is shown in @tbl-management-head
 
 library(jsonlite)
 library(purrr)
@@ -841,9 +929,15 @@ reactable(
 )
 ```
 
-## 6. Pipeline log warnings
+## 7. Pipeline log warnings
 
-Please **CHECK CARFULLY** these messages (@tbl-pipeline-health) and then the full **pipeline_log.txt** at the Experiment folder
+During the data wrangling process there are multiple calculations and data cleaning that involve assumptions. 
+
+Warnings are produced at these steps to enable later scrutiny and corrections where needed.
+
+Please **CHECK CAREFULLY** these messages for each experiment (@tbl-pipeline-health).
+
+For items that feel relevant to you, please go to the full **pipeline_log.txt** at the Experiment folder for details.
 
 ```{r}
 #| label: tbl-pipeline-health
@@ -936,3 +1030,6 @@ reactable(
   )
 )
 ```
+
+
+

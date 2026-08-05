@@ -144,6 +144,24 @@ derive_pheno_dates_from_haun <- function(df_input, max_leaf_limit = 0.95, input_
   message(sprintf("Success [derive_pheno_dates_from_haun]: Calculated crop milestone dates across %d Simulations. (Mode: %s)", 
                   nrow(df_derived), resolved_type))
   
+  # ---- 8. CONSOLE EVALUATION SUMMARY ----
+  message("\n======================================================================")
+  message("  EVALUATION SUMMARY: FLN, Max Targets, and Calculated Dates")
+  message("======================================================================")
+  
+  # Print a clean console summary subsetting out the long APSIM-X column names
+  print(
+    df_derived %>% 
+      dplyr::select(
+        Simulation = SimulationName,
+        Max_Leaf = LeafNumberMaximum,
+        Target_Limit = LeafNumberLimit,
+        FLN = FLN,
+        Date_Max_Leaf = Date
+      )
+  )
+  message("======================================================================\n")
+  
   # ---> NEW: Machine-readable Q-Flag for Haun Stage Milestone Calculations
   log_qflag(
     severity = "INFO", 
