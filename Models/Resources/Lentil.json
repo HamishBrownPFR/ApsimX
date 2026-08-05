@@ -139,16 +139,6 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
-              "Units": null,
-              "Name": "FlowerAbortionPpSensitivity",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
               "$type": "Models.Functions.MultiplyFunction, Models",
               "Name": "ThermalTime",
               "ResourceName": null,
@@ -188,95 +178,6 @@
                       "Name": "InterpolationMethod",
                       "ResourceName": null,
                       "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.XYPairs, Models",
-                      "X": [
-                        0.0,
-                        30.0,
-                        40.0,
-                        "NaN"
-                      ],
-                      "Y": [
-                        0.0,
-                        30.0,
-                        0.0,
-                        "NaN"
-                      ],
-                      "Name": "LinearResponse",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Graph, Models",
-                          "Caption": null,
-                          "Axis": [
-                            {
-                              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                              "Title": "Y",
-                              "Position": 0,
-                              "Inverted": false,
-                              "CrossesAtZero": false,
-                              "LabelOnOneLine": false,
-                              "Minimum": null,
-                              "Maximum": null,
-                              "Interval": null
-                            },
-                            {
-                              "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
-                              "Title": "X",
-                              "Position": 3,
-                              "Inverted": false,
-                              "CrossesAtZero": false,
-                              "LabelOnOneLine": false,
-                              "Minimum": null,
-                              "Maximum": null,
-                              "Interval": null
-                            }
-                          ],
-                          "LegendPosition": 5,
-                          "LegendOrientation": 0,
-                          "AnnotationLocation": 0,
-                          "DisabledSeries": [],
-                          "LegendOutsideGraph": false,
-                          "Name": "Graph",
-                          "ResourceName": null,
-                          "Children": [
-                            {
-                              "$type": "Models.Series, Models",
-                              "Type": 1,
-                              "XAxis": 3,
-                              "YAxis": 0,
-                              "ColourArgb": -65536,
-                              "FactorToVaryColours": null,
-                              "FactorToVaryMarkers": null,
-                              "FactorToVaryLines": null,
-                              "Marker": 11,
-                              "MarkerSize": 0,
-                              "Line": 0,
-                              "LineThickness": 0,
-                              "TableName": null,
-                              "XFieldName": ".Simulations.Replacements.Lentil.Phenology.ThermalTime.PostEmergence.VegetativeThermalTime.Response.XYPairs.X",
-                              "YFieldName": ".Simulations.Replacements.Lentil.Phenology.ThermalTime.PostEmergence.VegetativeThermalTime.Response.XYPairs.Y",
-                              "X2FieldName": null,
-                              "Y2FieldName": null,
-                              "ShowInLegend": false,
-                              "IncludeSeriesNameInLegend": false,
-                              "Cumulative": false,
-                              "CumulativeX": false,
-                              "Filter": null,
-                              "Name": "Series",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            }
-                          ],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
                       "Enabled": true,
                       "ReadOnly": false
                     }
@@ -445,6 +346,26 @@
                       "ReadOnly": false
                     }
                   ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.MovingAverageFunction, Models",
+              "NumberOfDays": 15,
+              "StageToStartMovingAverage": "Sowing",
+              "Name": "RunningMeanMinTemp",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[IWeather].MinT",
+                  "Name": "MinT",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -771,125 +692,51 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.AccumulateFunction, Models",
-              "StartStageName": "FirstBudsVisiable",
-              "EndStageName": "FirstFlowersSet",
-              "ResetStageName": null,
-              "FractionRemovedOnCut": 0.0,
-              "FractionRemovedOnHarvest": 0.0,
-              "FractionRemovedOnGraze": 0.0,
-              "FractionRemovedOnPrune": 0.0,
-              "Name": "AbortedFlowerBuds",
+              "$type": "Models.PMF.Phen.GenericPhase, Models",
+              "Start": "FirstBudsVisiable",
+              "End": "FirstFlowersSet",
+              "IsEmerged": true,
+              "Name": "FirstFlowersDeveloping",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Functions.MultiplyFunction, Models",
-                  "Name": "BudsPerDay",
+                  "Name": "Progression",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.MinimumFunction, Models",
-                      "Name": "BudsPerPhyllochron",
+                      "$type": "Models.Memo, Models",
+                      "Text": "WangEagleTempScale gives a value from 0 (at min and max temps) to 1 (at optTemp) and a beta function shape response in between.  This is multiplied by the optimum temperature to give thermal time in familuar unitis of oC per day.  This has the benefit of Tt targets being in familuar units, the shape of Tt response following a well justified pattern and three discrete parameters for thermal time that can be used for optimisation (as opposed to a Tt function in a linint function which is a more fiddly to optimise)",
+                      "Name": "Note",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.SubDailyInterpolation, Models",
+                      "agregationMethod": 0,
+                      "Name": "WangEagleTempScale",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.AddFunction, Models",
-                          "Name": "BudsDelayed",
+                          "$type": "Models.Functions.WangEngelTempFunction, Models",
+                          "MinTemp": 10.0,
+                          "OptTemp": 25.0,
+                          "MaxTemp": 32.0,
+                          "RefTemp": 0.0,
+                          "Beta": 1.0,
+                          "MaximumTemperatureWeighting": 0.5,
+                          "Units": null,
+                          "Name": "Response",
                           "ResourceName": null,
-                          "Children": [
-                            {
-                              "$type": "Models.Functions.MultiplyFunction, Models",
-                              "Name": "ShortDayAbortionRate",
-                              "ResourceName": null,
-                              "Children": [
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Lentil].Phenology.PpResponse",
-                                  "Name": "PpResponseShape",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                },
-                                {
-                                  "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Phenology].FlowerAbortionPpSensitivity",
-                                  "Name": "GenotypeRelativePpSensitivity",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                }
-                              ],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.MultiplyFunction, Models",
-                              "Name": "NoStressAbortionRate",
-                              "ResourceName": null,
-                              "Children": [
-                                {
-                                  "$type": "Models.Functions.Constant, Models",
-                                  "FixedValue": 0.0,
-                                  "Units": null,
-                                  "Name": "Constant",
-                                  "ResourceName": null,
-                                  "Children": [],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                },
-                                {
-                                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                                  "Name": "NoStress",
-                                  "ResourceName": null,
-                                  "Children": [
-                                    {
-                                      "$type": "Models.Functions.XYPairs, Models",
-                                      "X": [
-                                        0.0,
-                                        0.25,
-                                        0.75,
-                                        1.0
-                                      ],
-                                      "Y": [
-                                        0.0,
-                                        0.0,
-                                        1.0,
-                                        1.0
-                                      ],
-                                      "Name": "XYPairs",
-                                      "ResourceName": null,
-                                      "Children": [],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    },
-                                    {
-                                      "$type": "Models.Functions.VariableReference, Models",
-                                      "VariableName": "[Leaf].Canopy.FW",
-                                      "Name": "XValue",
-                                      "ResourceName": null,
-                                      "Children": [],
-                                      "Enabled": true,
-                                      "ReadOnly": false
-                                    }
-                                  ],
-                                  "Enabled": true,
-                                  "ReadOnly": false
-                                }
-                              ],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            }
-                          ],
+                          "Children": [],
                           "Enabled": true,
                           "ReadOnly": false
                         },
                         {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.0,
-                          "Units": null,
-                          "Name": "AllBudsAborted",
+                          "$type": "Models.Functions.HourlySinPpAdjusted, Models",
+                          "Name": "InterpolationMethod",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -900,76 +747,15 @@
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.ProtectedDivideFunction, Models",
-                      "NumeratorErrVal": 0.0,
-                      "DenominatorErrVal": 0.0,
-                      "Name": "DailyPhyllochrons",
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[ThermalTime].WangEagleTempScale.Response.OptTemp",
+                      "Name": "OptTemp",
                       "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Phenology.ThermalTime",
-                          "Name": "Tt",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Leaf.Phyllochron",
-                          "Name": "Phyllochron",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
+                      "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.MovingAverageFunction, Models",
-              "NumberOfDays": 15,
-              "StageToStartMovingAverage": "Sowing",
-              "Name": "RunningMeanMinTemp",
-              "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[IWeather].MinT",
-                  "Name": "MinT",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.PMF.Phen.GenericPhase, Models",
-              "Start": "FirstBudsVisiable",
-              "End": "FirstFlowersSet",
-              "IsEmerged": true,
-              "Name": "FirstFlowersDeveloping",
-              "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Phenology].ThermalTime",
-                  "Name": "Progression",
-                  "ResourceName": null,
-                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 },
@@ -980,51 +766,6 @@
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.AddFunction, Models",
-                  "Name": "TargetComplex",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].TtFlowerDevelopment",
-                      "Name": "FirstSuccessfulBud",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": false,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.MultiplyFunction, Models",
-                      "Name": "DelayFromAbortedBuds",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Leaf.Phyllochron",
-                          "Name": "Phyllochron",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": false,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Phenology.AbortedFlowerBuds",
-                          "Name": "AbortedBuds",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": false,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": false,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": false,
                   "ReadOnly": false
                 }
               ],
@@ -10833,8 +10574,7 @@
                   "Command": [
                     "[Phenology].JuvenileBase.FixedValue = 91",
                     "[Phenology].VernSensitivity.FixedValue = 0.85",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 0.37",
-                    "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.37"
                   ],
                   "Name": "Lightning",
                   "ResourceName": null,
@@ -10847,8 +10587,7 @@
                   "Command": [
                     "[Phenology].JuvenileBase.FixedValue = 70",
                     "[Phenology].VernSensitivity.FixedValue = 0.35",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 0.56",
-                    "[Phenology].FlowerAbortionPpSensitivity.FixedValue = 0"
+                    "[Phenology].InductivePpSensitivity.FixedValue = 0.56"
                   ],
                   "Name": "Leader",
                   "ResourceName": null,
