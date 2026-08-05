@@ -129,7 +129,7 @@ derive_pheno_dates_from_haun <- function(df_input, max_leaf_limit = 0.95, input_
     
     # ---- 6. RECAST TO NATIVE CALENDAR DATES & MAP HEADERS ----
   dplyr::mutate(
-    Date                                                       = as.Date(Date_Num_Limit, origin = "1970-01-01"),
+    Date                                                        = as.Date(Date_Num_Limit, origin = "1970-01-01"),
     `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` = as.Date(Date_Num_TS, origin = "1970-01-01"),
     `[Wheat].Phenology.LeavesInitiating.DateToProgress`         = as.Date(Date_Num_DR, origin = "1970-01-01")
   ) %>%
@@ -143,6 +143,13 @@ derive_pheno_dates_from_haun <- function(df_input, max_leaf_limit = 0.95, input_
   # ---- 7. PIPELINE COMPLETION NOTIFICATION ----
   message(sprintf("Success [derive_pheno_dates_from_haun]: Calculated crop milestone dates across %d Simulations. (Mode: %s)", 
                   nrow(df_derived), resolved_type))
+  
+  # ---> NEW: Machine-readable Q-Flag for Haun Stage Milestone Calculations
+  log_qflag(
+    severity = "INFO", 
+    category = "PHENOLOGY", 
+    message = sprintf("Haun derivation: successfully calculated morphologically derived crop milestone dates for %d simulation(s).", nrow(df_derived))
+  )
   
   return(df_derived)
 }

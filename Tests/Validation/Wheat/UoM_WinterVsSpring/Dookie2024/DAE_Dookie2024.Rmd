@@ -340,5 +340,20 @@ ggplotly(p)
 tar_load(list_observed_clean)
 ```
 
+```{r}
+library(targets)
+library(tidyverse)
+
+tar_load(list_observed_clean)
+tar_load(list_pcds_extracted)
+tar_load(df_pheno_raw)
+tar_load(df_pheno_int)
+tar_load(df_pheno_haun)
+tar_load(df_pheno_final)
+tar_load(df_pheno_input_param)
+tar_read(qc_pheno_integrity)
+
+  
+```
 
 
