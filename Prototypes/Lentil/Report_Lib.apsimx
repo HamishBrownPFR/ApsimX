@@ -87,6 +87,7 @@
       "$type": "Models.Report, Models",
       "VariableNames": [
         "[Simulation].Name",
+        "[Lentil].Phenology.CurrentStageName",
         "[Lentil].Phenology.StartBuddingDAS",
         "[Lentil].Phenology.StartFloweringDAS",
         "[Lentil].Phenology.StartPoddingDAS",
