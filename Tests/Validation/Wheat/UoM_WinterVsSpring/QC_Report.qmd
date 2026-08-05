@@ -430,6 +430,7 @@ df_combined_bio <- df_combined_bio_raw %>%
 essential_vars <- c(
   "Experiment",
   "SimulationName",
+  "Cultivar",
   "Wheat.AboveGround.Wt", 
   "Wheat.Leaf.Live.Wt", 
   "Wheat.Leaf.Dead.Wt", 
@@ -450,11 +451,12 @@ if (length(missing_vars) > 0) {
 
 # 4. Pre-select only the essential variables 
 # (any_of ensures the code won't crash if a variable is missing)
-df_combined_bio <- df_combined_bio %>%
-  select(any_of(essential_vars))
+df_combined_bio_tb <- df_combined_bio %>%
+  dplyr::select(any_of(essential_vars))%>%
+  dplyr::select(-Cultivar)
 
 # 5. Print a beautifully formatted summary table grouped by Experiment
-df_combined_bio %>%
+df_combined_bio_tb %>%
   dplyr::select(-SimulationName) %>%
   tbl_summary(
     by = Experiment, 
@@ -477,14 +479,32 @@ df_combined_bio %>%
   modify_caption("**Summary Statistics of Biomass Components by Experiment**")
 ```
 
-To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio1).
+To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio00).
+
 
 ```{r}
-#| label: fig-graph-bio1
-#| fig-cap: "Comparison of Above-Ground sums vs. Observed values across simulations.The 1:1 line in red."
+#| label: fig-graph-bio00
+#| fig-cap: "Comparison between measured Above Ground biomass and teh sum of its components in Obseved file. The 1:1 line is in red."
 #| echo: false
 #| message: false
+#| fig-height: 8
+#| fig-width: 10
+#| warning: false
+```
 
+
+::: {.panel-tabset}
+
+```{r}
+#| label: fig-graph-bio0
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+# 1. Prepare the data
+# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. 
+# If not, you will need to add your left_join(sim_name_lookup_table) step here).
 df_plot <- df_combined_bio %>%
   mutate(
     Spike_Plus_Grain = coalesce(Wheat.Spike.Wt, 0) + coalesce(Wheat.Grain.Wt, 0),
@@ -495,46 +515,147 @@ df_plot <- df_combined_bio %>%
       coalesce(Wheat.Spike.Wt, 0) +
       coalesce(Wheat.Ear.Wt, 0) +
       coalesce(Wheat.Grain.Wt, 0)
-  ) %>%
+  )
+
+# 2. Loop through experiments to build Tabset Plots
+experiments <- unique(df_plot$Experiment)
+
+# Drop any NA experiments just in case
+experiments <- experiments[!is.na(experiments)]
+
+for (exp in experiments) {
   
-  # Extract everything from the start of the string up to and including 2024 or 2025
-  mutate(SimName = str_extract(SimulationName, "^.*?(2024|2025)")) 
-
-# 1. Save your ggplot as an object 'p'
-p <- df_plot %>% 
-  ggplot(aes(x = Wheat.AboveGround.Wt, 
-             y = TotalBiomassComponentSum,
-             colour = SimName)) + 
-  geom_point() +
-  # Adding the 1:1 line since you are doing validation!
-  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
-  theme_minimal()
-
-# 2. Convert it to an interactive graph
-ggplotly(p)
-
+  # Print the Markdown header for the Tab
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  # Subset data for this specific experiment
+  df_sub <- df_plot %>% filter(Experiment == exp)
+  
+  # Build the ggplot, mapping Cultivar to colour
+  p <- df_sub %>% 
+    ggplot(aes(
+      x = Wheat.AboveGround.Wt, 
+      y = TotalBiomassComponentSum,
+      colour = Cultivar,
+      # Build a rich tooltip for the interactive Plotly graph
+      text = paste(
+        "Cultivar:", Cultivar, 
+        "<br>Simulation:", SimulationName,
+        "<br>Observed (x):", round(Wheat.AboveGround.Wt, 2),
+        "<br>Calculated Sum (y):", round(TotalBiomassComponentSum, 2)
+      )
+    )) + 
+    geom_point(size = 2, alpha = 0.7) +
+    # Adding the 1:1 line
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+    theme_minimal() +
+    labs(
+      x = "Observed Above-Ground Weight (g/m2)",
+      y = "Calculated Component Sum",
+      color = "Cultivar"
+    ) +
+    theme(legend.position = "bottom")
+  
+  # Convert to an interactive graph
+  plt <- ggplotly(p, tooltip = "text", height = 600) %>%
+    layout(margin = list(b = 80)) # Ensure the legend isn't cut off
+  
+  # Safely print the widget into the tabset
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
 ```
 
-Similarly, we test the **Ear** component of reported values (@fig-graph-bio2).
+:::
+
+Similarly, we test the **Ear** component of reported values (fig-graph-ear00).
+
 
 ```{r}
-#| label: fig-graph-bio2
-#| fig-cap: "Comparison of Ear Weight vs. Spike and Grain Weight across simulations.The 1:1 line in red."
+#| label: fig-graph-ear00
+#| fig-cap: "Comparison between measured Ear biomass and the sum of its components (Spike and Grain) in Obseved file. The 1:1 line is in red."
 #| echo: false
 #| message: false
-
-# 1. Save your ggplot as an object 'p'
-p <- df_plot %>% 
-  ggplot(aes(x = Wheat.Ear.Wt, 
-             y = Spike_Plus_Grain, color = SimName)) + 
-  geom_point() +
-  # Adding the 1:1 line since you are doing validation!
-  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
-  theme_minimal()
-
-# 2. Convert it to an interactive graph
-ggplotly(p)
+#| fig-height: 8
+#| fig-width: 10
+#| warning: false
 ```
+
+
+::: {.panel-tabset}
+
+```{r}
+#| label: fig-graph-ear0
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+# 1. Prepare the data
+# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. 
+# If not, you will need to add your left_join(sim_name_lookup_table) step here).
+df_plot <- df_combined_bio %>%
+  mutate(
+    Spike_Plus_Grain = coalesce(Wheat.Spike.Wt, 0) + coalesce(Wheat.Grain.Wt, 0),
+    TotalBiomassComponentSum = 
+      coalesce(Wheat.Leaf.Live.Wt, 0) +
+      coalesce(Wheat.Leaf.Dead.Wt, 0) +
+      coalesce(Wheat.Stem.Wt, 0) +
+      coalesce(Wheat.Spike.Wt, 0) +
+      coalesce(Wheat.Ear.Wt, 0) +
+      coalesce(Wheat.Grain.Wt, 0)
+  )
+
+# 2. Loop through experiments to build Tabset Plots
+experiments <- unique(df_plot$Experiment)
+
+# Drop any NA experiments just in case
+experiments <- experiments[!is.na(experiments)]
+
+for (exp in experiments) {
+  
+  # Print the Markdown header for the Tab
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  # Subset data for this specific experiment
+  df_sub <- df_plot %>% filter(Experiment == exp)
+  
+  # Build the ggplot, mapping Cultivar to colour
+  p <- df_sub %>% 
+    ggplot(aes(
+x = Wheat.Ear.Wt, 
+             y = Spike_Plus_Grain,
+      colour = Cultivar,
+      # Build a rich tooltip for the interactive Plotly graph
+      text = paste(
+        "Cultivar:", Cultivar, 
+        "<br>Simulation:", SimulationName,
+        "<br>Observed (x):", round(Spike_Plus_Grain, 2),
+        "<br>Calculated Sum (y):", round(Wheat.Ear.Wt, 2)
+      )
+    )) + 
+    geom_point(size = 2, alpha = 0.7) +
+    # Adding the 1:1 line
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+    theme_minimal() +
+    labs(
+      x = "Observed Ear Weight",
+      y = "Calculated Spike plus Grain (g/m2)",
+      color = "Cultivar"
+    ) +
+    theme(legend.position = "bottom")
+  
+  # Convert to an interactive graph
+  plt <- ggplotly(p, tooltip = "text", height = 600) %>%
+    layout(margin = list(b = 80)) # Ensure the legend isn't cut off
+  
+  # Safely print the widget into the tabset
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
+```
+
+:::
 
 ### 5. Phenology parameter check
 
