@@ -14,15 +14,15 @@ base_wd <- getwd()
 
 # 2. Define your relative paths
 pipeline_dirs <- c(
-  "Dookie2024",
-  "Dookie2025",
-  "Gnarwarre2024",
-  "Gnarwarre2025",
-  "GrassPatch2024",
-  "GrassPatch2025",
-  "WaggaWagga2024",
-  "WaggaWagga2025",
-  "Turretfield2024",
+  # "Dookie2024",
+  # "Dookie2025",
+  # "Gnarwarre2024",
+  # "Gnarwarre2025",
+  # "GrassPatch2024",
+  # "GrassPatch2025",
+  # "WaggaWagga2024",
+  # "WaggaWagga2025",
+  # "Turretfield2024",
   "Fords2025"
 )
 
@@ -77,7 +77,6 @@ message(" ALL PIPELINES EXECUTED.")
 message("=======================================================\n")
 
 
-
 # ===================================================================
 # GENERATE QUALITY CONTROL REPORT
 # ===================================================================
@@ -91,4 +90,49 @@ tryCatch({
   message(" [\u2713] QC Report generated successfully: QC_Report.html")
 }, error = function(e) {
   warning(" [X] Failed to generate QC Report: ", e$message)
+})
+
+
+# ===================================================================
+# PACKAGE & ENCRYPT OBSERVED FOLDER
+# ===================================================================
+message("\n=======================================================")
+message(" PACKAGING OBSERVED FOLDER...")
+message("=======================================================")
+
+tryCatch({
+  # Define paths
+  html_source <- "QC_Report.html"
+  observed_dir <- "Observed"
+  html_target <- file.path(observed_dir, html_source)
+  
+  final_zip_path <- "Observed.zip" # Target destination for the zip
+  password_file <- "secret_pass.txt"              # Location of the text file with the password
+  
+  # 1. Inject the HTML report into the Observed folder
+  if (file.exists(html_source)) {
+    if (!dir.exists(observed_dir)) {
+      dir.create(observed_dir, recursive = TRUE)
+    }
+    
+    # Copy file, replacing any older version inside the folder
+    file.copy(from = html_source, to = html_target, overwrite = TRUE)
+    
+    # file.remove(html_source) # <-- Commented out: Original stays in root folder!
+    message(" [\u2713] QC Report duplicated to: ", html_target)
+  } else {
+    warning(" [!] QC Report not found at source, skipping injection.")
+  }
+  
+  # 2. Execute the Secure Zip function
+  message("  [*] Encrypting the Observed folder...")
+  final_zip_tracker <- secure_zip_folder(
+    input_folder = observed_dir,
+    output_zip   = final_zip_path,
+    pass_file    = password_file
+  )
+  message(" [\u2713] Packaging complete! Secure Zip located at: ", final_zip_tracker)
+  
+}, error = function(e) {
+  warning(" [X] Failed during packaging phase: ", e$message)
 })
