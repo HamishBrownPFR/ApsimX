@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 216,
+  "Version": 220,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -78,6 +78,25 @@
       ],
       "GroupByVariableName": null,
       "Name": "AnalysisReport",
+      "ResourceName": null,
+      "Children": [],
+      "Enabled": true,
+      "ReadOnly": false
+    },
+    {
+      "$type": "Models.Report, Models",
+      "VariableNames": [
+        "[Simulation].Name",
+        "[Lentil].Phenology.StartBuddingDAS",
+        "[Lentil].Phenology.StartFloweringDAS",
+        "[Lentil].Phenology.StartPoddingDAS",
+        "[Lentil].Phenology.MaturityDAS"
+      ],
+      "EventNames": [
+        "[Lentil].Harvesting"
+      ],
+      "GroupByVariableName": null,
+      "Name": "HarvestReport",
       "ResourceName": null,
       "Children": [],
       "Enabled": true,
