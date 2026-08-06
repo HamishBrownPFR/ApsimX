@@ -32,7 +32,6 @@
         "[Lentil].Leaf.NodeNumber",
         "[Lentil].Leaf.SpecificAreaTotal",
         "[Lentil].Phenology.CurrentStageName",
-        "[Lentil].Phenology.AbortedFlowerBuds",
         "[Lentil].Phenology.AccumulatedTT",
         "[Lentil].Phenology.ThermalTime",
         "[Lentil].Phenology.Stage",
