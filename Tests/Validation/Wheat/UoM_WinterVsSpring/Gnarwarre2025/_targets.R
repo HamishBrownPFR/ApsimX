@@ -68,7 +68,7 @@ list(
       file_name_input_haun     = paste0(proj_name, "_HaunStagesInput.csv"),
       file_name_new_met        = paste0(proj_name, ".met"),
       file_name_met            = "Gnarwarre_-38.20_144.05.met",
-      file_name_mapping_csv    = paste0(proj_name, "_obs_var_new_names.csv") 
+      file_name_mapping_csv    = paste0(proj_name, "_obs_var_list.csv") 
     )
   ),
   
@@ -212,42 +212,34 @@ list(
       agb_grain_asynch = TRUE # temporary dealing with misalignment between aboveG and grain weights
     )
   ),
+
+  
   # tar_target(
   #   name = df_obs_plus_pheno_hi_amounts,
   #   command = calc_nutrient_absolute_amounts(
-  #     df           = df_obs_plus_pheno_plus_hi, 
-  #     crop_prefix  = "Wheat",
-  #     organs       = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
-  #     conc_targets = c("N" = "NConc", "WSC" = "WSCc"), 
-  #     mass_suffix  = "Wt",
-  #     ag_name      = "Wheat.AboveGround",
-  #     divisor      = 1 
+  #     df                  = df_obs_plus_pheno_plus_hi, 
+  #     crop_prefix         = "Wheat",
+  #     # Add Grain and Ear to the pool so it evaluates them
+  #     organs              = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"), 
+  #     # Tell the engine Ear overrides Spike and Grain
+  #     composite_hierarchy = list(Ear = c("Spike", "Grain")), 
+  #     conc_targets        = c("N" = "NConc", "WSC" = "WSCc"), 
+  #     mass_suffix         = "Wt",
+  #     ag_name             = "Wheat.AboveGround",
+  #     divisor             = 1,
+  #     error_log_path      = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
   #   )
   # ),
   
-  tar_target(
-    name = df_obs_plus_pheno_hi_amounts,
-    command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_pheno_plus_hi, 
-      crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
-      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix    = "Wt",
-      ag_name        = "Wheat.AboveGround",
-      divisor        = 1,
-      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
-    )
-  ),
   
-  
-  tar_target(
-    name = df_obs_plus_pheno_hi_amounts_ear,
-    command = fix_ear_calc(
-      df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
-      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
-    )
-  ),
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_amounts_ear,
+  #   command = fix_ear_calc(
+  #     df_obs_wide       = df_obs_plus_pheno_hi_amounts, 
+  #     ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+  #     ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
+  #   )
+  # ),
   
   # # --- NEW: Phase 2 Chaff to Spike Swap ---
   # tar_target(
@@ -265,7 +257,7 @@ list(
   tar_target(
     name = df_obs_final,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_hi_amounts_ear,
+      df            = df_obs_plus_pheno_plus_hi,
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
