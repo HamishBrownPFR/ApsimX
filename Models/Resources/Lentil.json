@@ -10086,7 +10086,7 @@
             {
               "$type": "Models.Core.Folder, Models",
               "ShowInDocs": false,
-              "Name": "ControlledEnvironmentData",
+              "Name": "ControlledEnvironmentCultivars",
               "ResourceName": null,
               "Children": [
                 {
