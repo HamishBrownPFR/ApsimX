@@ -224,7 +224,11 @@
             "1.0 * [Wheat].Leaf.Dead.StorageWt/([Wheat].Leaf.Dead.Wt + 0.00001) as Wheat.Leaf.Dead.WSCc",
             "[Spectral].NDVI",
             "[Irrigation].IrrigationApplied",
-            "[Fertiliser].NitrogenApplied"
+            "[Fertiliser].NitrogenApplied",
+            "[Wheat].Ear.N",
+            "[Wheat].Ear.NConc",
+            "[Wheat].Ear.StorageWt as Wheat.Ear.WSC",
+            "1.0 * [Wheat].Ear.StorageWt / ([Wheat].Ear.Wt + 0.00001) as Wheat.Ear.WSCc"
           ],
           "EventNames": [
             "[Clock].DoReport"

@@ -214,14 +214,17 @@ list(
   tar_target(
     name = df_obs_plus_pheno_hi_amounts,
     command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_pheno_plus_hi, 
-      crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
-      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix    = "Wt",
-      ag_name        = "Wheat.AboveGround",
-      divisor        = 1,
-      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
+      df                  = df_obs_plus_pheno_plus_hi, 
+      crop_prefix         = "Wheat",
+      # Add Grain and Ear to the pool so it evaluates them
+      organs              = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"), 
+      # Tell the engine Ear overrides Spike and Grain
+      composite_hierarchy = list(Ear = c("Spike", "Grain")), 
+      conc_targets        = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix         = "Wt",
+      ag_name             = "Wheat.AboveGround",
+      divisor             = 1,
+      error_log_path      = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
     )
   ),
   

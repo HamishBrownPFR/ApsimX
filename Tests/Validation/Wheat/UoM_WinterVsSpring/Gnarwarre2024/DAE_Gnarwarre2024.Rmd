@@ -180,3 +180,10 @@ names(x)
 
 
 ```
+
+
+
+```{r}
+tar_load(df_obs_plus_pheno_hi_amounts)
+```
+

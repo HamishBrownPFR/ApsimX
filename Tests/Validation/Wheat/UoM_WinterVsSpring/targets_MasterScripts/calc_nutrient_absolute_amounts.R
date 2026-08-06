@@ -9,13 +9,16 @@
 #' **Pure Individual Pools:** Individual organs are strictly kept as NA if no 
 #' observation was made, preventing artificial zero-lines in APSIM graphs.
 #' **Smart Aggregation:** AboveGround sums safely bypass missing organs 
-#' (e.g., early spikes) using na.rm=TRUE, but strictly enforce NA totals 
-#' if any required organ triggered a FATAL data mismatch.
+#' (e.g., early spikes) using na.rm=TRUE. 
+#' **Hierarchical Masking:** If a `composite_hierarchy` is provided (e.g., Ear > Spike/Grain),
+#' the function automatically masks out the sub-organs from the AboveGround sum 
+#' for any row where the composite organ has physical mass, preventing double-counting.
 #'
 #' @export
 calc_nutrient_absolute_amounts <- function(df, 
                                            crop_prefix = "Wheat",
-                                           organs = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"),
+                                           organs = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"),
+                                           composite_hierarchy = list(Ear = c("Spike", "Grain")),
                                            conc_targets = c("N" = "NConc", "WSC" = "WSCc"),
                                            mass_suffix = "Wt",
                                            ag_name = "Wheat.AboveGround",
@@ -34,27 +37,23 @@ calc_nutrient_absolute_amounts <- function(df,
   diagnostic_logs <- data.frame() 
   
   cat("\n------------------------------------------------------------\n")
-  cat(" 🧪 NUTRIENT AGGREGATION & QC CHECK\n")
+  cat(" 🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)\n")
   cat("------------------------------------------------------------\n")
   
   # ---- 1. DYNAMIC EXPLICIT CROSS-MULTIPLICATION ----
   for (target_nutrient in names(conc_targets)) {
     raw_conc_suffix <- conc_targets[[target_nutrient]]
     cols_to_sum <- c() 
-    
-    # Vector to track FATAL mismatched data on a per-row basis for this specific nutrient
-    fatal_rows_for_nutrient <- rep(FALSE, nrow(df_out))
+    fatal_flags <- list() # Tracks fatal errors per organ, not just per row
     
     for (organ in organs) {
       mass_col <- paste(crop_prefix, organ, mass_suffix, sep = ".")     
       conc_col <- paste(crop_prefix, organ, raw_conc_suffix, sep = ".") 
       out_col  <- paste(crop_prefix, organ, target_nutrient, sep = ".") 
       
-      # Defensive column initialization
       if (!mass_col %in% names(df_out)) df_out[[mass_col]] <- NA_real_
       if (!conc_col %in% names(df_out)) df_out[[conc_col]] <- NA_real_
       
-      # Force numeric evaluation safely outside of tidy-eval for speed
       df_out[[mass_col]] <- suppressWarnings(as.numeric(as.character(df_out[[mass_col]])))
       df_out[[conc_col]] <- suppressWarnings(as.numeric(as.character(df_out[[conc_col]])))
       
@@ -62,31 +61,24 @@ calc_nutrient_absolute_amounts <- function(df,
         message(sprintf("    [!] Notice: '%s' is 100%% missing/empty in this dataset. Safely bypassing.", conc_col))
       }
       
-      # 1A: Smart calculation (Strict NA preservation for individual organs!)
+      # 1A: Smart calculation (Strict NA preservation for individual organs)
       df_out <- df_out %>%
         dplyr::mutate(
           !!out_col := dplyr::case_when(
-            # Exception: Explicit 0 mass means 0 physical nutrients
             !is.na(.data[[mass_col]]) & .data[[mass_col]] == 0 ~ 0,
-            
-            # Standard calculation: Both exist and mass > 0
             !is.na(.data[[mass_col]]) & !is.na(.data[[conc_col]]) ~ (.data[[mass_col]] * .data[[conc_col]]) / divisor,
-            
-            # EVERYTHING ELSE defaults to NA (Preserves pure empty data, no fake zeros!)
             TRUE ~ NA_real_
           )
         )
       
       # 1B: OMNI-TRACKER DIAGNOSTIC LOGGING
-      # Define the two distinct types of data corruption
       missing_conc <- !is.na(df_out[[mass_col]]) & df_out[[mass_col]] > 0 & is.na(df_out[[conc_col]])
       missing_mass <- is.na(df_out[[mass_col]]) & !is.na(df_out[[conc_col]])
       
-      # Update the master failure mask if EITHER fatal condition is met
+      # Store the fatal flag independently for this specific organ
       is_fatal <- missing_conc | missing_mass
-      fatal_rows_for_nutrient <- fatal_rows_for_nutrient | is_fatal 
+      fatal_flags[[out_col]] <- is_fatal 
       
-      # Build the diagnostic tracker
       issue_df <- df_out %>%
         dplyr::select(dplyr::any_of(c("SimulationName", "Clock.Today"))) %>%
         dplyr::mutate(
@@ -110,20 +102,46 @@ calc_nutrient_absolute_amounts <- function(df,
       total_calcs <- total_calcs + 1
     }
     
+    # ---- 1.5 NON-DESTRUCTIVE HIERARCHY MASKING ----
+    # Create an isolated summation dataframe so we don't destroy explicit data
+    sum_df <- df_out %>% dplyr::select(dplyr::all_of(cols_to_sum))
+    
+    if (!is.null(composite_hierarchy)) {
+      comp_name <- names(composite_hierarchy)[1]
+      sub_names <- composite_hierarchy[[comp_name]]
+      
+      comp_col <- paste(crop_prefix, comp_name, target_nutrient, sep = ".")
+      comp_mass_col <- paste(crop_prefix, comp_name, mass_suffix, sep = ".")
+      
+      if (comp_col %in% cols_to_sum) {
+        # Identify rows where the composite organ (Ear) has physical mass reported
+        use_comp_mask <- !is.na(df_out[[comp_mass_col]])
+        
+        sub_cols <- paste(crop_prefix, sub_names, target_nutrient, sep = ".")
+        sub_cols <- intersect(sub_cols, cols_to_sum)
+        
+        for (scol in sub_cols) {
+          # Blank out the sub-organ in the summation frame (non-destructive to df_out)
+          sum_df[[scol]][use_comp_mask] <- NA_real_
+          
+          # Blank out the sub-organ's fatal flag so it doesn't fail the AboveGround total
+          fatal_flags[[scol]][use_comp_mask] <- FALSE
+        }
+      }
+    }
+    
+    # Aggregate the final fatal mask across all active summation pathways
+    fatal_rows_for_nutrient <- Reduce(`|`, fatal_flags)
+    
     # ---- 2. STRICT AGGREGATE SUMMATION ----
     ag_col_out <- paste(ag_name, target_nutrient, sep = ".")
     
     df_out <- df_out %>%
       dplyr::mutate(
         !!ag_col_out := dplyr::case_when(
-          # 2A: If ANY organ triggered a FATAL mismatch on this row, the total MUST fail.
           fatal_rows_for_nutrient ~ NA_real_,
-          
-          # 2B: If ALL individual organs are perfectly NA, the total must be NA (no false zeros).
-          rowSums(!is.na(dplyr::select(., dplyr::all_of(cols_to_sum)))) == 0 ~ NA_real_,
-          
-          # 2C: Safely sum whatever organs do exist! NAs from biologically absent organs are ignored.
-          TRUE ~ rowSums(dplyr::select(., dplyr::all_of(cols_to_sum)), na.rm = TRUE)
+          rowSums(!is.na(sum_df)) == 0 ~ NA_real_,
+          TRUE ~ rowSums(sum_df, na.rm = TRUE)
         )
       )
   }
@@ -155,8 +173,6 @@ calc_nutrient_absolute_amounts <- function(df,
       )
       message(paste(big_alert_box, collapse = "\n"))
       
-      # ---> Machine-readable Q-Flag for Fatal Nutrient Mismatch
-      # Ensure your log_qflag function is available in the environment when this runs!
       tryCatch({
         log_qflag(
           severity = "FATAL", 
