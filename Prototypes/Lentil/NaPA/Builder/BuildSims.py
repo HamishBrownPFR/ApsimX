@@ -289,7 +289,7 @@ def write_experiment_apply_file(
 
         # ---- 1. Create the treatment structure via CLI
         lines.append(f"add new CompositeFactor to [WaterTrt] name {trt_name}")
-        lines.append(f"[Factors].Permutation.WaterTrt.{trt_name}.Specifications = [IrrigationApplications]")
+        lines.append(f'[Factors].Permutation.WaterTrt.{trt_name}.Specifications += [IrrigationApplications]')
 
         # ---- 2. Build an ops-only apsimx file for this treatment
         ops_models = []
@@ -347,16 +347,15 @@ def write_experiment_apply_file(
     # ------------------------------------------------------------------
     for tos_trt, tos_info in toss.items():
         lines.append(f"add new CompositeFactor to [TOS] name TOS{tos_trt}")
-        lines.append(f"[TOS].TOS{tos_trt}.Specifications = " +
-                     f"[Clock].StartDate = {tos_info['startDate']}," +
-                     f"[Clock].EndDate = {tos_info['endDate']},"+
-                     f"[Sowing].Script.SowDate = {tos_info['sowDate']},"+
-                     f"[Sowing].Script.EmergeDate = {tos_info['emergeDate']},"+
-                     f"[Sowing].Script.SowingDepth = {tos_info['sowDepth']},"+
-                     f"[Sowing].Script.RowSpacing = {tos_info['rowWidth']},"+
-                     f"[Sowing].Script.Population = {tos_info['popn']}")
-        lines.append(f"[ApplyFertiliser].Script.FertiliserDates = {tos_info['sowDate']}")
-        lines.append(f"[ApplyFertiliser].Script.TrtName = 0kgN")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Clock].StartDate = {tos_info['startDate']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Clock].EndDate = {tos_info['endDate']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Sowing].Script.SowDate = {tos_info['sowDate']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Sowing].Script.EmergeDate = {tos_info['emergeDate']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Sowing].Script.SowingDepth = {tos_info['sowDepth']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Sowing].Script.RowSpacing = {tos_info['rowWidth']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [Sowing].Script.Population = {tos_info['popn']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [ApplyFertiliser].Script.FertiliserDates = {tos_info['sowDate']}")
+        lines.append(f"[TOS].TOS{tos_trt}.Specifications += [ApplyFertiliser].Script.TrtName = 0kgN")
         
     # ------------------------------------------------------------------
     # Sow density treatments
@@ -383,7 +382,7 @@ def write_experiment_apply_file(
     # Save experiment
     # ------------------------------------------------------------------
     lines.append(f"save {finalAPSIMFile}")
-    lines.append(f"run {finalAPSIMFile}")
+    lines.append(f"run")
 
     # Write apply file
     tempApplyFile.write_text("\n".join(lines))

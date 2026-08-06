@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 216,
+  "Version": 220,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -89,7 +89,9 @@
                         "[Sowing].Script.EmergeDate = null",
                         "[Sowing].Script.SowingDepth = 30",
                         "[Sowing].Script.RowSpacing = 400",
-                        "[Sowing].Script.Population = 100"
+                        "[Sowing].Script.Population = 100",
+                        "[ApplyFertiliser].Script.FertiliserDates = 30/04/2019",
+                        "[ApplyFertiliser].Script.TrtName = 0kgN"
                       ],
                       "CustomDescriptors": [],
                       "Name": "TOS1",
@@ -107,7 +109,9 @@
                         "[Sowing].Script.EmergeDate = null",
                         "[Sowing].Script.SowingDepth = 30",
                         "[Sowing].Script.RowSpacing = 400",
-                        "[Sowing].Script.Population = 100"
+                        "[Sowing].Script.Population = 100",
+                        "[ApplyFertiliser].Script.FertiliserDates = 21/05/2019",
+                        "[ApplyFertiliser].Script.TrtName = 0kgN"
                       ],
                       "CustomDescriptors": [],
                       "Name": "TOS2",
@@ -125,7 +129,9 @@
                         "[Sowing].Script.EmergeDate = null",
                         "[Sowing].Script.SowingDepth = 30",
                         "[Sowing].Script.RowSpacing = 400",
-                        "[Sowing].Script.Population = 100"
+                        "[Sowing].Script.Population = 100",
+                        "[ApplyFertiliser].Script.FertiliserDates = 11/06/2019",
+                        "[ApplyFertiliser].Script.TrtName = 0kgN"
                       ],
                       "CustomDescriptors": [],
                       "Name": "TOS3",
@@ -487,11 +493,11 @@
                     },
                     {
                       "Key": "FertiliserDates",
-                      "Value": "11/06/2019"
+                      "Value": ""
                     },
                     {
                       "Key": "TrtName",
-                      "Value": "0kgN"
+                      "Value": ""
                     }
                   ],
                   "Name": "ApplyFertiliser",
@@ -590,7 +596,6 @@
                     "[Lentil].Leaf.NodeNumber",
                     "[Lentil].Leaf.SpecificAreaTotal",
                     "[Lentil].Phenology.CurrentStageName",
-                    "[Lentil].Phenology.AbortedFlowerBuds",
                     "[Lentil].Phenology.AccumulatedTT",
                     "[Lentil].Phenology.ThermalTime",
                     "[Lentil].Phenology.Stage",

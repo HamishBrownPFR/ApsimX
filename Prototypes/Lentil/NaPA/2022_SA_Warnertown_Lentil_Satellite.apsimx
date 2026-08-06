@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 216,
+  "Version": 220,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -89,7 +89,9 @@
                         "[Sowing].Script.EmergeDate = 18-Apr",
                         "[Sowing].Script.SowingDepth = 50.0",
                         "[Sowing].Script.RowSpacing = 230.0",
-                        "[Sowing].Script.Population = 100"
+                        "[Sowing].Script.Population = 100",
+                        "[ApplyFertiliser].Script.FertiliserDates = 11/04/2022",
+                        "[ApplyFertiliser].Script.TrtName = 0kgN"
                       ],
                       "CustomDescriptors": [],
                       "Name": "TOS1",
@@ -107,7 +109,9 @@
                         "[Sowing].Script.EmergeDate = 26-May",
                         "[Sowing].Script.SowingDepth = 50.0",
                         "[Sowing].Script.RowSpacing = 230.0",
-                        "[Sowing].Script.Population = 100"
+                        "[Sowing].Script.Population = 100",
+                        "[ApplyFertiliser].Script.FertiliserDates = 11/05/2022",
+                        "[ApplyFertiliser].Script.TrtName = 0kgN"
                       ],
                       "CustomDescriptors": [],
                       "Name": "TOS2",
@@ -486,11 +490,11 @@
                     },
                     {
                       "Key": "FertiliserDates",
-                      "Value": "11/05/2022"
+                      "Value": ""
                     },
                     {
                       "Key": "TrtName",
-                      "Value": "0kgN"
+                      "Value": ""
                     }
                   ],
                   "Name": "ApplyFertiliser",
@@ -589,7 +593,6 @@
                     "[Lentil].Leaf.NodeNumber",
                     "[Lentil].Leaf.SpecificAreaTotal",
                     "[Lentil].Phenology.CurrentStageName",
-                    "[Lentil].Phenology.AbortedFlowerBuds",
                     "[Lentil].Phenology.AccumulatedTT",
                     "[Lentil].Phenology.ThermalTime",
                     "[Lentil].Phenology.Stage",
