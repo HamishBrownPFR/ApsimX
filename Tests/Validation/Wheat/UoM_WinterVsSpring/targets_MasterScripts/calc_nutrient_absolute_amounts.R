@@ -50,9 +50,11 @@ calc_nutrient_absolute_amounts <- function(df,
       conc_col <- paste(crop_prefix, organ, raw_conc_suffix, sep = ".") 
       out_col  <- paste(crop_prefix, organ, target_nutrient, sep = ".") 
       
+      # Defensive column initialization
       if (!mass_col %in% names(df_out)) df_out[[mass_col]] <- NA_real_
       if (!conc_col %in% names(df_out)) df_out[[conc_col]] <- NA_real_
       
+      # Force numeric evaluation safely outside of tidy-eval for speed
       df_out[[mass_col]] <- suppressWarnings(as.numeric(as.character(df_out[[mass_col]])))
       df_out[[conc_col]] <- suppressWarnings(as.numeric(as.character(df_out[[conc_col]])))
       
@@ -76,9 +78,15 @@ calc_nutrient_absolute_amounts <- function(df,
         )
       
       # 1B: OMNI-TRACKER DIAGNOSTIC LOGGING
-      is_fatal <- !is.na(df_out[[mass_col]]) & df_out[[mass_col]] > 0 & is.na(df_out[[conc_col]])
-      fatal_rows_for_nutrient <- fatal_rows_for_nutrient | is_fatal # Update the master failure mask
+      # Define the two distinct types of data corruption
+      missing_conc <- !is.na(df_out[[mass_col]]) & df_out[[mass_col]] > 0 & is.na(df_out[[conc_col]])
+      missing_mass <- is.na(df_out[[mass_col]]) & !is.na(df_out[[conc_col]])
       
+      # Update the master failure mask if EITHER fatal condition is met
+      is_fatal <- missing_conc | missing_mass
+      fatal_rows_for_nutrient <- fatal_rows_for_nutrient | is_fatal 
+      
+      # Build the diagnostic tracker
       issue_df <- df_out %>%
         dplyr::select(dplyr::any_of(c("SimulationName", "Clock.Today"))) %>%
         dplyr::mutate(
@@ -87,9 +95,8 @@ calc_nutrient_absolute_amounts <- function(df,
           Mass_Value = df_out[[mass_col]],
           Conc_Value = df_out[[conc_col]],
           Issue = dplyr::case_when(
-            is_fatal ~ "FATAL: Has Mass > 0, but Conc is missing",
-            is.na(Mass_Value) & !is.na(Conc_Value) ~ "FATAL: Has Conc, but Mass is missing",
-            # If both are NA, it falls through to "OK" and is entirely omitted from the CSV
+            missing_conc ~ "FATAL: Has Mass > 0, but Conc is missing",
+            missing_mass ~ "FATAL: Has Conc, but Mass is missing",
             TRUE ~ "OK"
           )
         ) %>%
@@ -135,7 +142,7 @@ calc_nutrient_absolute_amounts <- function(df,
       big_alert_box <- c(
         "\n",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-        " \U0001F6A8 ACTION REQUIRED: FATAL LAB DATA MISMATCH DETECTED \U0001F6A8",
+        " 🚨 ACTION REQUIRED: FATAL LAB DATA MISMATCH DETECTED 🚨",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
         sprintf(" %d instances found where physical organs had Mass but no Conc", nrow(fatal_errors)),
         " (or vice versa), corrupting the aggregate totals.",
@@ -148,12 +155,15 @@ calc_nutrient_absolute_amounts <- function(df,
       )
       message(paste(big_alert_box, collapse = "\n"))
       
-      # ---> NEW: Machine-readable Q-Flag for Fatal Nutrient Mismatch
-      log_qflag(
-        severity = "FATAL", 
-        category = "NUTRIENTS", 
-        message = sprintf("Fatal lab data mismatch: %d instance(s) found where organs had Mass but no Conc (or vice versa).", nrow(fatal_errors))
-      )
+      # ---> Machine-readable Q-Flag for Fatal Nutrient Mismatch
+      # Ensure your log_qflag function is available in the environment when this runs!
+      tryCatch({
+        log_qflag(
+          severity = "FATAL", 
+          category = "NUTRIENTS", 
+          message = sprintf("Fatal lab data mismatch: %d instance(s) found where organs had Mass but no Conc (or vice versa).", nrow(fatal_errors))
+        )
+      }, error = function(e) warning("log_qflag function not found, skipping Q-Flag logging."))
       
     } else {
       message(sprintf("💾 Success: Derived %d pools. No FATAL errors detected.", total_calcs))
