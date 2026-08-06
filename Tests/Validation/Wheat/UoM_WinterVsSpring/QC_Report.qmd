@@ -392,13 +392,14 @@ ggplotly(p, tooltip = c("x", "text"))
 
 ## 4.Biomass component checks
 
-In this project, by definition, we are assuming total above ground biomass (Wheat.AboveGround.Wt) composition as below:
+In this project, by definition, we are assuming total above ground biomass (*Wheat.AboveGround.Wt*) composition as below:
 
-- **Wheat.AboveGround.Wt** = Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+- **Wheat.AboveGround.Wt** = Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Ear.Wt
 
-Note that, terminology-wise, *Ear* in APSIM is the same as chaff (i.e., without grains). So:
+- **Wheat.Ear.Wt** = Wheat.Spike.Wt + Wheat.Grain.Wt (**in APSIM simulations**)
 
-- **Wheat.Ear.Wt** = Wheat.Spike.Wt + Wheat.Grain.Wt
+**NOTE:** We had to align field terminology with APSIM terminology. In many cases, when **chaff (i.e., APSIM's spike)** and grain could not be separated (e.g., early in grain formation) the values of Wheat.Ear.Wt and Wheat.Spike.Wt in APSIM were set the same for comparison with simulations. This can be changed if found inappropriate.
+
 
 ```{r}
 #| echo: false
@@ -482,6 +483,7 @@ df_combined_bio_tb %>%
 To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio).
 
 
+
 ::: {#fig-graph-bio}
 
 ::: {.panel-tabset}
@@ -502,8 +504,9 @@ df_plot <- df_combined_bio %>%
       coalesce(Wheat.Leaf.Live.Wt, 0) +
       coalesce(Wheat.Leaf.Dead.Wt, 0) +
       coalesce(Wheat.Stem.Wt, 0) +
-      coalesce(Wheat.Spike.Wt, 0) +
-      coalesce(Wheat.Grain.Wt, 0)
+    #  coalesce(Wheat.Spike.Wt, 0) +
+    #  coalesce(Wheat.Grain.Wt, 0) +
+      coalesce(Wheat.Ear.Wt, 0) 
   )
 
 # 2. Loop through experiments to build Tabset Plots
@@ -583,8 +586,9 @@ df_plot <- df_combined_bio %>%
       coalesce(Wheat.Leaf.Live.Wt, 0) +
       coalesce(Wheat.Leaf.Dead.Wt, 0) +
       coalesce(Wheat.Stem.Wt, 0) +
-      coalesce(Wheat.Spike.Wt, 0) +
-      coalesce(Wheat.Grain.Wt, 0)
+    #  coalesce(Wheat.Spike.Wt, 0) +
+    #  coalesce(Wheat.Grain.Wt, 0) +
+      coalesce(Wheat.Ear.Wt, 0) 
   )
 
 # 2. Loop through experiments to build Tabset Plots

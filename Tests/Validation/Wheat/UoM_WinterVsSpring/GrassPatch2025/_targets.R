@@ -70,7 +70,7 @@ list(
       file_name_input_haun    = paste0(proj_name, "_HaunStagesInput.csv"),
       file_name_met           = "Grass Patch_-33.20_121.65.met",
       file_name_new_met       = paste0(proj_name, ".met"),
-      file_name_mapping_csv   = paste0(proj_name, "_obs_var_new_names.csv")
+      file_name_mapping_csv   = paste0(proj_name, "_obs_var_list.csv")
     )
   ),
   
@@ -207,38 +207,82 @@ list(
   #   )
   # ),
   
+  # tar_target(
+  #   name = df_obs_plus_pheno_plus_hi_amounts,
+  #   command = calc_nutrient_absolute_amounts(
+  #     df             = df_obs_plus_pheno_plus_hi, 
+  #     crop_prefix    = "Wheat",
+  #     organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
+  #     conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
+  #     mass_suffix    = "Wt",
+  #     ag_name        = "Wheat.AboveGround",
+  #     divisor        = 1,
+  #     error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
+  #   )
+  # ),
   tar_target(
     name = df_obs_plus_pheno_plus_hi_amounts,
     command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_pheno_plus_hi, 
-      crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
-      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix    = "Wt",
-      ag_name        = "Wheat.AboveGround",
-      divisor        = 1,
-      error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
+      df                  = df_obs_plus_pheno_plus_hi, 
+      crop_prefix         = "Wheat",
+      # Add Grain and Ear to the pool so it evaluates them
+      organs              = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"), 
+      # Tell the engine Ear overrides Spike and Grain
+      composite_hierarchy = list(Ear = c("Spike", "Grain")), 
+      conc_targets        = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix         = "Wt",
+      ag_name             = "Wheat.AboveGround",
+      divisor             = 1,
+      error_log_path      = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
     )
   ),
   
   
-  tar_target(
-    name = df_obs_plus_pheno_plus_hi_amounts_ear,
-    command = fix_ear_calc(
-      df_obs_wide       = df_obs_plus_pheno_plus_hi_amounts, 
-      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
-    )
-  ),
+  # tar_target(
+  #   name = df_obs_plus_pheno_plus_hi_amounts_ear,
+  #   command = fix_ear_calc(
+  #     df_obs_wide       = df_obs_plus_pheno_plus_hi_amounts, 
+  #     ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+  #     ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
+  #   )
+  # ),
   
   # --- NEW: Phase 2 Chaff to Spike Swap ---
+  # tar_target(
+  #   name = df_obs_plus_pheno_plus_hi_amounts_ear_spike,
+  #   #command = fix_last_spike_value(
+  #     command = fix_spike_value(
+  #     df_obs_wide = df_obs_plus_pheno_plus_hi_amounts_ear,          # Points to the previous step's output
+  #     spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
+  #     chaff_var   = "Wheat.Spike.Chaff.Wt"     # Your raw Chaff column
+  #   )
+  # ),
+  
+  # Note that Ear and Spike will be the same when it was not possible to separate components 
+  # retain Ear OR Spike as Ear
+  tar_target(
+    name = df_obs_plus_pheno_plus_hi_amounts_ear,
+    command = merge_obs_variables(
+      df_obs      = df_obs_plus_pheno_plus_hi_amounts, 
+      var_final   = "Wheat.Ear.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var1" # if there is crash retain this variable instead and warn user
+    )
+  ),
+  
+  # Note that Ear and Spike will be the same when it was not possible to separate components
+  # Retain Ear (above) as Spike when there is no Spike value available but there is Ear
   tar_target(
     name = df_obs_plus_pheno_plus_hi_amounts_ear_spike,
-    #command = fix_last_spike_value(
-      command = fix_spike_value(
-      df_obs_wide = df_obs_plus_pheno_plus_hi_amounts_ear,          # Points to the previous step's output
-      spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
-      chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
+    command = merge_obs_variables(
+      df_obs      = df_obs_plus_pheno_plus_hi_amounts_ear, 
+      var_final   = "Wheat.Spike.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var2" # if there is crash retain this variable instead and warn user
     )
   ),
   
