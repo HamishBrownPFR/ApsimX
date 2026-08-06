@@ -56,7 +56,7 @@ rename_rescale_obs_vars <- function(df_obs, mapping_csv_path = NULL) {
     cli::cli_abort("Duplicate entries found in the {.var RawDataName} column of the mapping CSV.")
   }
   
-  # ---- 3. EXECUTE RENAMING ----
+  # ---- 3. EXECUTE RENAMING (BASE R METHOD) ----
   active_map <- df_map_cfg[df_map_cfg$RawDataName %in% names(df_obs), ]
   
   if (nrow(active_map) == 0) {
@@ -64,39 +64,54 @@ rename_rescale_obs_vars <- function(df_obs, mapping_csv_path = NULL) {
     return(df_obs)
   }
   
-  rename_vec <- setNames(active_map$RawDataName, active_map$ObservedFileName)
+  rename_map <- active_map[active_map$RawDataName != active_map$ObservedFileName, ]
   
-  df_processed <- df_obs %>%
-    dplyr::rename(!!!rename_vec)
+  df_processed <- df_obs
   
-  # --- DRAMATIC LOGGING: RENAMING ---
-  cat(paste0(
-    "\n======================================================================\n",
-    " \U0001F504 PIPELINE ACTION: VARIABLES REMAPPED \U0001F504 \n",
-    "======================================================================\n"
-  ))
-  
-  for (i in seq_len(nrow(active_map))) {
-    cat(sprintf(" -> %-25s ==>  %s\n", active_map$RawDataName[i], active_map$ObservedFileName[i]))
+  if (nrow(rename_map) > 0) {
+    
+    # Guard against duplicate target names inside the CSV itself
+    if (any(duplicated(rename_map$ObservedFileName))) {
+      conflicts <- rename_map$ObservedFileName[duplicated(rename_map$ObservedFileName)]
+      cli::cli_abort(c(
+        "x" = "Mapping collision: Multiple raw columns are mapped to the same target.",
+        "i" = "Conflicting targets: {.var {unique(conflicts)}}"
+      ))
+    }
+    
+    # --- BULLETPROOF BASE R RENAMING ---
+    # Find the exact column indices of the old names and overwrite them with the new names.
+    # Because this is vectorized, name "swapping" happens simultaneously without collisions!
+    col_indices <- match(rename_map$RawDataName, names(df_processed))
+    names(df_processed)[col_indices] <- rename_map$ObservedFileName
+    
+    # --- DRAMATIC LOGGING: RENAMING ---
+    cat(paste0(
+      "\n======================================================================\n",
+      " 🔄 PIPELINE ACTION: VARIABLES REMAPPED 🔄 \n",
+      "======================================================================\n"
+    ))
+    
+    for (i in seq_len(nrow(rename_map))) {
+      cat(sprintf(" -> %-25s ==>  %s\n", rename_map$RawDataName[i], rename_map$ObservedFileName[i]))
+    }
+    cat("----------------------------------------------------------------------\n")
+    
+    log_qflag(
+      severity = "INFO", 
+      category = "DATA MODIFIED", 
+      message = sprintf("Remapped %d variable names to APSIM standards.", nrow(rename_map))
+    )
   }
-  cat("----------------------------------------------------------------------\n")
-  
-  # ---> NEW: Machine-readable Q-Flag for Remapping
-  log_qflag(
-    severity = "INFO", 
-    category = "DATA MODIFIED", 
-    message = sprintf("Remapped %d variable names to APSIM standards.", nrow(active_map))
-  )
   
   # ---- 4. EXECUTE RESCALING ----
   scale_map <- active_map[active_map$ScaleBy != 1, ]
   
   if (nrow(scale_map) > 0) {
     
-    # --- DRAMATIC LOGGING: SCALING ---
     cat(paste0(
       "\n======================================================================\n",
-      " \u26A0\uFE0F  PIPELINE ACTION: DATA SCALED \u26A0\uFE0F \n",
+      " ⚠️  PIPELINE ACTION: DATA SCALED ⚠️ \n",
       "======================================================================\n"
     ))
     
@@ -106,19 +121,29 @@ rename_rescale_obs_vars <- function(df_obs, mapping_csv_path = NULL) {
       
       if (is.numeric(df_processed[[col_name]])) {
         df_processed[[col_name]] <- df_processed[[col_name]] * scale_val
-        cat(sprintf(" -> \u2705 SUCCESS : %s (Multiplied by %g)\n", col_name, scale_val))
+        cat(sprintf(" -> ✅ SUCCESS : %s (Multiplied by %g)\n", col_name, scale_val))
       } else {
-        cat(sprintf(" -> \u274C SKIPPED : %s is not numeric!\n", col_name))
+        cat(sprintf(" -> ❌ SKIPPED : %s is not numeric!\n", col_name))
       }
     }
     cat("----------------------------------------------------------------------\n")
     
-    # ---> NEW: Machine-readable Q-Flag for Scaling
     log_qflag(
       severity = "INFO", 
       category = "DATA MODIFIED", 
       message = sprintf("Scaled %d numeric column(s) based on CSV dictionary multipliers.", nrow(scale_map))
     )
+  }
+  
+  # ---- 5. FINAL INTEGRITY CHECK ----
+  # This gatekeeper ensures no duplicates slip through to downstream dplyr functions
+  if (any(duplicated(names(df_processed)))) {
+    duplicate_cols <- unique(names(df_processed)[duplicated(names(df_processed))])
+    cli::cli_abort(c(
+      "x" = "CRITICAL ERROR: The final dataset contains duplicate column names.",
+      "i" = "Duplicated column(s): {.var {duplicate_cols}}",
+      "i" = "This happens when mapping creates a collision with existing un-mapped columns. Check your CSV."
+    ))
   }
   
   return(df_processed)

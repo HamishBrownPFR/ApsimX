@@ -479,31 +479,21 @@ df_combined_bio_tb %>%
   modify_caption("**Summary Statistics of Biomass Components by Experiment**")
 ```
 
-To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio00).
+To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio).
 
 
-```{r}
-#| label: fig-graph-bio00
-#| fig-cap: "Comparison between measured Above Ground biomass and teh sum of its components in Obseved file. The 1:1 line is in red."
-#| echo: false
-#| message: false
-#| fig-height: 8
-#| fig-width: 10
-#| warning: false
-```
-
+::: {#fig-graph-bio}
 
 ::: {.panel-tabset}
 
 ```{r}
-#| label: fig-graph-bio0
 #| echo: false
 #| message: false
 #| warning: false
 #| results: asis
 
 # 1. Prepare the data
-# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. 
+# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. #| label: fig-graph-bio
 # If not, you will need to add your left_join(sim_name_lookup_table) step here).
 df_plot <- df_combined_bio %>%
   mutate(
@@ -513,7 +503,6 @@ df_plot <- df_combined_bio %>%
       coalesce(Wheat.Leaf.Dead.Wt, 0) +
       coalesce(Wheat.Stem.Wt, 0) +
       coalesce(Wheat.Spike.Wt, 0) +
-      coalesce(Wheat.Ear.Wt, 0) +
       coalesce(Wheat.Grain.Wt, 0)
   )
 
@@ -539,10 +528,11 @@ for (exp in experiments) {
       colour = Cultivar,
       # Build a rich tooltip for the interactive Plotly graph
       text = paste(
+        "Date", Clock.Today,
         "Cultivar:", Cultivar, 
-        "<br>Simulation:", SimulationName,
-        "<br>Observed (x):", round(Wheat.AboveGround.Wt, 2),
-        "<br>Calculated Sum (y):", round(TotalBiomassComponentSum, 2)
+        "<br>SimName:", SimulationName,
+        "<br>Obs:(x):", round(Wheat.AboveGround.Wt, 2),
+        "<br>Sum:(y):", round(TotalBiomassComponentSum, 2)
       )
     )) + 
     geom_point(size = 2, alpha = 0.7) +
@@ -568,30 +558,22 @@ for (exp in experiments) {
 
 :::
 
-Similarly, we test the **Ear** component of reported values (fig-graph-ear00).
+Comparison of reported Above Ground biomass and the sum of its component values across simulations.
+:::
 
+Similarly, we test the **Ear** component of reported values (@fig-graph-ear).
 
-```{r}
-#| label: fig-graph-ear00
-#| fig-cap: "Comparison between measured Ear biomass and the sum of its components (Spike and Grain) in Obseved file. The 1:1 line is in red."
-#| echo: false
-#| message: false
-#| fig-height: 8
-#| fig-width: 10
-#| warning: false
-```
-
+::: {#fig-graph-ear}
 
 ::: {.panel-tabset}
 
 ```{r}
-#| label: fig-graph-ear0
 #| echo: false
 #| message: false
 #| warning: false
 #| results: asis
 
-# 1. Prepare the data
+# 1. Prepare the data #| label: fig-graph-ear
 # (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. 
 # If not, you will need to add your left_join(sim_name_lookup_table) step here).
 df_plot <- df_combined_bio %>%
@@ -602,7 +584,6 @@ df_plot <- df_combined_bio %>%
       coalesce(Wheat.Leaf.Dead.Wt, 0) +
       coalesce(Wheat.Stem.Wt, 0) +
       coalesce(Wheat.Spike.Wt, 0) +
-      coalesce(Wheat.Ear.Wt, 0) +
       coalesce(Wheat.Grain.Wt, 0)
   )
 
@@ -628,10 +609,11 @@ x = Wheat.Ear.Wt,
       colour = Cultivar,
       # Build a rich tooltip for the interactive Plotly graph
       text = paste(
-        "Cultivar:", Cultivar, 
-        "<br>Simulation:", SimulationName,
-        "<br>Observed (x):", round(Spike_Plus_Grain, 2),
-        "<br>Calculated Sum (y):", round(Wheat.Ear.Wt, 2)
+        "<br>Date", Clock.Today,
+        "<br>Cultivar:", Cultivar, 
+        "<br>SimName:", SimulationName,
+        "<br>Obs:(x):", round(Spike_Plus_Grain, 2),
+        "<br>Sum:(y):", round(Wheat.Ear.Wt, 2)
       )
     )) + 
     geom_point(size = 2, alpha = 0.7) +
@@ -655,6 +637,9 @@ x = Wheat.Ear.Wt,
 }
 ```
 
+:::
+
+Comparison of reported Ear component values across simulations.
 :::
 
 ### 5. Phenology parameter check
@@ -806,18 +791,12 @@ The full progression of observed and estimated pheno stages is shown in @fig-gra
 
 #### Phenology Validation Results
 
-```{r}
-#| label: fig-graph-pheno-tabs
-#| echo: false
-#| message: false
-#| warning: false
-```
-
+::: {#fig-graph-pheno-tabs}
 
 ::: {.panel-tabset}
 
 ```{r}
-#| label: fig-graph-pheno-tabs2
+#| label: fig-graph-pheno-tabs
 #| echo: false
 #| message: false
 #| warning: false
@@ -904,6 +883,9 @@ for (exp in experiments) {
 }
 ```
 
+:::
+
+Progression of measure and calculated phenology stages across simulations.
 :::
 
 ## 6. Management data

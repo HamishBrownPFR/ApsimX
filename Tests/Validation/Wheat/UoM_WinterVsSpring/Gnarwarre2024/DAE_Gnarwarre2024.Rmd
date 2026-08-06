@@ -170,5 +170,13 @@ tar_load(df_obs_renamed)
 names(tar_read(df_obs_renamed))
 names(tar_read(df_obs_mean))
 
+xx<-tar_read(df_obs_raw)
+yy <-tar_read(track_mapping_csv)
+
+
+x<-tar_read(df_obs_renamed)
+
+names(x)
+
 
 ```

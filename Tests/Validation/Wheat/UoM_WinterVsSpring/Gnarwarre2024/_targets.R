@@ -23,7 +23,7 @@ tar_option_set(
 targets::tar_source("../targets_MasterScripts")
 
 # Load local corrections specific to this Gna24 dataset
-source("R/apply_corrections_Gna24.R")
+#source("R/apply_corrections_Gna24.R")
 #source("R/apply_name_corrections_Gna24.R")
 # ------------------------------------------------------------------------------
 # 3. PROJECT DEFINITION
@@ -67,7 +67,7 @@ list(
       file_name_input_haun     = paste0(proj_name, "_HaunStagesInput.csv"),
       file_name_new_met        = paste0(proj_name, ".met"),
       file_name_met            = "Gnarwarre_-38.20_144.05.met",
-      file_name_mapping_csv    = paste0(proj_name, "_obs_var_new_names.csv") 
+      file_name_mapping_csv    = paste0(proj_name, "_obs_var_list.csv") 
     )
   ),
   
@@ -126,6 +126,7 @@ list(
     command = file.path(config$folder_rawData, config$file_name_mapping_csv),
     format = "file" 
   ),
+  
   tar_target(
     name = df_obs_renamed,
     #command = apply_name_corrections_Gna24(
@@ -135,16 +136,16 @@ list(
     )
   ),
   
-  # 2. THE SANITIZER: Fixes data values (Percentages, Redundant Columns)
-  tar_target(
-    name = df_obs_corrected,
-    command = apply_corrections_Gna24(df_obs_renamed) 
-  ),
+  # # 2. THE SANITIZER: Fixes data values (Percentages, Redundant Columns)
+  # tar_target(
+  #   name = df_obs_corrected,
+  #   command = apply_corrections_Gna24(df_obs_renamed) 
+  # ),
   
   # 3. THE AVERAGER: Groups by the clean, corrected data
   tar_target(
     name = df_obs_mean, 
-    command = do_obs_means(df_obs_corrected)
+    command = do_obs_means(df_obs_renamed)
   ),
   
   # ----------------------------------------------------------------------------
