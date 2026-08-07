@@ -10156,9 +10156,9 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 100",
-                "[Phenology].VernSensitivity.FixedValue = 0.89",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
+                "[Phenology].JuvenileBase.FixedValue = 185",
+                "[Phenology].VernSensitivity.FixedValue = 1.84",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.38",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 125",
                 "[Phenology].TtPodDevelopment.FixedValue = 165"
               ],
@@ -10201,9 +10201,9 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 240",
-                "[Phenology].VernSensitivity.FixedValue = 0.19",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.50",
+                "[Phenology].JuvenileBase.FixedValue = 190",
+                "[Phenology].VernSensitivity.FixedValue = 0.27",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.59",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 185",
                 "[Phenology].TtPodDevelopment.FixedValue = 95"
               ],
@@ -10321,9 +10321,9 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 110",
-                "[Phenology].VernSensitivity.FixedValue = 0.92",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.44",
+                "[Phenology].JuvenileBase.FixedValue = 275",
+                "[Phenology].VernSensitivity.FixedValue = 1.62",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.4",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 165",
                 "[Phenology].TtPodDevelopment.FixedValue = 100"
               ],
@@ -10336,10 +10336,12 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 120",
-                "[Phenology].VernSensitivity.FixedValue = 1.06",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 155",
+                "[Phenology].JuvenileBase.FixedValue = 215",
+                "[Phenology].VernSensitivity.FixedValue = .19",
+                "[Phenology].InductivePpSensitivity.FixedValue = .58",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 370",
+                "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.MinTemp = 0",
+                "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.OptTemp = 25",
                 "[Phenology].TtPodDevelopment.FixedValue = 210"
               ],
               "Name": "HallmarkXT",
@@ -10411,9 +10413,9 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 105",
-                "[Phenology].VernSensitivity.FixedValue = 1.31",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.39",
+                "[Phenology].JuvenileBase.FixedValue = 215",
+                "[Phenology].VernSensitivity.FixedValue = 0.18",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.59",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140",
                 "[Phenology].TtPodDevelopment.FixedValue = 170"
               ],
