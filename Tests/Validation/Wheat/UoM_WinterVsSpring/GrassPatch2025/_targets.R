@@ -62,7 +62,7 @@ list(
       
       # Model parameters
       date_DOY_ref            = "01-01-2025", 
-      btwStgPerc              = 0.5,          
+      btwStgFrac              = 0.5,          
       max_leaf_limit          = 0.95,         
       
       # Output file names & Metadata
@@ -150,7 +150,7 @@ list(
   ),
   tar_target(
     name = df_pheno_int, 
-    command = create_interp_pheno_dates(df_pheno_raw, config$btwStgPerc)
+    command = create_interp_pheno_dates(df_pheno_raw, config$btwStgFrac)
   ),
   tar_target(
     name = df_haun, 

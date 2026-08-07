@@ -322,7 +322,7 @@ list(
     name = df_pheno_int, 
     command = create_interp_pheno_dates(
       df_raw     = df_pheno_raw, 
-      btwStgPerc = config$target_betwStages
+      btwStgFrac = config$target_betwStages
     )
   ),
   

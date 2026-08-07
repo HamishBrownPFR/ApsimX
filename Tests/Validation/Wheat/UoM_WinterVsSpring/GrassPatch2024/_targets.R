@@ -65,7 +65,7 @@ list(
       
       # Model parameters
       date_DOY_ref            = "01-01-2024", # Transform DOY output into ddmmyy
-      btwStgPerc              = 0.5,          # Fraction of time in-between stages
+      btwStgFrac              = 0.5,          # Fraction of time in-between stages
       max_leaf_limit          = 0.95,         # Fractional limit for max leaves (Haun)
       
       # Output file names & Metadata
@@ -152,7 +152,7 @@ list(
     name = df_pheno_int,
     command = create_interp_pheno_dates(
       df_pheno_raw,
-      config$btwStgPerc
+      config$btwStgFrac
     )
   ),
   
