@@ -220,22 +220,7 @@ list(
   #     error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
   #   )
   # ),
-  tar_target(
-    name = df_obs_plus_pheno_plus_hi_amounts,
-    command = calc_nutrient_absolute_amounts(
-      df                  = df_obs_plus_pheno_plus_hi, 
-      crop_prefix         = "Wheat",
-      # Add Grain and Ear to the pool so it evaluates them
-      organs              = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"), 
-      # Tell the engine Ear overrides Spike and Grain
-      composite_hierarchy = list(Ear = c("Spike", "Grain")), 
-      conc_targets        = c("N" = "NConc", "WSC" = "WSCc"), 
-      mass_suffix         = "Wt",
-      ag_name             = "Wheat.AboveGround",
-      divisor             = 1,
-      error_log_path      = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
-    )
-  ),
+
   
   
   # tar_target(
@@ -261,9 +246,9 @@ list(
   # Note that Ear and Spike will be the same when it was not possible to separate components 
   # retain Ear OR Spike as Ear
   tar_target(
-    name = df_obs_plus_pheno_plus_hi_amounts_ear,
+    name = df_obs_plus_pheno_plus_hi_ear,
     command = merge_obs_variables(
-      df_obs      = df_obs_plus_pheno_plus_hi_amounts, 
+      df_obs      = df_obs_plus_pheno_plus_hi, 
       var_final   = "Wheat.Ear.Wt", 
       var_1       = "Wheat.Ear.Wt", 
       var_2       = "Wheat.Spike.Wt",
@@ -275,9 +260,9 @@ list(
   # Note that Ear and Spike will be the same when it was not possible to separate components
   # Retain Ear (above) as Spike when there is no Spike value available but there is Ear
   tar_target(
-    name = df_obs_plus_pheno_plus_hi_amounts_ear_spike,
+    name = df_obs_plus_pheno_plus_hi_ear_spike,
     command = merge_obs_variables(
-      df_obs      = df_obs_plus_pheno_plus_hi_amounts_ear, 
+      df_obs      = df_obs_plus_pheno_plus_hi_ear, 
       var_final   = "Wheat.Spike.Wt", 
       var_1       = "Wheat.Ear.Wt", 
       var_2       = "Wheat.Spike.Wt",
@@ -287,9 +272,26 @@ list(
   ),
   
   tar_target(
+    name = df_obs_plus_pheno_plus_hi_ear_spike_amounts,
+    command = calc_nutrient_absolute_amounts(
+      df                  = df_obs_plus_pheno_plus_hi_ear_spike, 
+      crop_prefix         = "Wheat",
+      # Add Grain and Ear to the pool so it evaluates them
+      organs              = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Grain", "Ear"), 
+      # Tell the engine Ear overrides Spike and Grain
+      composite_hierarchy = list(Ear = c("Spike", "Grain")), 
+      conc_targets        = c("N" = "NConc", "WSC" = "WSCc"), 
+      mass_suffix         = "Wt",
+      ag_name             = "Wheat.AboveGround",
+      divisor             = 1,
+      error_log_path      = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
+    )
+  ),
+  
+  tar_target(
     name = df_obs_final,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_plus_hi_amounts_ear_spike,
+      df            = df_obs_plus_pheno_plus_hi_ear_spike_amounts,
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"

@@ -118,8 +118,23 @@ list(
   ),
   
   tar_target(
+    name = track_mapping_csv,
+    command = file.path(config$folder_rawData, config$file_name_mapping_csv),
+    format = "file" 
+  ),
+  
+  tar_target(
     name = df_obs_mean,
     command = do_obs_means(df_obs_raw)
+  ),
+  
+  
+  tar_target(
+    name = df_obs_mean_renamed,
+    command = rename_rescale_obs_vars(
+      df_obs           = df_obs_mean,
+      mapping_csv_path = track_mapping_csv
+    )
   ),
   
   # ----------------------------------------------------------------------------
@@ -176,20 +191,7 @@ list(
   # PHASE E: OBSERVATION FORMATTING & INTEGRATION
   # ----------------------------------------------------------------------------
   
-  tar_target(
-    name = track_mapping_csv,
-    command = file.path(config$folder_rawData, config$file_name_mapping_csv),
-    format = "file" 
-  ),
-  
-    tar_target(
-    name = df_obs_mean_renamed,
-    #command = apply_name_corrections_Grass24(
-    command = rename_rescale_obs_vars(
-      df_obs           = df_obs_mean,
-      mapping_csv_path = track_mapping_csv
-    )
-  ),
+
   
   tar_target(
     name = df_obs_mean_renamed_pheno,

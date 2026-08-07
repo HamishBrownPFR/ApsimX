@@ -195,7 +195,7 @@ list(
   # PHASE E: CALCULATIONS & INTEGRATION
   # ----------------------------------------------------------------------------
   tar_target(
-    name = df_obs_plus_pheno,
+    name = df_obs_pheno,
     command = add_new_var_to_obs(
       df_obs          = df_obs_mean,
       df_new_data     = df_pheno_final,
@@ -203,9 +203,9 @@ list(
     )
   ),
   tar_target(
-    name = df_obs_plus_pheno_plus_hi,
+    name = df_obs_pheno_hi,
     command = calc_harvest_index(
-      df          = df_obs_plus_pheno, 
+      df          = df_obs_pheno, 
       grain_col   = "Wheat.Grain.Wt", 
       agb_col     = "Wheat.AboveGround.Wt", 
       hi_col_name = "HarvestIndex",
@@ -252,12 +252,40 @@ list(
   #   )
   # ),
   
+  # Note that Ear and Spike will be the same when it was not possible to separate components 
+  # retain Ear OR Spike as Ear
+  tar_target(
+    name = df_obs_pheno_hi_ear,
+    command = merge_obs_variables(
+      df_obs      = df_obs_pheno_hi, 
+      var_final   = "Wheat.Ear.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var1" # if there is crash retain this variable instead and warn user
+    )
+  ),
   
+  # Note that Ear and Spike will be the same when it was not possible to separate components
+  # Retain Ear (above) as Spike when there is no Spike value available but there is Ear
+  tar_target(
+    name = df_obs_pheno_hi_ear_spike,
+    command = merge_obs_variables(
+      df_obs      = df_obs_pheno_hi_ear, 
+      var_final   = "Wheat.Spike.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var2" # if there is crash retain this variable instead and warn user
+    )
+  ),
+  
+  # Quality variable injection should come at this level when available in raw data
   
   tar_target(
     name = df_obs_final,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_plus_hi,
+      df            = df_obs_pheno_hi_ear_spike,
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
