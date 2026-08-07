@@ -27,7 +27,7 @@ tar_option_set(
 targets::tar_source("../targets_MasterScripts")
 
 # Load THIS project's specific local scripts (Local fixes & mapping)
-source("R/apply_corrections_Grass24.R")
+#source("R/apply_corrections_Grass24.R")
 #source("R/apply_name_corrections_Grass24.R")
 
 # ------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ list(
       file_name_input_pheno   = paste0(proj_name, "_PhenoDatesInput.csv"),
       file_name_input_haun    = paste0(proj_name, "_HaunStagesInput.csv"),
       file_name_met           = "Grass Patch_-33.25_121.60.met",
-      file_name_mapping_csv   = paste0(proj_name, "_obs_var_new_names.csv"),
+      file_name_mapping_csv   = paste0(proj_name, "_obs_var_list.csv"),
       file_name_new_met       = paste0(proj_name, ".met")
     )
   ),
@@ -175,24 +175,6 @@ list(
   # ----------------------------------------------------------------------------
   # PHASE E: OBSERVATION FORMATTING & INTEGRATION
   # ----------------------------------------------------------------------------
-  tar_target(
-    name = df_obs_plus_pheno,
-    command = add_new_var_to_obs(
-      df_obs          = df_obs_mean,
-      df_new_data     = df_pheno_final,
-      target_col_name = "Wheat.Phenology.Stage"
-    )
-  ),
-  
-  tar_target(
-    name = df_obs_plus_pheno_plus_hi,
-    command = calc_harvest_index(
-      df          = df_obs_plus_pheno,
-      grain_col   = "Wheat.Grain.Wt",
-      agb_col     = "Wheat.AboveGround.Wt",
-      hi_col_name = "HarvestIndex"
-    )
-  ),
   
   tar_target(
     name = track_mapping_csv,
@@ -200,21 +182,41 @@ list(
     format = "file" 
   ),
   
-  tar_target(
-    name = df_obs_plus_pheno_hi_renamed,
+    tar_target(
+    name = df_obs_mean_renamed,
     #command = apply_name_corrections_Grass24(
-      command = rename_rescale_obs_vars(
-      df_obs           = df_obs_plus_pheno_plus_hi,
+    command = rename_rescale_obs_vars(
+      df_obs           = df_obs_mean,
       mapping_csv_path = track_mapping_csv
     )
   ),
   
   tar_target(
-    name = df_obs_plus_pheno_hi_renamed_corrected,
-    command  = apply_corrections_Grass24(
-      df_obs = df_obs_plus_pheno_hi_renamed
+    name = df_obs_mean_renamed_pheno,
+    command = add_new_var_to_obs(
+      df_obs          = df_obs_mean_renamed,
+      df_new_data     = df_pheno_final,
+      target_col_name = "Wheat.Phenology.Stage"
     )
   ),
+  
+  tar_target(
+    name = df_obs_mean_renamed_pheno_hi,
+    command = calc_harvest_index(
+      df          = df_obs_mean_renamed_pheno,
+      grain_col   = "Wheat.Grain.Wt",
+      agb_col     = "Wheat.AboveGround.Wt",
+      hi_col_name = "HarvestIndex"
+    )
+  ),
+  
+  
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_renamed_corrected,
+  #   command  = apply_corrections_Grass24(
+  #     df_obs = df_obs_plus_pheno_hi_renamed
+  #   )
+  # ),
   
   # tar_target(
   #   name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
@@ -229,12 +231,64 @@ list(
   #   )
   # ),
   
+  # 
+  # 
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,
+  #   command = fix_ear_calc(
+  #     df_obs_wide       = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv, 
+  #     ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
+  #     ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
+  #   )
+  # ),
+  
+  
+  # # --- NEW: Phase 2 Chaff to Spike Swap ---
+  # tar_target(
+  #   name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike,
+  #   #command = fix_last_spike_value(
+  #     command = fix_spike_value(
+  #     df_obs_wide = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,          # Points to the previous step's output
+  #     spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
+  #     chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
+  #   )
+  # ),
+  # 
+  
+  # Note that Ear and Spike will be the same when it was not possible to separate components 
+  # retain Ear OR Spike as Ear
   tar_target(
-    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
+    name = df_obs_mean_renamed_pheno_hi_ear,
+    command = merge_obs_variables(
+      df_obs      = df_obs_mean_renamed_pheno_hi, 
+      var_final   = "Wheat.Ear.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var1" # if there is crash retain this variable instead and warn user
+    )
+  ),
+  
+  # Note that Ear and Spike will be the same when it was not possible to separate components
+  # Retain Ear (above) as Spike when there is no Spike value available but there is Ear
+  tar_target(
+    name = df_obs_mean_renamed_pheno_hi_ear_spike,
+    command = merge_obs_variables(
+      df_obs      = df_obs_mean_renamed_pheno_hi_ear, 
+      var_final   = "Wheat.Spike.Wt", 
+      var_1       = "Wheat.Ear.Wt", 
+      var_2       = "Wheat.Spike.Wt",
+      del_vars1_2 = FALSE, # keep or not after merge and inform user
+      prior_var = "var2" # if there is crash retain this variable instead and warn user
+    )
+  ),
+  
+  tar_target(
+    name = df_obs_mean_renamed_pheno_hi_ear_spike_amounts,
     command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_pheno_hi_renamed_corrected, 
+      df             = df_obs_mean_renamed_pheno_hi_ear_spike, 
       crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike", "Ear"), 
       conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
       mass_suffix    = "Wt",
       ag_name        = "Wheat.AboveGround",
@@ -244,40 +298,19 @@ list(
   ),
   
   tar_target(
-    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv,
+    name = df_obs_mean_renamed_pheno_hi_ear_spike_amounts_harv,
     command = add_harv_into_obs(
-      df            = df_obs_plus_pheno_hi_renamed_corrected_with_amounts,
+      df            = df_obs_mean_renamed_pheno_hi_ear_spike_amounts,
       ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
   ),
   
-  tar_target(
-    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,
-    command = fix_ear_calc(
-      df_obs_wide       = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv, 
-      ear_new_var_name = "Wheat.Ear.Wt",       # Ensure this matches your exact metadata name
-      ear_orig_var_name  = "Wheat.Spike.Wt"  # The new safe column we are building
-    )
-  ),
-  
-  
-  # --- NEW: Phase 2 Chaff to Spike Swap ---
-  tar_target(
-    name = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike,
-    #command = fix_last_spike_value(
-      command = fix_spike_value(
-      df_obs_wide = df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear,          # Points to the previous step's output
-      spike_var   = "Wheat.Spike.Wt",          # Your APSIM Spike column
-      chaff_var   = "Wheat.Spike.Chaff.Wt"           # Your raw Chaff column
-    )
-  ),
-  
   # THE QC GATEKEEPER
   tar_target(
     name = qc_obs_final,
-    command = check_obs_health(df_obs_plus_pheno_hi_renamed_corrected_with_amounts_plus_harv_ear_spike)
+    command = check_obs_health(df_obs_mean_renamed_pheno_hi_ear_spike_amounts_harv)
   ),
   
   

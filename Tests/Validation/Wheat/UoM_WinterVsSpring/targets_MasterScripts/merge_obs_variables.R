@@ -104,16 +104,14 @@ merge_obs_variables <- function(df_obs, var_final, var_1, var_2, del_vars1_2 = F
   # ------------------------------------------------------------------
   # 3. THE MERGE (DYNAMIC COALESCE)
   # ------------------------------------------------------------------
-  df_out <- df_obs %>%
-    dplyr::mutate(
-      !!var_final := dplyr::case_when(
-        # If prior_var is var_2, evaluate var_2 first
-        !is.null(prior_var) && prior_var == "var_2" ~ dplyr::coalesce(.data[[var_2]], .data[[var_1]]),
-        
-        # Default behavior (and prior_var == "var_1"): evaluate var_1 first
-        TRUE ~ dplyr::coalesce(.data[[var_1]], .data[[var_2]])
-      )
-    )
+  # Evaluate the prior_var logic outside of mutate to avoid dplyr warnings
+  if (!is.null(prior_var) && prior_var == "var_2") {
+    df_out <- df_obs %>%
+      dplyr::mutate(!!var_final := dplyr::coalesce(.data[[var_2]], .data[[var_1]]))
+  } else {
+    df_out <- df_obs %>%
+      dplyr::mutate(!!var_final := dplyr::coalesce(.data[[var_1]], .data[[var_2]]))
+  }
   
   # ------------------------------------------------------------------
   # 4. CLEANUP (Optional)
