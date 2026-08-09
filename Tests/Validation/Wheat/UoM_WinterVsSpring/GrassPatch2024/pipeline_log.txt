@@ -11,16 +11,15 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.58 seconds]
+● built target config [0.56 seconds]
 ▶ start target df_obs_raw
 ● built target df_obs_raw [0.06 seconds]
 ▶ start target track_mapping_csv
-● built target track_mapping_csv [0 seconds]
 ✅ MET data passed all quality checks.
 Successfully verified and copied to: GrassPatch2024.met
+● built target track_mapping_csv [0 seconds]
 ▶ start target validated_met_file
 ● built target validated_met_file [0.08 seconds]
-▶ start target log_active_config
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -87,10 +86,10 @@ $file_name_new_met
 
 ======================================================================
 
+▶ start target log_active_config
 ● built target log_active_config [0 seconds]
 ▶ start target df_obs_mean
-● built target df_obs_mean [0.23 seconds]
-▶ start target manual_pheno_params
+● built target df_obs_mean [0.22 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -99,10 +98,11 @@ $file_name_new_met
  -> Checking: GrassPatch2024_GermDatesInput.csv 
 ======================================================================
 
-● built target manual_pheno_params [0.18 seconds]
-▶ start target df_haun
+▶ start target manual_pheno_params
+● built target manual_pheno_params [0.16 seconds]
 Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunStage) across 200 rows while preserving 2 standard metadata keys.
-● built target df_haun [0.01 seconds]
+▶ start target df_haun
+● built target df_haun [0.02 seconds]
 
 ======================================================================
  🔄 PIPELINE ACTION: VARIABLES REMAPPED 🔄 
@@ -135,7 +135,7 @@ Success [get_column_var_from_observ]: Isolated target(s) (Wheat.Phenology.HaunSt
 ----------------------------------------------------------------------
 [Q-FLAG] | INFO | DATA MODIFIED | Scaled 5 numeric column(s) based on CSV dictionary multipliers.
 ▶ start target df_obs_mean_renamed
-● built target df_obs_mean_renamed [0.05 seconds]
+● built target df_obs_mean_renamed [0.03 seconds]
 Success [get_pheno_dates_from_DOY_wide_obs]: Extracted 64 standardized raw records from wide DOY entries.
 ▶ start target df_pheno_raw
 ● built target df_pheno_raw [0.05 seconds]
@@ -191,14 +191,14 @@ Success [create_interp_pheno_dates]: Linearly generated 16 missing micro-milesto
 ● built target df_pheno_int [0.03 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 112 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.12 seconds]
+● built target df_pheno_final [0.08 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 112 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_mean_renamed_pheno
-● built target df_obs_mean_renamed_pheno [0.75 seconds]
+● built target df_obs_mean_renamed_pheno [0.78 seconds]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
 [Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
 ▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.04 seconds]
+● built target df_pheno_input_param [0.05 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -208,9 +208,9 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ============================================================
 
 ▶ start target df_obs_mean_renamed_pheno_hi
-● built target df_obs_mean_renamed_pheno_hi [0.05 seconds]
+● built target df_obs_mean_renamed_pheno_hi [0.04 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.01 seconds]
+● built target msg_pheno_param_saved [0 seconds]
 
 ======================================================================
  ⚠️ COLLISION DETECTED & AUTOMATICALLY RESOLVED ⚠️ 
@@ -234,7 +234,6 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 ▶ start target df_obs_mean_renamed_pheno_hi_ear
 ● built target df_obs_mean_renamed_pheno_hi_ear [0.06 seconds]
-▶ start target df_obs_mean_renamed_pheno_hi_ear_spike
 
 ======================================================================
  ⚠️ COLLISION DETECTED & AUTOMATICALLY RESOLVED ⚠️ 
@@ -256,7 +255,8 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
  -> Status       : Timelines successfully merged.
 ======================================================================
 
-● built target df_obs_mean_renamed_pheno_hi_ear_spike [0.02 seconds]
+▶ start target df_obs_mean_renamed_pheno_hi_ear_spike
+● built target df_obs_mean_renamed_pheno_hi_ear_spike [0.03 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
@@ -279,7 +279,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 128 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_mean_renamed_pheno_hi_ear_spike_amounts
-● built target df_obs_mean_renamed_pheno_hi_ear_spike_amounts [0.13 seconds]
+● built target df_obs_mean_renamed_pheno_hi_ear_spike_amounts [0.12 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -290,7 +290,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ------------------------------------------------------------
 
 ▶ start target df_obs_mean_renamed_pheno_hi_ear_spike_amounts_harv
-● built target df_obs_mean_renamed_pheno_hi_ear_spike_amounts_harv [0.06 seconds]
+● built target df_obs_mean_renamed_pheno_hi_ear_spike_amounts_harv [0.13 seconds]
 [Q-FLAG] | WARN | QC | Entirely empty columns detected: [Wheat.Spike.NConc, Wheat.Spike.N, Wheat.Spike.WSCc, Wheat.Spike.WSC]
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Leaf.Dead.CID'. Check for data entry errors.
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Leaf.Live.CID'. Check for data entry errors.
@@ -298,7 +298,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 [Q-FLAG] | WARN | QC | Found values below 0 in column 'Wheat.Stem.CID'. Check for data entry errors.
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
-● built target qc_obs_final [0.05 seconds]
+● built target qc_obs_final [0.07 seconds]
 
 ======================================================================
  ✅ MASS BALANCE AUDIT PASSED: Wheat.AboveGround.Wt ✅ 
@@ -311,7 +311,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ----------------------------------------------------------------------
 
 ▶ start target validation_biomass_sums
-● built target validation_biomass_sums [0.03 seconds]
+● built target validation_biomass_sums [0.01 seconds]
 
 ======================================================================
  ✅ MASS BALANCE AUDIT PASSED: Wheat.Ear.Wt ✅ 
@@ -325,6 +325,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 ▶ start target validation_ear_sums
 ● built target validation_ear_sums [0 seconds]
+▶ start target exported_pop_csv
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: GrassPatch2024_population.csv
@@ -332,27 +333,25 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
    -> 'Wheat.SowingData.Population': Extracted 16 records | Range [54.03 to 98.89]
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
-▶ start target exported_pop_csv
-● built target exported_pop_csv [0.04 seconds]
-[Q-FLAG] | WARN | MANUAL PARAMS | Phyllochron out of range (80-120) for 1 simulation(s): [GrassPatch2024CvOsprey]
+● built target exported_pop_csv [0.03 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.04 seconds]
+● built target haun_input_checked [0.03 seconds]
 Success [save_df_to_excel]: Exported 627 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/GrassPatch2024_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.19 seconds]
+● built target msg_obs_saved [0.22 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target check_depend
-● built target check_depend [0 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target check_depend [0.01 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.01 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target verify_data_backup [0.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.69 seconds]
-▶ end pipeline [4.95 seconds]
+● built target encrypted_zip_artifact [0.68 seconds]
+▶ end pipeline [4.96 seconds]
 Warning messages:
 1: Variable collision resolved via 'prior_var' override. See console for details. 
 2: Variable collision resolved via 'prior_var' override. See console for details. 
@@ -361,5 +360,4 @@ Warning messages:
 5: QC WARNING: Found values below 0 in column 'Wheat.Leaf.Live.CID'. Check for data entry errors. 
 6: QC WARNING: Found values below 0 in column 'Wheat.Spike.CID'. Check for data entry errors. 
 7: QC WARNING: Found values below 0 in column 'Wheat.Stem.CID'. Check for data entry errors. 
-8: ❌ Phyllochron out of range (80-120) for: GrassPatch2024CvOsprey 
-9: 4 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+8: 3 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 

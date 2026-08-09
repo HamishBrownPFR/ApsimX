@@ -292,7 +292,7 @@ p <- ggplot() +
   geom_segment(
     data = df_summary,
     aes(y = Cultivar, yend = Cultivar, x = min_val, xend = max_val),
-    linewidth = 4, color = "grey25", alpha = 0.3
+    linewidth = 4, color = "lightgrey", alpha = 0.5
   ) +
   # Jittered points colored by Experiment
   geom_jitter(
@@ -303,7 +303,7 @@ p <- ggplot() +
       color = Experiment,
       text = Experiment # Helps format the hover tooltip
     ),
-    height = 0.2, width = 0, alpha = 0.6
+    height = 0.2, width = 0, alpha = 1
   ) +
   # Median marker
   geom_point(
@@ -360,7 +360,7 @@ p <- ggplot() +
   geom_segment(
     data = df_summary,
     aes(y = Cultivar, yend = Cultivar, x = min_val, xend = max_val),
-    linewidth = 4, color = "grey25", alpha = 0.3
+    linewidth = 4, color = "lightgrey", alpha = 0.5
   ) +
   # Jittered points colored by Experiment
   geom_jitter(
@@ -371,7 +371,7 @@ p <- ggplot() +
       color = Experiment,
       text = Experiment # Helps format the hover tooltip
     ),
-    height = 0.2, width = 0, alpha = 0.6
+    height = 0.2, width = 0, alpha = 1
   ) +
   # Median marker
   geom_point(
