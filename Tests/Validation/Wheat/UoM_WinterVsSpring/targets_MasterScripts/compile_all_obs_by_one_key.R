@@ -115,7 +115,7 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
                 VarName     = as.character(col),
                 NewVarName  = target_var,
                 UnitCorrect = as.numeric(corr),
-                unique_key  = unique_key          
+                unique_key  = unique_key         
               )
             }, error = function(e) {
               message(sprintf("\n \u26A0\uFE0F SKIPPING EXTRACTION: '%s' in sheet '%s'. Error: %s", col, sh, e$message))
@@ -139,7 +139,7 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
           if (!"SimulationName" %in% names(raw_df)) {
             
             if (!unique_key %in% names(raw_df)) {
-              message(sprintf("   -> \u274C ERROR in '%s': Raw data does not contain the unique key '%s'. Skipping join.", 
+              message(sprintf("   -> ❌ ERROR in '%s': Raw data does not contain the unique key '%s'. Skipping join.", 
                               name_val, unique_key))
               return(dplyr::tibble())
             }
@@ -164,7 +164,14 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
               fixed_years <- ifelse(yrs[bad_idx] < 50, yrs[bad_idx] + 2000, yrs[bad_idx] + 1900)
               lubridate::year(raw_df$Date)[bad_idx] <- fixed_years
               
-              message(sprintf("   -> \U0001F527 DATE REPAIR: Auto-corrected %d '2-digit year' bugs (e.g., 0024 -> 2024) for '%s'.", length(bad_idx), target_var))
+              message(sprintf("   -> 🔧 DATE REPAIR: Auto-corrected %d '2-digit year' bugs (e.g., 0024 -> 2024) for '%s'.", length(bad_idx), target_var))
+              
+              # ---> NEW: Machine-readable Q-Flag for Date Auto-Repair
+              log_qflag(
+                severity = "WARN", 
+                category = "DATES", 
+                message = sprintf("Date auto-repair in '%s': fixed %d '2-digit year' bug(s).", target_var, length(bad_idx))
+              )
             }
           }
           
@@ -173,27 +180,41 @@ compile_all_obs_by_one_key <- function(folder, excel_files, df_obs_info, df_simN
           # ---------------------------------------------------------
           if (!"Date" %in% names(raw_df)) {
             message("\n", strrep("=", 60))
-            message(" \U0001F6A8  DATE WARNING: NO DATE COLUMN FOUND \U0001F6A8 ")
+            message(" 🚨  DATE WARNING: NO DATE COLUMN FOUND 🚨 ")
             message(strrep("=", 60))
-            message(sprintf(" -> df_name       : '%s'", name_val))
-            message(sprintf(" -> Target Var    : '%s'", target_var))
-            message(" -> ISSUE         : The 'Date' column is completely missing from the raw data.")
-            message(" -> ACTION        : Data is extracted, but dates are set to NA. Will require downstream patching.")
+            message(sprintf(" -> df_name        : '%s'", name_val))
+            message(sprintf(" -> Target Var     : '%s'", target_var))
+            message(" -> ISSUE          : The 'Date' column is completely missing from the raw data.")
+            message(" -> ACTION         : Data is extracted, but dates are set to NA. Will require downstream patching.")
             message(strrep("-", 60), "\n")
             
             raw_df$Date <- as.Date(NA) # Inject an NA date column so the pipeline doesn't crash
+            
+            # ---> NEW: Machine-readable Q-Flag for Completely Missing Date Column
+            log_qflag(
+              severity = "WARN", 
+              category = "DATES", 
+              message = sprintf("Missing date column in '%s' ('%s'): injected NA dates for downstream patching.", name_val, target_var)
+            )
             
           } else {
             na_dates <- sum(is.na(raw_df$Date))
             if (na_dates > 0) {
               message("\n", strrep("=", 60))
-              message(" \U0001F6A8  MISSING DATE ALARM: ORPHANED DATA \U0001F6A8 ")
+              message(" 🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 ")
               message(strrep("=", 60))
-              message(sprintf(" -> df_name       : '%s'", name_val))
-              message(sprintf(" -> Target Var    : '%s'", target_var))
-              message(sprintf(" -> ISSUE         : %d row(s) have 'NA' or blank values in the Date column.", na_dates))
-              message(" -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.")
+              message(sprintf(" -> df_name        : '%s'", name_val))
+              message(sprintf(" -> Target Var     : '%s'", target_var))
+              message(sprintf(" -> ISSUE          : %d row(s) have 'NA' or blank values in the Date column.", na_dates))
+              message(" -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.")
               message(strrep("-", 60), "\n")
+              
+              # ---> NEW: Machine-readable Q-Flag for Orphaned Data (NA Dates)
+              log_qflag(
+                severity = "WARN", 
+                category = "DATES", 
+                message = sprintf("Orphaned data in '%s' ('%s'): %d row(s) have NA/blank dates requiring patching.", name_val, target_var, na_dates)
+              )
             }
           }
           

@@ -247,7 +247,7 @@ list(
     name = df_pheno_int, 
     command = create_interp_pheno_dates(
       df_raw     = df_pheno_raw, 
-      btwStgPerc = config$target_betwStages
+      btwStgFrac = config$target_betwStages
     )
   ),
   
@@ -275,7 +275,7 @@ list(
   
   # 2. THE GATEKEEPER (The new Universal script)
   tar_target(
-    name = qc_pheno_integrity,
+    name = qc_pheno_input_param,
     command = check_pheno_integrity(df_pheno_input_param, 
     expected_sims = df_simNameByCult)
   ),
@@ -438,7 +438,7 @@ list(
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = qc_pheno_integrity,
+      df       = qc_pheno_input_param,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),

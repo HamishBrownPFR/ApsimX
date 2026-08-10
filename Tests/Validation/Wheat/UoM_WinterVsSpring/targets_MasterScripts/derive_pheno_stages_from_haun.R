@@ -24,10 +24,12 @@
 derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input_type = "auto") {
   
   # ---- 1. POLYMORPHIC LAYOUT INGESTION SWITCH ----
+  # Ensure the input data container exists before evaluating structure
   if (missing(df_input) || is.null(df_input)) {
     stop("Error [derive_pheno_dates_from_haun]: Input data container argument is missing or null.")
   }
   
+  # Automatically detect structure if set to "auto" (distinguishes nested tibbles from flat data frames)
   resolved_type <- input_type
   if (resolved_type == "auto") {
     if (all(c("df_name", "data") %in% names(df_input))) {
@@ -37,6 +39,7 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
     }
   }
   
+  # Extract the target working data frame based on the resolved ingestion mode
   if (resolved_type == "list_dfs") {
     haun_idx <- grep("haun", df_input$df_name, ignore.case = TRUE)
     if (length(haun_idx) == 0) {
@@ -50,16 +53,19 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
   }
   
   # ---- 2. DYNAMIC FIELD ANCHOR VALIDATION ----
+  # Verify that the required tracking simulation column exists
   if (!"SimulationName" %in% names(df_working)) {
     stop("Error [derive_pheno_dates_from_haun]: Core tracker column 'SimulationName' is missing from the working dataset.")
   }
   
+  # Locate the observation date column (accepting either 'Clock.Today' or 'Date')
   date_col <- intersect(c("Clock.Today", "Date"), names(df_working))
   if (length(date_col) == 0) {
     stop("Error [derive_pheno_dates_from_haun]: Could not locate 'Clock.Today' or 'Date' headers in data frame.")
   }
   date_col <- date_col[1]
   
+  # Locate the Haun stage column using a case-insensitive pattern match
   haun_col <- names(df_working)[grepl("HaunStage", names(df_working), ignore.case = TRUE)]
   if (length(haun_col) != 1) {
     stop("Error [derive_pheno_dates_from_haun]: Unable to isolate a unique 'HaunStage' column in input headers.")
@@ -68,30 +74,40 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
   
   # ---- 3. DATA CLEANING & RECASTING ----
   df_clean <- df_working %>%
+    # Drop rows where either the Haun stage or the date value is missing (NA)
     dplyr::filter(!is.na(.data[[haun_col]]), !is.na(.data[[date_col]])) %>%
     dplyr::mutate(
+      # Safely convert various date string formats into standard numeric date values
       .temp_date_num = as.numeric(as.Date(
         suppressWarnings(lubridate::parse_date_time(
           as.character(.data[[date_col]]), 
           orders = c("dmy HMS", "ymd HMS", "dmy", "ymd", "Ymd")
         ))
       )),
+      # Force Haun stage values to numeric format for downstream calculations
       .target_haun = as.numeric(.data[[haun_col]])
     ) %>%
+    # Drop rows where date parsing failed and resulted in NA
     dplyr::filter(!is.na(.temp_date_num))
   
   # ---- 4. MONOTONIC INTERPOLATION ENGINE ----
   df_wide_metrics <- df_clean %>%
+    # Sort data chronologically within each simulation by Haun stage progression
     dplyr::arrange(SimulationName, .target_haun) %>%
     dplyr::group_by(SimulationName) %>%
     dplyr::summarise(
+      # Calculate the peak leaf development observed for the simulation
       LeafNumberMaximum = max(.target_haun, na.rm = TRUE),
+      # Estimate Final Leaf Number (FLN) by rounding the maximum leaf count to an integer
       FLN               = as.integer(round(LeafNumberMaximum)),
+      # Calculate the upper leaf development limit using the threshold coefficient
       LeafNumberLimit   = LeafNumberMaximum * max_leaf_limit,
       
-      Haun_TS = FLN - 3,
-      Haun_DR = max(2, FLN - 6),
+      # Determine morphological milestone targets based on FLN rules
+      Haun_TS = FLN - 3,             # Terminal Spikelet stage target
+      Haun_DR = max(2, FLN - 6),     # Double Ridge stage target (floored at minimum stage 2)
       
+      # Interpolate calendar dates corresponding to the calculated morphological targets
       Date_Num_Limit = if (dplyr::n() >= 2 && LeafNumberMaximum > 0) {
         approx(x = .target_haun, y = .temp_date_num, xout = LeafNumberLimit, rule = 2, ties = "mean")$y
       } else { NA_real_ },
@@ -108,6 +124,7 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
     )
   
   # ---- 5. INTERNAL LOGIC CONSOLE TRACE ----
+  # Reformat numeric dates into true Date objects for diagnostic review
   df_diagnostic <- df_wide_metrics %>%
     dplyr::mutate(
       Date_MaxLeafLimit = as.Date(Date_Num_Limit, origin = "1970-01-01"),
@@ -117,37 +134,42 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
     dplyr::select(SimulationName, LeafNumberMaximum, FLN, LeafNumberLimit, 
                   Date_MaxLeafLimit, Date_Stage4_DR, Date_Stage5_TS)
   
+  # Print the formatted math-tracing table directly to the console
   message("\n===========================================================")
   message("           HAUN DERIVATION INTERNAL TRACE LOGIC            ")
   message("===========================================================")
   print(as.data.frame(df_diagnostic))
   message("===========================================================\n")
   
-  # Count metrics for the final summary warning
+  # Count how many simulations successfully generated milestone dates for summary reporting
   sims_with_dr <- sum(!is.na(df_wide_metrics$Date_Num_DR))
   sims_with_ts <- sum(!is.na(df_wide_metrics$Date_Num_TS))
   
   # ---- 6. MELT VERTICAL AND RE-ALIGN TO STANDARD INTERFACE SCHEMA ----
   df_final <- df_wide_metrics %>%
     dplyr::mutate(
-      Stage_4 = as.Date(Date_Num_DR, origin = "1970-01-01"), # Double Ridge mapping
-      Stage_5 = as.Date(Date_Num_TS, origin = "1970-01-01")  # Terminal Spikelet mapping
+      Stage_4 = as.Date(Date_Num_DR, origin = "1970-01-01"), # Map Double Ridge date to Stage 4
+      Stage_5 = as.Date(Date_Num_TS, origin = "1970-01-01")  # Map Terminal Spikelet date to Stage 5
     ) %>%
-    # ONLY select valid APSIM stages to avoid inventing synthetic stages like 3.95
+    # Isolate only the target milestone columns to prepare for vertical reshaping
     dplyr::select(SimulationName, Stage_4, Stage_5) %>%
+    # Reshape from wide format into a tidy vertical layout
     tidyr::pivot_longer(
       cols = c(Stage_4, Stage_5),
       names_to = "StageKey",
       values_to = "Clock.Today"
     ) %>%
+    # Drop rows where date values evaluated to NA
     dplyr::filter(!is.na(Clock.Today)) %>%
+    # Map internal stage names to standard numeric APSIM phenology stage codes
     dplyr::mutate(
       Wheat.Phenology.Stage = dplyr::case_when(
-        StageKey == "Stage_4" ~ 4, # LeavesInitiating
-        StageKey == "Stage_5" ~ 5, # SpikeletsDifferentiating
+        StageKey == "Stage_4" ~ 4, # LeavesInitiating (Double Ridge)
+        StageKey == "Stage_5" ~ 5, # SpikeletsDifferentiating (Terminal Spikelet)
         TRUE                  ~ NA_real_
       )
     ) %>%
+    # Realign strictly to the mandatory 3-column pipeline interface schema
     dplyr::select(SimulationName, Clock.Today, Wheat.Phenology.Stage) %>%
     dplyr::distinct() %>%
     dplyr::arrange(SimulationName, Clock.Today)
@@ -161,6 +183,13 @@ derive_pheno_stages_from_haun <- function(df_input, max_leaf_limit = 0.95, input
   
   message(sprintf(" -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for %d simulations.", 
                   sims_with_ts))
+  
+  # Log a machine-readable Q-Flag entry for the Quarto report dashboard
+  log_qflag(
+    severity = "INFO", 
+    category = "PHENOLOGY", 
+    message = sprintf("Haun derivation (Step 3): successfully generated morphologically derived stages for %d simulation(s) (Stage 4: %d, Stage 5: %d).", nrow(df_wide_metrics), sims_with_dr, sims_with_ts)
+  )
   
   return(df_final)
 }
