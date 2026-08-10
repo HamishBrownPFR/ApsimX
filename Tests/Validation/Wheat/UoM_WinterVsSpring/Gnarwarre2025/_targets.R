@@ -186,8 +186,9 @@ list(
       )
     )
   ),
+  
   tar_target(
-    name = qc_pheno_param,
+    name = qc_pheno_input_param,
     command = check_pheno_integrity(df_pheno_input_imputed, df_obs_raw)
   ),
   
@@ -332,10 +333,12 @@ list(
     name = haun_input_checked, 
     command = check_manual_params(config$folder_inputs, config$file_name_input_haun, qc_obs_final)
   ),
+  
+  # FIXME: qc_pheno_integrity
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = qc_pheno_param, # <--- Pulling from the Gatekeeper target
+      df       = qc_pheno_input_param, # <--- Pulling from the Gatekeeper target
       folder   = config$folder_inputs, 
       filename = config$file_name_input_pheno
     ),

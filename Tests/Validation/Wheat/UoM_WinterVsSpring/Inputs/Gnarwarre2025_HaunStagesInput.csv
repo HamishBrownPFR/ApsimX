@@ -1,6 +1,6 @@
 SimulationName,[Wheat].Phenology.Phyllochron.BasePhyllochron.FixedValue,[Wheat].Phenology.PhyllochronPpSensitivity.FixedValue
-Gnarwarre2025CvSowAprBigRedPGRNo,100,0.8
-Gnarwarre2025CvSowAprBigRedPGRYes,100,0.8
+Gnarwarre2025CvSowAprBigRedPGRNo,100,0.4
+Gnarwarre2025CvSowAprBigRedPGRYes,100,0.4
 Gnarwarre2025CvSowAprIllaboPGRNo,100,0.4
 Gnarwarre2025CvSowAprIllaboPGRYes,100,0.4
 Gnarwarre2025CvSowAprStockadePGRNo,100,0.4

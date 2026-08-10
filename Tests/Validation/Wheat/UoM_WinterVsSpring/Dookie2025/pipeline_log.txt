@@ -11,17 +11,13 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.64 seconds]
+● built target config [0.55 seconds]
 📖 Reading soil data from: UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx (Sheet: McPoyles 3 APSIM)
 💾 Success: Exported cleaned soil profile to 'Dookie2025_soil_water_cond.csv'
 ▶ start target soil_water_cond
-● built target soil_water_cond [0.3 seconds]
+● built target soil_water_cond [0.25 seconds]
 ▶ start target df_obs_meta_data
-● built target df_obs_meta_data [0.03 seconds]
-▶ start target df_simNameByCult
-● built target df_simNameByCult [0.02 seconds]
-▶ start target tracked_raw_excel
-● built target tracked_raw_excel [0 seconds]
+● built target df_obs_meta_data [0 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -106,6 +102,12 @@ $file_name_new_met
 
 ======================================================================
 
+▶ start target df_simNameByCult
+● built target df_simNameByCult [0 seconds]
+▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
+▶ start target log_active_config
+● built target log_active_config [0.02 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -150,14 +152,12 @@ $file_name_new_met
   [X] ET    -> NOT FOUND (Optional - Skipped)
 =======================================================
 [Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx' with 5 mapped column(s).
-▶ start target log_active_config
-● built target log_active_config [0 seconds]
 ▶ start target processed_met_data
-● built target processed_met_data [0.39 seconds]
+● built target processed_met_data [0.37 seconds]
 ▶ start target soil_pre_sow
 📖 Reading soil data from: UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx (Sheet: Presowing soil test results)
 💾 Success: Exported cleaned soil profile to 'Dookie2025_soil_pre_sow.csv'
-● built target soil_pre_sow [0.33 seconds]
+● built target soil_pre_sow [0.3 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -167,18 +167,7 @@ $file_name_new_met
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.22 seconds]
-
-======================================================================
- ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
-======================================================================
- File  : UOM2312-001RTX 25 DOO JH EVA WHT.xlsx
- Sheet : 'PCDS 10.0 harvest'
- Target: 'Chaff dry matter (g/m²)' -> 'Wheat.Spike.Wt'
- Error : None of the requested columns ('Chaff dry matter (g/m²)') were found in the sheet.
- Action: Skipping this extraction. The pipeline will continue.
-======================================================================
-
+● built target manual_pheno_params [0.16 seconds]
 
 ======================================================================
  ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
@@ -400,16 +389,15 @@ $file_name_new_met
 ======================================================================
 
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [18.79 seconds]
+● built target list_observed_dfs_raw [16.72 seconds]
+▶ start target msg_met_saved
 Building APSIM .met file: Dookie2025.met
   [✓] Included RADN (mapped from Excel col: 'Radiation (MJ/m2)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum Temperature (McPoyles 3 2025)  (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum Temperature (McPoyles 3 2025) (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
   [✓] Included VP (mapped from Excel col: 'Vapour Pressure(VP) SILO (hPa)')
-▶ start target msg_met_saved
-● built target msg_met_saved [0.01 seconds]
-▶ start target list_observed_dfs_raw_plus_emergPerc
+● built target msg_met_saved [0.02 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -421,7 +409,9 @@ Building APSIM .met file: Dookie2025.met
 ----------------------------------------------------------------------
 
 [Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
-● built target list_observed_dfs_raw_plus_emergPerc [0.04 seconds]
+▶ start target list_observed_dfs_raw_plus_emergPerc
+● built target list_observed_dfs_raw_plus_emergPerc [0.03 seconds]
+▶ start target list_observed_clean
 
 ======================================================================
  ⚠️  CRITICAL WARNING: RAW DATE TYPOS AUTO-CORRECTED ⚠️ 
@@ -642,8 +632,7 @@ Building APSIM .met file: Dookie2025.met
 ======================================================================
 
 [Q-FLAG] | WARN | DATES | Raw date typos auto-corrected (Dookie25): 212 total date adjustment(s) made across syntax, year, and missing imputation stages.
-▶ start target list_observed_clean
-● built target list_observed_clean [0.09 seconds]
+● built target list_observed_clean [0.08 seconds]
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -709,11 +698,11 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
-● built target df_obs_wide [0.29 seconds]
+● built target df_obs_wide [0.26 seconds]
 ✅ Successfully extracted 3 target dataframes.
 [Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
 ▶ start target list_pcds_extracted
-● built target list_pcds_extracted [0.03 seconds]
+● built target list_pcds_extracted [0 seconds]
 
 ======================================================================
     ⚠️  WARNING: PHENOLOGY STAGES DID NOT REACH TARGET THRESHOLD  ⚠️
@@ -742,15 +731,14 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 Success [get_pheno_dates_from_pcd_list]: Standardized 72 raw records at 50% progress.
 [Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 72 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.11 seconds]
+● built target df_pheno_raw [0.08 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 24 missing micro-milestone rows (Stage 7).
 [Q-FLAG] | INFO | PHENOLOGY | Linear interpolation (Step 2): successfully generated 24 intermediate micro-milestone row(s) for Stage 7 using fractional progress 0.50.
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.05 seconds]
+● built target df_pheno_int [0.02 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 144 strictly chronological stage events.
 ▶ start target df_pheno_final
 ● built target df_pheno_final [0.08 seconds]
-▶ start target df_pheno_input_param
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -763,14 +751,15 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 144 strictly c
 [Q-FLAG] | INFO | PHENOLOGY | Pruned 1 empty phenology stage column(s) (100% NA): [[Wheat].Phenology.GrainFilling.DateToProgress]
 Success [format_apsim_pheno_params]: Translated 24 simulations into wide APSIM parameter format.
 [Q-FLAG] | INFO | PHENOLOGY | Translated 24 simulations into wide APSIM parameter format.
-● built target df_pheno_input_param [0.06 seconds]
-▶ start target df_obs_wide_plus_pheno
+▶ start target df_pheno_input_param
+● built target df_pheno_input_param [0.07 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 144 events into master observations under column 'Wheat.Phenology.Stage'.
-● built target df_obs_wide_plus_pheno [0.36 seconds]
+▶ start target df_obs_wide_plus_pheno
+● built target df_obs_wide_plus_pheno [0.34 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
-▶ start target qc_pheno_integrity
-● built target qc_pheno_integrity [0.01 seconds]
+▶ start target qc_pheno_input_param
+● built target qc_pheno_input_param [0.02 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -780,9 +769,9 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
 ============================================================
 
 ▶ start target df_obs_wide_plus_pheno_hi
-● built target df_obs_wide_plus_pheno_hi [0.04 seconds]
+● built target df_obs_wide_plus_pheno_hi [0.03 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.03 seconds]
+● built target msg_pheno_param_saved [0 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
@@ -792,7 +781,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  🚨 ACTION REQUIRED: FATAL LAB DATA MISMATCH DETECTED 🚨
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 192 instances found where physical organs had Mass but no Conc
+ 208 instances found where physical organs had Mass but no Conc
  (or vice versa), corrupting the aggregate totals.
 
  A detailed diagnostic log has been exported.
@@ -801,9 +790,9 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-[Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 192 instance(s) found where organs had Mass but no Conc (or vice versa).
+[Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 208 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_wide_plus_pheno_hi_with_amounts
-● built target df_obs_wide_plus_pheno_hi_with_amounts [0.14 seconds]
+● built target df_obs_wide_plus_pheno_hi_with_amounts [0.09 seconds]
 
 ============================================================
  ✅  RANGE CHECK PASSED: WHEAT.SPIKE.HEADNUMBER ✅ 
@@ -812,7 +801,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
  -> STATUS       : All calculated values are within boundaries.
 ------------------------------------------------------------
 ▶ start target df_obs_wide_plus_pheno_hi_with_amounts_spike
-● built target df_obs_wide_plus_pheno_hi_with_amounts_spike [0.03 seconds]
+● built target df_obs_wide_plus_pheno_hi_with_amounts_spike [0.07 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -823,60 +812,28 @@ Success [add_new_var_to_obs]: Appended and collapsed 144 events into master obse
 ------------------------------------------------------------
 
 ▶ start target df_obs_wide_plus_pheno_hi_with_amounts_spike_harv
-● built target df_obs_wide_plus_pheno_hi_with_amounts_spike_harv [0.08 seconds]
+● built target df_obs_wide_plus_pheno_hi_with_amounts_spike_harv [0.07 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
 ● built target qc_obs_final [0.06 seconds]
 ▶ start target haun_input_checked
-● built target haun_input_checked [0.05 seconds]
+● built target haun_input_checked [0.02 seconds]
 Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Dookie2025_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.21 seconds]
+● built target msg_obs_saved [0.2 seconds]
 
 ======================================================================
- ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+ ✅ MASS BALANCE AUDIT PASSED: Wheat.AboveGround.Wt ✅ 
 ======================================================================
- Target Reference Variable : Wheat.AboveGround.Wt
- Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold      : > 5%
- Flagged Observations      : 8 row(s) out of 907
+ -> Technical Verification : Component fraction stoichiometric mass balance confirmed.
+ -> Reference Variable     : 'Wheat.AboveGround.Wt'
+ -> Evaluated Fractions    : [Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt]
+ -> Evaluated Observations : N = 907 observations
+ -> Variance Tolerance     : Relative error strictly <= 5%
 ----------------------------------------------------------------------
 
-                    SimulationName Clock.Today Wheat.AboveGround.Wt  Comp_Sum
-      DookieEVA2025SowApril_BigRed  2025-11-24            1032.4414  917.8636
-      DookieEVA2025SowApril_Illabo  2025-11-24            1153.1164 1008.0013
- DookieEVA2025SowApril_UOM001_3_47  2025-11-24            1154.6514  959.5501
-  DookieEVA2025SowApril_UOM001_9_1  2025-11-24            1115.0764  930.9054
-     DookieEVA2025SowMay_Sunmaster  2025-11-24             962.6214  819.8415
-   DookieEVA2025SowMay_UOM001_3_47  2025-11-24             876.0464  740.7981
-    DookieEVA2025SowMay_UOM001_9_1  2025-11-24            1003.5564  886.0660
-      DookieEVA2025SowMay_Zanzibar  2025-11-24             999.8514  886.6996
- DiffAbs DiffPerc Wheat.Leaf.Live.Wt Wheat.Leaf.Dead.Wt Wheat.Stem.Wt
- -114.58   -11.10                 NA           154.5938      325.0501
- -145.12   -12.58                 NA           173.2156      371.8742
- -195.10   -16.90                 NA           169.2148      299.6656
- -184.17   -16.52                 NA           140.7274      374.6323
- -142.78   -14.83                 NA           102.5417      309.5279
- -135.25   -15.44                 NA           106.6045      192.5765
- -117.49   -11.71                 NA           156.4086      271.7932
- -113.15   -11.32                 NA           149.0638      329.4709
- Wheat.Spike.Wt Wheat.Grain.Wt
-             NA       438.2197
-             NA       462.9115
-             NA       490.6697
-             NA       415.5457
-             NA       407.7719
-             NA       441.6170
-             NA       457.8643
-             NA       408.1648
-
-----------------------------------------------------------------------
- Action Required: Please inspect the component variables for the rows above.
-======================================================================
-
-[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 8 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
 ▶ start target validation_biomass_sums
-● built target validation_biomass_sums [0.03 seconds]
+● built target validation_biomass_sums [0.02 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: Dookie2025_population.csv
@@ -885,43 +842,20 @@ Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validat
 ----------------------------------------------------------------------
 💾 Success: Exported 24 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.07 seconds]
+● built target exported_pop_csv [0.03 seconds]
 
 ======================================================================
- ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+ ✅ MASS BALANCE AUDIT PASSED: Wheat.Ear.Wt ✅ 
 ======================================================================
- Target Reference Variable : Wheat.Ear.Wt
- Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold      : > 5%
- Flagged Observations      : 8 row(s) out of 907
+ -> Technical Verification : Component fraction stoichiometric mass balance confirmed.
+ -> Reference Variable     : 'Wheat.Ear.Wt'
+ -> Evaluated Fractions    : [Wheat.Spike.Wt + Wheat.Grain.Wt]
+ -> Evaluated Observations : N = 907 observations
+ -> Variance Tolerance     : Relative error strictly <= 5%
 ----------------------------------------------------------------------
 
-                    SimulationName Clock.Today Wheat.Ear.Wt Comp_Sum DiffAbs
-      DookieEVA2025SowApril_BigRed  2025-11-24     552.7975 438.2197 -114.58
-      DookieEVA2025SowApril_Illabo  2025-11-24     608.0266 462.9115 -145.12
- DookieEVA2025SowApril_UOM001_3_47  2025-11-24     685.7711 490.6697 -195.10
-  DookieEVA2025SowApril_UOM001_9_1  2025-11-24     543.1844 415.5457 -127.64
-     DookieEVA2025SowMay_Sunmaster  2025-11-24     550.5519 407.7719 -142.78
-   DookieEVA2025SowMay_UOM001_3_47  2025-11-24     576.8654 441.6170 -135.25
-    DookieEVA2025SowMay_UOM001_9_1  2025-11-24     575.3546 457.8643 -117.49
-      DookieEVA2025SowMay_Zanzibar  2025-11-24     521.3167 408.1648 -113.15
- DiffPerc Wheat.Spike.Wt Wheat.Grain.Wt
-   -20.73             NA       438.2197
-   -23.87             NA       462.9115
-   -28.45             NA       490.6697
-   -23.50             NA       415.5457
-   -25.93             NA       407.7719
-   -23.45             NA       441.6170
-   -20.42             NA       457.8643
-   -21.71             NA       408.1648
-
-----------------------------------------------------------------------
- Action Required: Please inspect the component variables for the rows above.
-======================================================================
-
-[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 8 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
 ▶ start target validation_ear_sums
-● built target validation_ear_sums [0.02 seconds]
+● built target validation_ear_sums [0 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
@@ -930,16 +864,14 @@ Success [save_df_to_excel]: Exported 907 rows to 'C:/github/ApsimX/Tests/Validat
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.69 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target encrypted_zip_artifact [0.7 seconds]
 ▶ start target verify_data_backup
-● built target verify_data_backup [0.01 seconds]
-▶ end pipeline [25.01 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target verify_data_backup [0 seconds]
+▶ end pipeline [22.03 seconds]
 Warning messages:
 1: Missing optional weather variables in 'UOM2312-001RTX 25 DOO JH WWHI WHT.xlsx': ET 
 2: Met file 'Dookie2025.met' generated WITHOUT optional variables: ET 
 3: Raw date typos were auto-corrected. See console for exact mapping. 
 4: Some phenology stages failed to reach the target threshold and required fallback assumptions. See console. 
-5: Mass balance audit failed: 8 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'. 
-6: Mass balance audit failed: 8 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'. 
-7: 6 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+5: 4 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 

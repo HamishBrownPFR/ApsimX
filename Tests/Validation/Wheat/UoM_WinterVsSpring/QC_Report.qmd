@@ -75,7 +75,7 @@ df_sim_metadata <- df_sims %>%
       TRUE ~ "Unknown"
     ),
     
-    # 3. Extract Cultivar: Handles the 4 different string formats in your data
+    # 3. Extract Cultivar: Handles the 4 different string formats in data
     Cultivar = case_when(
       # Format A: Cultivar is at the end after an underscore (e.g., ..._BigRed, ..._UOM001_3_47)
       str_detect(SimulationName, "_") ~ str_extract(SimulationName, "(?<=_).*$"),
@@ -95,8 +95,7 @@ df_sim_metadata <- df_sims %>%
   )
 
 
-#write.csv(df_sim_metadata,"SimMetaData.csv")
-
+#write.csv(df_sim_metadata,"SimMetaData.csv") # saved once and fine-tuned by hand (keep an eye for issues here)
 # Preview the beautiful new dataframe!
 head(df_sim_metadata)
 ```
@@ -711,7 +710,7 @@ library(tidyr)
 library(stringr)
 library(knitr)
 
-target_to_pull <- "df_pheno_input_param" 
+target_to_pull <- "qc_pheno_input_param" 
 
 # ---- 1. Apply function across all dirs and bind rows ----
 df_combined_pheno_param <- map_dfr(pipeline_dirs, pull_regional_data)
@@ -876,11 +875,16 @@ for (exp in experiments) {
     )
   
   # Apply the dynamically calculated height to the Plotly widget
-  plt <- ggplotly(p_sub, tooltip = "text", height = dynamic_height) %>%
-    layout(
-      legend = list(orientation = "h", y = -0.15),
-      margin = list(b = 80)
+  plt <- ggplotly(p_sub, tooltip = "text", height = dynamic_height) %>% 
+  layout(
+    margin = list(b = 120), # Increases the bottom margin of the entire canvas (in pixels)
+    legend = list(
+      orientation = "h",    # Keeps it horizontal
+      y = -0.3,             # Pushes the legend down (negative values move it below the x-axis)
+      x = 0.5,              # Centers it horizontally
+      xanchor = "center"
     )
+  )
   
   print(htmltools::tagList(plt))
   cat("\n\n")
@@ -1044,7 +1048,7 @@ Warnings are produced at these steps to enable later scrutiny and corrections wh
 
 Please **CHECK CAREFULLY** these messages for each experiment (@tbl-pipeline-health).
 
-For items that feel relevant to you, please go to the full **pipeline_log.txt** at the Experiment folder for details.
+For items that feel relevant to you, aware that many are just to keep track of data wrangling, please go to the full *proj_name_***pipeline_log.txt** at the Experiment folder in git (e.g., Wheat\\UoM_WinterVsSpring\\*proj_name*) for details.
 
 ```{r}
 #| label: tbl-pipeline-health

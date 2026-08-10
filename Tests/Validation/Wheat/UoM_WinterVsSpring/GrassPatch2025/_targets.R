@@ -164,9 +164,16 @@ list(
     name = df_pheno_final,
     command = merge_and_qc_pheno(df_raw = df_pheno_raw, df_haun = df_pheno_haun, df_int = df_pheno_int)
   ),
+  
+  
   tar_target(
     name = df_pheno_input_param,
     command = format_apsim_pheno_params(df_pheno_final)
+  ), 
+  
+  tar_target(
+    name = qc_pheno_input_param,
+    command = check_pheno_integrity(df_pheno_input_param, df_obs_mean)
   ),
   
   # ----------------------------------------------------------------------------
@@ -338,9 +345,11 @@ list(
     name = haun_input_checked, 
     command = check_manual_params(config$folder_inputs, config$file_name_input_haun, qc_obs_final)
   ),
+  
+  # FIXME: qc_pheno_integrity
   tar_target(
     name = msg_pheno_param_saved,
-    command = save_df_into_csv(df_pheno_input_param, config$folder_inputs, config$file_name_input_pheno),
+    command = save_df_into_csv(qc_pheno_input_param, config$folder_inputs, config$file_name_input_pheno),
     format = "file"
   ),
   

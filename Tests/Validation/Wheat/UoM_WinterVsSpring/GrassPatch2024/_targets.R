@@ -187,6 +187,11 @@ list(
     command = format_apsim_pheno_params(df_pheno_final)
   ),
   
+  tar_target(
+    name = qc_pheno_input_param,
+    command = check_pheno_integrity(df_pheno_input_param, df_obs_raw)
+  ),
+  
   # ----------------------------------------------------------------------------
   # PHASE E: OBSERVATION FORMATTING & INTEGRATION
   # ----------------------------------------------------------------------------
@@ -369,10 +374,11 @@ list(
     )
   ),
   
+  # FIXME: qc_pheno_integrity
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = df_pheno_input_param,
+      df       = qc_pheno_input_param,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),
