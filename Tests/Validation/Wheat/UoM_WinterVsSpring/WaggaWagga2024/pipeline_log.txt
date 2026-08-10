@@ -11,23 +11,24 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.62 seconds]
-▶ start target df_obs_meta_data
-● built target df_obs_meta_data [0 seconds]
+● built target config [0.6 seconds]
 ▶ start target df_simNameByCult
 ● built target df_simNameByCult [0 seconds]
-▶ start target tracked_raw_excel
-● built target tracked_raw_excel [0 seconds]
+📖 Reading soil data from: 2024_WaggaWagga_PHDA24WARI2.xlsx (Sheet: GravimetricMoistureNearSowing)
+💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_gravWaterContent_data.csv'
+▶ start target soil_gravWaterContent_data
+● built target soil_gravWaterContent_data [0.17 seconds]
 📖 Reading soil data from: 2024_WaggaWagga_PHDA24WARI2.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
-   -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 60.
-   -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
-   -> Column 'Total Carbon (Combustion)' found 4 times. Safely extracted Index 169.
+    -> Column 'Silt' found 2 times, but ALL instances appear empty. Defaulted to Index 60.
+    -> Column 'Clay' found 2 times, but ALL instances appear empty. Defaulted to Index 61.
+    -> Column 'Total Carbon (Combustion)' found 4 times. Safely extracted Index 169.
 ------------------------------------------------
+[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coarse, Sand Fine, Organic Matter, EC - Saturated Paste]
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_profile_data.csv'
 ▶ start target soil_profile_data
-● built target soil_profile_data [0.97 seconds]
+● built target soil_profile_data [0.94 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -117,8 +118,12 @@ $file_name_new_met
 
 ======================================================================
 
+▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
 ▶ start target log_active_config
 ● built target log_active_config [0 seconds]
+▶ start target df_obs_meta_data
+● built target df_obs_meta_data [0 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -127,6 +132,8 @@ $file_name_new_met
 [36m•[39m `` -> `...5`
 [36m•[39m `` -> `...6`
 [36m•[39m `` -> `...7`
+[36m•[39m `` -> `...8`
+[Q-FLAG] | INFO | WEATHER | Missing optional weather variable(s) in '2024_WaggaWagga_PHDA24WARI2.xlsx': [ET]
 
 =======================================================
  WEATHER DATA CREATION LOG: 2024_WaggaWagga_PHDA24WARI2.xlsx
@@ -135,18 +142,17 @@ $file_name_new_met
   [✓] MAXT  -> 'Maximum temperature (°C)'
   [✓] MINT  -> 'Minimum temperature (°C)'
   [✓] RAIN  -> 'Rain (mm)'
-  [X] VP, ET -> NOT FOUND (Optional - Skipped)
+  [✓] VP    -> 'VP(hpa)'
+  [X] ET    -> NOT FOUND (Optional - Skipped)
 =======================================================
+[Q-FLAG] | INFO | WEATHER | Successfully processed weather file '2024_WaggaWagga_PHDA24WARI2.xlsx' with 5 mapped column(s).
 ▶ start target processed_met_data
-● built target processed_met_data [0.2 seconds]
-▶ start target soil_water_data
+● built target processed_met_data [0.22 seconds]
 📖 Reading soil data from: PAW estimates Wagga 2024 JRH.xlsx (Sheet: PAW estimates)
+[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Rainfall period]
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_water_data.csv'
+▶ start target soil_water_data
 ● built target soil_water_data [0.13 seconds]
-▶ start target soil_gravWaterContent_data
-📖 Reading soil data from: 2024_WaggaWagga_PHDA24WARI2.xlsx (Sheet: GravimetricMoistureNearSowing)
-💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_gravWaterContent_data.csv'
-● built target soil_gravWaterContent_data [0.08 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -156,287 +162,315 @@ $file_name_new_met
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.15 seconds]
+● built target manual_pheno_params [0.19 seconds]
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stemYield_6_raw'
- -> Target Var    : 'Wheat.Stem.Wt'
- -> ISSUE         : 56 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stemYield_6_raw'
+ -> Target Var     : 'Wheat.Stem.Wt'
+ -> ISSUE          : 56 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stemYield_6_raw' ('Wheat.Stem.Wt'): 56 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stemYield_8_raw'
- -> Target Var    : 'Wheat.Stem.Wt'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stemYield_8_raw'
+ -> Target Var     : 'Wheat.Stem.Wt'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stemYield_8_raw' ('Wheat.Stem.Wt'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spikeYield_6_raw'
- -> Target Var    : 'Wheat.Spike.Wt'
- -> ISSUE         : 55 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spikeYield_6_raw'
+ -> Target Var     : 'Wheat.Spike.Wt'
+ -> ISSUE          : 55 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spikeYield_6_raw' ('Wheat.Spike.Wt'): 55 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spikeYield_8_raw'
- -> Target Var    : 'Wheat.Spike.Wt'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spikeYield_8_raw'
+ -> Target Var     : 'Wheat.Spike.Wt'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spikeYield_8_raw' ('Wheat.Spike.Wt'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'senescLeafYield_6_raw'
- -> Target Var    : 'Wheat.Leaf.Dead.Wt'
- -> ISSUE         : 56 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'senescLeafYield_6_raw'
+ -> Target Var     : 'Wheat.Leaf.Dead.Wt'
+ -> ISSUE          : 56 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'senescLeafYield_6_raw' ('Wheat.Leaf.Dead.Wt'): 56 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'senescLeafYield_8_raw'
- -> Target Var    : 'Wheat.Leaf.Dead.Wt'
- -> ISSUE         : 62 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'senescLeafYield_8_raw'
+ -> Target Var     : 'Wheat.Leaf.Dead.Wt'
+ -> ISSUE          : 62 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'senescLeafYield_8_raw' ('Wheat.Leaf.Dead.Wt'): 62 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'greenLeaf_6_raw'
- -> Target Var    : 'Wheat.Leaf.Live.Wt'
- -> ISSUE         : 55 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'greenLeaf_6_raw'
+ -> Target Var     : 'Wheat.Leaf.Live.Wt'
+ -> ISSUE          : 55 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'greenLeaf_6_raw' ('Wheat.Leaf.Live.Wt'): 55 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'greenLeaf_8_raw'
- -> Target Var    : 'Wheat.Leaf.Live.Wt'
- -> ISSUE         : 62 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'greenLeaf_8_raw'
+ -> Target Var     : 'Wheat.Leaf.Live.Wt'
+ -> ISSUE          : 62 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'greenLeaf_8_raw' ('Wheat.Leaf.Live.Wt'): 62 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'totalAboveGround_6_raw'
- -> Target Var    : 'Wheat.AboveGround.Wt'
- -> ISSUE         : 56 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'totalAboveGround_6_raw'
+ -> Target Var     : 'Wheat.AboveGround.Wt'
+ -> ISSUE          : 56 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'totalAboveGround_6_raw' ('Wheat.AboveGround.Wt'): 56 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'totalAboveGround_8_raw'
- -> Target Var    : 'Wheat.AboveGround.Wt'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'totalAboveGround_8_raw'
+ -> Target Var     : 'Wheat.AboveGround.Wt'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'totalAboveGround_8_raw' ('Wheat.AboveGround.Wt'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'par_6_raw'
- -> Target Var    : 'Wheat.Leaf.CoverTotal'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'par_6_raw'
+ -> Target Var     : 'Wheat.Leaf.CoverTotal'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'par_6_raw' ('Wheat.Leaf.CoverTotal'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'par_8_raw'
- -> Target Var    : 'Wheat.Leaf.CoverTotal'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'par_8_raw'
+ -> Target Var     : 'Wheat.Leaf.CoverTotal'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'par_8_raw' ('Wheat.Leaf.CoverTotal'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leaf_6_Nconc'
- -> Target Var    : 'Wheat.Leaf.Live.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leaf_6_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Live.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_6_Nconc' ('Wheat.Leaf.Live.NConc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leaf_6_WSCc'
- -> Target Var    : 'Wheat.Leaf.Live.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leaf_6_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Live.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_6_WSCc' ('Wheat.Leaf.Live.WSCc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leafDead_6_Nconc'
- -> Target Var    : 'Wheat.Leaf.Dead.NConc'
- -> ISSUE         : 44 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leafDead_6_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Dead.NConc'
+ -> ISSUE          : 44 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_6_Nconc' ('Wheat.Leaf.Dead.NConc'): 44 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leafDead_6_WSCc'
- -> Target Var    : 'Wheat.Leaf.Dead.WSCc'
- -> ISSUE         : 44 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leafDead_6_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Dead.WSCc'
+ -> ISSUE          : 44 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_6_WSCc' ('Wheat.Leaf.Dead.WSCc'): 44 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stem_6_Nconc'
- -> Target Var    : 'Wheat.Stem.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stem_6_Nconc'
+ -> Target Var     : 'Wheat.Stem.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_6_Nconc' ('Wheat.Stem.NConc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stem_6_WSCc'
- -> Target Var    : 'Wheat.Stem.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stem_6_WSCc'
+ -> Target Var     : 'Wheat.Stem.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_6_WSCc' ('Wheat.Stem.WSCc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spike_6_Nconc'
- -> Target Var    : 'Wheat.Spike.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spike_6_Nconc'
+ -> Target Var     : 'Wheat.Spike.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_6_Nconc' ('Wheat.Spike.NConc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spike_6_WSCc'
- -> Target Var    : 'Wheat.Spike.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spike_6_WSCc'
+ -> Target Var     : 'Wheat.Spike.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_6_WSCc' ('Wheat.Spike.WSCc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leaf_8_Nconc'
- -> Target Var    : 'Wheat.Leaf.Live.NConc'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leaf_8_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Live.NConc'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_8_Nconc' ('Wheat.Leaf.Live.NConc'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leaf_8_WSCc'
- -> Target Var    : 'Wheat.Leaf.Live.WSCc'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leaf_8_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Live.WSCc'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leaf_8_WSCc' ('Wheat.Leaf.Live.WSCc'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leafDead_8_Nconc'
- -> Target Var    : 'Wheat.Leaf.Dead.NConc'
- -> ISSUE         : 61 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leafDead_8_Nconc'
+ -> Target Var     : 'Wheat.Leaf.Dead.NConc'
+ -> ISSUE          : 61 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_8_Nconc' ('Wheat.Leaf.Dead.NConc'): 61 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'leafDead_8_WSCc'
- -> Target Var    : 'Wheat.Leaf.Dead.WSCc'
- -> ISSUE         : 61 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'leafDead_8_WSCc'
+ -> Target Var     : 'Wheat.Leaf.Dead.WSCc'
+ -> ISSUE          : 61 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'leafDead_8_WSCc' ('Wheat.Leaf.Dead.WSCc'): 61 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stem_8_Nconc'
- -> Target Var    : 'Wheat.Stem.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stem_8_Nconc'
+ -> Target Var     : 'Wheat.Stem.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_8_Nconc' ('Wheat.Stem.NConc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'stem_8_WSCc'
- -> Target Var    : 'Wheat.Stem.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'stem_8_WSCc'
+ -> Target Var     : 'Wheat.Stem.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'stem_8_WSCc' ('Wheat.Stem.WSCc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spike_8_Nconc'
- -> Target Var    : 'Wheat.Spike.NConc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spike_8_Nconc'
+ -> Target Var     : 'Wheat.Spike.NConc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_8_Nconc' ('Wheat.Spike.NConc'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'spike_8_WSCc'
- -> Target Var    : 'Wheat.Spike.WSCc'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'spike_8_WSCc'
+ -> Target Var     : 'Wheat.Spike.WSCc'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'spike_8_WSCc' ('Wheat.Spike.WSCc'): 64 row(s) have NA/blank dates requiring patching.
 
 ======================================================================
  ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
@@ -452,42 +486,47 @@ $file_name_new_met
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'earYield_6_raw'
- -> Target Var    : 'Wheat.Ear.Wt'
- -> ISSUE         : 55 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'earYield_6_raw'
+ -> Target Var     : 'Wheat.Ear.Wt'
+ -> ISSUE          : 55 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_6_raw' ('Wheat.Ear.Wt'): 55 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'earYield_8_raw'
- -> Target Var    : 'Wheat.Ear.Wt'
- -> ISSUE         : 63 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'earYield_8_raw'
+ -> Target Var     : 'Wheat.Ear.Wt'
+ -> ISSUE          : 63 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_8_raw' ('Wheat.Ear.Wt'): 63 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
- -> df_name       : 'culm_weight_8_raw'
- -> Target Var    : 'Wheat.Culm.Wt'
- -> ISSUE         : 64 row(s) have 'NA' or blank values in the Date column.
- -> ACTION        : Data is extracted but dates remain NA. Will require downstream patching.
+ -> df_name        : 'culm_weight_8_raw'
+ -> Target Var     : 'Wheat.Culm.Wt'
+ -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
+ -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
+[Q-FLAG] | WARN | DATES | Orphaned data in 'culm_weight_8_raw' ('Wheat.Culm.Wt'): 64 row(s) have NA/blank dates requiring patching.
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [4.08 seconds]
+● built target list_observed_dfs_raw [4.14 seconds]
 Building APSIM .met file: WaggaWagga2024.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
+  [✓] Included VP (mapped from Excel col: 'VP(hpa)')
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.02 seconds]
-▶ start target list_observed_dfs
+● built target msg_met_saved [0.04 seconds]
+▶ start target audit_report_raw_data_checked
+● built target audit_report_raw_data_checked [0.22 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -498,10 +537,9 @@ Building APSIM .met file: WaggaWagga2024.met
  -> Action        : Converted raw counts to 0-100% scale per SimulationName
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
+▶ start target list_observed_dfs
 ● built target list_observed_dfs [0.03 seconds]
-▶ start target audit_report_raw_data_checked
-● built target audit_report_raw_data_checked [0.24 seconds]
-▶ start target df_pheno_haun
 
 ===========================================================
            HAUN DERIVATION INTERNAL TRACE LOGIC            
@@ -545,59 +583,27 @@ Building APSIM .met file: WaggaWagga2024.met
 Success [derive_pheno_stages_from_haun]: Morphologically generated milestone rows from Haun counts. (Mode: list_dfs)
  -> `[Wheat].Phenology.LeavesInitiating.DateToProgress` as Stage 4 generated for 16 simulations.
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
+[Q-FLAG] | INFO | PHENOLOGY | Haun derivation (Step 3): successfully generated morphologically derived stages for 16 simulation(s) (Stage 4: 16, Stage 5: 16).
+▶ start target df_pheno_haun
 ● built target df_pheno_haun [0.06 seconds]
 ✅ Successfully extracted 3 target dataframes.
+[Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
 ▶ start target list_pcds_extracted
-● built target list_pcds_extracted [0.02 seconds]
+● built target list_pcds_extracted [0.01 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
+[Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 48 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
 ● built target df_pheno_raw [0.06 seconds]
-Success [create_interp_pheno_dates]: Linearly generated 32 missing micro-milestone rows (Stages 4/7).
+Success [create_interp_pheno_dates]: Linearly generated 16 missing micro-milestone rows (Stage 7).
+[Q-FLAG] | INFO | PHENOLOGY | Linear interpolation (Step 2): successfully generated 16 intermediate micro-milestone row(s) for Stage 7 using fractional progress 0.50.
 ▶ start target df_pheno_int
-● built target df_pheno_int [0.04 seconds]
-▶ start target df_pheno_final
-
-[!] NOTICE: Contrasting Dates Detected for Identical Stages
-    Applying Truth Hierarchy (Raw > Haun > Int) to resolve. Affected simulations:
-                         SimulationName Wheat.Phenology.Stage
-1      WaggaWagga2024CvGregorySow13-May                     4
-2       WaggaWagga2024CvIllaboSow22-Apr                     4
-3         WaggaWagga2024CvJanzSow13-May                     4
-4    WaggaWagga2024CvKittyhawkSow22-Apr                     4
-5         WaggaWagga2024CvMaceSow13-May                     4
-6      WaggaWagga2024CvMeeringSow13-May                     4
-7      WaggaWagga2024CvMowhawkSow22-Apr                     4
-8       WaggaWagga2024CvOspreySow22-Apr                     4
-9      WaggaWagga2024CvRosellaSow22-Apr                     4
-10     WaggaWagga2024CvScepterSow13-May                     4
-11   WaggaWagga2024CvSunmasterSow13-May                     4
-12   WaggaWagga2024CvWedgetailSow22-Apr                     4
-13    WaggaWagga2024CvWhistlerSow22-Apr                     4
-14 WaggaWagga2024CvWyalkatchemSow13-May                     4
-15       WaggaWagga2024CvWylahSow22-Apr                     4
-16       WaggaWagga2024CvYitpiSow13-May                     4
-                 Date_Clash Source_Clash
-1  2024-07-07 vs 2024-07-18  Haun vs Int
-2  2024-06-02 vs 2024-07-04  Haun vs Int
-3  2024-07-08 vs 2024-07-18  Haun vs Int
-4  2024-06-26 vs 2024-07-07  Haun vs Int
-5  2024-06-27 vs 2024-07-15  Haun vs Int
-6  2024-07-07 vs 2024-07-19  Haun vs Int
-7  2024-06-27 vs 2024-07-02  Haun vs Int
-8  2024-06-28 vs 2024-07-05  Haun vs Int
-9  2024-06-17 vs 2024-07-06  Haun vs Int
-10 2024-06-28 vs 2024-07-16  Haun vs Int
-11 2024-06-28 vs 2024-07-18  Haun vs Int
-12 2024-06-02 vs 2024-07-06  Haun vs Int
-13 2024-06-25 vs 2024-07-03  Haun vs Int
-14 2024-06-26 vs 2024-07-16  Haun vs Int
-15 2024-06-28 vs 2024-07-05  Haun vs Int
-16 2024-06-25 vs 2024-07-19  Haun vs Int
+● built target df_pheno_int [0.05 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly chronological stage events.
+▶ start target df_pheno_final
 ● built target df_pheno_final [0.06 seconds]
-▶ start target list_observed_clean
 
  [🔧 NDVI REPAIR] Synchronized 64 misaligned sensor readings to the reference year (2024).
+[Q-FLAG] | WARN | DATES | NDVI repair (Wagga24): synchronized 64 misaligned sensor reading(s) to reference year 2024.
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -608,6 +614,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'stemYield_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -618,6 +625,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'stemYield_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -628,6 +636,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'spikeYield_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -638,6 +647,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'spikeYield_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -648,6 +658,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'senescLeafYield_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -658,6 +669,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'senescLeafYield_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -668,6 +680,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'greenLeaf_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -678,6 +691,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'greenLeaf_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -688,6 +702,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'totalAboveGround_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -698,6 +713,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'totalAboveGround_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -708,6 +724,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'par_6_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -718,6 +735,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'par_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -728,6 +746,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'leaf_6_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -738,6 +757,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'leaf_6_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -748,6 +768,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-03 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'leafDead_6_Nconc': injected phenology timeline, patching 13 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -758,6 +779,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-03 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'leafDead_6_WSCc': injected phenology timeline, patching 13 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -768,6 +790,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'stem_6_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -778,6 +801,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'stem_6_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -788,6 +812,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'spike_6_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -798,6 +823,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'spike_6_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -808,6 +834,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'leaf_8_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -818,6 +845,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'leaf_8_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -828,6 +856,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'leafDead_8_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -838,6 +867,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'leafDead_8_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -848,6 +878,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'stem_8_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -858,6 +889,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'stem_8_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -868,6 +900,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'spike_8_Nconc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -878,6 +911,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'spike_8_WSCc': injected phenology timeline, patching 16 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -888,6 +922,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-02 to 2024-09-12
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 6) for 'earYield_6_raw': injected phenology timeline, patching 14 orphaned row(s).
 
 ======================================================================
  💉  DATA RESCUE: EXTERNAL PHENOLOGY TIMELINE INJECTED 💉
@@ -898,38 +933,42 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
  -> Date Timeline : 2024-09-28 to 2024-10-07
 ----------------------------------------------------------------------
 
+[Q-FLAG] | WARN | PHENOLOGY | Data rescue (Stage 8) for 'earYield_8_raw': injected phenology timeline, patching 16 orphaned row(s).
 
 🟢 Success [apply_corrections_Wagga24]: Phenology timelines applied and matrices patched.
 
-● built target list_observed_clean [0.2 seconds]
-▶ start target df_pheno_input_param
+▶ start target list_observed_clean
+● built target list_observed_clean [0.23 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
 ----------------------------------------------------------------------
  The following phenology stages contained no data (100% NA) across all
  simulations and were safely removed from the final APSIM output:
-   - [Wheat].Phenology.GrainFilling.DateToProgress
+    - [Wheat].Phenology.GrainFilling.DateToProgress
 ----------------------------------------------------------------------
 
+[Q-FLAG] | INFO | PHENOLOGY | Pruned 1 empty phenology stage column(s) (100% NA): [[Wheat].Phenology.GrainFilling.DateToProgress]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
-● built target df_pheno_input_param [0.04 seconds]
+[Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
+▶ start target df_pheno_input_param
+● built target df_pheno_input_param [0.08 seconds]
+▶ start target df_obs_wide
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
-▶ start target df_obs_wide
-● built target df_obs_wide [0.16 seconds]
+● built target df_obs_wide [0.18 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
-▶ start target qc_pheno_integrity
-● built target qc_pheno_integrity [0.02 seconds]
+▶ start target qc_pheno_input_param
+● built target qc_pheno_input_param [0.01 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 96 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_wide_plus_pheno
 ● built target df_obs_wide_plus_pheno [0.22 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.02 seconds]
+● built target msg_pheno_param_saved [0 seconds]
 
 ------------------------------------------------------------
- 🧪 NUTRIENT AGGREGATION & QC CHECK
+ 🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
 ------------------------------------------------------------
 
 
@@ -945,6 +984,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+[Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 54 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_wide_plus_pheno_with_amounts
 ● built target df_obs_wide_plus_pheno_with_amounts [0.09 seconds]
 
@@ -967,7 +1007,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ============================================================
 
 ▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi
-● built target df_obs_wide_plus_pheno_with_amounts_harv_hi [0.05 seconds]
+● built target df_obs_wide_plus_pheno_with_amounts_harv_hi [0.04 seconds]
 
 ============================================================
  ✅  RANGE CHECK PASSED: WHEAT.SPIKE.HEADNUMBER ✅ 
@@ -979,12 +1019,53 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike [0.03 seconds]
 ✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
-● built target qc_obs_final [0.04 seconds]
+● built target qc_obs_final [0.06 seconds]
+▶ start target validation_biomass_sums
+
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.AboveGround.Wt
+ Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
+ Flagged Observations      : 2 row(s) out of 563
+----------------------------------------------------------------------
+
+                SimulationName Clock.Today Wheat.AboveGround.Wt  Comp_Sum
+ WaggaWagga2024CvJanzSow13-May  2024-09-10             694.5374  780.8208
+ WaggaWagga2024CvJanzSow13-May  2024-10-03            1218.6605 1292.9612
+ DiffAbs DiffPerc Wheat.Leaf.Live.Wt Wheat.Leaf.Dead.Wt Wheat.Stem.Wt
+   86.28    12.42           345.1334           23.06398      358.5104
+   74.30     6.10           222.9022          121.75802      708.5683
+ Wheat.Spike.Wt Wheat.Grain.Wt
+       54.11294             NA
+      239.73266             NA
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 2 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
+● built target validation_biomass_sums [0.02 seconds]
 ▶ start target haun_input_checked
 ● built target haun_input_checked [0.03 seconds]
+
+======================================================================
+ ✅ MASS BALANCE AUDIT PASSED: Wheat.Ear.Wt ✅ 
+======================================================================
+ -> Technical Verification : Component fraction stoichiometric mass balance confirmed.
+ -> Reference Variable     : 'Wheat.Ear.Wt'
+ -> Evaluated Fractions    : [Wheat.Spike.Wt + Wheat.Grain.Wt]
+ -> Evaluated Observations : N = 563 observations
+ -> Variance Tolerance     : Relative error strictly <= 5%
+----------------------------------------------------------------------
+
+▶ start target validation_ear_sums
+● built target validation_ear_sums [0 seconds]
 Success [save_df_to_excel]: Exported 563 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2024_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.14 seconds]
+● built target msg_obs_saved [0.17 seconds]
+▶ start target exported_pop_csv
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: WaggaWagga2024_population.csv
@@ -992,21 +1073,20 @@ Success [save_df_to_excel]: Exported 563 rows to 'C:/github/ApsimX/Tests/Validat
    -> '[Wheat].Leaf.StemPopulation': Extracted 16 records | Range [96.5 to 153.5]
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
-▶ start target exported_pop_csv
-● built target exported_pop_csv [0.05 seconds]
+● built target exported_pop_csv [0.02 seconds]
+✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
 ▶ start target check_depend
-✅ Pre-flight check passed: All required APSIM dependencies found.
-● built target check_depend [0 seconds]
+● built target check_depend [0.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [0.26 seconds]
-✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+● built target encrypted_zip_artifact [0.69 seconds]
 ▶ start target verify_data_backup
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ● built target verify_data_backup [0.02 seconds]
-▶ end pipeline [9.14 seconds]
+▶ end pipeline [10.21 seconds]
 Warning messages:
 1: 
 ======================================================================
@@ -1022,7 +1102,7 @@ Warning messages:
 ======================================================================
  Note: The pipeline bypassed these and continued processing the rest.
  
-2: Missing optional weather variables in '2024_WaggaWagga_PHDA24WARI2.xlsx': VP, ET 
+2: Missing optional weather variables in '2024_WaggaWagga_PHDA24WARI2.xlsx': ET 
 3: 
 ======================================================================
  ⚠️ DATA GAP ALARM: MISSING OR EMPTY VARIABLES ⚠️
@@ -1032,7 +1112,7 @@ Warning messages:
 ======================================================================
  Note: The pipeline bypassed these and continued processing the rest.
  
-4: Met file 'WaggaWagga2024.met' generated WITHOUT optional variables: VP, ET 
+4: Met file 'WaggaWagga2024.met' generated WITHOUT optional variables: ET 
 5: 
 
 ================================================================================
@@ -1054,4 +1134,5 @@ Warning messages:
  [ spikeYield_6_raw ]
   -> ⚠️ Missing 2 expected SimulationName(s) [e.g., WaggaWagga2024CvWedgetailSow22-Apr, WaggaWagga2024CvKittyhawkSow22-Apr]
   -> ❌ 14 row(s) have NA for Date (Orphaned Dat [... truncated] 
-6: 5 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+6: Mass balance audit failed: 2 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'. 
+7: 6 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 

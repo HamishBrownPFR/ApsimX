@@ -39,6 +39,13 @@ filter_and_extract_pcds <- function(list_observed_dfs, pcd_stages) {
   
   # If absolutely nothing matched, kill the pipeline
   if (length(found_stages) == 0) {
+    # ---> NEW: Machine-readable Q-Flag for Complete Dataset Extraction Failure
+    log_qflag(
+      severity = "FATAL", 
+      category = "EXTRACTION", 
+      message = sprintf("None of the requested datasets were found. Looked for: [%s]", paste(pcd_stages, collapse = ", "))
+    )
+    
     stop(sprintf(
       "CRITICAL: None of the requested datasets were found.\n  -> Looked for: [%s]", 
       paste(pcd_stages, collapse = ", ")
@@ -47,10 +54,16 @@ filter_and_extract_pcds <- function(list_observed_dfs, pcd_stages) {
   
   # If we are missing just some of them, warn the user but keep going
   if (length(missing_stages) > 0) {
-    warning(sprintf(
-      "Notice: The following requested datasets were not found and will be skipped:\n  -> [%s]", 
-      paste(missing_stages, collapse = ", ")
-    ), call. = FALSE)
+    warning_msg <- sprintf("Notice: The following requested datasets were not found and will be skipped:\n  -> [%s]", 
+                           paste(missing_stages, collapse = ", "))
+    warning(warning_msg, call. = FALSE)
+    
+    # ---> NEW: Machine-readable Q-Flag for Partially Missing Datasets
+    log_qflag(
+      severity = "WARN", 
+      category = "EXTRACTION", 
+      message = sprintf("Some requested datasets were not found and skipped: [%s]", paste(missing_stages, collapse = ", "))
+    )
   }
   
   # ------------------------------------------------------------------
@@ -73,6 +86,13 @@ filter_and_extract_pcds <- function(list_observed_dfs, pcd_stages) {
   # 5. CONSOLE NOTIFICATION
   # ------------------------------------------------------------------
   message(sprintf("\u2705 Successfully extracted %d target dataframes.", length(df_list_PCDS)))
+  
+  # ---> NEW: Machine-readable Q-Flag for Successful Extraction Summary
+  log_qflag(
+    severity = "INFO", 
+    category = "EXTRACTION", 
+    message = sprintf("Successfully extracted %d target dataframe(s): [%s]", length(df_list_PCDS), paste(names(df_list_PCDS), collapse = ", "))
+  )
   
   return(df_list_PCDS)
 }

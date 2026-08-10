@@ -55,6 +55,50 @@ targets::tar_make(
 ```
 
 
+
+# --------------------------------
+# TEST Biomass component integrity
+# --------------------------------
+
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(stringr) # if you plan to uncomment the filter
+
+df_diff <- tar_read(validation_biomass_sums) %>%
+  filter(!is.na(DiffAbs)) %>%
+    mutate(
+    SimName = str_extract(SimulationName, "^.*?(2024|2025)"),
+    GroupInfo = if_else(DiffAbs != 0, "Error", "Correct")
+  )
+
+# 1. Find the absolute maximum value across both columns so the axes match perfectly
+max_val <- max(c(df_diff$Wheat.AboveGround.Wt, df_diff$Comp_Sum), na.rm = TRUE)
+
+# 2. Build the ggplot
+p <- df_diff %>% 
+  #filter(str_detect(SimulationName, "Big")) %>% 
+  ggplot(aes(x = Wheat.AboveGround.Wt, y = Comp_Sum, colour = SimulationName, shape=GroupInfo)) + 
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+  # Force both axes to start at 0 and end at the exact same max value
+  scale_x_continuous(limits = c(0, max_val)) +
+  scale_y_continuous(limits = c(0, max_val)) +
+  # Force a square aspect ratio in standard ggplot
+  theme(aspect.ratio = 1)
+
+# 3. Convert to interactive graph and enforce the 1:1 ratio in Plotly
+ggplotly(p) %>% 
+  layout(
+    # scaleanchor ties the y-axis scale to the x-axis scale
+    yaxis = list(scaleanchor = "x", scaleratio = 1),
+    xaxis = list(constrain = "domain")
+  )
+```
+
+
+
 # -----------------------------------------------------
 # Debugging and other miscelaneous functionalities below 
 #------------------------------------------------------

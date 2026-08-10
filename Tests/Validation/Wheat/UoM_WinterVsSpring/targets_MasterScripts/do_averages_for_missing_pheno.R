@@ -118,15 +118,15 @@ do_averages_for_missing_pheno <- function(df, group_keys) {
                 tier3_logs,
                 sprintf(
                   " -> [!] %s | Stage: %s \n      Invalid Avg: %s | FORCED MID-POINT: %s \n      (Bounds: Prev= %s, Next= %s)",
-                  current_sim, col, original_avg, format(avg_date, "%d-%b-%Y"), # Changed
-                  ifelse(is.na(prev_date), "None", format(prev_date, "%d-%b-%Y")), # Changed
-                  ifelse(is.na(next_date), "None", format(next_date, "%d-%b-%Y"))  # Changed
+                  current_sim, col, original_avg, format(avg_date, "%d-%b-%Y"), 
+                  ifelse(is.na(prev_date), "None", format(prev_date, "%d-%b-%Y")), 
+                  ifelse(is.na(next_date), "None", format(next_date, "%d-%b-%Y"))  
                 )
               )
             }
             
             # 5. Final Injection
-            formatted_avg <- format(avg_date, "%d-%b-%Y") # Changed to dd-MMM-yyyy
+            formatted_avg <- format(avg_date, "%d-%b-%Y") 
             df[[col]][i] <- formatted_avg
             
             if (is_valid) {
@@ -143,32 +143,80 @@ do_averages_for_missing_pheno <- function(df, group_keys) {
   }
   
   # ==========================================================
-  # REPORTING (With loud warnings for Tier 3)
+  # REPORTING (With Quarto Q-Flags and Console Warnings)
   # ==========================================================
   if (length(dropped_logs) > 0 || length(imputation_logs) > 0 || length(tier3_logs) > 0) {
-    message("\n========================================================")
-    message("=== PHENOLOGY MATRIX ADJUSTMENTS (TEMPORARY FIXES) ===")
-    message("========================================================")
+    
+    # 1. Print General Adjustments
+    message("\n======================================================================")
+    message(" \U0001F527 PHENOLOGY MATRIX ADJUSTMENTS (TEMPORARY FIXES APPLIED) \U0001F527")
+    message("======================================================================")
     
     if (length(dropped_logs) > 0) {
-      message("\n[TIER 1] PARAMETERS FULLY EXCLUDED (Lacking Data):")
+      message("\n [TIER 1] PARAMETERS FULLY EXCLUDED (Lacking Data):")
       message(paste(dropped_logs, collapse = "\n"))
+      
+      # ---> Quarto Q-Flag: Tier 1
+      tryCatch({
+        log_qflag(
+          severity = "INFO", 
+          category = "PHENOLOGY", 
+          message = sprintf("Tier 1 Data Rescue: Excluded %d phenology stage column(s) entirely lacking data.", length(dropped_logs))
+        )
+      }, error = function(e) {})
     }
     
     if (length(imputation_logs) > 0) {
-      message("\n[TIER 2] MISSING DATES IMPUTED (Group Averaged & Valid):")
+      message("\n [TIER 2] MISSING DATES IMPUTED (Group Averaged & Valid):")
       message(paste(imputation_logs, collapse = "\n"))
+      
+      # ---> Quarto Q-Flag: Tier 2
+      tryCatch({
+        log_qflag(
+          severity = "WARN", 
+          category = "PHENOLOGY", 
+          message = sprintf("Tier 2 Data Rescue: Safely imputed %d missing phenology date(s) using chronological group averages.", length(imputation_logs))
+        )
+      }, error = function(e) {})
     }
     
+    # 2. Print Massive Tier 3 Alarm & Trigger Quarto Warning
     if (length(tier3_logs) > 0) {
-      message("\n\U0001F6A8 [TIER 3] CRITICAL WARNING: CHRONOLOGY FORCED \U0001F6A8")
-      message("The following group averages violated chronological logic.")
-      message("Dates were artificially forced to the mid-point of available bounds.")
-      message(">>> YOU MUST REVIEW THE RAW DATA FOR THESE SIMULATIONS <<< \n")
-      message(paste(tier3_logs, collapse = "\n\n"))
+      
+      # Build the massive console block
+      tier3_msg <- paste(
+        "",
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        " \U0001F6A8 CRITICAL ALARM: CHRONOLOGY FORCED (TIER 3 INTERVENTION) \U0001F6A8",
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        " The following group averages violated biological chronological logic.",
+        " Dates were artificially forced to the mid-point of available bounds.",
+        " ",
+        " ACTION REQUIRED: YOU MUST REVIEW THE RAW DATA FOR THESE SIMULATIONS!",
+        "----------------------------------------------------------------------",
+        paste(tier3_logs, collapse = "\n\n"),
+        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "",
+        sep = "\n"
+      )
+      
+      message(tier3_msg)
+      
+      # ---> Quarto Q-Flag: Tier 3
+      tryCatch({
+        log_qflag(
+          severity = "FATAL", # Elevated severity for Tier 3
+          category = "PHENOLOGY", 
+          message = sprintf("Tier 3 Data Rescue (Chronology Forced): %d date(s) violated biological timeline and were mathematically forced to mid-points. MANUAL REVIEW REQUIRED.", length(tier3_logs))
+        )
+      }, error = function(e) {})
+      
+      # Trigger standard R warning for terminal orchestrator
+      warning("Phenology Chronology Forced (Tier 3 Intervention). Review raw data immediately. See logs for details.", 
+              call. = FALSE, immediate. = TRUE)
+    } else {
+      message("\n======================================================================\n")
     }
-    
-    message("\n========================================================\n")
   }
   
   return(df)

@@ -224,7 +224,11 @@
             "1.0 * [Wheat].Leaf.Dead.StorageWt/([Wheat].Leaf.Dead.Wt + 0.00001) as Wheat.Leaf.Dead.WSCc",
             "[Spectral].NDVI",
             "[Irrigation].IrrigationApplied",
-            "[Fertiliser].NitrogenApplied"
+            "[Fertiliser].NitrogenApplied",
+            "[Wheat].Ear.N",
+            "[Wheat].Ear.NConc",
+            "[Wheat].Ear.StorageWt as Wheat.Ear.WSC",
+            "1.0 * [Wheat].Ear.StorageWt / ([Wheat].Ear.Wt + 0.00001) as Wheat.Ear.WSCc"
           ],
           "EventNames": [
             "[Clock].DoReport"
@@ -894,29 +898,15 @@
                       "$type": "Models.Operation, Models",
                       "Enabled": true,
                       "Date": "2024-04-24",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2024-04-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2024-10-24",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2024-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\");",
+                      "Line": "2024-04-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");"
                     },
                     {
                       "$type": "Models.Operation, Models",
                       "Enabled": true,
                       "Date": "2024-07-18",
-                      "Action": "[Fertiliser].Apply(amount: 109, type: \"UreaGranular\")",
-                      "Line": "2024-07-18 [Fertiliser].Apply(amount: 109, type: \"UreaGranular\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2024-08-14",
-                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
-                      "Line": "2024-08-14 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
+                      "Action": "[Fertiliser].Apply(amount: 109, type: \"UreaGranular\");",
+                      "Line": "2024-07-18 [Fertiliser].Apply(amount: 109, type: \"UreaGranular\");"
                     }
                   ],
                   "Name": "ManagementWinter",
@@ -942,29 +932,15 @@
                       "$type": "Models.Operation, Models",
                       "Enabled": true,
                       "Date": "2024-05-20",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2024-05-20 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2024-07-18",
-                      "Action": "[Fertiliser].Apply(amount: 109, type: \"UreaGranular\")",
-                      "Line": "2024-07-18 [Fertiliser].Apply(amount: 109, type: \"UreaGranular\")"
+                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\");",
+                      "Line": "2024-05-20 [Fertiliser].Apply(amount: 100, type: \"MAP\");"
                     },
                     {
                       "$type": "Models.Operation, Models",
                       "Enabled": true,
                       "Date": "2024-08-14",
-                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\")",
-                      "Line": "2024-08-14 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\")"
-                    },
-                    {
-                      "$type": "Models.Operation, Models",
-                      "Enabled": true,
-                      "Date": "2024-10-24",
-                      "Action": "[Fertiliser].Apply(amount: 100, type: \"MAP\")",
-                      "Line": "2024-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\")"
+                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Line": "2024-08-14 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");"
                     }
                   ],
                   "Name": "ManagementSpring",
@@ -4142,6 +4118,103 @@
                   ],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 0,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarN",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": null,
+                      "FactorToVaryLines": "Sow",
+                      "Marker": 11,
+                      "MarkerSize": 0,
+                      "Line": 0,
+                      "LineThickness": 0,
+                      "TableName": "DailyReport",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.N",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Predicted",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "Observed",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.N",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Observed",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -4524,6 +4597,103 @@
                       "TableName": "Observed",
                       "XFieldName": "Clock.Today",
                       "YFieldName": "Wheat.Spike.NConc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Observed",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 0,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarNc",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": null,
+                      "FactorToVaryLines": "Sow",
+                      "Marker": 11,
+                      "MarkerSize": 0,
+                      "Line": 0,
+                      "LineThickness": 0,
+                      "TableName": "DailyReport",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.NConc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Predicted",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "Observed",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.NConc",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -5035,6 +5205,103 @@
                   ],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 0,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWSC",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": null,
+                      "FactorToVaryLines": "Sow",
+                      "Marker": 11,
+                      "MarkerSize": 0,
+                      "Line": 0,
+                      "LineThickness": 0,
+                      "TableName": "DailyReport",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.WSC",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Predicted",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "Observed",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.WSC",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Observed",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -5417,6 +5684,103 @@
                       "TableName": "Observed",
                       "XFieldName": "Clock.Today",
                       "YFieldName": "Wheat.Spike.WSCc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Observed",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 0,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWSCc",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": null,
+                      "FactorToVaryLines": "Sow",
+                      "Marker": 11,
+                      "MarkerSize": 0,
+                      "Line": 0,
+                      "LineThickness": 0,
+                      "TableName": "DailyReport",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.WSCc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": true,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": "",
+                      "Name": "Predicted",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "Observed",
+                      "XFieldName": "Clock.Today",
+                      "YFieldName": "Wheat.Ear.WSCc",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": true,
@@ -6393,15 +6757,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
@@ -7113,15 +7477,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
@@ -7513,15 +7877,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
+                          "Enabled": false,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": true,
+                      "Enabled": false,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": true,
+                  "Enabled": false,
                   "ReadOnly": false
                 },
                 {
@@ -7575,6 +7939,326 @@
                       "TableName": "DailyObsPred",
                       "XFieldName": "Observed.Wheat.Spike.HeadNumber",
                       "YFieldName": "Predicted.Wheat.Spike.HeadNumber",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWSC",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.WSC",
+                      "YFieldName": "Predicted.Wheat.Ear.WSC",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarWSCc",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.WSCc",
+                      "YFieldName": "Predicted.Wheat.Ear.WSCc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarNconc",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.NConc",
+                      "YFieldName": "Predicted.Wheat.Ear.NConc",
+                      "X2FieldName": null,
+                      "Y2FieldName": null,
+                      "ShowInLegend": false,
+                      "IncludeSeriesNameInLegend": false,
+                      "Cumulative": false,
+                      "CumulativeX": false,
+                      "Filter": null,
+                      "Name": "Series",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Regression, Models",
+                          "ForEachSeries": false,
+                          "showOneToOne": true,
+                          "showEquation": true,
+                          "Name": "Regression",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Graph, Models",
+                  "Caption": null,
+                  "Axis": [
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 3,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    },
+                    {
+                      "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                      "Title": null,
+                      "Position": 0,
+                      "Inverted": false,
+                      "CrossesAtZero": false,
+                      "LabelOnOneLine": false,
+                      "Minimum": "NaN",
+                      "Maximum": "NaN",
+                      "Interval": null
+                    }
+                  ],
+                  "LegendPosition": 5,
+                  "LegendOrientation": 0,
+                  "AnnotationLocation": 0,
+                  "DisabledSeries": [],
+                  "LegendOutsideGraph": false,
+                  "Name": "EarN",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Series, Models",
+                      "Type": 1,
+                      "XAxis": 3,
+                      "YAxis": 0,
+                      "ColourArgb": 0,
+                      "FactorToVaryColours": "Cv",
+                      "FactorToVaryMarkers": "Sow",
+                      "FactorToVaryLines": null,
+                      "Marker": 0,
+                      "MarkerSize": 0,
+                      "Line": 4,
+                      "LineThickness": 0,
+                      "TableName": "DailyObsPred",
+                      "XFieldName": "Observed.Wheat.Ear.N",
+                      "YFieldName": "Pred-Obs.Wheat.Ear.N",
                       "X2FieldName": null,
                       "Y2FieldName": null,
                       "ShowInLegend": false,

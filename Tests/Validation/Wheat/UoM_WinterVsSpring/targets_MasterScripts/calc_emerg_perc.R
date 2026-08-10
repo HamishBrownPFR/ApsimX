@@ -91,7 +91,7 @@ calc_emerg_perc <- function(df_tbl, df_input_var_name, df_new_var_name, consider
   log_box <- c(
     "",
     "----------------------------------------------------------------------",
-    " \U0001F4C8 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED \U0001F4C8",
+    " 📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈",
     "----------------------------------------------------------------------",
     sprintf(" -> Input Source  : '%s'", df_input_var_name),
     sprintf(" -> Target Column : '%s' (Internal variable preserved)", val_col),
@@ -110,6 +110,13 @@ calc_emerg_perc <- function(df_tbl, df_input_var_name, df_new_var_name, consider
   )
   
   message(paste(log_box, collapse = "\n"))
+  
+  # ---> NEW: Machine-readable Q-Flag for Emergence Percentage Calculation
+  log_qflag(
+    severity = "INFO", 
+    category = "DATA MODIFIED", 
+    message = sprintf("Emergence percentage calculated: Input '%s' converted to 0-100%% scale and saved as '%s'.", df_input_var_name, df_new_var_name)
+  )
   
   return(df_tbl_final)
 }

@@ -56,24 +56,48 @@ copy_and_check_met <- function(sourceFolder, targetFolder, orig_file_name, new_f
   
   # Check 1: Missing Values
   if (any(is.na(df_met[req_cols]))) {
+    # ---> NEW: Machine-readable Q-Flag for Missing MET Values
+    log_qflag(
+      severity = "FATAL", 
+      category = "WEATHER QAQC", 
+      message = sprintf("MET quality check failed for '%s': contains missing (NA) values in core weather columns.", orig_file_name)
+    )
     stop("QUALITY FAIL: The MET file contains missing (NA) values in the core weather columns.")
   }
   
   # Check 2: Max Temp vs Min Temp
   bad_temps <- df_met %>% dplyr::filter(mint >= maxt)
   if (nrow(bad_temps) > 0) {
+    # ---> NEW: Machine-readable Q-Flag for MET Temperature Inversion
+    log_qflag(
+      severity = "FATAL", 
+      category = "WEATHER QAQC", 
+      message = sprintf("MET quality check failed for '%s': found %d day(s) where Minimum Temperature is >= Maximum Temperature.", orig_file_name, nrow(bad_temps))
+    )
     stop(sprintf("QUALITY FAIL: Found %d day(s) where Minimum Temperature is >= Maximum Temperature.", nrow(bad_temps)))
   }
   
   # Check 3: Impossible Solar Radiation
   bad_radn <- df_met %>% dplyr::filter(radn < 0)
   if (nrow(bad_radn) > 0) {
+    # ---> NEW: Machine-readable Q-Flag for Negative Radiation
+    log_qflag(
+      severity = "FATAL", 
+      category = "WEATHER QAQC", 
+      message = sprintf("MET quality check failed for '%s': found %d day(s) with negative solar radiation.", orig_file_name, nrow(bad_radn))
+    )
     stop(sprintf("QUALITY FAIL: Found %d day(s) with negative solar radiation.", nrow(bad_radn)))
   }
   
   # Check 4: Impossible Rainfall
   bad_rain <- df_met %>% dplyr::filter(rain < 0)
   if (nrow(bad_rain) > 0) {
+    # ---> NEW: Machine-readable Q-Flag for Negative Rainfall
+    log_qflag(
+      severity = "FATAL", 
+      category = "WEATHER QAQC", 
+      message = sprintf("MET quality check failed for '%s': found %d day(s) with negative rainfall.", orig_file_name, nrow(bad_rain))
+    )
     stop(sprintf("QUALITY FAIL: Found %d day(s) with negative rainfall.", nrow(bad_rain)))
   }
   
@@ -93,6 +117,12 @@ copy_and_check_met <- function(sourceFolder, targetFolder, orig_file_name, new_f
   was_copied <- file.copy(from = source_path, to = target_path, overwrite = TRUE)
   
   if (!was_copied) {
+    # ---> NEW: Machine-readable Q-Flag for File Copy Failure
+    log_qflag(
+      severity = "FATAL", 
+      category = "WEATHER QAQC", 
+      message = sprintf("File copy failed for '%s' to target path '%s'. Check folder permissions or file locks.", orig_file_name, target_path)
+    )
     stop("CRITICAL: Quality checks passed, but Windows refused to copy the file. Check folder permissions or file locks.")
   }
   
