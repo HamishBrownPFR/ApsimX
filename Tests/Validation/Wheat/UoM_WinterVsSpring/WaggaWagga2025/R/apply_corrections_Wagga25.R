@@ -29,12 +29,32 @@ apply_corrections_Wagga25 <- function(df_tbl, df_pheno_final, vars_stage_6, vars
           # Patch missing dates for Groups 6 and 8
           if (nm %in% c(vars_stage_6, vars_stage_8)) {
             
+            if (!"SimulationName" %in% names(df)) stop(sprintf("Error: Table %s lacks 'SimulationName'.", nm))
+            if (!"Date" %in% names(df)) df$Date <- as.Date(NA)
+            
+            orphans_before <- sum(is.na(df$Date))
+            
             df <- df %>% dplyr::left_join(date_lookup, by = "SimulationName")
             
             if (nm %in% vars_stage_6 && "PhenoDate_6" %in% names(df)) {
               df <- df %>% dplyr::mutate(Date = as.Date(PhenoDate_6))
+              
+              # ---> NEW: Machine-readable Q-Flag for Stage 6 Wagga25 Date Patch
+              log_qflag(
+                severity = "WARN", 
+                category = "PHENOLOGY", 
+                message = sprintf("Data rescue (Stage 6, Wagga25) for '%s': injected phenology timeline, patching %d row(s).", nm, nrow(df))
+              )
+              
             } else if (nm %in% vars_stage_8 && "PhenoDate_8" %in% names(df)) {
               df <- df %>% dplyr::mutate(Date = as.Date(PhenoDate_8))
+              
+              # ---> NEW: Machine-readable Q-Flag for Stage 8 Wagga25 Date Patch
+              log_qflag(
+                severity = "WARN", 
+                category = "PHENOLOGY", 
+                message = sprintf("Data rescue (Stage 8, Wagga25) for '%s': injected phenology timeline, patching %d row(s).", nm, nrow(df))
+              )
             }
             
             df <- df %>%

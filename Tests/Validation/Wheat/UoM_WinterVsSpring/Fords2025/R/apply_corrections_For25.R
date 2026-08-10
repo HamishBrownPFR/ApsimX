@@ -39,8 +39,8 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
         success_idx <- which(!is.na(temp_dates))
         if (length(success_idx) > 0) {
           final_dates[rem_idx[success_idx]] <- temp_dates[success_idx]
-          x_rem <- x_rem[-success_idx]       
-          rem_idx <- rem_idx[-success_idx]   
+          x_rem <- x_rem[-success_idx]        
+          rem_idx <- rem_idx[-success_idx]    
         }
         if (length(rem_idx) == 0) break
       }
@@ -166,8 +166,15 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
           na_count <- sum(is.na(raw_df$Date))
           
           raw_df <- raw_df %>% dplyr::mutate(Date = dplyr::if_else(is.na(Date), fix_date, Date))
-          cat(sprintf("   [\u2714\uFE0F FIXED NAs] '%s' | Original: NA (%d rows) -> Corrected: %s\n", 
+          cat(sprintf("   [✔️ FIXED NAs] '%s' | Original: NA (%d rows) -> Corrected: %s\n", 
                       name_val, na_count, fix_date))
+          
+          # ---> NEW: Machine-readable Q-Flag for Surgical Date Injection (For25)
+          log_qflag(
+            severity = "WARN", 
+            category = "DATES", 
+            message = sprintf("Surgical date injection (For25): patched %d missing NA date(s) for '%s' with %s.", na_count, name_val, as.character(fix_date))
+          )
         }
         return(raw_df)
       })
@@ -203,9 +210,16 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
           
           corrected_dates_disp <- paste(unique(as.character(raw_df$Date[mismatch_idx])), collapse = ", ")
           
-          cat(sprintf("   [\U0001F504 YEAR SWAP] '%s' | Original: [%s] -> Corrected: [%s]\n      -> Affected Sims: %s\n", 
+          cat(sprintf("   [\U0001F504 YEAR SWAP] '%s' | Original: [%s] -> Corrected: [%s]\n     -> Affected Sims: %s\n", 
                       name_val, original_dates_disp, corrected_dates_disp, 
                       paste(head(affected_sims, 5), collapse = ", ")))
+          
+          # ---> NEW: Machine-readable Q-Flag for Year Swap Rescue (For25)
+          log_qflag(
+            severity = "WARN", 
+            category = "DATES", 
+            message = sprintf("Year swap rescue (For25): synchronized %d row(s) in '%s' to target year %d.", length(mismatch_idx), name_val, target_year)
+          )
         }
         return(raw_df)
       })
@@ -226,7 +240,7 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
           dropped_sims <- unique(raw_df$SimulationName[early_idx])
           dropped_count <- length(early_idx)
           
-          cat(sprintf("   [\u2702\uFE0F  PRUNED] '%s' | Removed %d row(s) recorded before %s\n      -> Affected Sims: %s", 
+          cat(sprintf("   [\u2702\uFE0F  PRUNED] '%s' | Removed %d row(s) recorded before %s\n     -> Affected Sims: %s", 
                       name_val, dropped_count, as.character(sow_date_val), 
                       paste(head(dropped_sims, 5), collapse = ", ")))
           if (length(dropped_sims) > 5) {
@@ -237,6 +251,13 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
           
           # Remove the early rows
           raw_df <- raw_df[-early_idx, ]
+          
+          # ---> NEW: Machine-readable Q-Flag for Pre-Sowing Data Pruning (For25)
+          log_qflag(
+            severity = "WARN", 
+            category = "DATA MODIFIED", 
+            message = sprintf("Pre-sowing pruning (For25): removed %d pre-sowing row(s) from '%s' prior to %s.", dropped_count, name_val, as.character(sow_date_val))
+          )
         }
         
         return(raw_df)
@@ -252,6 +273,14 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
   
   if (nrow(still_missing) > 0) {
     still_missing_list <- paste(still_missing$df_name, collapse = "\n -> ")
+    
+    # ---> NEW: Machine-readable Q-Flag for Post-Audit Firewall Failure (For25)
+    log_qflag(
+      severity = "FATAL", 
+      category = "DATES", 
+      message = sprintf("Post-audit firewall failed (For25): %d dataset(s) still contain missing dates after CSV corrections.", nrow(still_missing))
+    )
+    
     stop(sprintf("\n🚨 CRITICAL ERROR: There are STILL missing dates after applying your CSV corrections!\n -> Please add these missing dataframes to your CSV:\n -> %s", still_missing_list), call. = FALSE)
   }
   

@@ -238,7 +238,7 @@ list(
   #   name = df_pheno_int, 
   #   command = create_interp_pheno_dates(
   #     df_raw     = df_pheno_raw, 
-  #     btwStgPerc = config$target_betwStages
+  #     btwStgFrac = config$target_betwStages
   #   )
   # ),
   # 
@@ -268,15 +268,18 @@ list(
   
   # --- THE EMERGENCY FIX ---
   tar_target(
-    name = df_pheno_input_param,
+    name = df_pheno_input_param_fix,
     command = fix_pheno_input(df_pheno_input_param_raw)
   ),
   
-  
+    tar_target(
+    name = df_pheno_input_param, 
+    command = format_apsim_pheno_params(df_pheno_input_param_fix)
+  ),
   
   # 2. THE GATEKEEPER (The new Universal script)
   tar_target(
-    name = qc_pheno_integrity,
+    name = qc_pheno_input_param,
     command = check_pheno_integrity(df_pheno_input_param, 
                                     expected_sims = df_simNameByCult)
   ),
@@ -352,14 +355,46 @@ list(
   ),
 
   tar_target(
-    name = qc_apsim_observed_harv,
+    name = qc_obs_final,
     command = check_obs_health(df_obs_plus_pheno_harv)
   ),
+  
+  # -------------------------------------------
+  # CHECK BIOMASS COMPONENTS
+  # -------------------------------------------
+  
+  # Target 2: Run the composite biomass validation
+  tar_target(
+    name = validation_biomass_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.AboveGround.Wt",
+      comp_vars = c("Wheat.Leaf.Live.Wt","Wheat.Leaf.Dead.Wt", 
+                    "Wheat.Stem.Wt", "Wheat.Spike.Wt", "Wheat.Grain.Wt")
+    )
+  ),
+  
+  # Target 2: Run the composite ear validation
+  tar_target(
+    name = validation_ear_sums,
+    command = check_sums(
+      df = qc_obs_final,
+      ref_var = "Wheat.Ear.Wt",
+      comp_vars = c("Wheat.Spike.Wt", "Wheat.Grain.Wt")
+    )
+  ),
+  
+  
+  # 
+  # ----------------------------------------------------------------------------
+  # PHASE F: EXPORT & VALIDATION
+  # ----------------------------------------------------------------------------
+  
   
   tar_target(
     name = exported_pop_csv,
     command = print_csv_with_select_obs(
-      df_in         = qc_apsim_observed_harv, # Simulated dependency: replace with your actual final df
+      df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
       select_vars   = c("[Wheat].Leaf.StemPopulation"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
@@ -373,28 +408,26 @@ list(
     command = check_manual_params(
       config$folder_inputs,
       config$file_name_input_haun,
-      qc_apsim_observed_harv
+      qc_obs_final
     )
   ),
-  # 
-  # ----------------------------------------------------------------------------
-  # PHASE F: EXPORT & VALIDATION
-  # ----------------------------------------------------------------------------
+
   tar_target(
     name = msg_obs_saved,
     command = save_df_to_excel(
-      df          = qc_apsim_observed_harv,
+      df          = qc_obs_final,
       folder_path = config$folder_observed,
       file_name   = config$file_saved_obs_excel,
       sheet_name  = config$sheet_name_observed
     ),
     format = "file"
   ),
-  # 
+  
+  
   tar_target(
     name = msg_pheno_param_saved,
     command = save_df_into_csv(
-      df       = qc_pheno_integrity,
+      df       = qc_pheno_input_param,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
     ),
@@ -406,7 +439,7 @@ list(
     command = check_pheno_manual_parameters(
       folder_name  = config$folder_inputs,
       proj_name    = config$proj_name,
-      sim_names_df = qc_apsim_observed_harv
+      sim_names_df = qc_obs_final
     )
   ),
 

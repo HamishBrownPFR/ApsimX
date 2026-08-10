@@ -76,16 +76,23 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
             
             if (bug_count > 0) {
               message(sprintf("\n [\U0001F527 NDVI REPAIR] Synchronized %d misaligned sensor readings to the reference year (%d).", bug_count, ry))
+              
+              # ---> NEW: Machine-readable Q-Flag for NDVI Year Repair
+              log_qflag(
+                severity = "WARN", 
+                category = "DATES", 
+                message = sprintf("NDVI repair (Wagga24): synchronized %d misaligned sensor reading(s) to reference year %d.", bug_count, ry)
+              )
             }
           }
           
           # Fix B: Patch collection dates for physiological components at Stage 6
           target_dfs_6 <- c("earYield_6_raw",
-            "stemYield_6_raw", "spikeYield_6_raw", "senescLeafYield_6_raw", 
-            "totalAboveGround_6_raw", "par_6_raw", "greenLeaf_6_raw",
-            "leafDead_6_Nconc", "leafDead_6_WSCc",
-            "leaf_6_Nconc", "leaf_6_WSCc",
-            "stem_6_Nconc","stem_6_WSCc","spike_6_Nconc","spike_6_WSCc"
+                            "stemYield_6_raw", "spikeYield_6_raw", "senescLeafYield_6_raw", 
+                            "totalAboveGround_6_raw", "par_6_raw", "greenLeaf_6_raw",
+                            "leafDead_6_Nconc", "leafDead_6_WSCc",
+                            "leaf_6_Nconc", "leaf_6_WSCc",
+                            "stem_6_Nconc","stem_6_WSCc","spike_6_Nconc","spike_6_WSCc"
           )
           
           if (nm %in% target_dfs_6) {
@@ -115,16 +122,23 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
               message(sprintf(" -> Action Taken  : Overwrote %d previously orphaned/NA dates.", orphans_before))
               message(sprintf(" -> Date Timeline : %s to %s", min_d, max_d))
               message(strrep("-", 70), "\n")
+              
+              # ---> NEW: Machine-readable Q-Flag for Stage 6 Data Rescue
+              log_qflag(
+                severity = "WARN", 
+                category = "PHENOLOGY", 
+                message = sprintf("Data rescue (Stage 6) for '%s': injected phenology timeline, patching %d orphaned row(s).", nm, orphans_before)
+              )
             }
           }
           
           # Fix C: Patch collection dates for physiological components at Stage 8
           target_dfs_8 <- c("earYield_8_raw",
-            "stemYield_8_raw", "spikeYield_8_raw", "senescLeafYield_8_raw", 
-            "totalAboveGround_8_raw", "par_8_raw", "greenLeaf_8_raw",
-            "leafDead_8_Nconc", "leafDead_8_WSCc",
-            "leaf_8_Nconc", "leaf_8_WSCc",
-            "stem_8_Nconc","stem_8_WSCc","spike_8_Nconc","spike_8_WSCc"
+                            "stemYield_8_raw", "spikeYield_8_raw", "senescLeafYield_8_raw", 
+                            "totalAboveGround_8_raw", "par_8_raw", "greenLeaf_8_raw",
+                            "leafDead_8_Nconc", "leafDead_8_WSCc",
+                            "leaf_8_Nconc", "leaf_8_WSCc",
+                            "stem_8_Nconc","stem_8_WSCc","spike_8_Nconc","spike_8_WSCc"
           )
           
           if (nm %in% target_dfs_8) {
@@ -154,6 +168,13 @@ apply_corrections_Wagga24 <- function(df_tbl, df_pheno_final, ref_date) {
               message(sprintf(" -> Action Taken  : Overwrote %d previously orphaned/NA dates.", orphans_before))
               message(sprintf(" -> Date Timeline : %s to %s", min_d, max_d))
               message(strrep("-", 70), "\n")
+              
+              # ---> NEW: Machine-readable Q-Flag for Stage 8 Data Rescue
+              log_qflag(
+                severity = "WARN", 
+                category = "PHENOLOGY", 
+                message = sprintf("Data rescue (Stage 8) for '%s': injected phenology timeline, patching %d orphaned row(s).", nm, orphans_before)
+              )
             }
           }
           

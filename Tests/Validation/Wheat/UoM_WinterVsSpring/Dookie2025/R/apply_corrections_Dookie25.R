@@ -29,6 +29,7 @@ apply_corrections_Dookie25 <- function(df_tbl, ref_date) {
   
   target_year <- lubridate::year(parsed_ref_date)
   warning_logs <- c()
+  fix_counter  <- 0
   
   # 2. Iterate through the nested dataframes
   res <- df_tbl %>%
@@ -57,6 +58,7 @@ apply_corrections_Dookie25 <- function(df_tbl, ref_date) {
               raw_str <- df$Date[i]
               fixed_str <- gsub("/{2,}|-{2,}|\\\\+", "/", raw_str)
               df$Date[i]  <- fixed_str
+              fix_counter <<- fix_counter + 1
               
               warning_logs <<- c(
                 warning_logs,
@@ -85,6 +87,7 @@ apply_corrections_Dookie25 <- function(df_tbl, ref_date) {
             fixed_date <- raw_date
             lubridate::year(fixed_date) <- target_year
             df$Date[i] <- fixed_date
+            fix_counter <<- fix_counter + 1
             
             warning_logs <<- c(
               warning_logs,
@@ -109,6 +112,8 @@ apply_corrections_Dookie25 <- function(df_tbl, ref_date) {
             
             for (i in na_idx) {
               df$Date[i] <- avg_date
+              fix_counter <<- fix_counter + 1
+              
               warning_logs <<- c(
                 warning_logs,
                 sprintf(" -> [%s] ID: '%s' | MISSING FIX | RAW: NA | FIXED: %s (Average Injected)", 
@@ -142,6 +147,14 @@ apply_corrections_Dookie25 <- function(df_tbl, ref_date) {
       ""
     )
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Raw Date Typos Auto-Corrected (Dookie25)
+    log_qflag(
+      severity = "WARN", 
+      category = "DATES", 
+      message = sprintf("Raw date typos auto-corrected (Dookie25): %d total date adjustment(s) made across syntax, year, and missing imputation stages.", fix_counter)
+    )
+    
     warning("Raw date typos were auto-corrected. See console for exact mapping.", call. = FALSE)
   }
   

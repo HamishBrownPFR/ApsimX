@@ -105,10 +105,16 @@ check_obs_health <- function(df, numeric_lower_bound = 0) {
   # 4a. Check for columns that survived but are 100% empty
   empty_cols <- names(df)[purrr::map_lgl(df, ~ all(is.na(.x)))]
   if (length(empty_cols) > 0) {
-    warning(sprintf(
-      "QC WARNING: The following columns are entirely NA and will be exported blank: [%s]", 
-      paste(empty_cols, collapse = ", ")
-    ), call. = FALSE)
+    warning_msg <- sprintf("QC WARNING: The following columns are entirely NA and will be exported blank: [%s]", paste(empty_cols, collapse = ", "))
+    
+    warning(warning_msg, call. = FALSE)
+    
+    # ---> NEW: Machine-readable Q-Flag for Empty Columns
+    log_qflag(
+      severity = "WARN", 
+      category = "QC", 
+      message = sprintf("Entirely empty columns detected: [%s]", paste(empty_cols, collapse = ", "))
+    )
   }
   
   # 4b. Check for impossible negative numbers (Biomass, Height, Grain Yield)
@@ -116,10 +122,16 @@ check_obs_health <- function(df, numeric_lower_bound = 0) {
     num_cols <- names(df)[sapply(df, is.numeric)]
     for (col in num_cols) {
       if (any(df[[col]] < numeric_lower_bound, na.rm = TRUE)) {
-        warning(sprintf(
-          "QC WARNING: Found values below %s in column '%s'. Check for data entry errors.", 
-          numeric_lower_bound, col
-        ), call. = FALSE)
+        warning_msg <- sprintf("QC WARNING: Found values below %s in column '%s'. Check for data entry errors.", numeric_lower_bound, col)
+        
+        warning(warning_msg, call. = FALSE)
+        
+        # ---> NEW: Machine-readable Q-Flag for Negative / Boundary Values
+        log_qflag(
+          severity = "WARN", 
+          category = "QC", 
+          message = sprintf("Found values below %s in column '%s'. Check for data entry errors.", numeric_lower_bound, col)
+        )
       }
     }
   }
