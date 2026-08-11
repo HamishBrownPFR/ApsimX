@@ -377,7 +377,13 @@ def write_experiment_apply_file(
     if exptName == "2023_Qld_Gatton_Mixed_Light":
         lines.append(f"add new Factor to [Factors].Permutation name Agronomy")
         lines.append(f"[Factors].Permutation.Agronomy.Specification = [PhotoperiodExtension].Script.TrtName = 16_hr, Natural")
-                     
+
+    # ------------------------------------------------------------------
+    # Add standard report
+    # ------------------------------------------------------------------
+    report_library = r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/Report_lib.apsimx"
+    lines.append(f"add [AnalysisReport] from {report_library} to all [Zone]")
+    
     # ------------------------------------------------------------------
     # Save experiment
     # ------------------------------------------------------------------
@@ -467,3 +473,48 @@ for experimentName in ExptInfo.index:
     )
     print(result.stdout)
 
+
+# %%
+report_library = r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/Report_lib.apsimx"
+#apply_file = r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/FAHMA/FAHMAapply.txt"
+sim_file = r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/FAHMA/FAHMA_Lentil.apsimx"
+
+workingDir = Path(r"C:/GitHubRepos/ApsimX/Prototypes/Lentil/FAHMA/")
+applyDir = workingDir / "ApplyFiles"    
+apply_file = applyDir / "temp_FAHMACLI.txt" 
+
+lines = []
+
+# ---------------------------------------------
+# AnalysisReport to all Simulation nodes
+# ---------------------------------------------
+lines.append(f"load {sim_file}")
+
+# ---------------------------------------------
+# AnalysisReport to all Simulation nodes
+# ---------------------------------------------
+lines.append(f"delete all [Report]")
+lines.append(f"add [AnalysisReport] from {report_library} to all [Zone]")
+
+# ---------------------------------------------
+# Save + run
+# ---------------------------------------------
+lines.append(f"save {sim_file}")
+lines.append(f"run")
+
+# Write file
+apply_file.write_text("\n".join(lines))
+
+
+    
+subprocess.run(
+[
+    APSIM_EXE,  #Path to Model.exe
+    "--apply", apply_file,  #path to apply file with changes to sim.apsimx 
+],
+stdout=subprocess.PIPE,
+stderr=subprocess.STDOUT,
+text=True
+)
+
+# %%

@@ -4155,6 +4155,43 @@
               "ReadOnly": false
             },
             {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": "Lentil",
+              "StartStageName": "FirstBudsVisiable",
+              "EndStageName": "TerminalNode",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 1.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "FloweringMainStemNodes",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Leaf].NodeNumber.DeltaNode",
+                  "Name": "MainStemNodes",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
               "$type": "Models.Functions.MultiplyFunction, Models",
               "Name": "InitialWt",
               "ResourceName": null,
