@@ -748,7 +748,7 @@
                     },
                     {
                       "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[ThermalTime].WangEagleTempScale.Response.OptTemp",
+                      "VariableName": "[Progression].WangEagleTempScale.Response.OptTemp",
                       "Name": "OptTemp",
                       "ResourceName": null,
                       "Children": [],
@@ -10336,9 +10336,9 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 215",
-                "[Phenology].VernSensitivity.FixedValue = .19",
-                "[Phenology].InductivePpSensitivity.FixedValue = .58",
+                "[Phenology].JuvenileBase.FixedValue = 115",
+                "[Phenology].VernSensitivity.FixedValue = .86",
+                "[Phenology].InductivePpSensitivity.FixedValue = .46",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 370",
                 "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.MinTemp = 0",
                 "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.OptTemp = 25",
