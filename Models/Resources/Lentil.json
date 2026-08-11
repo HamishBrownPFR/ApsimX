@@ -70,7 +70,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 400.0,
+              "FixedValue": 115.0,
               "Units": null,
               "Name": "JuvenileBase",
               "ResourceName": null,
@@ -80,7 +80,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
+              "FixedValue": 0.86,
               "Units": "",
               "Name": "VernSensitivity",
               "ResourceName": null,
@@ -100,7 +100,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
+              "FixedValue": 0.46,
               "Units": null,
               "Name": "InductivePpSensitivity",
               "ResourceName": null,
