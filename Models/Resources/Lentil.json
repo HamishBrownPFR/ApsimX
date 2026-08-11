@@ -748,7 +748,7 @@
                     },
                     {
                       "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Progression].WangEagleTempScale.Response.OptTemp",
+                      "VariableName": "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.OptTemp",
                       "Name": "OptTemp",
                       "ResourceName": null,
                       "Children": [],
