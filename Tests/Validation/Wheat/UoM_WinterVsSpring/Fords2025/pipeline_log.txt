@@ -11,7 +11,9 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.56 seconds]
+● built target config [0.6 seconds]
+▶ start target df_obs_meta_data
+● built target df_obs_meta_data [0.02 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -34,11 +36,8 @@ The following objects are masked from 'package:base':
   [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
 [Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'Fords_RawData_2025.xlsx' with 4 mapped column(s).
-▶ start target df_obs_meta_data
-● built target df_obs_meta_data [0 seconds]
 ▶ start target processed_met_data
-● built target processed_met_data [0.26 seconds]
-▶ start target log_active_config
+● built target processed_met_data [0.28 seconds]
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -121,7 +120,8 @@ $pcd_stages_to_extract
 
 ======================================================================
 
-● built target log_active_config [0 seconds]
+▶ start target log_active_config
+● built target log_active_config [0.02 seconds]
 📖 Reading soil data from: Fords_RawData_2025.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
@@ -135,18 +135,18 @@ $pcd_stages_to_extract
 [Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Total Organic Carbon (Heanes), Saturation Percentage, Soil Bulk Density, Gravimetric Water Content]
 💾 Success: Exported cleaned soil profile to 'Fords2025_soil_profile.csv'
 ▶ start target soil_profile
-● built target soil_profile [1 seconds]
+● built target soil_profile [1.12 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
 ▶ start target df_simNameByCult
-● built target df_simNameByCult [0 seconds]
+● built target df_simNameByCult [0.02 seconds]
 Building APSIM .met file: Fords2025.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.01 seconds]
+● built target msg_met_saved [0.03 seconds]
 ▶ start target list_observed_dfs_raw
 
 ============================================================
@@ -357,7 +357,7 @@ Building APSIM .met file: Fords2025.met
 ------------------------------------------------------------
 
 [Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_8_raw' ('Wheat.Ear.Wt'): 64 row(s) have NA/blank dates requiring patching.
-● built target list_observed_dfs_raw [4.39 seconds]
+● built target list_observed_dfs_raw [5 seconds]
 
 ======================================================================
  🛠️  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS 
@@ -548,8 +548,7 @@ Building APSIM .met file: Fords2025.met
 ======================================================================
 
 ▶ start target list_observed_raw_clean
-● built target list_observed_raw_clean [0.25 seconds]
-▶ start target list_observed_clean
+● built target list_observed_raw_clean [0.3 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -561,22 +560,23 @@ Building APSIM .met file: Fords2025.met
 ----------------------------------------------------------------------
 
 [Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
-● built target list_observed_clean [0.03 seconds]
+▶ start target list_observed_clean
+● built target list_observed_clean [0.05 seconds]
+▶ start target df_obs_wide
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
-▶ start target df_obs_wide
-● built target df_obs_wide [0.22 seconds]
-▶ start target list_pcds_extracted
+● built target df_obs_wide [0.23 seconds]
 ✅ Successfully extracted 1 target dataframes.
 [Q-FLAG] | INFO | EXTRACTION | Successfully extracted 1 target dataframe(s): [pcds_3_emergPlants_Perc]
-● built target list_pcds_extracted [0.02 seconds]
+▶ start target list_pcds_extracted
+● built target list_pcds_extracted [0.01 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 16 raw records at 50% progress.
 [Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 16 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.05 seconds]
+● built target df_pheno_raw [0.07 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 16 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [0.24 seconds]
+● built target df_obs_plus_pheno [0.28 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -605,7 +605,7 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ============================================================
 
 ▶ start target df_obs_plus_pheno_hi
-● built target df_obs_plus_pheno_hi [0.07 seconds]
+● built target df_obs_plus_pheno_hi [0.05 seconds]
 
 ======================================================================
  🚨 MANUAL DATA OVERRIDE: BIOLOGICAL IMPOSSIBILITY FIXED 🚨
@@ -619,6 +619,8 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
  -> Action            : Force-synced emergence to the sowing date.
 ======================================================================
 
+▶ start target df_pheno_input_param_fix
+● built target df_pheno_input_param_fix [0 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
@@ -638,13 +640,11 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
-▶ start target df_pheno_input_param_fix
-● built target df_pheno_input_param_fix [0 seconds]
 ▶ start target df_obs_plus_pheno_hi_with_amounts
-● built target df_obs_plus_pheno_hi_with_amounts [0.16 seconds]
+● built target df_obs_plus_pheno_hi_with_amounts [0.25 seconds]
 ▶ start target df_pheno_input_param
 ✖ error target df_pheno_input_param
-▶ end pipeline [8.3 seconds]
+▶ end pipeline [9.52 seconds]
 Warning messages:
 1: Missing optional weather variables in 'Fords_RawData_2025.xlsx': VP, ET 
 2: 
