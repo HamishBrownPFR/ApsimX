@@ -30,7 +30,7 @@ targets::tar_source("../targets_MasterScripts")
 #targets::tar_source("R")
 #source("R/apply_local_fixes.R") 
 #source("R/fix_missing_dates.R")
-source("R/Turret24_apply_fixes.R")
+source("R/apply_corrections_Turret24.R")
 
 
 # ------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ list(
   # TEMPORARY FIX for MISSING DATES
   tar_target(
     name = list_observed_dfs_fixes,
-    command = Turret24_apply_fixes(
+    command = apply_corrections_Turret24(
       list_df_obs        = list_observed_dfs_raw,          # Your raw nested observation list target
       df_meta            = df_obs_meta_data,     # The metadata dataframe target above
       df_meta_date_col   = "SampleDateApprox",# The column containing fallback dates

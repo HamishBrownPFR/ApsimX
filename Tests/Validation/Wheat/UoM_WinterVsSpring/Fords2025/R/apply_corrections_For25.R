@@ -1,8 +1,8 @@
-#' Apply Specific Corrections for Fords 2025 (For25)
+#' Apply Specific Corrections and Metadata Date Imputation (For25)
 #'
 #' @param df_tbl The compiled list of observed dataframes (output of Phase C)
-#' @param folder_path The directory where dates_to_correct.csv should be stored
-#' @param ref_date A reference date (like sowing date) to enforce the correct year
+#' @param folder_path The directory where the correction file should be stored
+#' @param ref_date A reference date to enforce the correct year
 #' @param file_name_newDates The name of the CSV file to generate/read (Defaults to "dates_to_correct.csv")
 #' @param first_sow_date The absolute earliest sowing date. Any data recorded before this date is excluded.
 #' @export
@@ -13,16 +13,17 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
   if (!requireNamespace("purrr", quietly = TRUE)) stop("Package 'purrr' required.")
   
   cat("\n======================================================================\n")
-  cat(" \U0001F6E0\U000FE0F  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS \n")
+  cat(" 🛠️  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS \n")
   cat("======================================================================\n")
   
-  # Externalized file name
+  # Externalized file path
   csv_path <- file.path(folder_path, file_name_newDates)
   
   # ------------------------------------------------------------------
   # 0. THE SWISS CHEESE DATE PARSER (Global to this function)
   # ------------------------------------------------------------------
   parse_any_date <- function(x) {
+    if (is.null(x)) return(as.Date(NA))
     final_dates <- as.Date(rep(NA_character_, length(x)))
     
     nums <- suppressWarnings(as.numeric(x))
@@ -51,7 +52,6 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
   # ------------------------------------------------------------------
   # 0.5 SAFE TARGET YEAR & SOW DATE EXTRACTION
   # ------------------------------------------------------------------
-  # Parse Target Year
   if (suppressWarnings(!is.na(as.numeric(ref_date))) && nchar(trimws(as.character(ref_date))) == 4) {
     target_year <- as.numeric(ref_date)
   } else {
@@ -62,15 +62,14 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
     target_year <- as.numeric(format(safe_ref[1], "%Y"))
   }
   
-  # Parse First Sowing Date
   safe_sow_date <- parse_any_date(as.character(first_sow_date))
   if (any(is.na(safe_sow_date))) {
     stop(sprintf("CRITICAL ERROR: 'first_sow_date' (%s) could not be parsed into a valid date.", first_sow_date))
   }
   sow_date_val <- safe_sow_date[1]
   
-  cat(sprintf("   [\U0001F4C5 REFERENCE] Target Year securely locked as: %d\n", target_year))
-  cat(sprintf("   [\u23F3 THRESHOLD] Earliest Sowing Date locked as: %s\n", sow_date_val))
+  cat(sprintf("   [📅 REFERENCE] Target Year securely locked as: %d\n", target_year))
+  cat(sprintf("   [⏳ THRESHOLD] Earliest Sowing Date locked as: %s\n", sow_date_val))
   
   # ------------------------------------------------------------------
   # 1. THE PRE-AUDIT: Who is actually missing dates?
@@ -79,106 +78,174 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
     dplyr::mutate(missing_count = purrr::map_int(data, ~sum(is.na(.x$Date)))) %>%
     dplyr::filter(missing_count > 0)
   
-  missing_list <- if(nrow(missing_summary) > 0) paste(missing_summary$df_name, collapse = "\n -> ") else ""
-  
   # ------------------------------------------------------------------
-  # 1.5 THE AUDIT LOG
+  # 1.5 THE AUDIT LOG (Tier i: Informing user about details)
   # ------------------------------------------------------------------
   if (nrow(missing_summary) > 0) {
-    purrr::walk2(df_tbl$df_name, df_tbl$data, function(name_val, raw_df) {
+    purrr::walk2(missing_summary$df_name, missing_summary$data, function(name_val, raw_df) {
       if (is.null(raw_df) || nrow(raw_df) == 0) return()
       missing_count <- sum(is.na(raw_df$Date))
       
-      if (missing_count > 0) {
-        target_vars <- setdiff(names(raw_df), c("SimulationName", "Date", "Plot", "Exp_key_name"))
-        warning_box <- c(
-          "",
-          "----------------------------------------------------------------------",
-          sprintf(" \u26A0\uFE0F  MISSING DATE ALARM: '%s' \u26A0\uFE0F", name_val),
-          "----------------------------------------------------------------------",
-          sprintf(" -> Variable(s)    : [%s]", paste(target_vars, collapse = ", ")),
-          sprintf(" -> Missing Dates  : %d rows found without a valid Date!", missing_count),
-          "----------------------------------------------------------------------"
+      target_vars <- setdiff(names(raw_df), c("SimulationName", "Date", "Plot", "Exp_key_name"))
+      warning_box <- c(
+        "",
+        "----------------------------------------------------------------------",
+        sprintf(" ⚠️  MISSING DATE ALARM: '%s' ⚠️", name_val),
+        "----------------------------------------------------------------------",
+        sprintf(" -> Variable(s)    : [%s]", paste(target_vars, collapse = ", ")),
+        sprintf(" -> Missing Dates  : %d rows found without a valid Date!", missing_count),
+        "----------------------------------------------------------------------"
+      )
+      cat(paste(warning_box, collapse = "\n"), "\n")
+      
+      # Quarto Q-Flag for missing date discovery
+      tryCatch({
+        log_qflag(
+          severity = "WARN",
+          category = "DATES",
+          message = sprintf("Missing date alarm (For25): %d row(s) in '%s' found without a valid Date.", missing_count, name_val)
         )
-        cat(paste(warning_box, collapse = "\n"), "\n")
-      }
+      }, error = function(e) {})
     })
   }
   
   # ------------------------------------------------------------------
-  # 2. TEMPLATE GENERATION & HALT
+  # 2. TEMPLATE GENERATION & INITIAL HALT (If template doesn't exist)
   # ------------------------------------------------------------------
   if (nrow(missing_summary) > 0 && !file.exists(csv_path)) {
-    template <- data.frame(df_name = missing_summary$df_name, new_date = "")
+    template <- data.frame(df_name = missing_summary$df_name, SampleDateApprox = "")
     write.csv(template, csv_path, row.names = FALSE)
     
     stop_msg <- c(
       "",
       "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-      " \u26A0\uFE0F FATAL ALARM: PIPELINE HALTED FOR MISSING DATES \u26A0\uFE0F",
+      " ⚠️ FATAL ALARM: PIPELINE HALTED FOR MISSING DATES ⚠️",
       "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
       " The pipeline cannot proceed because the datasets listed above lack valid dates.",
       "",
-      sprintf(" ACTION: A template has been auto-populated at: \n %s", csv_path),
-      " Open it, provide a 'new_date' (YYYY-MM-DD or DD/MM/YYYY) for each row, and save.",
-      " Then run targets::tar_make() again.",
+      sprintf(" ACTION REQUIRED:", csv_path),
+      sprintf(" Either ensure dates are properly structured in your raw data files,", csv_path),
+      sprintf(" OR provide a temporary solution via 'SampleDateApprox' in file:", csv_path),
+      sprintf(" -> %s", csv_path),
+      " Fill in the 'SampleDateApprox' column, save, and run targets::tar_make() again.",
       "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
       ""
     )
+    
+    tryCatch({
+      log_qflag(
+        severity = "FATAL",
+        category = "DATES",
+        message = sprintf("Pipeline halted (For25): Missing dates detected. Template generated at '%s'.", file_name_newDates)
+      )
+    }, error = function(e) {})
+    
     stop(paste(stop_msg, collapse = "\n"), call. = FALSE)
   }
   
   # ------------------------------------------------------------------
-  # 3. READ & VALIDATE USER CORRECTIONS
+  # 3. READ & VALIDATE METADATA CORRECTIONS (Tier ii: SampleDateApprox Lookup)
   # ------------------------------------------------------------------
-  if (nrow(missing_summary) > 0) {
-    corrections <- read.csv(csv_path, stringsAsFactors = FALSE)
+  corrections <- data.frame(df_name = character(), parsed_date = as.Date(character()))
+  
+  if (file.exists(csv_path)) {
+    user_csv <- read.csv(csv_path, stringsAsFactors = FALSE)
     
-    if (!all(c("df_name", "new_date") %in% names(corrections))) {
-      stop(sprintf("\n🚨 CRITICAL ERROR: '%s' must contain exactly two columns: 'df_name' and 'new_date'.", file_name_newDates), call. = FALSE)
+    # Check for expected column structures (supporting both old 'new_date' and new 'SampleDateApprox')
+    date_col_used <- NULL
+    if ("SampleDateApprox" %in% names(user_csv)) {
+      date_col_used <- "SampleDateApprox"
+    } else if ("new_date" %in% names(user_csv)) {
+      date_col_used <- "new_date"
     }
     
-    corrections <- corrections %>% dplyr::filter(trimws(df_name) != "" & trimws(new_date) != "")
-    
-    if (nrow(corrections) == 0) {
-      stop(sprintf("\n🚨 CRITICAL ERROR: '%s' has no dates filled in!\n -> Please provide the dates for the following dataframes and run again:\n -> %s\n\n File: %s", file_name_newDates, missing_list, csv_path), call. = FALSE)
+    if (is.null(date_col_used)) {
+      stop(sprintf("\n🚨 CRITICAL ERROR: '%s' must contain a 'SampleDateApprox' column.", file_name_newDates), call. = FALSE)
     }
     
-    corrections$parsed_date <- parse_any_date(corrections$new_date)
+    # Extract rows that have actual metadata fallback entries
+    valid_entries <- user_csv %>% 
+      dplyr::filter(trimws(df_name) != "" & !is.na(.data[[date_col_used]]) & trimws(as.character(.data[[date_col_used]])) != "")
     
-    if (any(is.na(corrections$parsed_date))) {
-      bad_dates <- corrections$new_date[is.na(corrections$parsed_date)]
-      stop(sprintf("\n🚨 CRITICAL ERROR: Could not understand the date format in CSV.\n -> Found unreadable entries: [%s]\n -> Please use DD/MM/YYYY or YYYY-MM-DD.", 
-                   paste(bad_dates, collapse=", ")), call. = FALSE)
+    if (nrow(valid_entries) > 0) {
+      corrections <- data.frame(
+        df_name = valid_entries$df_name,
+        parsed_date = parse_any_date(valid_entries[[date_col_used]])
+      )
     }
-  } else {
-    corrections <- data.frame(df_name = character(), parsed_date = as.Date(character()))
   }
   
   # ------------------------------------------------------------------
-  # 4. SURGICAL INJECTION
+  # 4. SURGICAL INJECTION & (Tier iii) HARD STOP IF UNRESOLVED
   # ------------------------------------------------------------------
+  unresolved_dfs <- c()
+  
   df_corrected <- df_tbl %>%
     dplyr::mutate(
       data = purrr::pmap(list(df_name, data), function(name_val, raw_df) {
-        if (name_val %in% corrections$df_name) {
-          fix_date <- corrections$parsed_date[corrections$df_name == name_val][1]
-          na_count <- sum(is.na(raw_df$Date))
+        if (is.null(raw_df) || nrow(raw_df) == 0) return(raw_df)
+        
+        na_count <- sum(is.na(raw_df$Date))
+        
+        if (na_count > 0) {
+          # Check if a fallback date exists in our corrections table
+          match_row <- corrections %>% dplyr::filter(df_name == name_val)
           
-          raw_df <- raw_df %>% dplyr::mutate(Date = dplyr::if_else(is.na(Date), fix_date, Date))
-          cat(sprintf("   [✔️ FIXED NAs] '%s' | Original: NA (%d rows) -> Corrected: %s\n", 
-                      name_val, na_count, fix_date))
-          
-          # ---> NEW: Machine-readable Q-Flag for Surgical Date Injection (For25)
-          log_qflag(
-            severity = "WARN", 
-            category = "DATES", 
-            message = sprintf("Surgical date injection (For25): patched %d missing NA date(s) for '%s' with %s.", na_count, name_val, as.character(fix_date))
-          )
+          if (nrow(match_row) > 0 && !is.na(match_row$parsed_date[1])) {
+            fix_date <- match_row$parsed_date[1]
+            raw_df <- raw_df %>% dplyr::mutate(Date = dplyr::if_else(is.na(Date), fix_date, Date))
+            
+            cat(sprintf("   [✔️ FIXED NAs] '%s' | Original: NA (%d rows) -> Corrected via SampleDateApprox: %s\n", 
+                        name_val, na_count, fix_date))
+            
+            tryCatch({
+              log_qflag(
+                severity = "WARN", 
+                category = "DATES", 
+                message = sprintf("Surgical date injection (For25): patched %d missing NA date(s) for '%s' using SampleDateApprox metadata with %s.", na_count, name_val, as.character(fix_date))
+              )
+            }, error = function(e) {})
+            
+          } else {
+            # Tier (iii): If not found in SampleDateApprox, track as unresolved
+            unresolved_dfs <<- c(unresolved_dfs, name_val)
+          }
         }
         return(raw_df)
       })
     )
+  
+  # If any missing dates remain unpatched because they lacked a SampleDateApprox entry -> hard stop()
+  if (length(unresolved_dfs) > 0) {
+    unresolved_list_str <- paste(unresolved_dfs, collapse = "\n -> ")
+    
+    fatal_msg <- c(
+      "",
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+      " 🚨 CRITICAL ERROR: UNRESOLVED MISSING DATES DETECTED 🚨",
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+      " The following datasets still contain missing dates and no valid fallback",
+      " date was found in 'SampleDateApprox':",
+      sprintf(" -> %s", unresolved_list_str),
+      "",
+      sprintf(" ACTION REQUIRED:", csv_path),
+      sprintf(" You must either ensure dates are present in the raw data files,", csv_path),
+      sprintf(" OR provide a temporary date solution via the 'SampleDateApprox'", csv_path),
+      sprintf(" column in file: %s", csv_path),
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+      ""
+    )
+    
+    tryCatch({
+      log_qflag(
+        severity = "FATAL",
+        category = "DATES",
+        message = sprintf("Post-audit firewall failed (For25): %d dataset(s) still missing dates lacking SampleDateApprox entries.", length(unresolved_dfs))
+      )
+    }, error = function(e) {})
+    
+    stop(paste(fatal_msg, collapse = "\n"), call. = FALSE)
+  }
   
   # ------------------------------------------------------------------
   # 4.5 BULLETPROOF YEAR SWAP RESCUE
@@ -186,7 +253,6 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
   df_corrected <- df_corrected %>%
     dplyr::mutate(
       data = purrr::pmap(list(df_name, data), function(name_val, raw_df) {
-        
         if (is.null(raw_df) || nrow(raw_df) == 0) return(raw_df)
         
         current_years <- as.numeric(format(raw_df$Date, "%Y"))
@@ -196,30 +262,27 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
           affected_sims <- unique(raw_df$SimulationName[mismatch_idx])
           original_dates_disp <- paste(unique(as.character(raw_df$Date[mismatch_idx])), collapse = ", ")
           
-          # Forcefully rebuild the date string using the correct target_year
           new_dates_str <- paste(target_year, format(raw_df$Date[mismatch_idx], "%m-%d"), sep="-")
           parsed_new_dates <- as.Date(new_dates_str)
           
-          # Fallback: If swapping the year created an invalid date (e.g., Feb 29 on a non-leap year)
-          # safely roll it back to Feb 28 to prevent NA crashes.
           if (any(is.na(parsed_new_dates))) {
             parsed_new_dates[is.na(parsed_new_dates)] <- as.Date(paste(target_year, "02-28", sep="-"))
           }
           
           raw_df$Date[mismatch_idx] <- parsed_new_dates
-          
           corrected_dates_disp <- paste(unique(as.character(raw_df$Date[mismatch_idx])), collapse = ", ")
           
-          cat(sprintf("   [\U0001F504 YEAR SWAP] '%s' | Original: [%s] -> Corrected: [%s]\n     -> Affected Sims: %s\n", 
+          cat(sprintf("   [🔄 YEAR SWAP] '%s' | Original: [%s] -> Corrected: [%s]\n     -> Affected Sims: %s\n", 
                       name_val, original_dates_disp, corrected_dates_disp, 
                       paste(head(affected_sims, 5), collapse = ", ")))
           
-          # ---> NEW: Machine-readable Q-Flag for Year Swap Rescue (For25)
-          log_qflag(
-            severity = "WARN", 
-            category = "DATES", 
-            message = sprintf("Year swap rescue (For25): synchronized %d row(s) in '%s' to target year %d.", length(mismatch_idx), name_val, target_year)
-          )
+          tryCatch({
+            log_qflag(
+              severity = "WARN", 
+              category = "DATES", 
+              message = sprintf("Year swap rescue (For25): synchronized %d row(s) in '%s' to target year %d.", length(mismatch_idx), name_val, target_year)
+            )
+          }, error = function(e) {})
         }
         return(raw_df)
       })
@@ -233,14 +296,13 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
       data = purrr::pmap(list(df_name, data), function(name_val, raw_df) {
         if (is.null(raw_df) || nrow(raw_df) == 0) return(raw_df)
         
-        # Identify rows where the date is strictly BEFORE the earliest sow date
         early_idx <- which(!is.na(raw_df$Date) & raw_df$Date < sow_date_val)
         
         if (length(early_idx) > 0) {
           dropped_sims <- unique(raw_df$SimulationName[early_idx])
           dropped_count <- length(early_idx)
           
-          cat(sprintf("   [\u2702\uFE0F  PRUNED] '%s' | Removed %d row(s) recorded before %s\n     -> Affected Sims: %s", 
+          cat(sprintf("   [✂️  PRUNED] '%s' | Removed %d row(s) recorded before %s\n     -> Affected Sims: %s", 
                       name_val, dropped_count, as.character(sow_date_val), 
                       paste(head(dropped_sims, 5), collapse = ", ")))
           if (length(dropped_sims) > 5) {
@@ -249,40 +311,19 @@ apply_corrections_For25 <- function(df_tbl, folder_path, ref_date,
             cat("\n")
           }
           
-          # Remove the early rows
           raw_df <- raw_df[-early_idx, ]
           
-          # ---> NEW: Machine-readable Q-Flag for Pre-Sowing Data Pruning (For25)
-          log_qflag(
-            severity = "WARN", 
-            category = "DATA MODIFIED", 
-            message = sprintf("Pre-sowing pruning (For25): removed %d pre-sowing row(s) from '%s' prior to %s.", dropped_count, name_val, as.character(sow_date_val))
-          )
+          tryCatch({
+            log_qflag(
+              severity = "WARN", 
+              category = "DATA MODIFIED", 
+              message = sprintf("Pre-sowing pruning (For25): removed %d pre-sowing row(s) from '%s' prior to %s.", dropped_count, name_val, as.character(sow_date_val))
+            )
+          }, error = function(e) {})
         }
-        
         return(raw_df)
       })
     )
-  
-  # ------------------------------------------------------------------
-  # 5. THE POST-AUDIT FIREWALL
-  # ------------------------------------------------------------------
-  still_missing <- df_corrected %>%
-    dplyr::mutate(missing_count = purrr::map_int(data, ~sum(is.na(.x$Date)))) %>%
-    dplyr::filter(missing_count > 0)
-  
-  if (nrow(still_missing) > 0) {
-    still_missing_list <- paste(still_missing$df_name, collapse = "\n -> ")
-    
-    # ---> NEW: Machine-readable Q-Flag for Post-Audit Firewall Failure (For25)
-    log_qflag(
-      severity = "FATAL", 
-      category = "DATES", 
-      message = sprintf("Post-audit firewall failed (For25): %d dataset(s) still contain missing dates after CSV corrections.", nrow(still_missing))
-    )
-    
-    stop(sprintf("\n🚨 CRITICAL ERROR: There are STILL missing dates after applying your CSV corrections!\n -> Please add these missing dataframes to your CSV:\n -> %s", still_missing_list), call. = FALSE)
-  }
   
   cat("======================================================================\n\n")
   return(df_corrected)
