@@ -10204,7 +10204,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                ""
+                "[Phenology].JuvenileBase.FixedValue = 330",
+                "[Phenology].VernSensitivity.FixedValue = 1.64",
+                "[Phenology].InductivePpSensitivity.FixedValue = .07",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 210"
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10303,7 +10306,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                ""
+                "[Phenology].JuvenileBase.FixedValue = 320",
+                "[Phenology].VernSensitivity.FixedValue = 0.88",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.23",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 230"
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10347,7 +10353,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                ""
+                "[Phenology].JuvenileBase.FixedValue = 380",
+                "[Phenology].VernSensitivity.FixedValue = 1.44",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.03",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 220"
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10358,7 +10367,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                ""
+                "[Phenology].JuvenileBase.FixedValue = 310",
+                "[Phenology].VernSensitivity.FixedValue = 0.51",
+                "[Phenology].InductivePpSensitivity.FixedValue = 0.35",
+                "[Phenology].TtFlowerDevelopment.FixedValue = 120"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
