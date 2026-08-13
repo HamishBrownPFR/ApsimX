@@ -70,7 +70,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
+              "FixedValue": 310.0,
               "Units": "",
               "Name": "JuvenileBase",
               "ResourceName": null,
@@ -80,9 +80,9 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
+              "FixedValue": 0.51,
               "Units": "",
-              "Name": "JuvenileNonVernExtension",
+              "Name": "VernSensitivity",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -90,37 +90,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 1.0,
-              "Units": "",
-              "Name": "JuvenileVernSensitivity",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
-              "Units": "",
-              "Name": "InductiveBase",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
-              "Units": "",
-              "Name": "InductiveShortPpExtension",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 1.0,
+              "FixedValue": 0.35,
               "Units": null,
               "Name": "InductivePpSensitivity",
               "ResourceName": null,
@@ -130,7 +100,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
+              "FixedValue": 120.0,
               "Units": null,
               "Name": "TtFlowerDevelopment",
               "ResourceName": null,
@@ -231,47 +201,29 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "$type": "Models.Functions.SubDailyInterpolation, Models",
+                  "agregationMethod": 0,
                   "Name": "DailyVernalisation",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.SubDailyInterpolation, Models",
-                      "agregationMethod": 0,
-                      "Name": "TemperatureResponse",
+                      "$type": "Models.Functions.WangEngelTempFunction, Models",
+                      "MinTemp": 0.0,
+                      "OptTemp": 4.7,
+                      "MaxTemp": 14.0,
+                      "RefTemp": 0.0,
+                      "Beta": 1.0,
+                      "MaximumTemperatureWeighting": 0.5,
+                      "Units": null,
+                      "Name": "Response",
                       "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.WangEngelTempFunction, Models",
-                          "MinTemp": 0.0,
-                          "OptTemp": 4.7,
-                          "MaxTemp": 14.0,
-                          "RefTemp": 0.0,
-                          "Beta": 1.0,
-                          "MaximumTemperatureWeighting": 0.5,
-                          "Units": null,
-                          "Name": "Response",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.HourlySinPpAdjusted, Models",
-                          "Name": "InterpolationMethod",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
+                      "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].JuvenileVernSensitivity",
-                      "Name": "GenotypeSensitivity",
+                      "$type": "Models.Functions.HourlySinPpAdjusted, Models",
+                      "Name": "InterpolationMethod",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -350,48 +302,30 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
                   "Name": "PpResponseDaily",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                      "Name": "PpResponseShape",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.XYPairs, Models",
-                          "X": [
-                            8.0,
-                            16.0
-                          ],
-                          "Y": [
-                            1.0,
-                            0.0
-                          ],
-                          "Name": "XYPairs",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Lentil].Phenology.Photoperiod",
-                          "Name": "XValue",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
+                      "$type": "Models.Functions.XYPairs, Models",
+                      "X": [
+                        8.0,
+                        16.0
                       ],
+                      "Y": [
+                        1.0,
+                        0.0
+                      ],
+                      "Name": "XYPairs",
+                      "ResourceName": null,
+                      "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     },
                     {
                       "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].InductivePpSensitivity",
-                      "Name": "GenotypeSensitivity",
+                      "VariableName": "[Lentil].Phenology.Photoperiod",
+                      "Name": "XValue",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -549,21 +483,40 @@
                     },
                     {
                       "$type": "Models.Functions.MultiplyFunction, Models",
-                      "Name": "JuvenileVernalSensitiveSection",
+                      "Name": "NonVernalisationExtension",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Phenology].JuvenileNonVernExtension",
-                          "Name": "UnVernalisedTarget",
+                          "$type": "Models.Functions.MultiplyFunction, Models",
+                          "Name": "PotentialVernalisationResponse",
                           "ResourceName": null,
-                          "Children": [],
+                          "Children": [
+                            {
+                              "$type": "Models.Functions.Constant, Models",
+                              "FixedValue": 1000.0,
+                              "Units": "",
+                              "Name": "SpeciesMaxVernResponse",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Phenology].VernSensitivity",
+                              "Name": "GenotypeRelativeVernSensitivity",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
                           "Enabled": true,
                           "ReadOnly": false
                         },
                         {
                           "$type": "Models.Functions.SubtractFunction, Models",
-                          "Name": "RelativeVernalisationReduction",
+                          "Name": "NonVernalisation",
                           "ResourceName": null,
                           "Children": [
                             {
@@ -643,8 +596,9 @@
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].InductiveBase",
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 0.0,
+                      "Units": null,
                       "Name": "InductiveBase",
                       "ResourceName": null,
                       "Children": [],
@@ -657,18 +611,37 @@
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Phenology].InductiveShortPpExtension",
-                          "Name": "ShortPPExtension",
+                          "$type": "Models.Functions.MultiplyFunction, Models",
+                          "Name": "PotentialPpResponse",
                           "ResourceName": null,
-                          "Children": [],
+                          "Children": [
+                            {
+                              "$type": "Models.Functions.Constant, Models",
+                              "FixedValue": 1000.0,
+                              "Units": null,
+                              "Name": "SpeciesMaxShortDayResponse",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Phenology].InductivePpSensitivity",
+                              "Name": "GenotypeRelativePpSensitivity",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
                           "Enabled": true,
                           "ReadOnly": false
                         },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Phenology].PpResponse",
-                          "Name": "PhotoPeriodResponse",
+                          "VariableName": "[Lentil].Phenology.PpResponse",
+                          "Name": "PpResponse",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -10204,10 +10177,7 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 330",
-                "[Phenology].VernSensitivity.FixedValue = 1.64",
-                "[Phenology].InductivePpSensitivity.FixedValue = .07",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 210"
+                ""
               ],
               "Name": "Bolt",
               "ResourceName": null,
@@ -10306,10 +10276,7 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 320",
-                "[Phenology].VernSensitivity.FixedValue = 0.88",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.23",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 230"
+                ""
               ],
               "Name": "HallmarkXT",
               "ResourceName": null,
@@ -10353,10 +10320,7 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 380",
-                "[Phenology].VernSensitivity.FixedValue = 1.44",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.03",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 220"
+                ""
               ],
               "Name": "Jumbo2",
               "ResourceName": null,
@@ -10367,10 +10331,10 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 310",
-                "[Phenology].VernSensitivity.FixedValue = 0.51",
+                "[Phenology].JuvenileBase.FixedValue = 330",
+                "[Phenology].VernSensitivity.FixedValue = 0.52",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.35",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 120"
+                "[Phenology].TtFlowerDevelopment.FixedValue = 140"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
