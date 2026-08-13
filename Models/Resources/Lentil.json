@@ -70,29 +70,9 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
-              "Units": null,
-              "Name": "JuvenileBase",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.Constant, Models",
               "FixedValue": 0.86,
               "Units": "",
               "Name": "VernSensitivity",
-              "ResourceName": null,
-              "Children": [],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
-              "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.0,
-              "Units": null,
-              "Name": "InductiveBase",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -483,8 +463,9 @@
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].JuvenileBase",
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 200.0,
+                      "Units": null,
                       "Name": "JuvenileBase",
                       "ResourceName": null,
                       "Children": [],
@@ -606,8 +587,9 @@
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].InductiveBase",
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 0.0,
+                      "Units": null,
                       "Name": "InductiveBase",
                       "ResourceName": null,
                       "Children": [],
@@ -696,62 +678,11 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Phenology].ThermalTime",
                   "Name": "Progression",
                   "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "WangEagleTempScale gives a value from 0 (at min and max temps) to 1 (at optTemp) and a beta function shape response in between.  This is multiplied by the optimum temperature to give thermal time in familuar unitis of oC per day.  This has the benefit of Tt targets being in familuar units, the shape of Tt response following a well justified pattern and three discrete parameters for thermal time that can be used for optimisation (as opposed to a Tt function in a linint function which is a more fiddly to optimise)",
-                      "Name": "Note",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.SubDailyInterpolation, Models",
-                      "agregationMethod": 0,
-                      "Name": "WangEagleTempScale",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.WangEngelTempFunction, Models",
-                          "MinTemp": 10.0,
-                          "OptTemp": 25.0,
-                          "MaxTemp": 32.0,
-                          "RefTemp": 0.0,
-                          "Beta": 1.0,
-                          "MaximumTemperatureWeighting": 0.5,
-                          "Units": null,
-                          "Name": "Response",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.HourlySinPpAdjusted, Models",
-                          "Name": "InterpolationMethod",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].FirstFlowersDeveloping.Progression.WangEagleTempScale.Response.OptTemp",
-                      "Name": "OptTemp",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 },
