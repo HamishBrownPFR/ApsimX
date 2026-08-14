@@ -70,7 +70,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 310.0,
+              "FixedValue": 330.0,
               "Units": "",
               "Name": "JuvenileBase",
               "ResourceName": null,
@@ -80,7 +80,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.51,
+              "FixedValue": 0.52,
               "Units": "",
               "Name": "VernSensitivity",
               "ResourceName": null,
@@ -100,7 +100,17 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 120.0,
+              "FixedValue": 0.0145,
+              "Units": "",
+              "Name": "PpDeltaFlowerThreshold",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.Constant, Models",
+              "FixedValue": 140.0,
               "Units": null,
               "Name": "TtFlowerDevelopment",
               "ResourceName": null,
@@ -289,6 +299,15 @@
               "Twilight": -6.0,
               "DayLength": 0.0,
               "Name": "Photoperiod",
+              "ResourceName": null,
+              "Children": [],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.PhotoperiodDeltaFunction, Models",
+              "Twilight": 0.0,
+              "Name": "PhotoperiodDelta",
               "ResourceName": null,
               "Children": [],
               "Enabled": true,
@@ -687,11 +706,76 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Phenology].ThermalTime",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
                   "Name": "Progression",
                   "ResourceName": null,
-                  "Children": [],
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Phenology].ThermalTime",
+                      "Name": "ThermalTime",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.LessThanFunction, Models",
+                      "Name": "LessThanFunction",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Memo, Models",
+                          "Text": "If DeltaPp is less than PpDeltaFlowerThreshold return 0 else return 1\nI.e only accumulate Tt when Photoperiod is increasing and above a sensitivity threshold",
+                          "Name": "Memo",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Phenology].PhotoperiodDelta",
+                          "Name": "DeltaPp",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.VariableReference, Models",
+                          "VariableName": "[Phenology].PpDeltaFlowerThreshold",
+                          "Name": "PpDeltaFlowerThreshold",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.Constant, Models",
+                          "FixedValue": 0.0,
+                          "Units": "",
+                          "Name": "True",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.Constant, Models",
+                          "FixedValue": 1.0,
+                          "Units": "",
+                          "Name": "False",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
                   "Enabled": true,
                   "ReadOnly": false
                 },
@@ -10334,6 +10418,7 @@
                 "[Phenology].JuvenileBase.FixedValue = 330",
                 "[Phenology].VernSensitivity.FixedValue = 0.52",
                 "[Phenology].InductivePpSensitivity.FixedValue = 0.35",
+                "[Phenology].PpDeltaFlowerThreshold.FixedValue = 0",
                 "[Phenology].TtFlowerDevelopment.FixedValue = 140"
               ],
               "Name": "KelpieXT",
