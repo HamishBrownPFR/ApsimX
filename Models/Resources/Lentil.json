@@ -120,7 +120,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 240.0,
+              "FixedValue": 180.0,
               "Units": null,
               "Name": "TtPodDevelopment",
               "ResourceName": null,
@@ -130,7 +130,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 970.0,
+              "FixedValue": 340.0,
               "Units": "oCd",
               "Name": "TtTerminalNode",
               "ResourceName": null,
@@ -10415,11 +10415,7 @@
             {
               "$type": "Models.PMF.Cultivar, Models",
               "Command": [
-                "[Phenology].JuvenileBase.FixedValue = 330",
-                "[Phenology].VernSensitivity.FixedValue = 0.52",
-                "[Phenology].InductivePpSensitivity.FixedValue = 0.35",
-                "[Phenology].PpDeltaFlowerThreshold.FixedValue = 0",
-                "[Phenology].TtFlowerDevelopment.FixedValue = 140"
+                "[Phenology].PpDeltaFlowerThreshold.FixedValue = 0"
               ],
               "Name": "KelpieXT",
               "ResourceName": null,
