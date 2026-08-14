@@ -120,7 +120,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 60.0,
+              "FixedValue": 240.0,
               "Units": null,
               "Name": "TtPodDevelopment",
               "ResourceName": null,
@@ -130,7 +130,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 200.0,
+              "FixedValue": 970.0,
               "Units": "oCd",
               "Name": "TtTerminalNode",
               "ResourceName": null,
