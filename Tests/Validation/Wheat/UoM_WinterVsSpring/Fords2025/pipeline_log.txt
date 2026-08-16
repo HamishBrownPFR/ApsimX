@@ -11,7 +11,11 @@ The following objects are masked from 'package:base':
     intersect, setdiff, setequal, union
 
 ▶ start target config
-● built target config [0.56 seconds]
+● built target config [0.59 seconds]
+▶ start target df_obs_meta_data
+● built target df_obs_meta_data [0 seconds]
+▶ start target df_simNameByCult
+● built target df_simNameByCult [0.01 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -34,10 +38,10 @@ The following objects are masked from 'package:base':
   [X] VP, ET -> NOT FOUND (Optional - Skipped)
 =======================================================
 [Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'Fords_RawData_2025.xlsx' with 4 mapped column(s).
-▶ start target df_obs_meta_data
-● built target df_obs_meta_data [0 seconds]
 ▶ start target processed_met_data
-● built target processed_met_data [0.26 seconds]
+● built target processed_met_data [0.28 seconds]
+▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
 ▶ start target log_active_config
 
 ======================================================================
@@ -121,7 +125,6 @@ $pcd_stages_to_extract
 
 ======================================================================
 
-● built target log_active_config [0 seconds]
 📖 Reading soil data from: Fords_RawData_2025.xlsx (Sheet: Soil sampling)
 
 --- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
@@ -134,20 +137,16 @@ $pcd_stages_to_extract
 ------------------------------------------------
 [Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Total Organic Carbon (Heanes), Saturation Percentage, Soil Bulk Density, Gravimetric Water Content]
 💾 Success: Exported cleaned soil profile to 'Fords2025_soil_profile.csv'
+● built target log_active_config [0 seconds]
 ▶ start target soil_profile
-● built target soil_profile [1 seconds]
-▶ start target tracked_raw_excel
-● built target tracked_raw_excel [0 seconds]
-▶ start target df_simNameByCult
-● built target df_simNameByCult [0 seconds]
+● built target soil_profile [1.09 seconds]
 Building APSIM .met file: Fords2025.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
   [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.01 seconds]
-▶ start target list_observed_dfs_raw
+● built target msg_met_saved [0.02 seconds]
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -357,7 +356,8 @@ Building APSIM .met file: Fords2025.met
 ------------------------------------------------------------
 
 [Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_8_raw' ('Wheat.Ear.Wt'): 64 row(s) have NA/blank dates requiring patching.
-● built target list_observed_dfs_raw [4.39 seconds]
+▶ start target list_observed_dfs_raw
+● built target list_observed_dfs_raw [4.44 seconds]
 
 ======================================================================
  🛠️  PHASE C.2: APPLYING FOR25-SPECIFIC CORRECTIONS 
@@ -371,6 +371,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Stem.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'stemYield_8_raw' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'spikeYield_8_raw' ⚠️
@@ -378,6 +379,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Spike.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'spikeYield_8_raw' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'senescLeafYield_8_raw' ⚠️
@@ -385,6 +387,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Dead.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'senescLeafYield_8_raw' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'greenLeaf_8_raw' ⚠️
@@ -392,6 +395,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Live.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'greenLeaf_8_raw' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'totalAboveGround_8_raw' ⚠️
@@ -399,6 +403,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.AboveGround.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'totalAboveGround_8_raw' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'plant_population_m2' ⚠️
@@ -406,6 +411,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [[Wheat].Leaf.StemPopulation]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'plant_population_m2' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'shoot_8_N' ⚠️
@@ -413,6 +419,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.AboveGround.Live.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'shoot_8_N' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'shoot_8_WSCc' ⚠️
@@ -420,6 +427,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.AboveGround.Live.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'shoot_8_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'leaf_8_Nconc' ⚠️
@@ -427,6 +435,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Live.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'leaf_8_Nconc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'leaf_8_WSCc' ⚠️
@@ -434,6 +443,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Live.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'leaf_8_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'leafDead_8_Nconc' ⚠️
@@ -441,6 +451,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Dead.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'leafDead_8_Nconc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'leafDead_8_WSCc' ⚠️
@@ -448,6 +459,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Leaf.Dead.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'leafDead_8_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'stem_8_Nconc' ⚠️
@@ -455,6 +467,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Stem.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'stem_8_Nconc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'stem_8_WSCc' ⚠️
@@ -462,6 +475,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Stem.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'stem_8_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'spike_8_Nconc' ⚠️
@@ -469,6 +483,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Spike.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'spike_8_Nconc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'spike_8_WSCc' ⚠️
@@ -476,6 +491,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Spike.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'spike_8_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'shoot_10_N' ⚠️
@@ -483,6 +499,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.AboveGround.Live.NConc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'shoot_10_N' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'shoot_10_WSCc' ⚠️
@@ -490,6 +507,7 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.AboveGround.Live.WSCc]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'shoot_10_WSCc' found without a valid Date.
 
 ----------------------------------------------------------------------
  ⚠️  MISSING DATE ALARM: 'earYield_8_raw' ⚠️
@@ -497,48 +515,45 @@ Building APSIM .met file: Fords2025.met
  -> Variable(s)    : [Wheat.Ear.Wt]
  -> Missing Dates  : 16 rows found without a valid Date!
 ---------------------------------------------------------------------- 
-   [✔️ FIXED NAs] 'earYield_10_raw' | Original: NA (0 rows) -> Corrected: 2025-11-20
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 0 missing NA date(s) for 'earYield_10_raw' with 2025-11-20.
-   [✔️ FIXED NAs] 'stemYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stemYield_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'spikeYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spikeYield_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'senescLeafYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'senescLeafYield_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'greenLeaf_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'greenLeaf_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'totalAboveGround_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'totalAboveGround_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'plant_population_m2' | Original: NA (16 rows) -> Corrected: 2025-11-20
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'plant_population_m2' with 2025-11-20.
-   [✔️ FIXED NAs] 'shoot_8_N' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_8_N' with 2025-10-15.
-   [✔️ FIXED NAs] 'shoot_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_8_WSCc' with 2025-10-15.
-   [✔️ FIXED NAs] 'leaf_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leaf_8_Nconc' with 2025-10-15.
-   [✔️ FIXED NAs] 'leaf_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leaf_8_WSCc' with 2025-10-15.
-   [✔️ FIXED NAs] 'leafDead_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leafDead_8_Nconc' with 2025-10-15.
-   [✔️ FIXED NAs] 'leafDead_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leafDead_8_WSCc' with 2025-10-15.
-   [✔️ FIXED NAs] 'stem_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stem_8_Nconc' with 2025-10-15.
-   [✔️ FIXED NAs] 'stem_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stem_8_WSCc' with 2025-10-15.
-   [✔️ FIXED NAs] 'spike_8_Nconc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spike_8_Nconc' with 2025-10-15.
-   [✔️ FIXED NAs] 'spike_8_WSCc' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spike_8_WSCc' with 2025-10-15.
-   [✔️ FIXED NAs] 'shoot_10_N' | Original: NA (16 rows) -> Corrected: 2025-11-20
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_10_N' with 2025-11-20.
-   [✔️ FIXED NAs] 'shoot_10_WSCc' | Original: NA (16 rows) -> Corrected: 2025-11-20
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_10_WSCc' with 2025-11-20.
-   [✔️ FIXED NAs] 'earYield_8_raw' | Original: NA (16 rows) -> Corrected: 2025-10-15
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'earYield_8_raw' with 2025-10-15.
-   [✔️ FIXED NAs] 'earYield_10_raw' | Original: NA (0 rows) -> Corrected: 2025-11-20
-[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 0 missing NA date(s) for 'earYield_10_raw' with 2025-11-20.
+[Q-FLAG] | WARN | DATES | Missing date alarm (For25): 16 row(s) in 'earYield_8_raw' found without a valid Date.
+   [✔️ FIXED NAs] 'stemYield_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stemYield_8_raw' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'spikeYield_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spikeYield_8_raw' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'senescLeafYield_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'senescLeafYield_8_raw' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'greenLeaf_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'greenLeaf_8_raw' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'totalAboveGround_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'totalAboveGround_8_raw' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'plant_population_m2' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-11-20
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'plant_population_m2' using SampleDateApprox metadata with 2025-11-20.
+   [✔️ FIXED NAs] 'shoot_8_N' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_8_N' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'shoot_8_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_8_WSCc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'leaf_8_Nconc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leaf_8_Nconc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'leaf_8_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leaf_8_WSCc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'leafDead_8_Nconc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leafDead_8_Nconc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'leafDead_8_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'leafDead_8_WSCc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'stem_8_Nconc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stem_8_Nconc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'stem_8_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'stem_8_WSCc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'spike_8_Nconc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spike_8_Nconc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'spike_8_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'spike_8_WSCc' using SampleDateApprox metadata with 2025-10-15.
+   [✔️ FIXED NAs] 'shoot_10_N' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-11-20
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_10_N' using SampleDateApprox metadata with 2025-11-20.
+   [✔️ FIXED NAs] 'shoot_10_WSCc' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-11-20
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'shoot_10_WSCc' using SampleDateApprox metadata with 2025-11-20.
+   [✔️ FIXED NAs] 'earYield_8_raw' | Original: NA (16 rows) -> Corrected via SampleDateApprox: 2025-10-15
+[Q-FLAG] | WARN | DATES | Surgical date injection (For25): patched 16 missing NA date(s) for 'earYield_8_raw' using SampleDateApprox metadata with 2025-10-15.
    [🔄 YEAR SWAP] 'haun_raw' | Original: [2024-05-03, 2024-05-27, 2024-06-27, 2024-07-03, 2024-07-10, 2024-07-18, 2024-07-26, 2024-07-30, 2024-08-10, 2024-08-24] -> Corrected: [2025-05-03, 2025-05-27, 2025-06-27, 2025-07-03, 2025-07-10, 2025-07-18, 2025-07-26, 2025-07-30, 2025-08-10, 2025-08-24]
      -> Affected Sims: Fords2025SowApril_Illabo, Fords2025SowApril_Kittyhawk, Fords2025SowApril_Mowhawk, Fords2025SowApril_Osprey, Fords2025SowApril_Rosella
 [Q-FLAG] | WARN | DATES | Year swap rescue (For25): synchronized 146 row(s) in 'haun_raw' to target year 2025.
@@ -548,8 +563,7 @@ Building APSIM .met file: Fords2025.met
 ======================================================================
 
 ▶ start target list_observed_raw_clean
-● built target list_observed_raw_clean [0.25 seconds]
-▶ start target list_observed_clean
+● built target list_observed_raw_clean [0.24 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -561,22 +575,23 @@ Building APSIM .met file: Fords2025.met
 ----------------------------------------------------------------------
 
 [Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
+▶ start target list_observed_clean
 ● built target list_observed_clean [0.03 seconds]
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
-● built target df_obs_wide [0.22 seconds]
-▶ start target list_pcds_extracted
+● built target df_obs_wide [0.2 seconds]
 ✅ Successfully extracted 1 target dataframes.
 [Q-FLAG] | INFO | EXTRACTION | Successfully extracted 1 target dataframe(s): [pcds_3_emergPlants_Perc]
-● built target list_pcds_extracted [0.02 seconds]
+▶ start target list_pcds_extracted
+● built target list_pcds_extracted [0 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 16 raw records at 50% progress.
 [Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 16 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
 ● built target df_pheno_raw [0.05 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 16 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_plus_pheno
-● built target df_obs_plus_pheno [0.24 seconds]
+● built target df_obs_plus_pheno [0.22 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -594,8 +609,8 @@ Success [add_new_var_to_obs]: Appended and collapsed 16 events into master obser
 [Q-FLAG] | INFO | PHENOLOGY | Pruned 6 empty phenology stage column(s) (100% NA): [[Wheat].Phenology.LeavesInitiating.DateToProgress, [Wheat].Phenology.SpikeletsDifferentiating.DateToProgress, [Wheat].Phenology.StemElongating.DateToProgress, [Wheat].Phenology.Heading.DateToProgress, [Wheat].Phenology.Flowering.DateToProgress, [Wheat].Phenology.GrainFilling.DateToProgress]
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
 [Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
-▶ start target df_pheno_input_param_raw
-● built target df_pheno_input_param_raw [0.05 seconds]
+▶ start target df_pheno_input_param
+● built target df_pheno_input_param [0.06 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -605,20 +620,11 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ============================================================
 
 ▶ start target df_obs_plus_pheno_hi
-● built target df_obs_plus_pheno_hi [0.07 seconds]
+● built target df_obs_plus_pheno_hi [0.05 seconds]
 
-======================================================================
- 🚨 MANUAL DATA OVERRIDE: BIOLOGICAL IMPOSSIBILITY FIXED 🚨
-======================================================================
- -> Target Simulation : 'Fords2025SowMay_Sunmaster'
- -> Target Parameter  : '[Wheat].Phenology.Emerging.DateToProgress'
- -> Root Cause        : Raw data indicated emergence occurred before sowing
-                        (likely a stray volunteer plant or data typo).
- -> Old Value         : 14-May-2025
- -> New Value         : 20-May-2025
- -> Action            : Force-synced emergence to the sowing date.
-======================================================================
-
+🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
+▶ start target qc_pheno_input_param
+● built target qc_pheno_input_param [0.02 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
@@ -638,13 +644,182 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
-▶ start target df_pheno_input_param_fix
-● built target df_pheno_input_param_fix [0 seconds]
 ▶ start target df_obs_plus_pheno_hi_with_amounts
-● built target df_obs_plus_pheno_hi_with_amounts [0.16 seconds]
-▶ start target df_pheno_input_param
-✖ error target df_pheno_input_param
-▶ end pipeline [8.3 seconds]
+● built target df_obs_plus_pheno_hi_with_amounts [0.17 seconds]
+▶ start target msg_pheno_param_saved
+● built target msg_pheno_param_saved [0.01 seconds]
+
+============================================================
+ ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
+============================================================
+ -> STRATEGY     : Asynchronous Max Date Search
+ -> OVERALL SPAN : 2025-11-20 to 2025-11-20
+ -> STATUS       : All reference variables share the exact same harvest date.
+------------------------------------------------------------
+
+▶ start target df_obs_plus_pheno_harv
+● built target df_obs_plus_pheno_harv [0.06 seconds]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+▶ start target qc_obs_final
+● built target qc_obs_final [0.03 seconds]
+Success [save_df_to_excel]: Exported 591 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Fords2025_Observed.xlsx' (Sheet: 'Observed').
+▶ start target msg_obs_saved
+● built target msg_obs_saved [0.14 seconds]
+▶ start target haun_input_checked
+● built target haun_input_checked [0.05 seconds]
+
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.Ear.Wt
+ Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
+ Flagged Observations      : 16 row(s) out of 591
+----------------------------------------------------------------------
+
+              SimulationName Clock.Today Wheat.Ear.Wt Comp_Sum DiffAbs DiffPerc
+    Fords2025SowApril_Illabo  2025-11-20     938.6845 744.4076 -194.28   -20.70
+ Fords2025SowApril_Kittyhawk  2025-11-20     706.3826 561.2735 -145.11   -20.54
+   Fords2025SowApril_Mowhawk  2025-11-20     820.2761 640.1637 -180.11   -21.96
+    Fords2025SowApril_Osprey  2025-11-20     817.9796 673.2994 -144.68   -17.69
+   Fords2025SowApril_Rosella  2025-11-20    1103.7317 986.9472 -116.78   -10.58
+ Fords2025SowApril_Wedgetail  2025-11-20     903.5995 742.4935 -161.11   -17.83
+  Fords2025SowApril_Whistler  2025-11-20     932.8144 746.7610 -186.05   -19.95
+     Fords2025SowApril_Wylah  2025-11-20    1075.0418 878.0470 -196.99   -18.32
+     Fords2025SowMay_Gregory  2025-11-20     533.0604 431.0134 -102.05   -19.14
+        Fords2025SowMay_Janz  2025-11-20     571.1172 489.3016  -81.82   -14.33
+        Fords2025SowMay_Mace  2025-11-20     365.8011 300.9819  -64.82   -17.72
+     Fords2025SowMay_Meering  2025-11-20     491.0028 403.5531  -87.45   -17.81
+     Fords2025SowMay_Scepter  2025-11-20     931.8540 755.4920 -176.36   -18.93
+   Fords2025SowMay_Sunmaster  2025-11-20     645.1172 524.3088 -120.81   -18.73
+ Fords2025SowMay_Wyalkatchem  2025-11-20     484.2341 381.4925 -102.74   -21.22
+       Fords2025SowMay_Yitpi  2025-11-20     494.1645 408.3868  -85.78   -17.36
+ Wheat.Spike.Wt Wheat.Grain.Wt
+       92.16650       652.2411
+       56.58667       504.6868
+       75.44337       564.7203
+       83.49540       589.8040
+      189.03944       797.9077
+       86.55009       655.9434
+       88.16659       658.5944
+      104.14229       773.9047
+       42.35400       388.6594
+       57.66340       431.6382
+       40.82773       260.1541
+       44.77025       358.7829
+       70.89055       684.6014
+       51.03096       473.2778
+       19.89907       361.5934
+       46.05515       362.3316
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
+▶ start target validation_ear_sums
+● built target validation_ear_sums [0.02 seconds]
+
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.AboveGround.Wt
+ Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
+ Flagged Observations      : 16 row(s) out of 591
+----------------------------------------------------------------------
+
+              SimulationName Clock.Today Wheat.AboveGround.Wt  Comp_Sum DiffAbs
+    Fords2025SowApril_Illabo  2025-11-20            1909.4263 1715.1494 -194.28
+ Fords2025SowApril_Kittyhawk  2025-11-20            1386.6863 1241.5772 -145.11
+   Fords2025SowApril_Mowhawk  2025-11-20            1726.4713 1546.3589 -180.11
+    Fords2025SowApril_Osprey  2025-11-20            1573.5385 1428.8582 -144.68
+   Fords2025SowApril_Rosella  2025-11-20            2203.4953 2086.7108 -116.78
+ Fords2025SowApril_Wedgetail  2025-11-20            1734.6876 1573.5816 -161.11
+  Fords2025SowApril_Whistler  2025-11-20            1922.2964 1736.2429 -186.05
+     Fords2025SowApril_Wylah  2025-11-20            2113.8992 1916.9043 -196.99
+     Fords2025SowMay_Gregory  2025-11-20            1031.6371  929.5901 -102.05
+        Fords2025SowMay_Janz  2025-11-20            1053.0925  971.2769  -81.82
+        Fords2025SowMay_Mace  2025-11-20             697.6435  632.8243  -64.82
+     Fords2025SowMay_Meering  2025-11-20             908.3701  820.9205  -87.45
+     Fords2025SowMay_Scepter  2025-11-20            1774.8810 1598.5190 -176.36
+   Fords2025SowMay_Sunmaster  2025-11-20            1232.4355 1111.6271 -120.81
+ Fords2025SowMay_Wyalkatchem  2025-11-20             953.3160  850.5744 -102.74
+       Fords2025SowMay_Yitpi  2025-11-20             954.6817  868.9040  -85.78
+ DiffPerc Wheat.Leaf.Live.Wt Wheat.Leaf.Dead.Wt Wheat.Stem.Wt Wheat.Spike.Wt
+   -10.17                 NA           411.5903      559.1515       92.16650
+   -10.46                 NA           223.2689      457.0348       56.58667
+   -10.43                 NA           387.4511      518.7441       75.44337
+    -9.19                 NA           284.0916      471.4673       83.49540
+    -5.30                 NA           450.8302      648.9334      189.03944
+    -9.29                 NA           333.5217      497.5663       86.55009
+    -9.68                 NA           412.7027      576.7793       88.16659
+    -9.32                 NA           438.7966      600.0607      104.14229
+    -9.89                 NA           173.0872      325.4896       42.35400
+    -7.77                 NA           140.3371      341.6383       57.66340
+    -9.29                 NA           106.6892      225.1532       40.82773
+    -9.63                 NA           135.0469      282.3205       44.77025
+    -9.94                 NA           294.1605      548.8665       70.89055
+    -9.80                 NA           187.7910      399.5272       51.03096
+   -10.78                 NA           161.6782      307.4038       19.89907
+    -8.98                 NA           138.8295      321.6877       46.05515
+ Wheat.Grain.Wt
+       652.2411
+       504.6868
+       564.7203
+       589.8040
+       797.9077
+       655.9434
+       658.5944
+       773.9047
+       388.6594
+       431.6382
+       260.1541
+       358.7829
+       684.6014
+       473.2778
+       361.5934
+       362.3316
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
+▶ start target validation_biomass_sums
+● built target validation_biomass_sums [0 seconds]
+
+======================================================================
+ 🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
+======================================================================
+ -> Checking: Fords2025_ConstantPhenology.csv 
+ -> Checking: Fords2025_GermDatesInput.csv 
+======================================================================
+
+▶ start target manual_pheno_params
+● built target manual_pheno_params [0.09 seconds]
+
+----------------------------------------------------------------------
+ 📋 EXTRACTION SUMMARY: Fords2025_population.csv
+----------------------------------------------------------------------
+   -> '[Wheat].Leaf.StemPopulation': Extracted 16 records | Range [91.54 to 129.43]
+----------------------------------------------------------------------
+💾 Success: Exported 16 valid rows and 2 columns.
+▶ start target exported_pop_csv
+● built target exported_pop_csv [0.08 seconds]
+▶ start target tracked_excel_files
+● built target tracked_excel_files [0 seconds]
+✅ Pre-flight check passed: All required APSIM dependencies found.
+▶ start target check_depend
+● built target check_depend [0.01 seconds]
+Encrypting archive...
+✅ Successfully created password-protected archive: Observed.zip
+▶ start target encrypted_zip_artifact
+● built target encrypted_zip_artifact [0.69 seconds]
+✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
+▶ start target verify_data_backup
+● built target verify_data_backup [0 seconds]
+▶ end pipeline [9.9 seconds]
 Warning messages:
 1: Missing optional weather variables in 'Fords_RawData_2025.xlsx': VP, ET 
 2: 
@@ -672,10 +847,6 @@ The first warning was:
 Caused by warning:
 [33m![39m Unknown or uninitialised column: `Date`.
 [1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings. 
-6: [1m[22mThere were 4 warnings in `dplyr::mutate()`.
-The first warning was:
-[1m[22m[36mℹ[39m In argument: `missing_count = purrr::map_int(data, ~sum(is.na(.x$Date)))`.
-Caused by warning:
-[33m![39m Unknown or uninitialised column: `Date`.
-[1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings. 
-7: 5 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+6: Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'. 
+7: Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'. 
+8: 7 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
