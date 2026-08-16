@@ -164,7 +164,8 @@ raw_emergence %>%
 ```
 
 ```{r}
+library(targets)
 tar_load(df_pheno_input_param)
-tar_load(qc_pheno_integrity)
+tar_load(qc_pheno_input_param)
 ```
 

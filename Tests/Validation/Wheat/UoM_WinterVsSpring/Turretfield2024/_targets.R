@@ -28,8 +28,9 @@ tar_option_set(
 targets::tar_source("../targets_MasterScripts")
 # Load THIS project's specific local scripts (e.g., local fixes)
 #targets::tar_source("R")
-source("R/apply_local_fixes.R") 
+#source("R/apply_local_fixes.R") 
 #source("R/fix_missing_dates.R")
+source("R/apply_corrections_Turret24.R")
 
 
 # ------------------------------------------------------------------------------
@@ -169,7 +170,7 @@ list(
   # 3. LOAD CULTIVAR MAPPING
   tar_target(
     name = df_simNameByCult,
-    command = read.csv2(
+    command = read.csv(
       file.path(config$folder_rawData, config$file_SimNameByCultivar),
       header = TRUE, 
       stringsAsFactors = FALSE, 
@@ -194,10 +195,22 @@ list(
     }
   ),
   
+  # TEMPORARY FIX for MISSING DATES
   tar_target(
-    name = list_observed_dfs_raw_plus_emerg,
+    name = list_observed_dfs_fixes,
+    command = apply_corrections_Turret24(
+      list_df_obs        = list_observed_dfs_raw,          # Your raw nested observation list target
+      df_meta            = df_obs_meta_data,     # The metadata dataframe target above
+      df_meta_date_col   = "SampleDateApprox",# The column containing fallback dates
+      ref_date = config$ref_date
+    )
+  ),
+  
+  
+  tar_target(
+    name = list_observed_dfs_fixes_emerg,
     command = calc_emerg_perc(
-      df_tbl            = list_observed_dfs_raw,  # <--- Change this from df_list to df_tbl
+      df_tbl            = list_observed_dfs_fixes,  # <--- Change this from df_list to df_tbl
       df_input_var_name = "pcds_3_emergPlants",
       df_new_var_name   = "pcds_3_emergPlants_Perc"
     )
@@ -205,17 +218,17 @@ list(
   
   # 5. THE LOCAL INTERCEPTOR (Project-Specific Fixes)
   # --- MAY BE REMOVED OR CHANGED AS RAW DATA IS IMPROVED -----
-  tar_target(
-    name = list_observed_dfs_fix,
-    command = apply_local_fixes(
-      compiled_obs = list_observed_dfs_raw_plus_emerg,
-      df_obs_info  = df_obs_meta_data,
-      ref_date     = config$ref_date,
-      max_haun     = 12,
-      min_spr_sow_date="16-Apr", 
-      min_wint_sow_date="15-May"
-    )
-  ),
+  # tar_target(
+  #   name = list_observed_dfs_fix,
+  #   command = apply_local_fixes(
+  #     compiled_obs = list_observed_dfs_fixes_emerg,
+  #     df_obs_info  = df_obs_meta_data,
+  #     ref_date     = config$ref_date,
+  #     max_haun     = 12,
+  #     min_spr_sow_date="16-Apr", 
+  #     min_wint_sow_date="15-May"
+  #   )
+  # ),
   
   # ----------------------------------------------------------------------------
   # PHASE D: PHENOLOGY STAGE SYNTHESIS
@@ -225,149 +238,154 @@ list(
   tar_target(
     name = list_pcds_extracted,
     command = filter_and_extract_pcds(
-      list_observed_dfs = list_observed_dfs_fix, 
+      list_observed_dfs = list_observed_dfs_fixes_emerg,
       pcd_stages        = config$pcd_stages_to_extract
     )
   ),
-  
+
   tar_target(
     name = df_pheno_raw,
-    command = get_pheno_dates_from_pcd_list(list_pcds_extracted, 
+    command = get_pheno_dates_from_pcd_list(list_pcds_extracted,
                                             config$target_stagePerc)
   ),
-    
-    # tar_target(
-    #   name = list_observed_dfs_clean,
-    #   command = fix_missing_dates(df_obs=list_observed_dfs_fix,
-    #                               df_pheno=df_pheno_raw)
-    # ),  
-  
+#     
+#     # tar_target(
+#     #   name = list_observed_dfs_clean,
+#     #   command = fix_missing_dates(df_obs=list_observed_dfs_fix,
+#     #                               df_pheno=df_pheno_raw)
+#     # ),  
+#   
   tar_target(
-    name = df_pheno_int, 
+    name = df_pheno_int,
     command = create_interp_pheno_dates(
-      df_raw     = df_pheno_raw, 
+      df_raw     = df_pheno_raw,
       btwStgFrac = config$target_betwStages
     )
   ),
-  
+
+#   
   tar_target(
-    name = df_pheno_haun, 
+    name = df_pheno_haun,
     command = derive_pheno_stages_from_haun(
-      df_input       = list_observed_dfs_fix, 
+      df_input       = list_observed_dfs_fixes_emerg,
       max_leaf_limit = config$max_leaf_limit
     )
   ),
-  
+
+
+  # Haun is not scaled consistently with others
+
   tar_target(
-    name = df_pheno_final, 
+    name = df_pheno_final,
     command = merge_and_qc_pheno(
-      df_raw  = df_pheno_raw, 
-      df_haun = df_pheno_haun, 
-      df_int  = df_pheno_int
+      df_raw  = df_pheno_raw,
+      df_haun = df_pheno_haun,
+      df_in = df_pheno_int
     )
   ),
-  
+
   tar_target(
-    name = df_pheno_input_param, 
+    name = df_pheno_input_param,
     command = format_apsim_pheno_params(df_pheno_final)
   ),
-  
-   # Temporary fix to be removed once raw data is scrutinized
-   # DANGER !!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXME !!!!!!!!!!!!!
-    tar_target(
-      name = df_pheno_input_param_temp, 
-      command = do_averages_for_missing_pheno(
-        df=df_pheno_input_param,
-        group_keys = c("16-Apr","15-May"))
-    ),
-  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  
-  
-  # 2. THE GATEKEEPER (The new Universal script)
+#   
+#    # Temporary fix to be removed once raw data is scrutinized
+#    # DANGER !!!!!!!!!!!!!!!!!!!!!!!!!!!!! FIXME !!!!!!!!!!!!!
+#     tar_target(
+#       name = df_pheno_input_param_temp, 
+#       command = do_averages_for_missing_pheno(
+#         df=df_pheno_input_param,
+#         group_keys = c("16-Apr","15-May"))
+#     ),
+#   # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#   
+#   
+#   # 2. THE GATEKEEPER (The new Universal script)
+  # tar_target(
+  #   name = qc_pheno_input_param,
+  #   command = check_pheno_integrity(df_pheno_input_param,
+  #                                   expected_sims = df_simNameByCult)
+  #  ),
+#   # ----------------------------------------------------------------------------
+#   # PHASE E: FINAL OBSERVATION FORMATTING
+#   # ----------------------------------------------------------------------------
+#   
   tar_target(
-    name = qc_pheno_input_param,
-    command = check_pheno_integrity(df_pheno_input_param_temp, 
-                                    expected_sims = df_simNameByCult),
-  ), 
-  # ----------------------------------------------------------------------------
-  # PHASE E: FINAL OBSERVATION FORMATTING
-  # ----------------------------------------------------------------------------
-  
-  tar_target(
-    name = final_apsim_observed,
+    name = df_obs_wide,
     command = prepare_apsim_observed(
-      compiled_obs = list_observed_dfs_fix,
+      compiled_obs = list_observed_dfs_fixes_emerg,
       dfs_out      = c("weather_qc_checks") # Datasets to exclude
     )
   ),
-  
+
   tar_target(
-    name = df_obs_plus_hi,
+    name = df_obs_wide_hi,
     command = calc_harvest_index(
-      df          = final_apsim_observed,
+      df          = df_obs_wide,
       grain_col   = "Wheat.Grain.Wt",
       agb_col     = "Wheat.AboveGround.Wt",
       hi_col_name = "HarvestIndex"
     )
   ),
-  
+
   tar_target(
-    name = df_obs_plus_hi_amounts,
+    name = df_obs_wide_hi_pheno,
+    command = add_new_var_to_obs(
+      df_obs          = df_obs_wide_hi,
+      df_new_data     = df_pheno_final,
+      target_col_name = "Wheat.Phenology.Stage"
+    )
+  ),
+
+  tar_target(
+    name = df_obs_wide_hi_pheno_amounts,
     command = calc_nutrient_absolute_amounts(
-      df             = df_obs_plus_hi, 
+      df             = df_obs_wide_hi_pheno,
       crop_prefix    = "Wheat",
-      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"), 
-      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"), 
+      organs         = c("Leaf.Live", "Leaf.Dead", "Stem", "Spike"),
+      conc_targets   = c("N" = "NConc", "WSC" = "WSCc"),
       mass_suffix    = "Wt",
       ag_name        = "Wheat.AboveGround",
       divisor        = 1,
       error_log_path = file.path(paste0(config$proj_name, "_nutrient_calc_logs.csv"))
     )
   ),
-
-  
+# 
+#   
   # Flag the final measurement dates as "HarvestRipe"
   tar_target(
-    name = df_obs_plus_hi_amounts_harv, 
+    name = df_obs_wide_hi_pheno_amounts_harv,
     command = add_harv_into_obs(
-      df            = df_obs_plus_hi_amounts,
-      ref_vars      = c("Wheat.Grain.Wt"), 
+      df            = df_obs_wide_hi_pheno_amounts,
+      ref_vars      = c("Wheat.Grain.Wt"),
       new_col_name  = "Wheat.Phenology.CurrentStageName",
       new_col_value = "HarvestRipe"
     )
   ),
-  
-  tar_target(
-    name = df_obs_plus_hi_amounts_harv_pheno,
-    command = add_new_var_to_obs(
-      df_obs          = df_obs_plus_hi_amounts_harv,
-      df_new_data     = df_pheno_final,
-      target_col_name = "Wheat.Phenology.Stage"
-    )
-  ),
-  
+
+
   # THE QC GATEKEEPER
   tar_target(
     name = qc_obs_final,
-    command = check_obs_health(df_obs_plus_hi_amounts_harv_pheno) # Stops the pipeline if it fails!
+    command = check_obs_health(df_obs_wide_hi_pheno_amounts_harv) # Stops the pipeline if it fails!
   ),
-  
-  
+
+
   # -------------------------------------------
   # CHECK BIOMASS COMPONENTS
   # -------------------------------------------
-  
+
   # Target 2: Run the composite biomass validation
   tar_target(
     name = validation_biomass_sums,
     command = check_sums(
       df = qc_obs_final,
       ref_var = "Wheat.AboveGround.Wt",
-      comp_vars = c("Wheat.Leaf.Live.Wt","Wheat.Leaf.Dead.Wt", 
+      comp_vars = c("Wheat.Leaf.Live.Wt","Wheat.Leaf.Dead.Wt",
                     "Wheat.Stem.Wt", "Wheat.Spike.Wt", "Wheat.Grain.Wt")
     )
   ),
-  
+
   # Target 2: Run the composite ear validation
   tar_target(
     name = validation_ear_sums,
@@ -377,11 +395,7 @@ list(
       comp_vars = c("Wheat.Spike.Wt", "Wheat.Grain.Wt")
     )
   ),
-  
-  
-  
 
-  
   tar_target(
     name = exported_pop_csv,
     command = print_csv_with_select_obs(
@@ -392,8 +406,8 @@ list(
     ),
     format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
   ),
-  
-  
+
+
   tar_target(
     name = manual_pheno_params,
     command = check_pheno_manual_parameters(
@@ -402,11 +416,11 @@ list(
       sim_names_df = df_simNameByCult
     )
   ),
-  
+
   # ----------------------------------------------------------------------------
   # PHASE F: OUTPUT GENERATION & VALIDATION
   # ----------------------------------------------------------------------------
-  
+
   # 1. EXPORT WEATHER TO MET FOLDER
   tar_target(
     name = msg_met_saved,
@@ -419,21 +433,21 @@ list(
     ),
     format = "file"
   ),
-  
+
   # 2. EXPORT OBSERVATIONS TO EXCEL
   tar_target(
     name = msg_obs_saved,
     command = save_obs_to_excel(
-      df_final  = qc_obs_final, 
+      df_final  = qc_obs_final,
       obs_path  = config$folder_observed,
       file_name = config$file_saved_obs_excel,
       sheetName = "Observed"
     ),
-    format = "file" 
+    format = "file"
   ),
-  
+
   # 3. EXPORT INPUT PARAMETERS
-  
+
   tar_target(
     name = haun_input_checked,
     command = check_manual_params(
@@ -442,60 +456,60 @@ list(
       qc_obs_final
     )
   ),
-  
+
   # FIXME: qc_pheno_integrity
-  tar_target(
-    name = msg_pheno_param_saved,
-    command = save_df_into_csv(
-      df       = qc_pheno_input_param,
-      folder   = config$folder_inputs,
-      filename = config$file_name_input_pheno
-    ),
-    format = "file"
-  ),
-  
-  
+  # tar_target(
+  #   name = msg_pheno_param_saved,
+  #   command = save_df_into_csv(
+  #     df       = qc_pheno_input_param,
+  #     folder   = config$folder_inputs,
+  #     filename = config$file_name_input_pheno
+  #   ),
+  #   format = "file"
+  # ),
+
+
   # ----------------------------------------------------------------------------
-  # PHASE G: SECURITY & ZIPPING 
+  # PHASE G: SECURITY & ZIPPING
   # ----------------------------------------------------------------------------
-  
+
   # 1. THE WATCHER: Track every Excel file in the folder.
   tar_target(
     name = tracked_excel_files,
     command = list.files(config$folder_observed, pattern = "\\.xls[mx]?$", full.names = TRUE),
     format = "file"
   ),
-  
+
   # 2. THE ZIPPER: Only runs if 'tracked_excel_files' detects a change.
   tar_target(
     name = encrypted_zip_artifact,
     command = {
-      force(tracked_excel_files) 
-      
+      force(tracked_excel_files)
+
       secure_zip_folder(
-        input_folder = config$folder_observed, 
-        output_zip   = config$file_zip_out, 
+        input_folder = config$folder_observed,
+        output_zip   = config$file_zip_out,
         pass_file    = config$file_pass
       )
-      
+
       # Return the file string so targets can hash it
       config$file_zip_out
     },
     format = "file"
   ),
-  
+
   # ----------------------------------------------------------------------------
-  # PHASE H: PRE-FLIGHT & DEPENDENCY CHECKS  
+  # PHASE H: PRE-FLIGHT & DEPENDENCY CHECKS
   # ----------------------------------------------------------------------------
-  
+
   tar_target(
     name = verify_dependencies,
     command = {
       # 1. Force dependency tracking
       msg_obs_saved
-      msg_pheno_param_saved
+     # msg_pheno_param_saved
       msg_met_saved
-      
+
       # 2. Execute validation
       check_project_dependencies(
         projects   = config$proj_name,
@@ -505,16 +519,16 @@ list(
       )
     }
   ),
-  
+
   tar_target(
     name = verify_data_backup,
     command = {
-      force(verify_dependencies) 
-      
+      force(verify_dependencies)
+
       check_archive_sync(
         target_folder = config$folder_observed,
         zip_file      = config$file_zip_out
       )
     }
   )
-)
+ )
