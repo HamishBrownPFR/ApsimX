@@ -233,15 +233,7 @@ list(
     name = df_pheno_raw,
     command = get_pheno_dates_from_pcd_list(list_pcds_extracted, config$target_stagePerc)
   ),
-  # 
-  # tar_target(
-  #   name = df_pheno_int, 
-  #   command = create_interp_pheno_dates(
-  #     df_raw     = df_pheno_raw, 
-  #     btwStgFrac = config$target_betwStages
-  #   )
-  # ),
-  # 
+  # FIXME: Await revision of raw data dates and phenology
   # tar_target(
   #   name = df_pheno_haun, 
   #   command = derive_pheno_stages_from_haun(
@@ -259,25 +251,13 @@ list(
   #   )
   # ),
   
+  # FIXME: Missing pheno info obliged to use just raw here instead of df_pheno_final
   tar_target(
-    name = df_pheno_input_param_raw,
-    #command = format_apsim_pheno_params(df_pheno_final) # TODO: swap: Fords has only emerg so far
-    command = format_apsim_pheno_params(df_pheno_raw)
+    name = df_pheno_input_param,
+     command = format_apsim_pheno_params(df_pheno_raw)
   ),
   
-  
-  # --- THE EMERGENCY FIX ---
-  tar_target(
-    name = df_pheno_input_param_fix,
-    command = fix_pheno_input(df_pheno_input_param_raw)
-  ),
-  
-    tar_target(
-    name = df_pheno_input_param, 
-    command = format_apsim_pheno_params(df_pheno_input_param_fix)
-  ),
-  
-  # 2. THE GATEKEEPER (The new Universal script)
+    # 2. THE GATEKEEPER (The new Universal script)
   tar_target(
     name = qc_pheno_input_param,
     command = check_pheno_integrity(df_pheno_input_param, 
