@@ -1,0 +1,1146 @@
+---
+title: "Simulation Pipeline Quality Control"
+subtitle: "Winter vs Spring Wheat Cultivars"
+date: today
+author: BSI-PFR
+format: 
+  html:
+    theme: flatly
+    toc: true
+    embed-resources: true 
+    code-fold: true
+    page-layout: full
+execute:
+  warning: false
+  message: false
+---
+
+## 1. Execution Context
+
+This report provides automated quality control and visual parameter checks for the `Spring vs Winter Wheat Project` pipeline.
+
+It is based on an aggregation of data across multiple independent `_targets` pipelines (one for each Experiment - i.e., site-year combination).
+
+We then run a cross-pipeline quality control check across the entire set.
+
+```{r}
+#| label: load-packages
+#| echo: FALSE
+
+library(targets)
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+library(forcats)
+library(readr)
+library(dplyr)
+library(gtsummary)
+library(lubridate)
+library(ggplot2)
+library(tidyr)
+library(stringr)
+library(dplyr)
+library(plotly) 
+library(readr)
+library(reactable)
+
+library(dplyr)
+library(readr)
+library(stringr)
+```
+
+```{r}
+#| label: extract-sim-metadata
+#| message: false
+#| warning: false
+#| eval: false
+#| echo: false
+
+# This chunk is OFF as used only to facilitate meta-data creation as original sim names do not carry obvious meta-data patterns
+
+
+# Read the CSV (replace "YourFileName.csv" with your actual file path)
+# Assuming the column containing the raw names is called 'SimulationName'
+df_sims <- read_csv("SimulationNameByCultivarLookup.csv", show_col_types = FALSE)
+
+df_sim_metadata <- df_sims %>%
+  mutate(
+    # 1. Extract Experiment: Grabs everything from the start up to the year
+    Experiment = str_extract(SimulationName, "^.*?(2024|2025)"),
+    
+    # 2. Extract SeasonType: Looks for April/Apr or May
+    SeasonType = case_when(
+      str_detect(SimulationName, "Apr(il)?") ~ "Winter",
+      str_detect(SimulationName, "May") ~ "Spring",
+      TRUE ~ "Unknown"
+    ),
+    
+    # 3. Extract Cultivar: Handles the 4 different string formats in data
+    Cultivar = case_when(
+      # Format A: Cultivar is at the end after an underscore (e.g., ..._BigRed, ..._UOM001_3_47)
+      str_detect(SimulationName, "_") ~ str_extract(SimulationName, "(?<=_).*$"),
+      
+      # Format B: Cultivar is sandwiched between "Cv" and "Sow" (e.g., ...CvGregorySow14-May)
+      str_detect(SimulationName, "Cv.*?Sow\\d") ~ str_extract(SimulationName, "(?<=Cv).*?(?=Sow)"),
+      
+      # Format C: Cultivar is between "SowApr/SowMay" and "PGR" (e.g., ...SowAprBigRedPGRNo)
+      str_detect(SimulationName, "Sow(Apr|May).*?PGR") ~ str_extract(SimulationName, "(?<=SowApr|SowMay).*?(?=PGR)"),
+      
+      # Format D: Cultivar is strictly at the end of the string after "Cv" (e.g., GrassPatch2024CvGregory)
+      str_detect(SimulationName, "Cv[A-Za-z]+$") ~ str_extract(SimulationName, "(?<=Cv)[A-Za-z]+$"),
+      
+      # Fallback just in case a new format sneaks in later
+      TRUE ~ "Unknown"
+    )
+  )
+
+
+#write.csv(df_sim_metadata,"SimMetaData.csv") # saved once and fine-tuned by hand (keep an eye for issues here)
+# Preview the beautiful new dataframe!
+head(df_sim_metadata)
+```
+
+## 2.Simulation metadata
+
+These are factor levels associated with each **SimulationName**, the simulation names (**SimulationName**) pre-defined in *.apsimx* files determine the linking *keys* to associate data to metadata.
+
+```{r}
+#| label: Define-directories
+#| results: asis
+#| include: false
+
+pipeline_dirs <- c(
+  "Dookie2024", "Dookie2025", "Fords2025", 
+  "Gnarwarre2024", "Gnarwarre2025", "GrassPatch2024", 
+  "GrassPatch2025", "Turretfield2024", "WaggaWagga2024", "WaggaWagga2025"
+)
+
+# Print the header as bold Markdown text
+cat("Projects currently considered are:\n\n")
+
+# Paste a bullet point "-" in front of each directory and print on a new line
+cat(paste("->", pipeline_dirs), sep = "\n")
+```
+
+The main metadata information is shown in @tbl-meta-data.
+
+```{r}
+#| label: tbl-meta-data
+#| tbl-cap: "Simulation metadata including extracted Cultivars and Season Types."
+#| message: false
+#| echo: false
+
+library(readr)
+library(reactable) 
+
+# Read the previously created lookup table
+sim_name_lookup_table <- read_csv("SimMetaData.csv", show_col_types = FALSE)
+
+# Render with horizontal scrolling enabled
+reactable(
+  sim_name_lookup_table,
+  defaultPageSize = 5,  
+  searchable = TRUE,    
+  striped = TRUE,       
+  highlight = TRUE,     
+  compact = TRUE,
+  wrap = FALSE,         
+  resizable = TRUE,     
+  defaultColDef = colDef(minWidth = 150)
+)
+```
+
+```{r}
+#| label: pull-targets-func
+#| include: false
+
+# Function to safely pull targets from a specific directory store
+pull_regional_data <- function(dir_name) {
+  store_path <- file.path(dir_name, "_targets")
+  
+  if (dir.exists(store_path)) {
+    
+    # tryCatch will safely skip folders where the target hasn't been built yet
+    tryCatch({
+      tar_read_raw(target_to_pull, store = store_path) %>%
+        mutate(Experiment = dir_name) # Here we BRUTE-FORCE named key for matching data to trials
+    }, error = function(e) {
+      warning(paste("Target", target_to_pull, "is missing inside:", dir_name))
+      return(NULL)
+    })
+    
+  } else {
+    warning(paste("Targets store entirely missing for:", dir_name))
+    return(NULL)
+  }
+}
+```
+
+## 3. Haun-related parameter checks
+
+Currently, two APSIM parameters were manually calibrated based on a visual alignment of simulated and measured Haun stages.
+
+- Base phyllochron: **\[Wheat\].Phenology.Phyllochron.BasePhyllochron.FixedValue**
+
+- Photoperiod sensitivity: **\[Wheat\].Phenology.PhyllochronPpSensitivity.FixedValue**
+
+This heuristic approach introduces uncertainty into the parameter values for any given cultivar, as these subjective estimates are prone to vary across different experimental conditions.
+
+The subsequent analysis highlights the extent of this parameter variability.
+
+In future stages of model development, we recommend implementing an objective, quantitative methodology to estimate best-fit parameters.
+
+```{r}
+#| label: Get-data-phyll
+#| include: false
+
+target_to_pull <- "haun_input_checked" 
+
+# Apply function across all dirs and bind rows
+df_combined_haun_param <- map_dfr(pipeline_dirs, pull_regional_data)
+
+head(df_combined_haun_param)
+```
+
+```{r}
+#| label: Clean-data-haun
+#| message: false
+#| warning: false
+#| include: false
+
+# Join the lookup table to our combined data
+# We use left_join so we don't lose any data if a name is missing from the lookup
+df_final <- df_combined_haun_param %>%
+  dplyr::select(-Experiment)%>% # info is already in SimName and crashes due to duplication
+  left_join(sim_name_lookup_table, by = "SimulationName") %>%
+  mutate(
+    Cultivar = factor(Cultivar), 
+    Experiment = factor(Experiment)
+  ) %>%
+  dplyr::select(-SimulationName)
+
+# Check if any rows failed to match a cultivar
+missing_cultivars <- df_final %>% filter(is.na(Cultivar))
+if(nrow(missing_cultivars) > 0) {
+  warning("Some SimulationNames did not have a matching Cultivar in the lookup table.")
+}
+
+```
+
+```{r}
+#| label: show-data-haun
+#| message: false
+#| warning: false
+#| include: false
+
+
+# # Create a beautifully formatted HTML summary table for the report
+# df_final %>%
+#   tbl_summary() %>%
+#   bold_labels() %>%
+#   modify_caption("**Summary Characteristics of Cleaned Simulation Data**")
+# 
+
+
+df_final %>%
+  tbl_summary(
+    include = where(is.numeric), # Only includes numerical columns
+    statistic = list(all_continuous() ~ "{min}, {max}")
+  ) %>%
+  bold_labels() %>%
+  modify_caption("**Summary Characteristics of Cleaned Simulation Data**")
+
+#head(df_final)
+```
+
+### Base Phyllochron parameter analysis
+
+This plot checks the spread of the base phyllochron parameter across all simulated cultivars. The gray bars show the absolute min/max range, the red 'X' marks the MEDIAN, and the colored dots represent individual Experiments simulations as in @fig-graph-phyllo
+
+```{r}
+#| label: fig-graph-phyllo
+#| fig-cap: "Distribution of Phyllochron values by Cultivar assumed across Experiments"
+#| echo: false
+#| message: false
+#| fig-height: 8
+#| fig-width: 10
+#| warning: false
+
+this_variable <- "[Wheat].Phenology.Phyllochron.BasePhyllochron.FixedValue"
+
+# 1. Pre-calculate the min, max, and median for each Cultivar
+df_summary <- df_final %>%
+  group_by(Cultivar) %>%
+  summarize(
+    min_val = min(.data[[this_variable]], na.rm = TRUE),
+    max_val = max(.data[[this_variable]], na.rm = TRUE),
+    #mod_val = mode(.data[[this_variable]], na.rm = TRUE),
+    med_val = median(.data[[this_variable]], na.rm = TRUE)
+  )
+
+# 2. Reorder Cultivar as a factor based on the median (so the plot sorts correctly)
+df_final <- df_final %>%
+  mutate(Cultivar = fct_reorder(Cultivar, .data[[this_variable]], .fun = median, .na_rm = TRUE))
+
+df_summary <- df_summary %>%
+  mutate(Cultivar = factor(Cultivar, levels = levels(df_final$Cultivar)))
+
+# 3. Build the plot using basic geoms that plotly understands
+p <- ggplot() + 
+  # Min-Max range (using geom_segment instead of linerange for better plotly translation)
+  geom_segment(
+    data = df_summary,
+    aes(y = Cultivar, yend = Cultivar, x = min_val, xend = max_val),
+    linewidth = 4, color = "lightgrey", alpha = 0.5
+  ) +
+  # Jittered points colored by Experiment
+  geom_jitter(
+    data = df_final,
+    aes(
+      y = Cultivar, 
+      x = .data[[this_variable]], 
+      color = Experiment,
+      text = Experiment # Helps format the hover tooltip
+    ),
+    height = 0.2, width = 0, alpha = 1
+  ) +
+  # Median marker
+  geom_point(
+    data = df_summary,
+    aes(y = Cultivar, x = med_val),
+    shape = 4, color = "red", size = 2, stroke = 1
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "right") +
+  labs(
+    y = "Cultivar", 
+    x = "Base Phyllochron (Fixed Value)"
+  ) 
+
+# 4. Convert it to an interactive graph
+ggplotly(p, tooltip = c("x", "text"))
+```
+
+### Photoperiod sensitivity of phyllochron parameter analysis
+
+Similarly to phyllochron, the graph below shows the uncertanty in the sensitivity of phyllochron to photoperiod (\[Wheat\].Phenology.PhyllochronPpSensitivity.FixedValue) as in @fig-graph-phylloPP
+
+```{r}
+#| label: fig-graph-phylloPP
+#| fig-cap: "Distribution of Photoperiod Sensitivity of Phyllochron across Cultivars."
+#| echo: false
+#| message: false
+#| fig-height: 8
+#| fig-width: 10
+#| warning: false
+
+
+this_variable <- "[Wheat].Phenology.PhyllochronPpSensitivity.FixedValue"
+
+# 1. Pre-calculate the min, max, and median for each Cultivar
+df_summary <- df_final %>%
+  group_by(Cultivar) %>%
+  summarize(
+    min_val = min(.data[[this_variable]], na.rm = TRUE),
+    max_val = max(.data[[this_variable]], na.rm = TRUE),
+    med_val = median(.data[[this_variable]], na.rm = TRUE)
+  )
+
+# 2. Reorder Cultivar as a factor based on the median (so the plot sorts correctly)
+df_final <- df_final %>%
+  mutate(Cultivar = fct_reorder(Cultivar, .data[[this_variable]], .fun = median, .na_rm = TRUE))
+
+df_summary <- df_summary %>%
+  mutate(Cultivar = factor(Cultivar, levels = levels(df_final$Cultivar)))
+
+# 3. Build the plot using basic geoms that plotly understands
+p <- ggplot() + 
+  # Min-Max range (using geom_segment instead of linerange for better plotly translation)
+  geom_segment(
+    data = df_summary,
+    aes(y = Cultivar, yend = Cultivar, x = min_val, xend = max_val),
+    linewidth = 4, color = "lightgrey", alpha = 0.5
+  ) +
+  # Jittered points colored by Experiment
+  geom_jitter(
+    data = df_final,
+    aes(
+      y = Cultivar, 
+      x = .data[[this_variable]], 
+      color = Experiment,
+      text = Experiment # Helps format the hover tooltip
+    ),
+    height = 0.2, width = 0, alpha = 1
+  ) +
+  # Median marker
+  geom_point(
+    data = df_summary,
+    aes(y = Cultivar, x = med_val),
+    shape = 4, color = "red", size = 2, stroke = 1
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "right") +
+  labs(
+    y = "Cultivar", 
+    x = "Phyllochron sensitivity to photoperiod"
+  )
+
+# 4. Convert it to an interactive graph
+ggplotly(p, tooltip = c("x", "text"))
+```
+
+## 4.Biomass component checks
+
+In this project, by definition, we are assuming total above ground biomass (*Wheat.AboveGround.Wt*) composition as below:
+
+- **Wheat.AboveGround.Wt** = Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Ear.Wt
+
+- **Wheat.Ear.Wt** = Wheat.Spike.Wt + Wheat.Grain.Wt (**in APSIM simulations**)
+
+**NOTE:** We had to align field terminology with APSIM terminology. In many cases, when **chaff (i.e., APSIM's spike)** and grain could not be separated (e.g., early in grain formation) the values of Wheat.Ear.Wt and Wheat.Spike.Wt in APSIM were set the same for comparison with simulations. This can be changed if found inappropriate.
+
+
+```{r}
+#| echo: false
+#| label: Get-data-bio
+
+target_to_pull <- "qc_obs_final" 
+
+# Apply function across all dirs and bind rows
+df_combined_bio_raw <- map_dfr(pipeline_dirs, pull_regional_data)
+```
+
+The ranges of different biomass components for each Experiment can be checked at @tbl-Get-data-bio2.
+
+```{r}
+#| echo: false
+#| label: tbl-Get-data-bio2
+#| message: false
+
+
+df_combined_bio <- df_combined_bio_raw %>%
+  dplyr::select(-Experiment)  %>%
+  left_join(sim_name_lookup_table, by = "SimulationName") %>%
+  mutate(
+    Cultivar = factor(Cultivar), 
+    Experiment = factor(Experiment)
+  ) 
+
+# 2. Define the essential variables needed for your biomass calculations and plots
+essential_vars <- c(
+  "Experiment",
+  "SimulationName",
+  "Cultivar",
+  "Wheat.AboveGround.Wt", 
+  "Wheat.Leaf.Live.Wt", 
+  "Wheat.Leaf.Dead.Wt", 
+  "Wheat.Stem.Wt", 
+  "Wheat.Spike.Wt", 
+  "Wheat.Ear.Wt", 
+  "Wheat.Grain.Wt"
+)
+
+# 3. Check for missing variables and throw a warning if any are not found
+missing_vars <- setdiff(essential_vars, colnames(df_combined_bio))
+if (length(missing_vars) > 0) {
+  warning(paste(
+    "The following essential variables were missing from the pulled data:", 
+    paste(missing_vars, collapse = ", ")
+  ))
+}
+
+# 4. Pre-select only the essential variables 
+# (any_of ensures the code won't crash if a variable is missing)
+df_combined_bio_tb <- df_combined_bio %>%
+  dplyr::select(any_of(essential_vars))%>%
+  dplyr::select(-Cultivar)
+
+# 5. Print a beautifully formatted summary table grouped by Experiment
+df_combined_bio_tb %>%
+  dplyr::select(-SimulationName) %>%
+  tbl_summary(
+    by = Experiment, 
+    missing = "no", # Removes the 'Unknown' NA rows entirely
+    statistic = list(
+      all_continuous() ~ "({min}, {max})" # Removes the median, leaving only the range
+    ),
+    label = list(
+      any_of("Wheat.AboveGround.Wt") ~ "Above Ground Wt",
+      any_of("Wheat.Leaf.Live.Wt") ~ "Live Leaf Wt",
+      any_of("Wheat.Leaf.Dead.Wt") ~ "Dead Leaf Wt",
+      any_of("Wheat.Stem.Wt") ~ "Stem Wt",
+      any_of("Wheat.Spike.Wt") ~ "Spike Wt",
+      any_of("Wheat.Ear.Wt") ~ "Ear Wt",
+      any_of("Wheat.Grain.Wt") ~ "Grain Wt"
+    )
+  ) %>%
+  add_overall() %>%
+  bold_labels() %>%
+  modify_caption("**Summary Statistics of Biomass Components by Experiment**")
+```
+
+To test the alignment of the diverse raw-data terminology across the data pipeline, we here cross-check **biomass-component sums** with reported **Wheat.AboveGround.Wt in the raw-data** across all final **Observed.xlsx** used to test simulations (@fig-graph-bio).
+
+
+
+::: {#fig-graph-bio}
+
+::: {.panel-tabset}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+# 1. Prepare the data
+# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. #| label: fig-graph-bio
+# If not, you will need to add your left_join(sim_name_lookup_table) step here).
+df_plot <- df_combined_bio %>%
+  mutate(
+    Spike_Plus_Grain = coalesce(Wheat.Spike.Wt, 0) + coalesce(Wheat.Grain.Wt, 0),
+    TotalBiomassComponentSum = 
+      coalesce(Wheat.Leaf.Live.Wt, 0) +
+      coalesce(Wheat.Leaf.Dead.Wt, 0) +
+      coalesce(Wheat.Stem.Wt, 0) +
+    #  coalesce(Wheat.Spike.Wt, 0) +
+    #  coalesce(Wheat.Grain.Wt, 0) +
+      coalesce(Wheat.Ear.Wt, 0) 
+  )
+
+# 2. Loop through experiments to build Tabset Plots
+experiments <- unique(df_plot$Experiment)
+
+# Drop any NA experiments just in case
+experiments <- experiments[!is.na(experiments)]
+
+for (exp in experiments) {
+  
+  # Print the Markdown header for the Tab
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  # Subset data for this specific experiment
+  df_sub <- df_plot %>% filter(Experiment == exp)
+  
+  # Build the ggplot, mapping Cultivar to colour
+  p <- df_sub %>% 
+    ggplot(aes(
+      x = Wheat.AboveGround.Wt, 
+      y = TotalBiomassComponentSum,
+      colour = Cultivar,
+      # Build a rich tooltip for the interactive Plotly graph
+      text = paste(
+        "Date", Clock.Today,
+        "Cultivar:", Cultivar, 
+        "<br>SimName:", SimulationName,
+        "<br>Obs:(x):", round(Wheat.AboveGround.Wt, 2),
+        "<br>Sum:(y):", round(TotalBiomassComponentSum, 2)
+      )
+    )) + 
+    geom_point(size = 2, alpha = 0.7) +
+    # Adding the 1:1 line
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+    theme_minimal() +
+    labs(
+      x = "Observed Above-Ground Weight (g/m2)",
+      y = "Calculated Component Sum",
+      color = "Cultivar"
+    ) +
+    theme(legend.position = "bottom")
+  
+  # Convert to an interactive graph
+  plt <- ggplotly(p, tooltip = "text", height = 600) %>%
+    layout(margin = list(b = 80)) # Ensure the legend isn't cut off
+  
+  # Safely print the widget into the tabset
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
+```
+
+:::
+
+Comparison of reported Above Ground biomass and the sum of its component values across simulations.
+:::
+
+Similarly, we test the **Ear** component of reported values (@fig-graph-ear).
+
+::: {#fig-graph-ear}
+
+::: {.panel-tabset}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+# 1. Prepare the data #| label: fig-graph-ear
+# (Assuming df_combined_bio already contains 'Experiment' and 'Cultivar' columns. 
+# If not, you will need to add your left_join(sim_name_lookup_table) step here).
+df_plot <- df_combined_bio %>%
+  mutate(
+    Spike_Plus_Grain = coalesce(Wheat.Spike.Wt, 0) + coalesce(Wheat.Grain.Wt, 0),
+    TotalBiomassComponentSum = 
+      coalesce(Wheat.Leaf.Live.Wt, 0) +
+      coalesce(Wheat.Leaf.Dead.Wt, 0) +
+      coalesce(Wheat.Stem.Wt, 0) +
+    #  coalesce(Wheat.Spike.Wt, 0) +
+    #  coalesce(Wheat.Grain.Wt, 0) +
+      coalesce(Wheat.Ear.Wt, 0) 
+  )
+
+# 2. Loop through experiments to build Tabset Plots
+experiments <- unique(df_plot$Experiment)
+
+# Drop any NA experiments just in case
+experiments <- experiments[!is.na(experiments)]
+
+for (exp in experiments) {
+  
+  # Print the Markdown header for the Tab
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  # Subset data for this specific experiment
+  df_sub <- df_plot %>% filter(Experiment == exp)
+  
+  # Build the ggplot, mapping Cultivar to colour
+  p <- df_sub %>% 
+    ggplot(aes(
+x = Wheat.Ear.Wt, 
+             y = Spike_Plus_Grain,
+      colour = Cultivar,
+      # Build a rich tooltip for the interactive Plotly graph
+      text = paste(
+        "<br>Date", Clock.Today,
+        "<br>Cultivar:", Cultivar, 
+        "<br>SimName:", SimulationName,
+        "<br>Obs:(x):", round(Spike_Plus_Grain, 2),
+        "<br>Sum:(y):", round(Wheat.Ear.Wt, 2)
+      )
+    )) + 
+    geom_point(size = 2, alpha = 0.7) +
+    # Adding the 1:1 line
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+    theme_minimal() +
+    labs(
+      x = "Observed Ear Weight",
+      y = "Calculated Spike plus Grain (g/m2)",
+      color = "Cultivar"
+    ) +
+    theme(legend.position = "bottom")
+  
+  # Convert to an interactive graph
+  plt <- ggplotly(p, tooltip = "text", height = 600) %>%
+    layout(margin = list(b = 80)) # Ensure the legend isn't cut off
+  
+  # Safely print the widget into the tabset
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
+```
+
+:::
+
+Comparison of reported Ear component values across simulations.
+:::
+
+### 5. Phenology parameter check
+
+Similar to Haun-related parameters, phenology was **forced-as-input** to perfectly match observations. 
+
+For that, dates of pheno-stages were extracted from raw data, calculated from Haun-index or interpolated (@tbl-pheno-method). 
+
+```{r}
+#| label: tbl-pheno-method
+#| tbl-cap: "APSIM Phenology Stage Parameters and Data Sources"
+#| message: false
+#| echo: false
+```
+
+
+| Stage | ParameterNameAPSIM | DataSource | RawDataEvent |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| 2 | \[Wheat\].Phenology.Germinating.DateToProgress | Assumed post-sow | Instant Germination |
+| 3 | \[Wheat\].Phenology.Emerging.DateToProgress | Raw data | 50% Emergence |
+| 4 | \[Wheat\].Phenology.LeavesInitiating.DateToProgress | Haun-index derived | see calc below |
+| 5 | \[Wheat\].Phenology.SpikeletsDifferentiating.DateToProgress | Haun-index derived | see calc below |
+| 6 | \[Wheat\].Phenology.StemElongating.DateToProgress | Raw data | 50% Flag leaves PCDS 6.0 |
+| 7 | \[Wheat\].Phenology.Heading.DateToProgress | Interpolation_6_8 | 50% interpolation |
+| 8 | \[Wheat\].Phenology.Flowering.DateToProgress | Raw data | 50% Anthesis PCDS 8.0 |
+| 10 | \[Wheat\].Phenology.GrainFilling.DateToProgress | Raw data | date when available |
+
+#### Haun-based estimation of dates for stages 4 and 5
+
+a.  Final Leaf Number (FLN) and target leaf-number estimation
+
+The Final Leaf Number is calculated by finding the maximum observed Haun stage in the dataset and rounding it to the nearest whole integer.The date for FLN was assumed at a close earlier (defaulting to 0.95FLN) to avoid confounding with multiple dates when a similar (or very close) maximum leaf number was measured. 
+
+$$Haun_{limit} = \max(Haun_{obs}) \times c_{limit}$$
+`<!-- -->`{=html}b. Double Ridge date date estimation
+
+The *Double Ridge date (APSIM Stage 4)* is assumed to occur six leaf stages prior to the Final Leaf Number date, with a hard floor set at Haun stage 2 to prevent biologically impossible negative stages.
+$$Haun_{DR} = \max(2, FLN - 6)$$
+
+
+`<!-- -->`{=html}c. Terminal Spikelet date estimation 
+
+The *Terminal Spikelet date (APSIM Stage 5)* is assumed to occur exactly three leaf stages prior to the Final Leaf Number.
+$$Haun_{TS} = FLN - 3$$
+The resulting phenology date windows estimated for each APSIM PhaseName are shown in @tbl-pheno-summary.
+
+```{r}
+#| label: tbl-pheno-summary
+#| tbl-cap: "Ranges of dates for each Experiment and APSIM phase name."
+#| message: false
+#| echo: false
+```
+
+::: {.panel-tabset}
+
+```{r}
+#| message: false
+#| echo: false
+#| results: asis
+
+library(dplyr)
+library(purrr)
+library(lubridate)
+library(tidyr)
+library(stringr)
+library(knitr)
+
+target_to_pull <- "qc_pheno_input_param" 
+
+# ---- 1. Apply function across all dirs and bind rows ----
+df_combined_pheno_param <- map_dfr(pipeline_dirs, pull_regional_data)
+
+# ---- 2. Clean data and parse dates ----
+df_final <- df_combined_pheno_param %>%
+  dplyr::select(-Experiment) %>%
+  left_join(sim_name_lookup_table, by = "SimulationName") %>%
+  mutate(
+    Cultivar = factor(Cultivar), 
+    Experiment = factor(Experiment),
+    SeasonType = factor(SeasonType) # Ensure SeasonType is a clean factor
+  ) %>%
+  mutate(across(contains("DateToProgress"), dmy)) %>%
+  dplyr::select(-SimulationName)
+
+# ---- 3. Reshape, group, and pivot Seasons side-by-side ----
+df_pheno_summary <- df_final %>%
+  pivot_longer(
+    cols = contains("DateToProgress"),
+    names_to = "Phase",
+    values_to = "Date"
+  ) %>%
+  filter(!is.na(Date)) %>%
+  mutate(
+    Phase = str_remove_all(Phase, "\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress")
+  ) %>%
+  # Group by Experiment, SeasonType, AND Phase to split the math
+  group_by(Experiment, SeasonType, Phase) %>%
+  summarise(
+    Min_Date = min(Date, na.rm = TRUE),
+    Max_Date = max(Date, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Min_Date = format(Min_Date, "%d-%b-%Y"),
+    Max_Date = format(Max_Date, "%d-%b-%Y")
+  ) %>%
+  # Rename the variables before pivoting so the final column names look professional
+  rename(
+    `Earliest` = Min_Date,
+    `Latest` = Max_Date
+  ) %>%
+  # Pivot wide: this creates columns like "Winter Earliest", "Spring Latest", etc.
+  pivot_wider(
+    names_from = SeasonType,
+    values_from = c(`Earliest`, `Latest`),
+    names_glue = "{SeasonType} {.value}"
+  ) %>%
+  # Dynamically order the columns (handles cases where a season might be missing)
+  dplyr::select(Experiment, Phase, contains("Winter"), contains("Spring"))
+
+# ---- 4. Loop through experiments to build Tabset Tables ----
+experiments <- unique(df_pheno_summary$Experiment)
+
+for (exp in experiments) {
+  
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  df_sub <- df_pheno_summary %>%
+    filter(Experiment == exp) %>%
+    dplyr::select(-Experiment)
+  
+  # Generate the kable table using markdown format for safe 'asis' rendering
+  # Using rep("c", ncol(df_sub) - 1) automatically adjusts alignment based on column count
+  k_tbl <- kable(
+    df_sub, 
+    align = c("l", rep("c", ncol(df_sub) - 1)),
+    format = "markdown"
+  )
+  
+  print(k_tbl)
+  cat("\n\n")
+}
+```
+
+:::
+
+The full progression of observed and estimated pheno stages is shown in @fig-graph-pheno-tabs.
+
+
+#### Phenology Validation Results
+
+::: {#fig-graph-pheno-tabs}
+
+::: {.panel-tabset}
+
+```{r}
+#| label: fig-graph-pheno-tabs
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+# 0. Define the lookup table mapping stages to their data sources
+stage_source_map <- data.frame(
+  Stage = c("Emerging", "LeavesInitiating", "SpikeletsDifferentiating", "StemElongating", "Heading", "Flowering", "GrainFilling"),
+  Source = c("DataRaw", "HaunCalc", "HaunCalc", "DataRaw", "InterpCalc", "DataRaw", "DataRaw")
+)
+
+# 1. Extract the chronological order directly from the original dataframe's columns
+stage_levels <- df_final %>%
+  select(contains("DateToProgress")) %>%
+  names() %>%
+  str_remove_all("\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress")
+
+# 2. Reshape the data from wide to long and join the source metadata
+df_pheno_long <- df_final %>%
+  pivot_longer(
+    cols = contains("DateToProgress"),
+    names_to = "Stage",
+    values_to = "Date"
+  ) %>%
+  filter(!is.na(Date)) %>%
+  mutate(
+    Stage = str_remove_all(Stage, "\\[Wheat\\]\\.Phenology\\.|\\.DateToProgress"),
+    Stage = factor(Stage, levels = stage_levels)
+  ) %>%
+  left_join(stage_source_map, by = "Stage") %>%
+  mutate(Source = coalesce(Source, "Unknown"))
+
+# 3. & 4. Loop through experiments and build interactive plots inside tabs
+experiments <- unique(df_pheno_long$Experiment)
+
+for (exp in experiments) {
+  
+  cat(sprintf("\n## %s\n\n", exp))
+  
+  df_sub <- df_pheno_long %>% filter(Experiment == exp)
+  
+  # DYNAMIC HEIGHT CALCULATION: 
+  # Assign ~25 pixels of vertical space per unique cultivar to prevent compression, 
+  # plus 200 pixels for the legend and axis text. Ensure a minimum height of 500px.
+  n_cultivars <- length(unique(df_sub$Cultivar))
+  dynamic_height <- max(500, (n_cultivars * 25) + 200)
+  
+  # Build the ggplot
+  p_sub <- ggplot(df_sub, aes(
+      x = Date, 
+      y = Cultivar, 
+      color = Stage,
+      shape = Source,
+      text = paste("Cultivar:", Cultivar, "<br>Stage:", Stage, "<br>Date:", format(Date, "%d-%b"), "<br>Source:", Source)
+    )) +
+    geom_point(size = 2, alpha = 0.85) +
+    
+    # CRITICAL CHANGE: 'free_x' locks the Y-axis so Cultivars align horizontally, 
+    # but frees the X-axis so dates can shift for Winter vs. Spring.
+    facet_wrap(~SeasonType, scales = "free_x", ncol = 2) +
+    
+    scale_x_date(date_labels = "%d-%b") +
+    theme_bw() +
+    labs(
+      x = "Date",
+      y = "Cultivar",
+      color = "Phenological Stage",
+      shape = "Data Source"
+    ) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "bottom" 
+    )
+  
+  # Apply the dynamically calculated height to the Plotly widget
+  plt <- ggplotly(p_sub, tooltip = "text", height = dynamic_height) %>% 
+  layout(
+    margin = list(b = 120), # Increases the bottom margin of the entire canvas (in pixels)
+    legend = list(
+      orientation = "h",    # Keeps it horizontal
+      y = -0.3,             # Pushes the legend down (negative values move it below the x-axis)
+      x = 0.5,              # Centers it horizontally
+      xanchor = "center"
+    )
+  )
+  
+  print(htmltools::tagList(plt))
+  cat("\n\n")
+}
+```
+
+:::
+
+Progression of measure and calculated phenology stages across simulations.
+:::
+
+## 6. Management data
+
+Within each *.apsimx* simulation **ALL** the management should be only within two nodes (**ManagementWinter and ManagementSpring**).
+
+Please advise if any other auto-management script left-over is found for water and N fertiliser applications.
+
+```{r}
+#| label: tbl-management-head
+#| tbl-cap: "Extract of management data to check"
+#| message: false
+#| echo: false
+#| include: false
+
+# All extracted data is shown in @tbl-management-head
+
+library(jsonlite)
+library(purrr)
+library(dplyr)
+library(reactable) # Added for the table
+
+# 1. Define the folder containing your .apsimx files
+# (Update this path if it's different!)
+apsimx_dir <- "C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring" 
+
+apsimx_files <- list.files(
+  path = apsimx_dir, 
+  pattern = "\\.apsimx$", 
+  full.names = TRUE,
+  recursive = TRUE
+)
+
+# 2. Helper function: Recursively hunt for nodes by their EXACT "Name"
+find_management_nodes <- function(node, target_names) {
+  found_nodes <- list()
+  
+  # If the current node matches one of our target names, grab it
+  if (!is.null(node$Name) && node$Name %in% target_names) {
+    found_nodes <- append(found_nodes, list(node))
+  }
+  
+  # Keep digging through Children if they exist
+  if (!is.null(node$Children)) {
+    child_results <- map(node$Children, ~find_management_nodes(.x, target_names))
+    
+    # Use base R 'do.call(c, ...)' to safely combine the lists 
+    # instead of flatten() to avoid package conflicts!
+    found_nodes <- append(found_nodes, do.call(c, child_results))
+  }
+  
+  return(found_nodes)
+}
+
+# 3. Main function: Extract operations from a single file
+extract_operations <- function(file_path) {
+  raw_json <- jsonlite::fromJSON(file_path, simplifyVector = FALSE)
+  
+  # Search for the two specific management nodes
+  target_nodes <- find_management_nodes(
+    raw_json, 
+    c("ManagementWinter", "ManagementSpring")
+  )
+  
+  if (length(target_nodes) == 0) return(NULL)
+  
+  # Loop through found nodes and extract the 'Line' from the OperationsList
+  map_dfr(target_nodes, function(node) {
+    
+    # Safety check: ensure OperationsList actually has items
+   if (is.null(node$OperationsList) || length(node$OperationsList) == 0) {
+      return(NULL) 
+    }
+    
+    # Map over the OperationsList and pull out just the "Line" string
+    extracted_lines <- map_chr(node$OperationsList, function(op) {
+      if (!is.null(op$Line)) return(op$Line)
+      return(NA_character_)
+    })
+    
+    # Return as a neat tibble
+    tibble(
+      Management_Type = node$Name,
+      Operation_Line = extracted_lines
+    )
+  })
+}
+
+# 4. Execute across all files and bind into a single dataframe!
+df_management_ops <- apsimx_files %>%
+  set_names(basename(apsimx_files)) %>% 
+  map_dfr(~extract_operations(.x), .id = "Source.File") %>%
+  filter(!is.na(Operation_Line)) # Clean up any empty ones
+
+# 5. Output the full dataset as an interactive, paginated table
+reactable(
+  df_management_ops,
+  defaultPageSize = 5,  # Keeps it small on the screen
+  searchable = TRUE,    # Lets you easily search for specific operations
+  striped = TRUE,
+  highlight = TRUE,
+  compact = TRUE,
+  wrap = FALSE,         # Prevents long APSIM operation lines from wrapping
+  resizable = TRUE      # Lets the reader expand column widths
+)
+```
+
+Individual **Experiments** and **SimulationNames** can be checked here in @tbl-management
+
+```{r}
+#| label: tbl-management
+#| tbl-cap: "All management scripts considered within each Experiment"
+#| message: false
+#| echo: false
+
+library(reactable)
+
+# Create a highly styled, collapsible hierarchical table
+reactable(
+  df_management_ops,
+  
+  # This creates the exact nested structure from your image
+  groupBy = c("Source.File", "Management_Type"), 
+  
+  # Clean up the column headers
+  columns = list(
+    Source.File = colDef(name = "APSIMX File"),
+    Management_Type = colDef(name = "Management Node"),
+    Operation_Line = colDef(name = "Operation Details", minWidth = 400)
+  ),
+  
+  # Add interactivity and clean styling
+  searchable = TRUE,      # Adds a search bar to instantly find specific operations
+  highlight = TRUE,       # Highlights rows when you hover over them
+  striped = TRUE,
+  bordered = TRUE,
+  compact = TRUE,
+  
+  # Apply custom colors to make the grouping levels stand out
+  theme = reactableTheme(
+    headerStyle = list(backgroundColor = "#2c3e50", color = "white", fontWeight = "bold"),
+    rowGroupStyle = list(fontWeight = "bold", backgroundColor = "#ecf0f1", color = "#333")
+  )
+)
+```
+
+## 7. Pipeline log warnings
+
+During the data wrangling process there are multiple calculations and data cleaning that involve assumptions. 
+
+Warnings are produced at these steps to enable later scrutiny and corrections where needed.
+
+Please **CHECK CAREFULLY** these messages for each experiment (@tbl-pipeline-health).
+
+For items that feel relevant to you, aware that many are just to keep track of data wrangling, please go to the full *proj_name_***pipeline_log.txt** at the Experiment folder in git (e.g., Wheat\\UoM_WinterVsSpring\\*proj_name*) for details.
+
+```{r}
+#| label: tbl-pipeline-health
+#| tbl-cap: "Pipeline Execution Health & Warnings Summary"
+#| message: false
+#| echo: false
+#| warning: false
+
+library(dplyr)
+library(stringr)
+library(purrr)
+library(tidyr)
+library(reactable)
+
+extract_qflags <- function(log_path) {
+  log_text <- readLines(log_path, warn = FALSE)
+  
+  # 1. Grab Experiment Name
+  proj_idx <- which(str_detect(log_text, "\\$proj_name"))
+  experiment_name <- if (length(proj_idx) > 0) {
+    str_extract(log_text[proj_idx + 1], '(?<=").*?(?=")')
+  } else {
+    basename(dirname(log_path)) 
+  }
+  
+  # 2. Extract ONLY the lines containing "[Q-FLAG]"
+  qflag_lines <- log_text[str_detect(log_text, "^\\[Q-FLAG\\]")]
+  
+  # 3. If the log is clean (no flags), return a Pass
+  if (length(qflag_lines) == 0) {
+    return(tibble(
+      Experiment = experiment_name, 
+      Severity = "✅ PASS", 
+      Category = "CLEAN", 
+      Message = "No critical warnings or automated fixes detected."
+    ))
+  }
+  
+  # 4. Magically split the structured string into neat columns!
+  tibble(raw_text = qflag_lines) %>%
+    separate(
+      col = raw_text,
+      into = c("Flag", "Severity", "Category", "Message"),
+      sep = "\\s*\\|\\s*", # Splits exactly at the '|' and trims whitespace
+      extra = "merge"
+    ) %>%
+    mutate(
+      Experiment = experiment_name,
+      # Add emojis dynamically based on severity!
+      Severity = case_when(
+        Severity == "FATAL" ~ "🚨 FATAL",
+        Severity == "CRITICAL" ~ "🚨 CRITICAL",
+        Severity == "WARN" ~ "⚠️ WARN",
+        Severity == "INFO" ~ "ℹ️ INFO",
+        TRUE ~ Severity
+      )
+    ) %>%
+    select(Experiment, Severity, Category, Message)
+}
+
+# 2. Define locations
+base_dir <- "C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring"
+pipeline_dirs <- c(
+  "Dookie2024", "Dookie2025", "Fords2025", 
+  "Gnarwarre2024", "Gnarwarre2025", "GrassPatch2024", 
+  "GrassPatch2025", "Turretfield2024", "WaggaWagga2024", "WaggaWagga2025"
+)
+
+# 3. Build paths and filter to only those that exist
+log_files <- file.path(base_dir, pipeline_dirs, "pipeline_log.txt")
+valid_log_files <- log_files[file.exists(log_files)]
+
+# 4. Extract issues and bind into one master dataframe
+df_pipeline_health <- map_dfr(valid_log_files, extract_qflags)
+
+# 5. Render the grouped interactive table
+reactable(
+  df_pipeline_health,
+  searchable = TRUE,
+  filterable = TRUE,
+  groupBy = "Experiment", 
+  striped = TRUE,
+  compact = TRUE,
+  defaultColDef = colDef(minWidth = 150),
+  columns = list(
+    Experiment = colDef(minWidth = 200, name = "Experiment / Pipeline"),
+    Severity = colDef(minWidth = 150, name = "Severity Level", align = "center"),
+    Category = colDef(minWidth = 150, name = "Category"),
+    Message = colDef(minWidth = 400, name = "Action Item / Description")
+  )
+)
+```
+
+
+

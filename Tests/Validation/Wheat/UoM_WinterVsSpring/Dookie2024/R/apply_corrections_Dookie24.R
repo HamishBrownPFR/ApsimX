@@ -32,6 +32,7 @@ apply_corrections_Dookie24 <- function(df_tbl, ref_date) {
   
   # External list to capture warnings across all purrr iterations
   warning_logs <- c()
+  fix_counter  <- 0
   
   # 2. Iterate through the nested dataframes
   res <- df_tbl %>%
@@ -67,6 +68,7 @@ apply_corrections_Dookie24 <- function(df_tbl, ref_date) {
             
             # Apply fix back to dataframe
             df$Date[i] <- fixed_date
+            fix_counter <<- fix_counter + 1
             
             # Append to the global log (using <<- to modify the outer variable)
             warning_logs <<- c(
@@ -95,6 +97,13 @@ apply_corrections_Dookie24 <- function(df_tbl, ref_date) {
       ""
     )
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Raw Date Typos Auto-Corrected
+    log_qflag(
+      severity = "WARN", 
+      category = "DATES", 
+      message = sprintf("Raw date typos auto-corrected: %d date(s) fell before reference date and had their year forced to %d.", fix_counter, target_year)
+    )
     
     # Trigger native warning so targets flags it in tar_meta()
     warning("Raw date typos were auto-corrected. See console for exact mapping.", call. = FALSE)

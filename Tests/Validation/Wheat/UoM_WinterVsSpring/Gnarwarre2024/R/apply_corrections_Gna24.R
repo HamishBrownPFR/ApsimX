@@ -22,6 +22,7 @@ apply_corrections_Gna24 <- function(df) {
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("Package 'dplyr' required.")
   
   correction_logs <- c()
+  fix_counter     <- 0
   
   # ------------------------------------------------------------------
   # 1. CORRECTION: Rename Grain Size
@@ -31,6 +32,7 @@ apply_corrections_Gna24 <- function(df) {
     df <- df %>%
       dplyr::rename("Wheat.Grain.Size" = "Wheat.Spike.Grain.Size")
     
+    fix_counter <- fix_counter + 1
     correction_logs <- c(
       correction_logs, 
       " -> RENAMED   : 'Wheat.Spike.Grain.Size' to 'Wheat.Grain.Size'"
@@ -46,6 +48,7 @@ apply_corrections_Gna24 <- function(df) {
     df <- df %>%
       dplyr::select(-Yield)
     
+    fix_counter <- fix_counter + 1
     correction_logs <- c(
       correction_logs, 
       " -> DROPPED   : Redundant 'Yield' column (retained 'Wheat.Grain.Yield')"
@@ -65,6 +68,7 @@ apply_corrections_Gna24 <- function(df) {
         
         df[[col]] <- df[[col]] / 100
         
+        fix_counter <- fix_counter + 1
         correction_logs <- c(
           correction_logs, 
           sprintf(" -> CONVERTED : '%s' divided by 100 (percentage to fraction)", col)
@@ -81,6 +85,7 @@ apply_corrections_Gna24 <- function(df) {
       
       df[["Wheat.Leaf.Height"]] <- df[["Wheat.Leaf.Height"]] * 10
       
+      fix_counter <- fix_counter + 1
       correction_logs <- c(
         correction_logs, 
         " -> CONVERTED : 'Wheat.Leaf.Height' multiplied by 10 (unit scaling)"
@@ -95,7 +100,7 @@ apply_corrections_Gna24 <- function(df) {
     warning_box <- c(
       "",
       "======================================================================",
-      " \u26A0\uFE0F  TAILORED CORRECTIONS APPLIED TO WIDE OBS DATAFRAME \u26A0\uFE0F ",
+      " ⚠️  TAILORED CORRECTIONS APPLIED TO WIDE OBS DATAFRAME ⚠️ ",
       "======================================================================",
       correction_logs,
       "======================================================================",
@@ -104,6 +109,13 @@ apply_corrections_Gna24 <- function(df) {
     
     # Print the large visual box to the console
     message(paste(warning_box, collapse = "\n"))
+    
+    # ---> NEW: Machine-readable Q-Flag for Tailored Structural Corrections (Gna24)
+    log_qflag(
+      severity = "WARN", 
+      category = "DATA MODIFIED", 
+      message = sprintf("Tailored structural corrections applied (Gna24): %d structural correction(s) executed.", fix_counter)
+    )
     
     # Trigger a native R warning so targets flags it in tar_meta()
     warning("Tailored structural corrections were applied. See console for details.", call. = FALSE)

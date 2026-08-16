@@ -112,6 +112,13 @@ calc_harvest_index <- function(df, grain_col = "Wheat.Grain.Wt",
     message(" -> WARNING      : HI was calculated using maximum values from DIFFERENT DATES.")
     message(" -> OFFSETS      : See timeline disparities below:")
     
+    # ---> NEW: Machine-readable Q-Flag for Asynchronous HI Discrepancy
+    log_qflag(
+      severity = "WARN", 
+      category = "HARVEST INDEX", 
+      message = "Asynchronous Harvest Index: HI calculated using maximum values from DIFFERENT DATES."
+    )
+    
     # Print up to 5 simulations to keep the console clean
     for (i in 1:min(5, nrow(async_offsets))) {
       message(sprintf("    * %s: Grain Peak (%s) vs AGB Peak (%s)", 
@@ -129,6 +136,13 @@ calc_harvest_index <- function(df, grain_col = "Wheat.Grain.Wt",
     message(" \U0001F6A8 DATA LOSS WARNING: ORPHANED GRAIN DETECTED \U0001F6A8")
     message(sprintf(" -> ISSUE        : Found %d instance(s) where Grain has a value, but AGB is NA.", nrow(orphaned_grain)))
     message(" -> ACTION       : HI was NOT calculated for these dates.")
+    
+    # ---> NEW: Machine-readable Q-Flag for Orphaned Grain
+    log_qflag(
+      severity = "WARN", 
+      category = "HARVEST INDEX", 
+      message = sprintf("Orphaned grain detected: %d instance(s) where Grain has a value but AGB is NA.", nrow(orphaned_grain))
+    )
   }
   
   message(strrep("=", 60), "\n")
