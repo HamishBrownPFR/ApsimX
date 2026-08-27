@@ -116,3 +116,9 @@ errors.txt
 /Prototypes/Lentil/FAHMA/tempApplyCLI.txt
 *.xlsx
 /Prototypes/Lentil/FAHMA/ApplyFiles/temp_FAHMACLI.txt
+/Tests/Validation/Wheat/FAR/_apply_FAR.txt
+/Tests/Validation/Wheat/FAR/_apply_FAR_master.txt
+/Tests/Validation/Wheat/Pask/_apply_PaskExperiments.txt
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/QC_Report.html
+/Tests/Validation/Wheat/UoM_WinterVsSpring/Password.txt
+/Tests/Validation/Wheat/_apply_Wheat.txt
