@@ -3673,7 +3673,7 @@
                   "Children": [
                     {
                       "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.5,
+                      "FixedValue": 0.61,
                       "Units": null,
                       "Name": "PotentialExtinctionCoeff",
                       "ResourceName": null,
