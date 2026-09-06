@@ -745,6 +745,8 @@ df_pheno_summary <- df_final %>%
     Max_Date = max(Date, na.rm = TRUE),
     .groups = "drop"
   ) %>%
+  # --> NEW: Arrange chronologically while Min_Date is still a Date object <--
+  arrange(Experiment, Min_Date) %>%
   mutate(
     Min_Date = format(Min_Date, "%d-%b-%Y"),
     Max_Date = format(Max_Date, "%d-%b-%Y")
