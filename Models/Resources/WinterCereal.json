@@ -1691,7 +1691,7 @@
                       "Children": [
                         {
                           "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 26.0,
+                          "FixedValue": 25.0,
                           "Units": "grains",
                           "Name": "GrainsPerGramOfStem",
                           "ResourceName": null,
@@ -1705,6 +1705,42 @@
                           "Name": "StemMass",
                           "ResourceName": null,
                           "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "CriticalPeriodRueResponse",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                0.0,
+                                0.6,
+                                1.6
+                              ],
+                              "Y": [
+                                0.1,
+                                0.6,
+                                1.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[CricitalPeriodRueAct]",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
                           "Enabled": true,
                           "ReadOnly": false
                         }
@@ -8881,6 +8917,92 @@
                   "$type": "Models.Functions.VariableReference, Models",
                   "VariableName": "[StemPlusSpike].Wt",
                   "Name": "StemPlusSpikeWt",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            }
+          ],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Functions.ProtectedDivideFunction, Models",
+          "NumeratorErrVal": 1.0,
+          "DenominatorErrVal": 1.0,
+          "Name": "CricitalPeriodRueAct",
+          "ResourceName": null,
+          "Children": [
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": null,
+              "StartStageName": "FlagLeafAppearance",
+              "EndStageName": "Anthesis",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 0.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "RueAct",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[Leaf].Photosynthesis.RueAct",
+                  "Name": "VariableReference",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": null,
+              "StartStageName": "FlagLeafAppearance",
+              "EndStageName": "Anthesis",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 0.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "Duration",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 1.0,
+                  "Units": null,
+                  "Name": "DaysPerDay",
                   "ResourceName": null,
                   "Children": [],
                   "Enabled": true,
