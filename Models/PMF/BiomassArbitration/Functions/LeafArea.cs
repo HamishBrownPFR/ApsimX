@@ -43,11 +43,18 @@ namespace Models.PMF
         [Units("m2/m2")]
         private IFunction AreaRemoved = null;
 
+        /// <summary>Leaf Area reduced by leaf shriveling</summary>
+        [Link(Type = LinkType.Child, ByName = true)]
+        [Description("Leaf Area grown since emergence")]
+        [Units("m2/m2")]
+        private IFunction AreaShrinkage = null;
+
+
 
         /// <summary>Gets the value.</summary>
         public double Value(int arrayIndex = -1)
         {
-            return Math.Max(0,Initial.Value() + AreaGrown.Value() - AreaSenesced.Value() - AreaRemoved.Value());
+            return Math.Max(0,Initial.Value() + AreaGrown.Value() - AreaSenesced.Value() - AreaRemoved.Value() - AreaShrinkage.Value());
         }
     }
 }
