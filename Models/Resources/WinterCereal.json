@@ -4515,56 +4515,13 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.LinearInterpolationFunction, Models",
-              "Name": "SpecificAreaOLD",
-              "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Memo, Models",
-                  "Text": "Hello World",
-                  "Name": "Memo",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.XYPairs, Models",
-                  "X": [
-                    0.0,
-                    1.5
-                  ],
-                  "Y": [
-                    0.03,
-                    0.03
-                  ],
-                  "Name": "XYPairs",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Leaf].LAI",
-                  "Name": "XValue",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
-              "Enabled": true,
-              "ReadOnly": false
-            },
-            {
               "$type": "Models.Functions.MultiplyFunction, Models",
               "Name": "SpecificArea",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                  "Name": "Potential",
+                  "Name": "Phenology",
                   "ResourceName": null,
                   "Children": [
                     {
@@ -4579,12 +4536,16 @@
                     {
                       "$type": "Models.Functions.XYPairs, Models",
                       "X": [
-                        0.0,
-                        1.5
+                        3.0,
+                        4.0,
+                        5.5,
+                        6.0
                       ],
                       "Y": [
-                        0.03,
-                        0.03
+                        0.02,
+                        0.02,
+                        0.025,
+                        0.025
                       ],
                       "Name": "XYPairs",
                       "ResourceName": null,
@@ -4594,7 +4555,7 @@
                     },
                     {
                       "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Leaf].LAI",
+                      "VariableName": "[Phenology].Stage",
                       "Name": "XValue",
                       "ResourceName": null,
                       "Children": [],
@@ -4606,67 +4567,45 @@
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.MinimumFunction, Models",
-                  "Name": "ReductionFactor",
+                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                  "Name": "Photoperiod",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                      "Name": "SWFactor",
+                      "$type": "Models.Memo, Models",
+                      "Text": "Hello World",
+                      "Name": "Memo",
                       "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.XYPairs, Models",
-                          "X": [
-                            0.8,
-                            1.0
-                          ],
-                          "Y": [
-                            0.5,
-                            1.0
-                          ],
-                          "Name": "XYPairs",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[Root].WaterTensionFactor",
-                          "Name": "XValue",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
+                      "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.WeightedTemperatureFunction, Models",
-                      "MaximumTemperatureWeighting": 0.5,
-                      "Name": "TemperatureFactor",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.XYPairs, Models",
-                          "X": [
-                            5.0,
-                            15.0
-                          ],
-                          "Y": [
-                            0.5,
-                            1.0
-                          ],
-                          "Name": "XYPairs",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
+                      "$type": "Models.Functions.XYPairs, Models",
+                      "X": [
+                        8.0,
+                        12.0,
+                        18.0,
+                        20.0
                       ],
+                      "Y": [
+                        1.0,
+                        1.0,
+                        0.65,
+                        0.65
+                      ],
+                      "Name": "XYPairs",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Phenology].Photoperiod",
+                      "Name": "XValue",
+                      "ResourceName": null,
+                      "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     }
