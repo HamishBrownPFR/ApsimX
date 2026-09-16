@@ -2691,7 +2691,7 @@
                 },
                 {
                   "$type": "Models.Functions.Constant, Models",
-                  "FixedValue": 1.0,
+                  "FixedValue": 2.0,
                   "Units": null,
                   "Name": "Modifier",
                   "ResourceName": null,
@@ -2719,7 +2719,7 @@
                 },
                 {
                   "$type": "Models.Functions.Constant, Models",
-                  "FixedValue": 2.0,
+                  "FixedValue": 1.0,
                   "Units": null,
                   "Name": "Modifier",
                   "ResourceName": null,
@@ -2829,14 +2829,14 @@
                         0.6,
                         0.75,
                         0.85,
-                        1.0
+                        0.95
                       ],
                       "Y": [
-                        1.0,
+                        0.1,
                         0.1,
                         0.01,
                         0.001,
-                        0.0001
+                        0.001
                       ],
                       "Name": "XYPairs",
                       "ResourceName": null,
