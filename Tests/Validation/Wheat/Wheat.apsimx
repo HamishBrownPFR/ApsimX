@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 220,
+  "Version": 221,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -3543,6 +3543,7 @@
                       "Children": [
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -7860,6 +7861,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -11039,6 +11041,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -12442,6 +12445,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -13716,6 +13720,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -15070,6 +15075,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -16250,6 +16256,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -17279,6 +17286,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -19154,6 +19162,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -20223,6 +20232,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -21329,6 +21339,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -22321,6 +22332,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -24413,6 +24425,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -25825,6 +25838,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -27428,6 +27442,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -28944,6 +28959,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -31036,6 +31052,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -33256,6 +33273,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -35305,6 +35323,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -40469,6 +40488,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -44309,6 +44329,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -50273,6 +50294,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -53598,6 +53620,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -57863,6 +57886,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -60513,6 +60537,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -64684,6 +64709,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -65043,7 +65069,7 @@
                             ""
                           ],
                           "Parameters": [],
-                          "Name": "MaxLeafSize",
+                          "Name": "OutputMaxLeafSize",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -67707,8 +67733,8 @@
                               "Line": 0,
                               "LineThickness": 0,
                               "TableName": "MaxLeafSizeReport",
-                              "XFieldName": "MaxLeafSize.Script.LeafPosition",
-                              "YFieldName": "MaxLeafSize.Script.MaxLeafSize",
+                              "XFieldName": "OutputMaxLeafSize.Script.LeafPosition",
+                              "YFieldName": "OutputMaxLeafSize.Script.MaxLeafSize",
                               "X2FieldName": null,
                               "Y2FieldName": null,
                               "ShowInLegend": false,
@@ -68534,6 +68560,7 @@
                       "Children": [
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -77002,6 +77029,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -80502,6 +80530,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -84004,6 +84033,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -86401,6 +86431,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -90336,6 +90367,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -92995,6 +93027,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -94038,6 +94071,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -95781,6 +95815,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -98845,6 +98880,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -100354,6 +100390,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -101228,6 +101265,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -102102,6 +102140,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -105783,6 +105822,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -112045,6 +112085,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -119044,6 +119085,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -125824,6 +125866,7 @@
                             },
                             {
                               "$type": "Models.PMF.Plant, Models",
+                              "PlantType": null,
                               "Name": "Wheat",
                               "ResourceName": "Wheat",
                               "Children": [],
@@ -132252,6 +132295,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -133136,6 +133180,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -134018,6 +134063,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -135520,6 +135566,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -137348,6 +137395,7 @@
                         },
                         {
                           "$type": "Models.PMF.Plant, Models",
+                          "PlantType": null,
                           "Name": "Wheat",
                           "ResourceName": "Wheat",
                           "Children": [],
@@ -138802,79 +138850,14 @@
           "ReadOnly": false
         },
         {
-          "$type": "Models.Manager, Models",
-          "CodeArray": [
-            "using APSIM.Core;",
-            "using Newtonsoft.Json;",
-            "using APSIM.Shared.Utilities;",
-            "using Models.Soils.Arbitrator;",
-            "using Models.PMF.Organs;",
-            "using Models.PMF;",
-            "using Models.Interfaces;",
-            "using Models.Core;",
-            "using System.Xml.Serialization;",
-            "using System.Collections.Generic;",
-            "using System;",
-            "using Models.PMF.Struct;",
-            "using Models.Soils;",
-            "",
-            "",
-            "",
-            "namespace Models",
-            "{",
-            "    [Serializable] ",
-            "    public class Script : Model, IStructureDependency",
-            "    {",
-            "        public IStructure Structure { private get; set; }",
-            "//        [Link] private Clock Clock;",
-            "//        [Link] private Plant Wheat;",
-            "//        public  event EventHandler LeafReport;",
-            "//        [Link(Type = LinkType.Path, Path = \"[Wheat].Structure\")]",
-            "//        private Structure structure;",
-            "//        ",
-            "//        private Zone thisZone {get; set;}",
-            "//        ",
-            "//        ",
-            "//        [JsonIgnore] public int LeafPosition { get; set; }",
-            "//        [JsonIgnore] public double LeafSize { get; set; }",
-            "//        [JsonIgnore] public double MaxLeafSize { get; set; }",
-            "//        ",
-            "",
-            "        ",
-            "",
-            "//        [EventSubscribe(\"StartOfSimulation\")]",
-            "//        private void DoStartOfSimulation(object sender, EventArgs e)",
-            "//        {",
-            "//               thisZone = this.Parent.Parent as Zone;",
-            "//        }",
-            "//        ",
-            "//        [EventSubscribe(\"NewLeaf\")]",
-            "//        private void OnNewLeaf(object sender, EventArgs e)",
-            "//        {",
-            "//                LeafPosition = (int)Structure.Get(\"Wheat.Leaf.ExpandedCohortNo\", relativeTo: thisZone); ",
-            "//                LeafSize =   (double)Structure.Get(\"Wheat.Leaf.CohortSize[\"+((LeafPosition+1).ToString())+\"]\", relativeTo: thisZone);",
-            "//                MaxLeafSize = (double)Structure.Get(\"Wheat.Leaf.CohortMaxArea[\"+((LeafPosition+1).ToString())+\"]\", relativeTo: thisZone);",
-            "//                LeafReport.Invoke(this, new EventArgs());",
-            "//        }",
-            "    }",
-            "}"
-          ],
-          "Parameters": [],
-          "Name": "MaxLeafSize",
-          "ResourceName": null,
-          "Children": [],
-          "Enabled": true,
-          "ReadOnly": false
-        },
-        {
           "$type": "Models.Report, Models",
           "VariableNames": [
             "//[MaxLeafSize].Script.LeafSize",
-            "//[MaxLeafSize].Script.LeafPosition",
-            "//[MaxLeafSize].Script.MaxLeafSize"
+            "[OutputMaxLeafSize].Script.LeafPosition",
+            "[OutputMaxLeafSize].Script.MaxLeafSize"
           ],
           "EventNames": [
-            "//[MaxLeafSize].Script.LeafReport"
+            "[OutputMaxLeafSize].Script.ReportLeafSize"
           ],
           "GroupByVariableName": null,
           "Name": "MaxLeafSizeReport",
@@ -138960,6 +138943,73 @@
           ],
           "GroupByVariableName": null,
           "Name": "NDVIDailyReport",
+          "ResourceName": null,
+          "Children": [],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Manager, Models",
+          "CodeArray": [
+            "using APSIM.Core;",
+            "using Models.Core.Run;",
+            "using Newtonsoft.Json;",
+            "using APSIM.Shared.Utilities;",
+            "using Models.Soils.Arbitrator;",
+            "using Models.PMF.Organs;",
+            "using Models.PMF;",
+            "using Models.Interfaces;",
+            "using Models.Core;",
+            "using System.Xml.Serialization;",
+            "using System.Collections.Generic;",
+            "using System;",
+            "using Models.PMF.Struct;",
+            "using Models.Soils;",
+            "",
+            "namespace Models",
+            "{",
+            "    [Serializable] ",
+            "    public class Script : Model, IStructureDependency",
+            "    {",
+            "        public  event EventHandler ReportLeafSize;",
+            "        [Link] private Zone zone;",
+            "        [Link] private Clock clock;",
+            "        public IStructure Structure { private get; set; }",
+            "        ",
+            "        ",
+            "        [JsonIgnore] public int NextLeafPosition { get; set; }",
+            "        [JsonIgnore] public int LeafPosition { get; set; }",
+            "        [JsonIgnore] public double MaxLeafSize { get; set; }",
+            "        ",
+            "",
+            "        [EventSubscribe(\"[Wheat].Sowing\")]",
+            "        private void OnSow(object sender, EventArgs e)",
+            "        {",
+            "        LeafPosition = 0;",
+            "        NextLeafPosition = 1;",
+            "        }",
+            "        ",
+            "        [EventSubscribe(\"DoManagement\")]",
+            "        private void OnDoManagement(object sender, EventArgs e)",
+            "        {",
+            "            double haunStage = (double)Structure.Get(\"Wheat.Phenology.HaunStage.Value()\", relativeTo: zone);",
+            "            double maxLeafSize = (double)Structure.Get(\"Wheat.Leaf.MaximumSize.Value()\", relativeTo: zone) * 1000000;",
+            "            ",
+            "            if (haunStage > NextLeafPosition) ",
+            "            {",
+            "                ",
+            "                LeafPosition = (int)haunStage;",
+            "                NextLeafPosition = LeafPosition+1;",
+            "                MaxLeafSize = maxLeafSize;",
+            "                if (ReportLeafSize != null)",
+            "                    ReportLeafSize.Invoke(this, new EventArgs());",
+            "            }",
+            "        }",
+            "    }",
+            "}"
+          ],
+          "Parameters": [],
+          "Name": "OutputMaxLeafSize",
           "ResourceName": null,
           "Children": [],
           "Enabled": true,
