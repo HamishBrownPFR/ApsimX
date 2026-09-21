@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 206,
+  "Version": 221,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -159,7 +159,7 @@
             "[Wheat].Leaf.Dead.NConc",
             "[Wheat].Leaf.Dead.Wt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Leaf.FinalLeafNumber",
             "[Wheat].Leaf.Fn",
             "[Wheat].Leaf.Fw",
@@ -269,7 +269,7 @@
             "[Wheat].Leaf.Live.NConc",
             "[Wheat].Leaf.Live.StructuralWt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Phenology.CAMP.TSHS",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
@@ -343,8 +343,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 92"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Osprey",
                       "ResourceName": null,
                       "Children": [],
@@ -361,8 +360,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 99"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Rosella",
                       "ResourceName": null,
                       "Children": [],
@@ -379,8 +377,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 96"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Whistler",
                       "ResourceName": null,
                       "Children": [],
@@ -397,8 +394,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 89"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wylah",
                       "ResourceName": null,
                       "Children": [],
@@ -415,8 +411,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 98"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wedgetail",
                       "ResourceName": null,
                       "Children": [],
@@ -433,8 +428,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 94"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Kittyhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -451,8 +445,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 84"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Illabo",
                       "ResourceName": null,
                       "Children": [],
@@ -469,8 +462,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 91"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Mowhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -487,8 +479,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 54"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Meering",
                       "ResourceName": null,
                       "Children": [],
@@ -505,8 +496,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 56"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Janz",
                       "ResourceName": null,
                       "Children": [],
@@ -523,8 +513,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 61"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Yitpi",
                       "ResourceName": null,
                       "Children": [],
@@ -541,8 +530,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 54"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wyalkatchem",
                       "ResourceName": null,
                       "Children": [],
@@ -559,8 +547,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 54"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Gregory",
                       "ResourceName": null,
                       "Children": [],
@@ -577,8 +564,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 63"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Mace",
                       "ResourceName": null,
                       "Children": [],
@@ -595,8 +581,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 71"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Scepter",
                       "ResourceName": null,
                       "Children": [],
@@ -613,8 +598,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 58"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Sunmaster",
                       "ResourceName": null,
                       "Children": [],
@@ -644,7 +628,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "GrassPatch2024Base",
           "ResourceName": null,
           "Children": [
@@ -827,6 +810,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [
@@ -2097,6 +2081,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -2105,7 +2090,7 @@
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "CERESSoilTemperature",
+                      "Name": "Temperature0",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,

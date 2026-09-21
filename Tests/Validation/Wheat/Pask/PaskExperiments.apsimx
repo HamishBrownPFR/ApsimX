@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 208,
+  "Version": 221,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -1433,8 +1433,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "None0N",
                       "ResourceName": null,
                       "Children": [],
@@ -1452,8 +1451,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Early70N",
                       "ResourceName": null,
                       "Children": [],
@@ -1471,8 +1469,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 80"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Split70:80N",
                       "ResourceName": null,
                       "Children": [],
@@ -1490,8 +1487,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 150"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Split300N",
                       "ResourceName": null,
                       "Children": [],
@@ -1509,8 +1505,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 200"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Split400N",
                       "ResourceName": null,
                       "Children": [],
@@ -1528,8 +1523,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 250"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Split500N",
                       "ResourceName": null,
                       "Children": [],
@@ -1547,8 +1541,7 @@
                         "[FertDate1].Script.FertiliserDates = 6-nov",
                         "[FertDate1].Script.Amount = 250"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Split150:250N",
                       "ResourceName": null,
                       "Children": [],
@@ -1578,7 +1571,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Pask LC07base",
           "ResourceName": null,
           "Children": [
@@ -1778,6 +1770,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [],
@@ -3116,6 +3109,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -5678,8 +5672,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "0",
                       "ResourceName": null,
                       "Children": [],
@@ -5700,8 +5693,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 15"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "70",
                       "ResourceName": null,
                       "Children": [],
@@ -5722,8 +5714,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 55"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "150",
                       "ResourceName": null,
                       "Children": [],
@@ -5744,8 +5735,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 90"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "220",
                       "ResourceName": null,
                       "Children": [],
@@ -5766,8 +5756,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 125"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "290",
                       "ResourceName": null,
                       "Children": [],
@@ -5788,8 +5777,7 @@
                         "[FertDate2].Script.FertiliserDates = 11-May",
                         "[FertDate2].Script.Amount = 165"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "370",
                       "ResourceName": null,
                       "Children": [],
@@ -5819,7 +5807,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Pask TT06base",
           "ResourceName": null,
           "Children": [
@@ -6019,6 +6006,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [],
@@ -6940,7 +6928,8 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "CERESSoilTemperature",
+                      "InteractionsPerDay": 8,
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -9851,8 +9840,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "0",
                       "ResourceName": null,
                       "Children": [],
@@ -9873,8 +9861,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 10"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "60",
                       "ResourceName": null,
                       "Children": [],
@@ -9895,8 +9882,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 40"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "120",
                       "ResourceName": null,
                       "Children": [],
@@ -9917,8 +9903,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 70"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "180",
                       "ResourceName": null,
                       "Children": [],
@@ -9939,8 +9924,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 110"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "260",
                       "ResourceName": null,
                       "Children": [],
@@ -9961,8 +9945,7 @@
                         "[FertDate2].Script.FertiliserDates = 9-May",
                         "[FertDate2].Script.Amount = 150"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "340",
                       "ResourceName": null,
                       "Children": [],
@@ -9992,7 +9975,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Pask TT07base",
           "ResourceName": null,
           "Children": [
@@ -10192,6 +10174,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [],
@@ -11111,7 +11094,8 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "CERESSoilTemperature",
+                      "InteractionsPerDay": 8,
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,

@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 216,
+  "Version": 221,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -2294,6 +2294,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -6256,6 +6257,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -9323,6 +9325,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -12136,6 +12139,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -17890,6 +17894,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -24087,6 +24092,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],
@@ -26822,6 +26828,7 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
+                      "PlantType": null,
                       "Name": "Wheat",
                       "ResourceName": "Wheat",
                       "Children": [],

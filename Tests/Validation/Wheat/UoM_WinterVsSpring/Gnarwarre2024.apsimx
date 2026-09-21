@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 206,
+  "Version": 221,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -167,7 +167,7 @@
             "[Wheat].Leaf.Dead.NConc",
             "[Wheat].Leaf.Dead.Wt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Leaf.FinalLeafNumber",
             "[Wheat].Leaf.Fn",
             "[Wheat].Leaf.Fw",
@@ -277,7 +277,7 @@
             "[Wheat].Leaf.Live.NConc",
             "[Wheat].Leaf.Live.StructuralWt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Phenology.CAMP.TSHS",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
@@ -351,8 +351,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 153"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Illabo",
                       "ResourceName": null,
                       "Children": [],
@@ -369,8 +368,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 140"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "BigRed",
                       "ResourceName": null,
                       "Children": [],
@@ -387,8 +385,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 125"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Sunmaster",
                       "ResourceName": null,
                       "Children": [],
@@ -405,8 +402,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 95"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Zanzibar",
                       "ResourceName": null,
                       "Children": [],
@@ -436,7 +432,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Gnarwarre2024Base",
           "ResourceName": null,
           "Children": [
@@ -618,6 +613,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [
@@ -914,7 +910,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2024\n\nFERTILISER\n{this was done by the \"Sowing Fertiliser\" script; first for TOS 1, second for TOS 2, but in your format}\n\n2024-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2024-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n{this is done by the \"Fertiliser on a date\" script; same for each TOS}\n\n2024-07-18 [Fertiliser].Apply(amount: 109, type: \"UreaGranular\");\n\n2024-08-14 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Text": "Gnarwarre 2024\n\nFERTILISER\n{this was done by the \"Sowing Fertiliser\" script; first for TOS 1, second for TOS 2, but in your format}\n\n2024-05-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2024-10-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n{this is done by the \"Fertiliser on a date\" script; same for each TOS}\n\n2024-07-18 [#Fertiliser].Apply(amount: 109, type: \"UreaGranular\");\n\n2024-08-14 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -948,7 +944,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2024\n\nFERTILISER\n{this was done by the \"Sowing Fertiliser\" script; first for TOS 1, second for TOS 2, but in your format}\n\n2024-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2024-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n{this is done by the \"Fertiliser on a date\" script; same for each TOS}\n\n2024-07-18 [Fertiliser].Apply(amount: 109, type: \"UreaGranular\");\n\n2024-08-14 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Text": "Gnarwarre 2024\n\nFERTILISER\n{this was done by the \"Sowing Fertiliser\" script; first for TOS 1, second for TOS 2, but in your format}\n\n2024-05-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2024-10-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n{this is done by the \"Fertiliser on a date\" script; same for each TOS}\n\n2024-07-18 [#Fertiliser].Apply(amount: 109, type: \"UreaGranular\");\n\n2024-08-14 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -1606,6 +1602,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],
@@ -1614,7 +1611,7 @@
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "CERESSoilTemperature",
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
