@@ -3798,38 +3798,24 @@
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
                   "Name": "CriticalNConcAt350ppm",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.XYPairs, Models",
-                      "X": [
-                        3.0,
-                        4.0,
-                        5.0,
-                        6.0,
-                        7.0,
-                        8.0
-                      ],
-                      "Y": [
-                        0.043,
-                        0.043,
-                        0.04,
-                        0.028,
-                        0.02,
-                        0.015
-                      ],
-                      "Name": "XYPairs",
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[Leaf].MaximumNConc",
+                      "Name": "MaximumNConc",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
                     },
                     {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].Stage",
-                      "Name": "XValue",
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 0.65,
+                      "Units": null,
+                      "Name": "PropCrit",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -4684,15 +4670,13 @@
                     3.0,
                     4.5,
                     5.5,
-                    9.5,
                     11.0
                   ],
                   "Y": [
-                    0.06,
-                    0.06,
+                    0.055,
+                    0.055,
                     0.045,
-                    0.035,
-                    0.005
+                    0.045
                   ],
                   "Name": "XYPairs",
                   "ResourceName": null,
@@ -4851,40 +4835,12 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.LinearInterpolationFunction, Models",
+              "$type": "Models.Functions.Constant, Models",
+              "FixedValue": 0.005,
+              "Units": "0-1",
               "Name": "MinimumNConc",
               "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Functions.XYPairs, Models",
-                  "X": [
-                    3.0,
-                    4.0,
-                    5.0,
-                    6.0
-                  ],
-                  "Y": [
-                    0.01,
-                    0.01,
-                    0.01,
-                    0.005
-                  ],
-                  "Name": "XYPairs",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                },
-                {
-                  "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[Phenology].Stage",
-                  "Name": "XValue",
-                  "ResourceName": null,
-                  "Children": [],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
+              "Children": [],
               "Enabled": true,
               "ReadOnly": false
             },
@@ -5126,7 +5082,7 @@
             },
             {
               "$type": "Models.Functions.Constant, Models",
-              "FixedValue": 0.03,
+              "FixedValue": 0.01,
               "Units": null,
               "Name": "NRetranslocationFactor",
               "ResourceName": null,
@@ -6495,8 +6451,8 @@
                     "NaN"
                   ],
                   "Y": [
-                    0.02,
-                    0.02,
+                    0.024,
+                    0.024,
                     0.005,
                     "NaN"
                   ],
@@ -6544,7 +6500,7 @@
                 },
                 {
                   "$type": "Models.Functions.Constant, Models",
-                  "FixedValue": 0.7,
+                  "FixedValue": 0.5,
                   "Units": null,
                   "Name": "MinimumNConc",
                   "ResourceName": null,
@@ -7621,14 +7577,14 @@
                   "$type": "Models.Functions.XYPairs, Models",
                   "X": [
                     3.0,
-                    4.5,
+                    5.0,
                     6.0,
                     9.5,
                     11.0
                   ],
                   "Y": [
-                    0.055,
-                    0.055,
+                    0.04,
+                    0.04,
                     0.02,
                     0.012,
                     0.005
@@ -7735,7 +7691,7 @@
                   "Children": [
                     {
                       "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.05,
+                      "FixedValue": 0.03,
                       "Units": null,
                       "Name": "Fraction",
                       "ResourceName": null,
@@ -7756,7 +7712,7 @@
                   "Children": [
                     {
                       "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.1,
+                      "FixedValue": 0.03,
                       "Units": null,
                       "Name": "Fraction",
                       "ResourceName": null,
@@ -8380,89 +8336,7 @@
               "$type": "Models.PMF.RetranslocateNonStructural, Models",
               "Name": "RetranslocateNitrogen",
               "ResourceName": null,
-              "Children": [
-                {
-                  "$type": "Models.Functions.PhaseLookup, Models",
-                  "Name": "PartitionFraction",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "",
-                      "Name": "memo",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "Emergence",
-                      "End": "MaximumSpikeletPrimordia",
-                      "Name": "PreStemElongation",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.26,
-                          "Units": null,
-                          "Name": "StemFraction",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "MaximumSpikeletPrimordia",
-                      "End": "FlagLeafAppearance",
-                      "Name": "StemElongation",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.7,
-                          "Units": "0",
-                          "Name": "StemFraction",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.PhaseLookupValue, Models",
-                      "Start": "FlagLeafAppearance",
-                      "End": "MaximumGrainLength",
-                      "Name": "EarEmergence",
-                      "ResourceName": null,
-                      "Children": [
-                        {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 0.3,
-                          "Units": null,
-                          "Name": "StemFraction",
-                          "ResourceName": null,
-                          "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        }
-                      ],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
-                  "Enabled": true,
-                  "ReadOnly": false
-                }
-              ],
+              "Children": [],
               "Enabled": true,
               "ReadOnly": false
             },
