@@ -15199,7 +15199,7 @@
                       "MarkerSize": 0,
                       "Line": 4,
                       "LineThickness": 0,
-                      "TableName": "HarvestObsPred",
+                      "TableName": "DailyObsPred",
                       "XFieldName": "Observed.Wheat.Leaf.Live.NConc",
                       "YFieldName": "Predicted.Wheat.Leaf.Live.NConc",
                       "X2FieldName": null,
@@ -15220,15 +15220,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
