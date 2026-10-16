@@ -141,8 +141,13 @@ agTreats = {
             }
 
 # %%
+emergenceExcel = os.path.join(root,"EmergenceDAS.xlsx")
+NaPA_Emergence = pd.read_excel(emergenceExcel)
+
+# %%
 ExptInfo.loc[:,'SowInfo']={}
 for e in Experiments:
+#for e in Experiments[1:]:
     tosData = NaPALentil_Design.loc[e,['TOS', 'TOSDate']].drop_duplicates()
     sowTrts = tosData.TOS.to_list()
     sowTrts.sort()
@@ -162,7 +167,13 @@ for e in Experiments:
             sdic['emergeDate'] = 'null'
             sdic['sowDepth'] = 30
             sdic['rowWidth'] = 400
-            
+        try:
+            emDAS = int(NaPA_Emergence[(NaPA_Emergence['Experiment']==e) & (NaPA_Emergence['TOS']==st)]['EmergeDAS'].mean())
+            sdic['emergeDate'] = (pd.to_datetime(sdic['sowDate'],dayfirst=True) + dt.timedelta(emDAS)).strftime('%d-%b')
+            print('Emergence date overwritten with value from observed file (assuming this is the correct one')
+        except:
+            print(e+" "+str(st)+" has no observed emergence date")
+        
         sdic['endDate'] = "31-dec-"+str(NaPA_Experiment.loc[e,'Year'])
         sdic['popn'] = 100
         
