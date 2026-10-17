@@ -835,7 +835,7 @@
           "Name": "Harvesting",
           "ResourceName": null,
           "Children": [],
-          "Enabled": true,
+          "Enabled": false,
           "ReadOnly": false
         },
         {
@@ -9627,15 +9627,16 @@
                     "",
                     "        ",
                     "",
-                    "        [EventSubscribe(\"DoManagement\")]",
-                    "        private void OnDoManagement(object sender, EventArgs e)",
+                    "    [EventSubscribe(\"DoManagement\")]",
+                    "    private void OnDoManagement(object sender, EventArgs e)",
+                    "    {",
+                    "        // Changed >= to <=",
+                    "        if (Wheat.IsReadyForHarvesting && DateUtilities.CompareDates(NoHarvestBefore, clock.Today) <= 0)",
                     "        {",
-                    "            if (Wheat.IsReadyForHarvesting && DateUtilities.CompareDates(NoHarvestBefore, clock.Today) >= 0)",
-                    "            {",
-                    "                Wheat.Harvest();",
-                    "                Wheat.EndCrop();",
-                    "            }",
+                    "            Wheat.Harvest();",
+                    "            Wheat.EndCrop();",
                     "        }",
+                    "    }",
                     "        ",
                     "        [EventSubscribe(\"EndOfDay\")]",
                     "        private void OnEndOfDay(object sender, EventArgs e)",
@@ -9653,7 +9654,7 @@
                   "Parameters": [
                     {
                       "Key": "NoHarvestBefore",
-                      "Value": "17-Nov"
+                      "Value": "25-Nov"
                     }
                   ],
                   "Name": "Harvest",
