@@ -43,7 +43,6 @@ library(dplyr)
 library(plotly) 
 library(readr)
 library(reactable)
-
 library(dplyr)
 library(readr)
 library(stringr)
@@ -259,7 +258,7 @@ This plot checks the spread of the base phyllochron parameter across all simulat
 
 ```{r}
 #| label: fig-graph-phyllo
-#| fig-cap: "Distribution of Phyllochron values by Cultivar assumed across Experiments"
+#| fig-cap: "Distribution of Phyllochron values by Cultivar assumed across Experiments. Medians shown as red `x`."
 #| echo: false
 #| message: false
 #| fig-height: 8
@@ -327,7 +326,7 @@ Similarly to phyllochron, the graph below shows the uncertanty in the sensitivit
 
 ```{r}
 #| label: fig-graph-phylloPP
-#| fig-cap: "Distribution of Photoperiod Sensitivity of Phyllochron across Cultivars."
+#| fig-cap: "Distribution of Photoperiod Sensitivity of Phyllochron across Cultivars. Medians shown as red `x`."
 #| echo: false
 #| message: false
 #| fig-height: 8

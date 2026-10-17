@@ -9076,7 +9076,7 @@
             {
               "$type": "Models.Clock, Models",
               "Start": "1987-07-01T00:00:00",
-              "End": "1997-06-30T00:00:00",
+              "End": "1990-06-30T00:00:00",
               "Name": "Clock",
               "ResourceName": null,
               "Children": [],
