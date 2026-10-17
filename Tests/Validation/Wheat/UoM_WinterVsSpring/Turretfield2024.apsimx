@@ -244,7 +244,7 @@
           "Name": "Harvesting",
           "ResourceName": null,
           "Children": [],
-          "Enabled": true,
+          "Enabled": false,
           "ReadOnly": false
         },
         {
@@ -814,6 +814,46 @@
                       "Children": [],
                       "Enabled": true,
                       "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Factorial.Factor, Models",
+                      "Specification": "",
+                      "Name": "Sow",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Factorial.CompositeFactor, Models",
+                          "Specifications": [
+                            "[Sowing].Script.SowDate = 16-Apr",
+                            "[ManagementSpring].Enabled = false",
+                            "[ManagementWinter].Enabled = true"
+                          ],
+                          "Paths": null,
+                          "Values": null,
+                          "Name": "16-Apr",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Factorial.CompositeFactor, Models",
+                          "Specifications": [
+                            "[Sowing].Script.SowDate = 15-May",
+                            "[ManagementSpring].Enabled = true",
+                            "[ManagementWinter].Enabled = false"
+                          ],
+                          "Paths": null,
+                          "Values": null,
+                          "Name": "15-May",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
                     }
                   ],
                   "Enabled": true,
@@ -846,8 +886,8 @@
             },
             {
               "$type": "Models.Clock, Models",
-              "Start": "2024-04-15T00:00:00",
-              "End": "2024-11-22T00:00:00",
+              "Start": "2024-04-14T00:00:00",
+              "End": "2024-11-14T00:00:00",
               "Name": "Clock",
               "ResourceName": null,
               "Children": [],

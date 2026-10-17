@@ -263,14 +263,14 @@ list(
     )
   ),
 
-#   
-  tar_target(
-    name = df_pheno_haun,
-    command = derive_pheno_stages_from_haun(
-      df_input       = list_observed_dfs_fixes_emerg,
-      max_leaf_limit = config$max_leaf_limit
-    )
-  ),
+#   haun was calculated differently in this trial and cannot be used (jbathgate@csu.edu.au)
+  # tar_target(
+  #   name = df_pheno_haun,
+  #   command = derive_pheno_stages_from_haun(
+  #     df_input       = list_observed_dfs_fixes_emerg,
+  #     max_leaf_limit = config$max_leaf_limit
+  #   )
+  # ),
 
 
   # Haun is not scaled consistently with others
@@ -279,7 +279,7 @@ list(
     name = df_pheno_final,
     command = merge_and_qc_pheno(
       df_raw  = df_pheno_raw,
-      df_haun = df_pheno_haun,
+      df_haun = NULL,
       df_in = df_pheno_int
     )
   ),
@@ -301,11 +301,11 @@ list(
 #   
 #   
 #   # 2. THE GATEKEEPER (The new Universal script)
-  # tar_target(
-  #   name = qc_pheno_input_param,
-  #   command = check_pheno_integrity(df_pheno_input_param,
-  #                                   expected_sims = df_simNameByCult)
-  #  ),
+  tar_target(
+    name = qc_pheno_input_param,
+    command = check_pheno_integrity(df_pheno_input_param,
+                                    expected_sims = df_simNameByCult)
+   ),
 #   # ----------------------------------------------------------------------------
 #   # PHASE E: FINAL OBSERVATION FORMATTING
 #   # ----------------------------------------------------------------------------
@@ -457,16 +457,16 @@ list(
     )
   ),
 
-  # FIXME: qc_pheno_integrity
-  # tar_target(
-  #   name = msg_pheno_param_saved,
-  #   command = save_df_into_csv(
-  #     df       = qc_pheno_input_param,
-  #     folder   = config$folder_inputs,
-  #     filename = config$file_name_input_pheno
-  #   ),
-  #   format = "file"
-  # ),
+  #FIXME: qc_pheno_integrity
+  tar_target(
+    name = msg_pheno_param_saved,
+    command = save_df_into_csv(
+      df       = qc_pheno_input_param,
+      folder   = config$folder_inputs,
+      filename = config$file_name_input_pheno
+    ),
+    format = "file"
+  ),
 
 
   # ----------------------------------------------------------------------------
