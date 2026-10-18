@@ -195,29 +195,29 @@ list(
     }
   ),
   
+  
+  tar_target(
+    name = list_observed_dfs_emerg,
+    command = calc_emerg_perc(
+      df_tbl            = list_observed_dfs_raw,  # <--- Change this from df_list to df_tbl
+      df_input_var_name = "pcds_3_emergPlants",
+      df_new_var_name   = "pcds_3_emergPlants_Perc"
+    )
+  ),
+  
   # TEMPORARY FIX for MISSING DATES
   tar_target(
-    name = list_observed_dfs_fixes,
+    name = list_observed_dfs_emerg_fixes,
     command = apply_corrections_Turret24(
-      list_df_obs        = list_observed_dfs_raw,          # Your raw nested observation list target
+      list_df_obs        = list_observed_dfs_emerg,          # Your raw nested observation list target
       df_meta            = df_obs_meta_data,     # The metadata dataframe target above
       df_meta_date_col   = "SampleDateApprox",# The column containing fallback dates
       ref_date = config$ref_date
     )
   ),
   
-  
-  tar_target(
-    name = list_observed_dfs_fixes_emerg,
-    command = calc_emerg_perc(
-      df_tbl            = list_observed_dfs_fixes,  # <--- Change this from df_list to df_tbl
-      df_input_var_name = "pcds_3_emergPlants",
-      df_new_var_name   = "pcds_3_emergPlants_Perc"
-    )
-  ),
-  
   # 5. THE LOCAL INTERCEPTOR (Project-Specific Fixes)
-  # --- MAY BE REMOVED OR CHANGED AS RAW DATA IS IMPROVED -----
+  #--- MAY BE REMOVED OR CHANGED AS RAW DATA IS IMPROVED -----
   # tar_target(
   #   name = list_observed_dfs_fix,
   #   command = apply_local_fixes(
@@ -225,7 +225,7 @@ list(
   #     df_obs_info  = df_obs_meta_data,
   #     ref_date     = config$ref_date,
   #     max_haun     = 12,
-  #     min_spr_sow_date="16-Apr", 
+  #     min_spr_sow_date="16-Apr",
   #     min_wint_sow_date="15-May"
   #   )
   # ),
@@ -238,7 +238,7 @@ list(
   tar_target(
     name = list_pcds_extracted,
     command = filter_and_extract_pcds(
-      list_observed_dfs = list_observed_dfs_fixes_emerg,
+      list_observed_dfs = list_observed_dfs_emerg_fixes,
       pcd_stages        = config$pcd_stages_to_extract
     )
   ),
@@ -313,7 +313,7 @@ list(
   tar_target(
     name = df_obs_wide,
     command = prepare_apsim_observed(
-      compiled_obs = list_observed_dfs_fixes_emerg,
+      compiled_obs = list_observed_dfs_emerg_fixes,
       dfs_out      = c("weather_qc_checks") # Datasets to exclude
     )
   ),

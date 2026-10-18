@@ -230,3 +230,8 @@ tar_load(df_pheno_input_param)
 tar_load(df_pheno_haun)
 ```
 
+```{r}
+tar_load(list_observed_dfs_emerg)
+tar_load(list_pcds_extracted)
+```
+
