@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 206,
+  "Version": 222,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -167,7 +167,7 @@
             "[Wheat].Leaf.Dead.NConc",
             "[Wheat].Leaf.Dead.Wt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Leaf.FinalLeafNumber",
             "[Wheat].Leaf.Fn",
             "[Wheat].Leaf.Fw",
@@ -277,7 +277,7 @@
             "[Wheat].Leaf.Live.NConc",
             "[Wheat].Leaf.Live.StructuralWt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Phenology.CAMP.TSHS",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
@@ -351,8 +351,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 126"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowAprIllabo",
                       "ResourceName": null,
                       "Children": [],
@@ -369,8 +368,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 130"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowAprBigRed",
                       "ResourceName": null,
                       "Children": [],
@@ -387,8 +385,7 @@
                         "[ManagementWinter].Enabled = true",
                         "[Sowing].Script.Population = 129"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowAprStockade",
                       "ResourceName": null,
                       "Children": [],
@@ -405,8 +402,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 159"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowMaySunmaster",
                       "ResourceName": null,
                       "Children": [],
@@ -423,8 +419,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 167"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowMayZanzibar",
                       "ResourceName": null,
                       "Children": [],
@@ -441,8 +436,7 @@
                         "[ManagementWinter].Enabled = false",
                         "[Sowing].Script.Population = 164"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "SowMayIllabo",
                       "ResourceName": null,
                       "Children": [],
@@ -474,8 +468,7 @@
                         "[PGRApp].Script.PGR = \"None\"",
                         "[PGRApp].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "No",
                       "ResourceName": null,
                       "Children": [],
@@ -488,8 +481,7 @@
                         "[PGRApp].Script.PGR = \"Moddus\"",
                         "[PGRApp].Script.Amount = 1"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Yes",
                       "ResourceName": null,
                       "Children": [],
@@ -510,7 +502,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Gnarwarre2025Base",
           "ResourceName": null,
           "Children": [
@@ -692,6 +683,7 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
+                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [],
@@ -981,7 +973,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\n\n\n",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [#Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [#Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\n\n\n",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -1004,10 +996,10 @@
                     },
                     {
                       "$type": "Models.Operation, Models",
-                      "Enabled": false,
-                      "Date": null,
-                      "Action": null,
-                      "Line": "22025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
+                      "Enabled": true,
+                      "Date": "2025-07-16",
+                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\");",
+                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
                     },
                     {
                       "$type": "Models.Operation, Models",
@@ -1022,7 +1014,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [#Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [#Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [#Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [#Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -1680,6 +1672,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],
@@ -1688,7 +1681,7 @@
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "CERESSoilTemperature",
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
