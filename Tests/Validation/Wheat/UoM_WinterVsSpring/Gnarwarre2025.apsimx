@@ -967,6 +967,13 @@
                       "Date": "2025-07-16",
                       "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\");",
                       "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
+                      "Enabled": true,
+                      "Date": "2025-08-22",
+                      "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Line": "2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");"
                     }
                   ],
                   "Name": "ManagementWinter",
@@ -974,7 +981,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\n\n\n",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -997,6 +1004,13 @@
                     },
                     {
                       "$type": "Models.Operation, Models",
+                      "Enabled": false,
+                      "Date": null,
+                      "Action": null,
+                      "Line": "22025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
+                    },
+                    {
+                      "$type": "Models.Operation, Models",
                       "Enabled": true,
                       "Date": "2025-08-22",
                       "Action": "[Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
@@ -1008,7 +1022,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
+                      "Text": "Gnarwarre 2025\n\n\nFERTILISER\n\n2025-05-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-10-24 [Fertiliser].Apply(amount: 100, type: \"MAP\");\n\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");\n\n\nBen's email 19/10/26\n\nAs per what was sent back in May. Both sowings receive the same urea applications:\n\nGnarwarre 2025\n\nFERTILISER\n2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");\n2025-08-22 [Fertiliser].Apply(amount: 217, type: \"UreaGranular\");",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
