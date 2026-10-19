@@ -10121,11 +10121,7 @@
                 {
                   "$type": "Models.PMF.Cultivar, Models",
                   "Command": [
-                    "[Phenology].JuvenileBase.FixedValue = 230",
-                    "[Phenology].VernSensitivity.FixedValue = 0.51",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 0.34",
-                    "[Phenology].TtFlowerDevelopment.FixedValue = 300",
-                    "[Phenology].TtPodDevelopment.FixedValue = 250"
+                    ""
                   ],
                   "Name": "Laird",
                   "ResourceName": null,
@@ -10136,11 +10132,7 @@
                 {
                   "$type": "Models.PMF.Cultivar, Models",
                   "Command": [
-                    "[Phenology].JuvenileBase.FixedValue = 0",
-                    "[Phenology].VernSensitivity.FixedValue = 0.32",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 1.78",
-                    "[Phenology].TtFlowerDevelopment.FixedValue = 300",
-                    "[Phenology].TtPodDevelopment.FixedValue = 195"
+                    ""
                   ],
                   "Name": "Syrian",
                   "ResourceName": null,
@@ -10151,11 +10143,7 @@
                 {
                   "$type": "Models.PMF.Cultivar, Models",
                   "Command": [
-                    "[Phenology].JuvenileBase.FixedValue = 200",
-                    "[Phenology].VernSensitivity.FixedValue = 0.71",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 0.41",
-                    "[Phenology].TtFlowerDevelopment.FixedValue = 135",
-                    "[Phenology].TtPodDevelopment.FixedValue = 50"
+                    ""
                   ],
                   "Name": "Ethiopian",
                   "ResourceName": null,
@@ -10166,11 +10154,7 @@
                 {
                   "$type": "Models.PMF.Cultivar, Models",
                   "Command": [
-                    "[Phenology].JuvenileBase.FixedValue = 110",
-                    "[Phenology].VernSensitivity.FixedValue = 0.45",
-                    "[Phenology].InductivePpSensitivity.FixedValue = 0.23",
-                    "[Phenology].TtFlowerDevelopment.FixedValue = 135",
-                    "[Phenology].TtPodDevelopment.FixedValue = 30"
+                    ""
                   ],
                   "Name": "Precoz",
                   "ResourceName": null,
