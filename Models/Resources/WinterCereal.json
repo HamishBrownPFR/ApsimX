@@ -3883,7 +3883,7 @@
                         {
                           "$type": "Models.Functions.VariableReference, Models",
                           "VariableName": "[Leaf].MaximumSize",
-                          "Name": "MaxLeafSize",
+                          "Name": "MaximumLeafSize",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
