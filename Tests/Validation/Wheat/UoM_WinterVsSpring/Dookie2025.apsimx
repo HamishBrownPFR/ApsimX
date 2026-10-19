@@ -764,7 +764,7 @@
           "Name": "Harvesting",
           "ResourceName": null,
           "Children": [],
-          "Enabled": true,
+          "Enabled": false,
           "ReadOnly": false
         },
         {
@@ -9531,15 +9531,16 @@
                     "",
                     "        ",
                     "",
-                    "        [EventSubscribe(\"DoManagement\")]",
-                    "        private void OnDoManagement(object sender, EventArgs e)",
+                    "    [EventSubscribe(\"DoManagement\")]",
+                    "    private void OnDoManagement(object sender, EventArgs e)",
+                    "    {",
+                    "        // Changed >= to <=",
+                    "        if (Wheat.IsReadyForHarvesting && DateUtilities.CompareDates(NoHarvestBefore, clock.Today) <= 0)",
                     "        {",
-                    "            if (Wheat.IsReadyForHarvesting && DateUtilities.CompareDates(NoHarvestBefore, clock.Today) >= 0)",
-                    "            {",
-                    "                Wheat.Harvest();",
-                    "                Wheat.EndCrop();",
-                    "            }",
+                    "            Wheat.Harvest();",
+                    "            Wheat.EndCrop();",
                     "        }",
+                    "    }",
                     "        ",
                     "        [EventSubscribe(\"EndOfDay\")]",
                     "        private void OnEndOfDay(object sender, EventArgs e)",
@@ -9557,7 +9558,7 @@
                   "Parameters": [
                     {
                       "Key": "NoHarvestBefore",
-                      "Value": "17-Nov"
+                      "Value": "25-Nov"
                     }
                   ],
                   "Name": "Harvest",
@@ -15104,7 +15105,7 @@
                       "MarkerSize": 0,
                       "Line": 4,
                       "LineThickness": 0,
-                      "TableName": "HarvestObsPred",
+                      "TableName": "DailyObsPred",
                       "XFieldName": "Observed.Wheat.Leaf.Live.NConc",
                       "YFieldName": "Predicted.Wheat.Leaf.Live.NConc",
                       "X2FieldName": null,
@@ -15125,15 +15126,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15178,7 +15179,7 @@
                       "YAxis": 0,
                       "ColourArgb": 0,
                       "FactorToVaryColours": "Sow",
-                      "FactorToVaryMarkers": "TOS",
+                      "FactorToVaryMarkers": "Sow",
                       "FactorToVaryLines": null,
                       "Marker": 0,
                       "MarkerSize": 0,
@@ -15205,15 +15206,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15285,15 +15286,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15365,15 +15366,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15445,15 +15446,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15525,15 +15526,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15605,15 +15606,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15765,15 +15766,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15845,15 +15846,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -15925,15 +15926,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16005,15 +16006,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16085,15 +16086,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16165,15 +16166,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16245,15 +16246,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16325,15 +16326,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16405,15 +16406,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16485,15 +16486,15 @@
                           "Name": "Regression",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": false,
+                          "Enabled": true,
                           "ReadOnly": false
                         }
                       ],
-                      "Enabled": false,
+                      "Enabled": true,
                       "ReadOnly": false
                     }
                   ],
-                  "Enabled": false,
+                  "Enabled": true,
                   "ReadOnly": false
                 },
                 {
@@ -16657,7 +16658,7 @@
                   "ReadOnly": false
                 }
               ],
-              "Enabled": false,
+              "Enabled": true,
               "ReadOnly": false
             },
             {
