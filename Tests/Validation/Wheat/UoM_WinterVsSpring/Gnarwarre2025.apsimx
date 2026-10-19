@@ -1004,10 +1004,10 @@
                     },
                     {
                       "$type": "Models.Operation, Models",
-                      "Enabled": false,
-                      "Date": null,
-                      "Action": null,
-                      "Line": "22025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
+                      "Enabled": true,
+                      "Date": "2025-07-16",
+                      "Action": "[Fertiliser].Apply(amount: 108, type: \"UreaGranular\");",
+                      "Line": "2025-07-16 [Fertiliser].Apply(amount: 108, type: \"UreaGranular\");"
                     },
                     {
                       "$type": "Models.Operation, Models",
