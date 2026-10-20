@@ -1,5 +1,6 @@
 using APSIM.Shared;
 using APSIM.Shared.Utilities;
+using Models.Core;
 
 namespace APSIM.Core;
 
@@ -57,6 +58,9 @@ public class Node : IStructure
         }
     }
 
+    /// <summary>Is the node readonly i.e. not changable.</summary>
+    public bool ReadOnly => Model == null ? false : Model.ReadOnly;
+
     /// <summary>Is initialisation underway?</summary>
     public bool IsInitialising { get; private set; }
 
@@ -87,6 +91,8 @@ public class Node : IStructure
     /// <param name="name">The new name for the node.</param>
     public void Rename(string name)
     {
+        if (ReadOnly)
+            throw new Exception($"Cannot rename model {Name}. It is readonly.");
         Name = name;
         Model.Rename(name);
         EnsureNameIsUnique();
@@ -376,6 +382,22 @@ public class Node : IStructure
     /// <param name="childModel">The child model to add.</param>
     public void AddChild(INodeModel childModel)
     {
+        if (ReadOnly)
+            throw new Exception($"Cannot add a child to model {Name}. It is readonly.");
+
+        // If this node is a Simulations node and the child model being added is a Simulations
+        // node then add the child of ChildModel instead. This is a common
+        // occurrence for model developers who copy a released
+        // model's resource file (JSON) into the GUI so it can be edited.
+        // When this happens, we want to add the first child of the
+        // simulations node (not the simulations node itself!).
+        if (childModel.Name is "Simulations")
+        {
+            childModel = childModel.GetChildren()?.First();
+            if (childModel == null)
+                throw new Exception($"Cannot add a child model named {childModel.Name}");
+        }
+
         var childNode = AddChildDontInitialise(childModel);
 
         // If we arean't in an initial setup phase then initialise all child models.
@@ -411,6 +433,9 @@ public class Node : IStructure
     /// <param name="newModel">The new child model to insert into same position.</param>
     public void ReplaceChild(INodeModel oldModel, INodeModel newModel)
     {
+        if (ReadOnly)
+            throw new Exception($"Cannot replace a child of model {Name}. It is readonly.");
+
         // Determine the position of the old model.
         Node oldChildNode = children.Find(c => c.Model == oldModel);
         if (oldChildNode == null)
@@ -429,6 +454,9 @@ public class Node : IStructure
     /// <param name="childModels">The child model to add.</param>
     public void InsertChild(int index, INodeModel childModel)
     {
+        if (ReadOnly)
+            throw new Exception($"Cannot insert a child of model {Name}. It is readonly.");
+
         // Add the child model to children collection. It will be added to the end of the collection.
         AddChild(childModel);
         Node childNode = children.Find(child => child.Model == childModel);
@@ -449,6 +477,15 @@ public class Node : IStructure
             RemoveChild(child.Model);
     }
 
+    /// <summary>Find and return the root node</summary>
+    public Node Root()
+    {
+        Node root = WalkParents().FirstOrDefault(n => n.Parent == null);
+        if (root != null)
+            return root;
+        else
+            return this;
+    }
 
     /// <summary>
     /// Constructor
@@ -464,13 +501,6 @@ public class Node : IStructure
 
         Name = model.Name;
         Model = model;
-    }
-
-    /// <summary>Find and return the root node</summary>
-    internal Node Root()
-    {
-        return WalkParents().FirstOrDefault(n => n.Parent == null)
-               ?? this;
     }
 
     /// <summary>
@@ -500,11 +530,17 @@ public class Node : IStructure
         // Replace all models that have a ResourceName with the official, released models from resources.
         Resource.Instance.Replace(head);
 
+        //check if this will generate nodes, if so, we can't do this in the background
+        bool willGenerateNodes = false;
+        foreach (var node in head.Walk())
+            if (node.Model is IGenerateNodes)
+                willGenerateNodes = true;
+
         // Initialise the model.
         if (doInitialise)
         {
             // Call created in all models.
-            if (initInBackground)
+            if (initInBackground && !willGenerateNodes)
                 Task.Run(() => head.InitialiseModel(errorHandler));
             else
                 head.InitialiseModel(errorHandler);
@@ -520,8 +556,22 @@ public class Node : IStructure
     {
         try
         {
+            List<IGenerateNodes> generateNodes = new List<IGenerateNodes>();
             foreach (var node in Walk())
+            {
                 node.IsInitialising = true;
+                if (node.Parent != null)
+                        if (node.Model is IGenerateNodes generateNode)
+                            generateNodes.Add(generateNode);
+            }
+                
+            string directory = Path.GetDirectoryName(Walk().First().FileName);
+            foreach (IGenerateNodes model in generateNodes)
+            {
+                model.FilePath.SetStartDirectory(directory);
+                model.DeleteNodes();
+                model.CreateNodes();
+            }
 
             foreach (Node node in Walk().Where(n => n.Model is ICreatable))
             {
@@ -561,6 +611,7 @@ public class Node : IStructure
         childNode.scope = scope;
         childNode.locator = locator;
         childModel.Node = childNode;
+        childModel.ReadOnly = false;
 
         // Resolves child dependencies.
         ResolvesDependencies(childNode);
