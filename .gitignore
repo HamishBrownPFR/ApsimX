@@ -79,7 +79,6 @@ Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 /tests/Validation/WorkFloTest/
 
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints/DataColation-checkpoint.ipynb
-Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints
 
 
@@ -141,3 +140,5 @@ errors.txt
 /Tests/Validation/Wheat/UoM_WinterVsSpring/Password.txt
 /Prototypes/Lentil/VarietyCoeffs.xlsx
 /Tests/Validation/Wheat/_apply_LincolnUni.txt
+*.pdf
+*.xlsx
