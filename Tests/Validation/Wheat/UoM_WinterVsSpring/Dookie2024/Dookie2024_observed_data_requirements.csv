@@ -1,6 +1,7 @@
 df_name,sheet_name,column_name,apsim_var_name,corr_fact
 ndvi_raw,NDVI & height,Plot NDVI,Spectral.NDVI,1
-height_raw,NDVI & height,Canopy height (cm),Wheat.Leaf.Height,10
+height_6_raw,PCDS 6.0 harvest,Canopy height (cm),Wheat.Leaf.Height,10
+height_8_raw,PCDS 8.0 harvest,Canopy height (cm),Wheat.Leaf.Height,10
 haun_raw,Haun stage,Mean Haun stage,Wheat.Phenology.HaunStage,1
 grainSize_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Individual grain weight (mg),Wheat.Grain.Size,0.001
 grainNumber_raw,PCDS 10.0 harvest | PCDS 10.0 harvest Final,Grain number (grains/m²),Wheat.Grain.Number,1
