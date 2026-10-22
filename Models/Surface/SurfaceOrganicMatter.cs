@@ -173,11 +173,13 @@ namespace Models.Surface
         [Units("kg/ha")]
         public double InitialResidueMass { get; set; }
 
+
         /// <summary>Gets or sets the standing fraction of initial residue pool</summary>
         [Summary]
         [Description("Standing fraction (0-1)")]
         [Units("0-1")]
         public double InitialStandingFraction { get; set; }
+
 
         /// <summary>Gets or sets the Carbon:Phosphorus ratio.</summary>
         [Summary]
@@ -279,8 +281,8 @@ namespace Models.Surface
         [Units("kg/ha")]
         public double RemovedP { get; private set; }
 
-        /// <summary>A list of material (biomass) that can be damaged.</summary>
-        public IEnumerable<DamageableBiomass> Material
+         /// <summary>A list of material (biomass) that can be damaged.</summary>
+       public IEnumerable<DamageableBiomass> Material
         {
             get
             {
@@ -301,6 +303,33 @@ namespace Models.Surface
             }
         }
 
+        /// <summary>
+        /// A list of material (biomass) that are suitable for grazing by Stock Model.
+        /// </summary>
+         public IEnumerable<DamageableBiomass> GrazeableMaterial
+        {
+            get
+            {   
+                //Filter SOM for manure. OrganicMatterType manure is specific for Stock model. 
+                var grazeablePools = SurfOM.Where(som => !string.Equals(som.OrganicMatterType, "manure",StringComparison.OrdinalIgnoreCase));
+               
+                // Return an empty live material. Stock won't find the dead material unless there
+                // is matching live material.
+                yield return new DamageableBiomass("SurfaceOrganicMatter.Residue", new Biomass(), isLive: true);
+                yield return new DamageableBiomass("SurfaceOrganicMatter.Residue", new Biomass()
+                {
+                    StructuralWt = (grazeablePools.Sum(som => som.Standing.Sum(om => om.amount)) + grazeablePools.Sum(som => som.Lying.Sum(om => om.amount))) / 10,
+                    StructuralN = (grazeablePools.Sum(som => som.Standing.Sum(om => om.N)) + grazeablePools.Sum(som => som.Lying.Sum(om => om.N)))/10,
+                    MetabolicWt = 0.0,
+                    MetabolicN = 0.0,
+                    StorageWt = 0.0,
+                    StorageN = 0.0,
+                }, isLive: false);
+            }
+        }
+
+
+
         /// <summary>The amount of material incorporated into the soil.</summary>
         public FOMPoolType Incorporated { get; private set; }
 
@@ -313,8 +342,9 @@ namespace Models.Surface
         /// <param name="deadToRemove">Fraction of dead biomass to remove from simulation (0-1).</param>
         /// <param name="liveToResidue">Fraction of live biomass to remove and send to residue pool(0-1).</param>
         /// <param name="deadToResidue">Fraction of dead biomass to remove and send to residue pool(0-1).</param>
+        /// <param name="fractionStanding">Fraction of biomass that remains standing when passed to surfaceOM (0-1).</param>
         /// <returns>The amount of biomass (live+dead) removed from the plant (g/m2).</returns>
-        public double RemoveBiomass(double liveToRemove = 0, double deadToRemove = 0, double liveToResidue = 0, double deadToResidue = 0)
+        public double RemoveBiomass(double liveToRemove = 0, double deadToRemove = 0, double liveToResidue = 0, double deadToResidue = 0, double fractionStanding = 0)
         {
             OMFractionType totalRemoved = new();
             for (int i = 0; i < SurfOM.Count; i++)
@@ -333,6 +363,41 @@ namespace Models.Surface
             RemovedP += totalRemoved.P;
 
             return totalRemoved.amount;
+        }
+
+        /// <summary>
+        /// Remove Biomass excluding the pools containing manure.
+        /// </summary>
+        /// <param name="liveToRemove"></param>
+        /// <param name="deadToRemove"></param>
+        /// <param name="liveToResidue"></param>
+        /// <param name="deadToResidue"></param>
+        /// <param name="fractionStanding"></param>
+        /// <returns></returns>
+        public double RemoveGrazeableBiomass(double liveToRemove = 0, double deadToRemove = 0, double liveToResidue = 0, double deadToResidue = 0, double fractionStanding = 0)
+        {
+            OMFractionType totalRemoved = new();
+            for (int i = 0; i < SurfOM.Count; i++)
+            {
+                 if (SurfOM[i].name != "manure")
+                {
+                   var removed = SurfOM[i].Remove(deadToRemove);
+                    totalRemoved.Add(removed);
+                    SurfOM[i].no3 -= MathUtilities.Divide(no3ppm[i], 1000000.0, 0.0) * removed.amount;
+                    SurfOM[i].nh4 -= MathUtilities.Divide(nh4ppm[i], 1000000.0, 0.0) * removed.amount;
+                    SurfOM[i].po4 -= MathUtilities.Divide(po4ppm[i], 1000000.0, 0.0) * removed.amount; 
+                }
+
+            }
+                    // Update 'Removed' variables
+                    RemovedC += totalRemoved.C;
+                    RemovedN += totalRemoved.N;
+                    RemovedP += totalRemoved.P;
+
+                    return totalRemoved.amount;
+             
+
+           
         }
 
         /// <summary>Called when [reset].</summary>
@@ -505,6 +570,16 @@ namespace Models.Surface
             surfaceResidue.SetLayerFraction(layerFractions);
         }
 
+        /// <summary>
+        /// Simulation is now completed. Make sure that we undo any commands. i.e. reset
+        /// back to default state.
+        /// </summary>
+        [EventSubscribe("Completed")]
+        private void OnSimulationCompleted(object sender, EventArgs e)
+        {
+            Reset();
+        }
+
         /// <summary>Called at start of each day.</summary>
         /// <param name="sender">The sender of the event</param>
         /// <param name="e">The event data.</param>
@@ -630,7 +705,11 @@ namespace Models.Surface
                 double cpr = double.IsNaN(InitialCPR) ? DefaultCPRatio : InitialCPR;
                 totP = MathUtilities.Divide(totC, cpr, 0.0);
 
-                double standFract = double.IsNaN(InitialStandingFraction) ? DefaultCPRatio : InitialStandingFraction;
+                if (InitialStandingFraction < 0 || InitialStandingFraction > 1)
+                    throw new ArgumentOutOfRangeException(nameof(InitialStandingFraction), 
+                        $"Standing Fraction is only allowed to be a number between 0 and 1. " +
+                        $"Please change the value in model located at path: {FullPath}");
+                double standFract = double.IsNaN(InitialStandingFraction) ? 0 : InitialStandingFraction;
 
                 for (int j = 0; j < maxFr; j++)
                 {
@@ -1161,16 +1240,31 @@ namespace Models.Surface
             return MathUtilities.Bound(F_Cover, 0.0, 1.0);
         }
 
+        /// <summary>
+        /// Adds material to the surface organic matter pool. 
+        /// Simplified override with no fractionStanding or optionals
+        /// Provides a default fractionStanding value of 0.
+        /// </summary>
+        /// <param name="mass">The amount of biomass added (kg/ha).</param>
+        /// <param name="N">The amount of N added (kg/ha).</param>
+        /// <param name="P">The amount of P added (kg/ha).</param>
+        /// <param name="type">Type of the biomass.</param>
+        /// <param name="name">Name of the biomass written to summary file</param>
+        public void Add(double mass, double N, double P, string type, string name)
+        {
+            Add(mass, N, P, type, name, 0);
+        }
+
         /// <summary>Adds material to the surface organic matter pool.</summary>
         /// <param name="mass">The amount of biomass added (kg/ha).</param>
         /// <param name="N">The amount of N added (kg/ha).</param>
         /// <param name="P">The amount of P added (kg/ha).</param>
         /// <param name="type">Type of the biomass.</param>
         /// <param name="name">Name of the biomass written to summary file</param>
-        /// <param name="fractionStanding">Fraction standing. Defaults to 0</param>
+        /// <param name="fractionStanding">Fraction standing.</param>
         /// <param name="no3">The amount of no3 added (kg/ha).</param>
         /// <param name="nh4">The amount of nh4 added (kg/ha).</param>
-        public void Add(double mass, double N, double P, string type, string name, double fractionStanding = 0, double no3 = -1, double nh4 = -1)
+        public void Add(double mass, double N, double P, string type, string name, double fractionStanding, double no3 = -1, double nh4 = -1)
         {
             if (mass > 0 || N > 0 || P > 0)
             {

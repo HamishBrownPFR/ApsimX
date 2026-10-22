@@ -2,8 +2,6 @@
 {
     using Models.Core;
     using Interfaces;
-    using Models.Core.ApsimFile;
-    using Presenters;
     using System;
 
     /// <summary>This command deletes a model</summary>
@@ -37,7 +35,7 @@
         public DeleteModelCommand(IModel modelToDelete, TreeViewNode nodeDescription)
         {
             if (modelToDelete.ReadOnly)
-                throw new ApsimXException(modelToDelete, string.Format("Unable to delete {0} - it is read-only.", modelToDelete.Name));
+                throw new ApsimXException(modelToDelete, $"Unable to delete {modelToDelete.Name} - it is read-only.");
             this.modelToDelete = modelToDelete;
             this.nodeDescription = nodeDescription;
             this.parent = modelToDelete.Parent;
@@ -50,7 +48,8 @@
         {
             Pos = this.parent.Children.IndexOf(this.modelToDelete as Model);
             string pathOfChildToDelete = modelToDelete.FullPath;
-            modelWasRemoved = Structure.Delete(this.modelToDelete as Model);
+            modelToDelete.Node.Parent.RemoveChild(modelToDelete as Model);
+            modelWasRemoved = true;
             tree.Delete(pathOfChildToDelete);
         }
 
@@ -62,6 +61,7 @@
             if (modelWasRemoved)
             {
                 parent.Children.Insert(Pos, this.modelToDelete as Model);
+                parent.Node.AddChild(this.modelToDelete as Model);
                 Apsim.ClearCaches(this.modelToDelete);
                 tree.AddChild(this.parent.FullPath, nodeDescription, Pos);
                 tree.SelectedNode = modelToDelete.FullPath;

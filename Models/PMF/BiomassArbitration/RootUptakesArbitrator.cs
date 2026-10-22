@@ -38,10 +38,15 @@ namespace Models.PMF
         [Link(Type = LinkType.Ancestor)]
         private Plant plant = null;
 
-        /// <summary>The parent plant</summary>
+        /// <summary>The parent rectangular zone</summary>
         [JsonIgnore]
         [Link(Type = LinkType.Ancestor, IsOptional = true)]
-        public RectangularZone parentZone = null;
+        public RectangularZone parentRectangularZone = null;
+
+        /// <summary> The parent simulation </summary>
+        [JsonIgnore]
+        [Link(Type = LinkType.Ancestor)]
+        private Simulation simulation = null;
 
         ///2. Private And Protected Fields
         /// -------------------------------------------------------------------------------------------------
@@ -112,6 +117,14 @@ namespace Models.PMF
         [Units("kg")]
         public PlantWaterOrNDelta NitrogenUptake { get; protected set; }
 
+        
+        /// <summary>
+        /// Area of each zone that the plant has roots in
+        /// </summary>
+        private List<double> zoneAreas = new List<double>();
+
+
+
         ///6. Public methods
         /// -----------------------------------------------------------------------------------------------------------
 
@@ -140,10 +153,18 @@ namespace Models.PMF
         [EventSubscribe("PlantSowing")]
         public void OnPlantSowing(object sender, SowingParameters data)
         {
-            List<double> zoneAreas = new List<double>();
-            List<Zone> zones = Structure.FindAll<Zone>().ToList();
+            List<Zone> zones = Structure.FindAll<Zone>(relativeTo:simulation).ToList();
             foreach (Zone z in zones)
-                zoneAreas.Add(z.Area);
+            {
+                if (parentRectangularZone != null)
+                {
+                    zoneAreas.Add(z.Area);  // for rectangular zones, plant masses are per plant so need to add the area of the zone to get units right
+                }
+                else 
+                {
+                    zoneAreas.Add(1); // for other zone types, plant masses are per m2 so zone area will be one.
+                }
+            }
             WaterSupply = new PlantWaterOrNDelta(zoneAreas);
             NitrogenSupply = new PlantWaterOrNDelta(zoneAreas);
             WaterUptake = new PlantWaterOrNDelta(zoneAreas);
@@ -160,6 +181,12 @@ namespace Models.PMF
         {
             initialNitrogenEstimate = true;
             initialWaterEstimate = true;
+            WaterSupply?.Reset();
+            NitrogenSupply?.Reset();
+            WaterUptake?.Reset();
+            NitrogenUptake?.Reset();
+            WaterDemand?.Reset();
+            NitrogenDemand?.Reset();
         }
 
         /// <summary>
@@ -270,7 +297,7 @@ namespace Models.PMF
                         waterMM[i] = Z.Water[i];
                     }
                     u.DoWaterUptake(waterMM, Z.Zone.Name);
-                    WaterUptake.AmountByZone[z] = waterMM.Sum() * Z.Zone.Area * 10000;
+                    WaterUptake.AmountByZone[z] = waterMM.Sum() * zoneAreas[z] * 10000;
                 }
                 z += 1;
             }
@@ -278,9 +305,11 @@ namespace Models.PMF
             List<double> uptakebyzone = new List<double>();
             foreach (IWaterNitrogenUptake u in uptakingOrgans)
             {
+                z = 0;
                 foreach (ZoneWaterAndN Z in zones)
                 {
-                    uptakebyzone.Add(Z.Water.Sum()*Z.Zone.Area*10000);
+                    uptakebyzone.Add(Z.Water.Sum() * zoneAreas[z] * 10000);
+                    z += 1;
                 }
                 u.WaterTakenUp.AmountByZone = uptakebyzone.ToArray();
             }
