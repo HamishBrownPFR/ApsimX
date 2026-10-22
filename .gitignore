@@ -79,6 +79,7 @@ Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 /tests/Validation/WorkFloTest/
 
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints/DataColation-checkpoint.ipynb
+Tests/Validation/Wheat/Dookie2024/UOM2312-001RTX 24 DOO JH WWHI WHT.xlsx
 Tests/Validation/Wheat/Dookie2024/.ipynb_checkpoints
 
 
@@ -131,14 +132,12 @@ errors.txt
 /Prototypes/Lentil/NaPA/Observed.xlsx
 /Prototypes/Lentil/NaPA/ObservedExPete.xlsx
 /Prototypes/Lentil/NaPA/Observed_untidy.xlsx
-/Prototypes/Lentil/NaPA/Copy of CombinedPhenologyDataTT24.xlsx
-/Tests/Validation/Wheat/DevTypes.xlsx
-/Tests/Validation/Wheat/FAR/_apply_FAR.txt
-/Tests/Validation/Wheat/FAR/_apply_FAR_master.txt
+/Prototypes/Lentil/NaPA/Builder/Database/EmergenceDAS.xlsx
+/Prototypes/Lentil/NaPA/PartioningBranches.xlsx
+/Prototypes/Lentil/NaPA/fieldScoreBranches.xlsx
+/Prototypes/Lentil/lit/Cardinal_temperatures_and_thermal_time_required_fo.pdf
 /Tests/Validation/Wheat/Pask/_apply_PaskExperiments.txt
-/Tests/Validation/Wheat/_apply_Wheat.txt
-/Tests/Validation/Wheat/UoM_WinterVsSpring/Password.txt
-/Prototypes/Lentil/VarietyCoeffs.xlsx
 /Tests/Validation/Wheat/_apply_LincolnUni.txt
-*.pdf
-*.xlsx
+/Tests/Validation/Wheat/_apply_Wheat.txt
+# Stop tracking the mutex related errors file.
+errors.txt

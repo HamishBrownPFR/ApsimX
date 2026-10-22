@@ -482,8 +482,22 @@ list(
   ),
   
   tar_target(
+    name = df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant,
+    command = calculate_stems_per_plant(
+      df_obs        = df_obs_wide_plus_pheno_with_amounts_harv_hi_spike,
+      average_by    = "SimulationName",
+      stem_per_plant_new_var_name ="Wheat.Leaf.StemNumberPerPlant",
+      stems_per_m2  = "Wheat.Spike.HeadNumber",
+      plants_per_m2 = "Wheat.Population",
+      range_check = c(1,7)
+    )
+  ),
+  
+  
+  
+  tar_target(
     name = qc_obs_final,
-    command = check_obs_health(df_obs_wide_plus_pheno_with_amounts_harv_hi_spike)
+    command = check_obs_health(df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant)
   ),
   
   tar_target(
@@ -509,7 +523,7 @@ list(
     command = print_csv_with_select_obs(
       df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
-      select_vars   = c("[Wheat].Leaf.StemPopulation"),
+      select_vars   = c("Wheat.Population"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
     ),
     format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!

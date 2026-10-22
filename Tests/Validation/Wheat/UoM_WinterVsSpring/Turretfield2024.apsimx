@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 206,
+  "Version": 222,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -15,7 +15,7 @@
     },
     {
       "$type": "Models.Memo, Models",
-      "Text": "The APSIM wheat model has been developed using the Plant Modelling Framework (PMF) of [brown_plant_2014]. This new framework provides a library of plant organ and process submodels that can be coupled, at runtime, to construct a model in much the same way that models can be coupled to construct a simulation. This means that dynamic composition of lower level process and organ classes (e.g. photosynthesis, leaf) into larger constructions (e.g. maize, wheat, sorghum) can be achieved by the model developer without additional coding.\r\n\r\nThe wheat model consists of:\r\n\r\n* a phenology model to simulate development through sequential developmental phases  \r\n* a structure model to simulate plant morphology \r\n* a collection of organs to simulate the various plant parts  \r\n* an arbitrator to allocate resources (N, biomass) to the various plant organs  \r\n\r\nThis work builds upon earlier APSIM Wheat models such as NWheat ([Asseng200225], [KeatingNWheat]), NWheatS ([Asseng1998163]), Cropmod-Wheat ([Wang2002GenericCropModel]), and the earlier versions developed in Plant (<a href=\\\"http://www.apsim.info/Documentation/Model,CropandSoil/CropModuleDocumentation/Wheat.aspx\">APSIM Wheat 7.5</a>\") and then within the Plant Modelling Framework ([brown_plant_2014]).",
+      "Text": "The APSIM wheat model has been developed using the Plant Modelling Framework (PMF) of [#brown_plant_2014]. This new framework provides a library of plant organ and process submodels that can be coupled, at runtime, to construct a model in much the same way that models can be coupled to construct a simulation. This means that dynamic composition of lower level process and organ classes (e.g. photosynthesis, leaf) into larger constructions (e.g. maize, wheat, sorghum) can be achieved by the model developer without additional coding.\r\n\r\nThe wheat model consists of:\r\n\r\n* a phenology model to simulate development through sequential developmental phases  \r\n* a structure model to simulate plant morphology \r\n* a collection of organs to simulate the various plant parts  \r\n* an arbitrator to allocate resources (N, biomass) to the various plant organs  \r\n\r\nThis work builds upon earlier APSIM Wheat models such as NWheat ([#Asseng200225], [#KeatingNWheat]), NWheatS ([#Asseng1998163]), Cropmod-Wheat ([#Wang2002GenericCropModel]), and the earlier versions developed in Plant ([APSIM Wheat 7.5](https://\\\"http://www.apsim.info/Documentation/Model,CropandSoil/CropModuleDocumentation/Wheat.aspx)\") and then within the Plant Modelling Framework ([#brown_plant_2014]).",
       "Name": "Introduction",
       "ResourceName": null,
       "Children": [],
@@ -278,7 +278,7 @@
             "[Wheat].Leaf.Dead.NConc",
             "[Wheat].Leaf.Dead.Wt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Leaf.FinalLeafNumber",
             "[Wheat].Leaf.Fn",
             "[Wheat].Leaf.Fw",
@@ -388,7 +388,7 @@
             "[Wheat].Leaf.Live.NConc",
             "[Wheat].Leaf.Live.StructuralWt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
             "[Wheat].Phenology.CAMP.TSHS",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
@@ -557,8 +557,7 @@
                         "[Sowing].Script.CultivarName = Osprey",
                         "[Sowing].Script.Population = 105"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Osprey",
                       "ResourceName": null,
                       "Children": [],
@@ -571,8 +570,7 @@
                         "[Sowing].Script.CultivarName = Rosella",
                         "[Sowing].Script.Population = 128"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Rosella",
                       "ResourceName": null,
                       "Children": [],
@@ -585,8 +583,7 @@
                         "[Sowing].Script.CultivarName = Whistler",
                         "[Sowing].Script.Population = 109"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Whistler",
                       "ResourceName": null,
                       "Children": [],
@@ -599,8 +596,7 @@
                         "[Sowing].Script.CultivarName = Wylah",
                         "[Sowing].Script.Population = 104"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wylah",
                       "ResourceName": null,
                       "Children": [],
@@ -613,8 +609,7 @@
                         "[Sowing].Script.CultivarName = Wedgetail",
                         "[Sowing].Script.Population = 121"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wedgetail",
                       "ResourceName": null,
                       "Children": [],
@@ -627,8 +622,7 @@
                         "[Sowing].Script.CultivarName = Kittyhawk",
                         "[Sowing].Script.Population = 114"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Kittyhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -641,8 +635,7 @@
                         "[Sowing].Script.CultivarName = Illabo",
                         "[Sowing].Script.Population = 123"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Illabo",
                       "ResourceName": null,
                       "Children": [],
@@ -655,8 +648,7 @@
                         "[Sowing].Script.CultivarName = Mowhawk",
                         "[Sowing].Script.Population = 115"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Mowhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -669,8 +661,7 @@
                         "[Sowing].Script.CultivarName = Meering",
                         "[Sowing].Script.Population = 120"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Meering",
                       "ResourceName": null,
                       "Children": [],
@@ -683,8 +674,7 @@
                         "[Sowing].Script.CultivarName = Janz",
                         "[Sowing].Script.Population = 139"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Janz",
                       "ResourceName": null,
                       "Children": [],
@@ -697,8 +687,7 @@
                         "[Sowing].Script.CultivarName = Yitpi",
                         "[Sowing].Script.Population = 127"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Yitpi",
                       "ResourceName": null,
                       "Children": [],
@@ -711,8 +700,7 @@
                         "[Sowing].Script.CultivarName = Wyalkatchem",
                         "[Sowing].Script.Population = 112"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wyalkatchem",
                       "ResourceName": null,
                       "Children": [],
@@ -725,8 +713,7 @@
                         "[Sowing].Script.CultivarName = Gregory",
                         "[Sowing].Script.Population = 136"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Gregory",
                       "ResourceName": null,
                       "Children": [],
@@ -739,8 +726,7 @@
                         "[Sowing].Script.CultivarName = Mace",
                         "[Sowing].Script.Population = 119"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Mace",
                       "ResourceName": null,
                       "Children": [],
@@ -753,8 +739,7 @@
                         "[Sowing].Script.CultivarName = Scepter",
                         "[Sowing].Script.Population = 131"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Scepter",
                       "ResourceName": null,
                       "Children": [],
@@ -767,8 +752,7 @@
                         "[Sowing].Script.CultivarName = Sunmaster",
                         "[Sowing].Script.Population = 142"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Sunmaster",
                       "ResourceName": null,
                       "Children": [],
@@ -792,8 +776,7 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "16-Apr",
                       "ResourceName": null,
                       "Children": [],
@@ -807,8 +790,7 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "15-May",
                       "ResourceName": null,
                       "Children": [],
@@ -829,7 +811,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Turret",
           "ResourceName": null,
           "Children": [
@@ -1670,6 +1651,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "ParticleSizeSand": [
@@ -1679,6 +1661,7 @@
                         88.29,
                         88.29,
                         88.29,
+                        84.27,
                         84.27,
                         84.27,
                         84.27,
@@ -1694,6 +1677,7 @@
                         2.96,
                         2.96,
                         2.96,
+                        2.96,
                         2.96
                       ],
                       "ParticleSizeClay": [
@@ -1706,9 +1690,11 @@
                         12.77,
                         12.77,
                         12.77,
+                        12.77,
                         12.77
                       ],
                       "Rocks": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -1731,11 +1717,13 @@
                         1.527,
                         1.57,
                         1.57,
+                        1.57,
                         1.57
                       ],
                       "AirDry": [
                         0.108,
                         0.117,
+                        0.198,
                         0.198,
                         0.198,
                         0.198,
@@ -1755,6 +1743,7 @@
                         0.22,
                         0.22,
                         0.22,
+                        0.22,
                         0.22
                       ],
                       "DUL": [
@@ -1767,6 +1756,7 @@
                         0.33,
                         0.33,
                         0.33,
+                        0.31,
                         0.31
                       ],
                       "SAT": [
@@ -1779,10 +1769,12 @@
                         0.363,
                         0.363,
                         0.363,
+                        0.342,
                         0.342
                       ],
                       "KS": null,
                       "BDMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1804,9 +1796,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "LL15Metadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1828,9 +1822,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "SATMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1853,10 +1849,12 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "TextureMetadata": null,
                       "ParticleSizeSandMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1878,9 +1876,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "ParticleSizeClayMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1907,9 +1907,11 @@
                             0.22,
                             0.22,
                             0.22,
+                            0.22,
                             0.22
                           ],
                           "KL": [
+                            0.06,
                             0.06,
                             0.06,
                             0.06,
@@ -1924,16 +1926,18 @@
                           "XF": [
                             1.0,
                             1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
+                            0.85,
+                            0.85,
+                            0.8,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.7,
+                            0.7,
+                            0.7
                           ],
                           "LLMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -1955,9 +1959,11 @@
                             null,
                             null,
                             null,
+                            null,
                             null
                           ],
                           "XFMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -2034,6 +2040,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "Carbon": [
@@ -2046,10 +2053,12 @@
                         0.2,
                         0.1,
                         0.1,
+                        0.1,
                         0.1
                       ],
                       "CarbonUnits": 0,
                       "SoilCNRatio": [
+                        12.0,
                         12.0,
                         12.0,
                         12.0,
@@ -2071,6 +2080,7 @@
                         0.015,
                         0.015,
                         0.015,
+                        0.015,
                         0.015
                       ],
                       "FInert": [
@@ -2083,6 +2093,7 @@
                         0.7,
                         0.7,
                         0.867,
+                        0.95,
                         0.95
                       ],
                       "FOM": [
@@ -2095,6 +2106,7 @@
                         60.5,
                         60.1,
                         58.2,
+                        42.2,
                         42.2
                       ],
                       "CarbonMetadata": [
@@ -2107,9 +2119,14 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "FOMMetadata": [
+                        null,
+                        null,
+                        null,
+                        null,
                         null,
                         null,
                         null,
@@ -2136,18 +2153,20 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "PH": [
-                        7.914,
-                        8.0,
-                        8.45,
-                        9.15,
-                        9.45,
-                        9.688,
-                        9.613,
                         7.9,
                         8.0,
+                        8.4,
+                        9.2,
+                        9.4,
+                        9.7,
+                        9.6,
+                        7.9,
+                        8.0,
+                        8.1,
                         8.1
                       ],
                       "PHUnits": 0,
@@ -2161,6 +2180,7 @@
                         0.48,
                         0.064,
                         0.087,
+                        0.098,
                         0.098
                       ],
                       "ESP": [
@@ -2173,6 +2193,7 @@
                         0.083,
                         0.083,
                         0.125,
+                        0.146,
                         0.146
                       ],
                       "CEC": [
@@ -2185,6 +2206,7 @@
                         3.514,
                         3.514,
                         4.193,
+                        4.533,
                         4.533
                       ],
                       "ECMetadata": [
@@ -2194,11 +2216,31 @@
                         null,
                         null,
                         null,
+                        null,
+                        null,
+                        null,
+                        null,
                         null
                       ],
                       "CLMetadata": null,
-                      "CECMetadata": null,
+                      "CECMetadata": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                      ],
                       "ESPMetadata": [
+                        null,
+                        null,
+                        null,
+                        null,
                         null,
                         null,
                         null,
@@ -2208,6 +2250,7 @@
                         null
                       ],
                       "PHMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -2245,6 +2288,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -2257,7 +2301,8 @@
                         2.696,
                         2.913,
                         2.48,
-                        4.4
+                        4.4,
+                        2.0
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -2287,6 +2332,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -2299,7 +2345,8 @@
                         1.277,
                         2.712,
                         4.24,
-                        1.6
+                        1.6,
+                        1.0
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -2329,9 +2376,11 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -2371,6 +2420,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -2383,7 +2433,8 @@
                         0.245,
                         0.275,
                         0.275,
-                        0.265
+                        0.265,
+                        0.23
                       ],
                       "FilledFromTop": true,
                       "Name": "Water",
@@ -2396,6 +2447,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],

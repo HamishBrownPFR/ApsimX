@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 221,
+  "Version": 222,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -1387,6 +1387,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "ParticleSizeSand": [
@@ -1396,6 +1397,7 @@
                         88.29,
                         88.29,
                         88.29,
+                        84.27,
                         84.27,
                         84.27,
                         84.27,
@@ -1411,6 +1413,7 @@
                         2.96,
                         2.96,
                         2.96,
+                        2.96,
                         2.96
                       ],
                       "ParticleSizeClay": [
@@ -1423,9 +1426,11 @@
                         12.77,
                         12.77,
                         12.77,
+                        12.77,
                         12.77
                       ],
                       "Rocks": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -1448,6 +1453,7 @@
                         1.417,
                         1.669,
                         1.56,
+                        1.68,
                         1.68
                       ],
                       "AirDry": [
@@ -1460,6 +1466,7 @@
                         0.275,
                         0.258,
                         0.193,
+                        0.252,
                         0.252
                       ],
                       "LL15": [
@@ -1472,6 +1479,7 @@
                         0.275,
                         0.258,
                         0.193,
+                        0.252,
                         0.252
                       ],
                       "DUL": [
@@ -1484,6 +1492,7 @@
                         0.328,
                         0.315,
                         0.334,
+                        0.31,
                         0.31
                       ],
                       "SAT": [
@@ -1496,10 +1505,12 @@
                         0.361,
                         0.346,
                         0.367,
+                        0.342,
                         0.342
                       ],
                       "KS": null,
                       "BDMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1521,9 +1532,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "LL15Metadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1545,9 +1558,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "SATMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1570,10 +1585,12 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "TextureMetadata": null,
                       "ParticleSizeSandMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1595,9 +1612,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "ParticleSizeClayMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -1624,9 +1643,11 @@
                             0.275,
                             0.258,
                             0.193,
+                            0.252,
                             0.252
                           ],
                           "KL": [
+                            0.06,
                             0.06,
                             0.06,
                             0.06,
@@ -1642,15 +1663,17 @@
                             1.0,
                             1.0,
                             1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
+                            0.8,
+                            0.8,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75
                           ],
                           "LLMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -1672,9 +1695,11 @@
                             null,
                             null,
                             null,
+                            null,
                             null
                           ],
                           "XFMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -1751,6 +1776,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "Carbon": [
@@ -1763,10 +1789,12 @@
                         0.1,
                         0.1,
                         0.1,
+                        0.1,
                         0.1
                       ],
                       "CarbonUnits": 0,
                       "SoilCNRatio": [
+                        12.0,
                         12.0,
                         12.0,
                         12.0,
@@ -1788,6 +1816,7 @@
                         0.015,
                         0.015,
                         0.015,
+                        0.015,
                         0.015
                       ],
                       "FInert": [
@@ -1800,6 +1829,7 @@
                         0.7,
                         0.7,
                         0.867,
+                        0.95,
                         0.95
                       ],
                       "FOM": [
@@ -1812,6 +1842,7 @@
                         60.5,
                         60.1,
                         58.2,
+                        42.2,
                         42.2
                       ],
                       "CarbonMetadata": [
@@ -1824,9 +1855,14 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "FOMMetadata": [
+                        null,
+                        null,
+                        null,
+                        null,
                         null,
                         null,
                         null,
@@ -1962,6 +1998,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -1974,6 +2011,7 @@
                         3.4,
                         4.2,
                         4.1,
+                        4.4,
                         4.4
                       ],
                       "InitialValuesUnits": 0,
@@ -2004,6 +2042,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -2016,7 +2055,8 @@
                         0.7,
                         0.7,
                         0.5,
-                        1.6
+                        1.0,
+                        1.0
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -2046,9 +2086,11 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -2088,6 +2130,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -2100,7 +2143,8 @@
                         0.33,
                         0.31,
                         0.33,
-                        0.31
+                        0.31,
+                        0.26
                       ],
                       "FilledFromTop": true,
                       "Name": "Water",
@@ -2323,6 +2367,103 @@
                   "TableName": "Observed",
                   "XFieldName": "Clock.Today",
                   "YFieldName": "Wheat.Leaf.Height",
+                  "X2FieldName": null,
+                  "Y2FieldName": null,
+                  "ShowInLegend": true,
+                  "IncludeSeriesNameInLegend": false,
+                  "Cumulative": false,
+                  "CumulativeX": false,
+                  "Filter": "",
+                  "Name": "Observed",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Graph, Models",
+              "Caption": null,
+              "Axis": [
+                {
+                  "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                  "Title": null,
+                  "Position": 3,
+                  "Inverted": false,
+                  "CrossesAtZero": false,
+                  "LabelOnOneLine": false,
+                  "Minimum": "NaN",
+                  "Maximum": "NaN",
+                  "Interval": null
+                },
+                {
+                  "$type": "APSIM.Shared.Graphing.Axis, APSIM.Shared",
+                  "Title": null,
+                  "Position": 0,
+                  "Inverted": false,
+                  "CrossesAtZero": false,
+                  "LabelOnOneLine": false,
+                  "Minimum": "NaN",
+                  "Maximum": "NaN",
+                  "Interval": null
+                }
+              ],
+              "LegendPosition": 0,
+              "LegendOrientation": 0,
+              "AnnotationLocation": 0,
+              "DisabledSeries": [],
+              "LegendOutsideGraph": false,
+              "Name": "StemsPerPlant",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Series, Models",
+                  "Type": 1,
+                  "XAxis": 3,
+                  "YAxis": 0,
+                  "ColourArgb": 0,
+                  "FactorToVaryColours": "Cv",
+                  "FactorToVaryMarkers": null,
+                  "FactorToVaryLines": "Sow",
+                  "Marker": 11,
+                  "MarkerSize": 0,
+                  "Line": 0,
+                  "LineThickness": 0,
+                  "TableName": "DailyReport",
+                  "XFieldName": "Clock.Today",
+                  "YFieldName": "Wheat.Leaf.StemNumberPerPlant",
+                  "X2FieldName": null,
+                  "Y2FieldName": null,
+                  "ShowInLegend": true,
+                  "IncludeSeriesNameInLegend": false,
+                  "Cumulative": false,
+                  "CumulativeX": false,
+                  "Filter": "",
+                  "Name": "Predicted",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Series, Models",
+                  "Type": 1,
+                  "XAxis": 3,
+                  "YAxis": 0,
+                  "ColourArgb": 0,
+                  "FactorToVaryColours": "Cv",
+                  "FactorToVaryMarkers": "Sow",
+                  "FactorToVaryLines": null,
+                  "Marker": 0,
+                  "MarkerSize": 0,
+                  "Line": 4,
+                  "LineThickness": 0,
+                  "TableName": "Observed",
+                  "XFieldName": "Clock.Today",
+                  "YFieldName": "Wheat.Leaf.StemNumberPerPlant",
                   "X2FieldName": null,
                   "Y2FieldName": null,
                   "ShowInLegend": true,
@@ -9199,6 +9340,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "ParticleSizeSand": [
@@ -9208,6 +9350,7 @@
                         88.29,
                         88.29,
                         88.29,
+                        84.27,
                         84.27,
                         84.27,
                         84.27,
@@ -9223,6 +9366,7 @@
                         2.96,
                         2.96,
                         2.96,
+                        2.96,
                         2.96
                       ],
                       "ParticleSizeClay": [
@@ -9235,9 +9379,11 @@
                         12.77,
                         12.77,
                         12.77,
+                        12.77,
                         12.77
                       ],
                       "Rocks": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -9260,6 +9406,7 @@
                         1.417,
                         1.669,
                         1.56,
+                        1.68,
                         1.68
                       ],
                       "AirDry": [
@@ -9272,6 +9419,7 @@
                         0.275,
                         0.258,
                         0.193,
+                        0.252,
                         0.252
                       ],
                       "LL15": [
@@ -9284,6 +9432,7 @@
                         0.275,
                         0.258,
                         0.193,
+                        0.252,
                         0.252
                       ],
                       "DUL": [
@@ -9296,6 +9445,7 @@
                         0.328,
                         0.315,
                         0.334,
+                        0.31,
                         0.31
                       ],
                       "SAT": [
@@ -9308,10 +9458,12 @@
                         0.361,
                         0.346,
                         0.367,
+                        0.342,
                         0.342
                       ],
                       "KS": null,
                       "BDMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -9333,9 +9485,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "LL15Metadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -9357,9 +9511,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "SATMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -9382,10 +9538,12 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "TextureMetadata": null,
                       "ParticleSizeSandMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -9407,9 +9565,11 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "ParticleSizeClayMetadata": [
+                        null,
                         null,
                         null,
                         null,
@@ -9436,9 +9596,11 @@
                             0.275,
                             0.258,
                             0.193,
+                            0.252,
                             0.252
                           ],
                           "KL": [
+                            0.06,
                             0.06,
                             0.06,
                             0.06,
@@ -9454,15 +9616,17 @@
                             1.0,
                             1.0,
                             1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
+                            0.8,
+                            0.8,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75,
+                            0.75
                           ],
                           "LLMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -9484,9 +9648,11 @@
                             null,
                             null,
                             null,
+                            null,
                             null
                           ],
                           "XFMetadata": [
+                            null,
                             null,
                             null,
                             null,
@@ -9563,6 +9729,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "Carbon": [
@@ -9575,10 +9742,12 @@
                         0.1,
                         0.1,
                         0.1,
+                        0.1,
                         0.1
                       ],
                       "CarbonUnits": 0,
                       "SoilCNRatio": [
+                        12.0,
                         12.0,
                         12.0,
                         12.0,
@@ -9600,6 +9769,7 @@
                         0.015,
                         0.015,
                         0.015,
+                        0.015,
                         0.015
                       ],
                       "FInert": [
@@ -9612,6 +9782,7 @@
                         0.7,
                         0.7,
                         0.867,
+                        0.95,
                         0.95
                       ],
                       "FOM": [
@@ -9624,6 +9795,7 @@
                         60.5,
                         60.1,
                         58.2,
+                        42.2,
                         42.2
                       ],
                       "CarbonMetadata": [
@@ -9636,9 +9808,14 @@
                         null,
                         null,
                         null,
+                        null,
                         null
                       ],
                       "FOMMetadata": [
+                        null,
+                        null,
+                        null,
+                        null,
                         null,
                         null,
                         null,
@@ -9774,6 +9951,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -9786,6 +9964,7 @@
                         3.4,
                         4.2,
                         4.1,
+                        4.4,
                         4.4
                       ],
                       "InitialValuesUnits": 0,
@@ -9816,6 +9995,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -9828,7 +10008,8 @@
                         0.7,
                         0.7,
                         0.5,
-                        1.6
+                        1.0,
+                        1.0
                       ],
                       "InitialValuesUnits": 0,
                       "WaterTableConcentration": 0.0,
@@ -9858,9 +10039,11 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
+                        0.0,
                         0.0,
                         0.0,
                         0.0,
@@ -9900,6 +10083,7 @@
                         200.0,
                         200.0,
                         200.0,
+                        200.0,
                         200.0
                       ],
                       "InitialValues": [
@@ -9912,7 +10096,8 @@
                         0.33,
                         0.31,
                         0.33,
-                        0.31
+                        0.31,
+                        0.26
                       ],
                       "FilledFromTop": true,
                       "Name": "Water",
