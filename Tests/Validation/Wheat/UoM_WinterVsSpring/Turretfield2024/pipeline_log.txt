@@ -12,51 +12,14 @@ The following objects are masked from 'package:base':
 
 ▶ start target config
 ● built target config [0.61 seconds]
-[1m[22mNew names:
-[36m•[39m `` -> `...1`
-[36m•[39m `` -> `...2`
-[36m•[39m `` -> `...3`
-[36m•[39m `` -> `...4`
-[36m•[39m `` -> `...5`
-[36m•[39m `` -> `...6`
-[36m•[39m `` -> `...7`
-[36m•[39m `` -> `...8`
-[Q-FLAG] | INFO | WEATHER | Missing optional weather variable(s) in 'Turretfield_RawData_2024.xlsx': [ET]
-
-=======================================================
- WEATHER DATA CREATION LOG: Turretfield_RawData_2024.xlsx
-=======================================================
-  [✓] RADN  -> 'Daily radiation (MJ/m²)'
-  [✓] MAXT  -> 'Maximum temperature (°C)'
-  [✓] MINT  -> 'Minimum temperature (°C)'
-  [✓] RAIN  -> 'Rain (mm)'
-  [✓] VP    -> 'VP(hPa)'
-  [X] ET    -> NOT FOUND (Optional - Skipped)
-=======================================================
-[Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'Turretfield_RawData_2024.xlsx' with 5 mapped column(s).
-▶ start target processed_met_data
-● built target processed_met_data [0.26 seconds]
-📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
-
---- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
-    -> Column 'Total Carbon' found 4 times. Safely extracted Index 179.
-    -> Column 'Total Nitrogen' found 4 times. Safely extracted Index 181.
-    -> Column 'Sand' found 3 times. Safely extracted Index 158.
-    -> Column 'Air Dry Moisture' found 2 times, but ALL instances appear empty. Defaulted to Index 173.
-------------------------------------------------
-[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coarse, Sand Fine, Organic Matter, Water Mass, Saturation, Air Dry Moisture, Soil Bulk Density, Gravimetric Water Content]
-💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
-▶ start target config_soil
-● built target config_soil [0.98 seconds]
 ▶ start target tracked_excel_files
 ● built target tracked_excel_files [0 seconds]
-▶ start target df_simNameByCult
-● built target df_simNameByCult [0 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
+▶ start target df_simNameByCult
+● built target df_simNameByCult [0.02 seconds]
 ▶ start target tracked_raw_excel
 ● built target tracked_raw_excel [0 seconds]
-▶ start target log_active_config
 
 ======================================================================
  ⚙️ ACTIVE PIPELINE CONFIGURATION 
@@ -140,21 +103,48 @@ $file_name_input_haun
 
 ======================================================================
 
-Building APSIM .met file: Turretfield2024.met
-  [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
-  [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
-  [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
-  [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
-  [✓] Included VP (mapped from Excel col: 'VP(hPa)')
+▶ start target log_active_config
 ● built target log_active_config [0 seconds]
-▶ start target msg_met_saved
-● built target msg_met_saved [0.04 seconds]
-▶ start target raw_soil_tracker
-● built target raw_soil_tracker [0 seconds]
-▶ start target encrypted_zip_artifact
+[1m[22mNew names:
+[36m•[39m `` -> `...1`
+[36m•[39m `` -> `...2`
+[36m•[39m `` -> `...3`
+[36m•[39m `` -> `...4`
+[36m•[39m `` -> `...5`
+[36m•[39m `` -> `...6`
+[36m•[39m `` -> `...7`
+[36m•[39m `` -> `...8`
+[Q-FLAG] | INFO | WEATHER | Missing optional weather variable(s) in 'Turretfield_RawData_2024.xlsx': [ET]
+
+=======================================================
+ WEATHER DATA CREATION LOG: Turretfield_RawData_2024.xlsx
+=======================================================
+  [✓] RADN  -> 'Daily radiation (MJ/m²)'
+  [✓] MAXT  -> 'Maximum temperature (°C)'
+  [✓] MINT  -> 'Minimum temperature (°C)'
+  [✓] RAIN  -> 'Rain (mm)'
+  [✓] VP    -> 'VP(hPa)'
+  [X] ET    -> NOT FOUND (Optional - Skipped)
+=======================================================
+[Q-FLAG] | INFO | WEATHER | Successfully processed weather file 'Turretfield_RawData_2024.xlsx' with 5 mapped column(s).
+▶ start target processed_met_data
+● built target processed_met_data [0.37 seconds]
+📖 Reading soil data from: Turretfield_RawData_2024.xlsx (Sheet: Soil sampling)
+
+--- PIPELINE INTERVENTION: DUPLICATE COLUMNS ---
+    -> Column 'Total Carbon' found 4 times. Safely extracted Index 179.
+    -> Column 'Total Nitrogen' found 4 times. Safely extracted Index 181.
+    -> Column 'Sand' found 3 times. Safely extracted Index 158.
+    -> Column 'Air Dry Moisture' found 2 times, but ALL instances appear empty. Defaulted to Index 173.
+------------------------------------------------
+[Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coarse, Sand Fine, Organic Matter, Water Mass, Saturation, Air Dry Moisture, Soil Bulk Density, Gravimetric Water Content]
+💾 Success: Exported cleaned soil profile to 'Turretfield2024_soil_profile.csv'
+▶ start target config_soil
+● built target config_soil [1.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
-● built target encrypted_zip_artifact [0.68 seconds]
+▶ start target encrypted_zip_artifact
+● built target encrypted_zip_artifact [4.38 seconds]
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -164,7 +154,7 @@ Encrypting archive...
 ======================================================================
 
 ▶ start target manual_pheno_params
-● built target manual_pheno_params [0.16 seconds]
+● built target manual_pheno_params [1.26 seconds]
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -225,12 +215,12 @@ Encrypting archive...
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
 ============================================================
  -> df_name        : 'plant_population_m2'
- -> Target Var     : '[Wheat].Leaf.StemPopulation'
+ -> Target Var     : 'Wheat.Population'
  -> ISSUE          : 64 row(s) have 'NA' or blank values in the Date column.
  -> ACTION         : Data is extracted but dates remain NA. Will require downstream patching.
 ------------------------------------------------------------
 
-[Q-FLAG] | WARN | DATES | Orphaned data in 'plant_population_m2' ('[Wheat].Leaf.StemPopulation'): 64 row(s) have NA/blank dates requiring patching.
+[Q-FLAG] | WARN | DATES | Orphaned data in 'plant_population_m2' ('Wheat.Population'): 64 row(s) have NA/blank dates requiring patching.
 
 ============================================================
  🚨  MISSING DATE ALARM: ORPHANED DATA 🚨 
@@ -342,7 +332,16 @@ Encrypting archive...
 
 [Q-FLAG] | WARN | DATES | Orphaned data in 'earYield_8_raw' ('Wheat.Ear.Wt'): 64 row(s) have NA/blank dates requiring patching.
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [4.34 seconds]
+● built target list_observed_dfs_raw [4.48 seconds]
+Building APSIM .met file: Turretfield2024.met
+  [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
+  [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
+  [✓] Included MINT (mapped from Excel col: 'Minimum temperature (°C)')
+  [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
+  [✓] Included VP (mapped from Excel col: 'VP(hPa)')
+▶ start target msg_met_saved
+● built target msg_met_saved [0.01 seconds]
+▶ start target raw_soil_tracker
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -354,8 +353,9 @@ Encrypting archive...
 ----------------------------------------------------------------------
 
 [Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
+● built target raw_soil_tracker [0 seconds]
 ▶ start target list_observed_dfs_emerg
-● built target list_observed_dfs_emerg [0.04 seconds]
+● built target list_observed_dfs_emerg [0.03 seconds]
 
 ======================================================================
  📋 DATE IMPUTATION & YEAR STANDARDIZATION SUMMARY 📋
@@ -383,7 +383,7 @@ Encrypting archive...
 ======================================================================
 
 ▶ start target list_observed_dfs_emerg_fixes
-● built target list_observed_dfs_emerg_fixes [0.09 seconds]
+● built target list_observed_dfs_emerg_fixes [0.08 seconds]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
 ● built target df_obs_wide [0.16 seconds]
@@ -391,6 +391,7 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
 [Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
 ▶ start target list_pcds_extracted
 ● built target list_pcds_extracted [0.02 seconds]
+▶ start target df_obs_wide_hi
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -399,19 +400,18 @@ Successfully compiled, collapsed, and formatted the final APSIM observation data
  -> VALUE RANGE  : 0.315 to 0.425
 ============================================================
 
-▶ start target df_obs_wide_hi
 ● built target df_obs_wide_hi [0.03 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 [Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 48 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.06 seconds]
+● built target df_pheno_raw [0.08 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 16 missing micro-milestone rows (Stage 7).
 [Q-FLAG] | INFO | PHENOLOGY | Linear interpolation (Step 2): successfully generated 16 intermediate micro-milestone row(s) for Stage 7 using fractional progress 0.50.
 ▶ start target df_pheno_int
 ● built target df_pheno_int [0.03 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 64 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.08 seconds]
+● built target df_pheno_final [0.06 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 64 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_wide_hi_pheno
 ● built target df_obs_wide_hi_pheno [0.22 seconds]
@@ -451,11 +451,11 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 32 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_wide_hi_pheno_amounts
-● built target df_obs_wide_hi_pheno_amounts [0.08 seconds]
+● built target df_obs_wide_hi_pheno_amounts [0.09 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
 ▶ start target qc_pheno_input_param
-● built target qc_pheno_input_param [0.01 seconds]
+● built target qc_pheno_input_param [0.02 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -466,78 +466,37 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 ------------------------------------------------------------
 
 ▶ start target df_obs_wide_hi_pheno_amounts_harv
-● built target df_obs_wide_hi_pheno_amounts_harv [0.07 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target df_obs_wide_hi_pheno_amounts_harv [0.06 seconds]
 ▶ start target msg_pheno_param_saved
 ● built target msg_pheno_param_saved [0 seconds]
+▶ start target df_obs_wide_hi_pheno_amounts_harv_spike
+
+============================================================
+ ✅  RANGE CHECK PASSED: WHEAT.SPIKE.HEADNUMBER ✅ 
+============================================================
+ -> LIMITS       : 100 to 1000
+ -> STATUS       : All calculated values are within boundaries.
+------------------------------------------------------------
+● built target df_obs_wide_hi_pheno_amounts_harv_spike [0.03 seconds]
+
+======================================================================
+ 📋 TARGET CALCULATION SUMMARY: STEMS PER PLANT 📋
+======================================================================
+ -> [⚠️] Raw Data: Ignored 526 NA(s) in stems and 526 NA(s) in plants.
+ -> [✓] Success: Processed 16 groups. Yielded 16 valid 'Wheat.Leaf.StemNumberPerPlant' metrics attached to latest dates.
+======================================================================
+
+[Q-FLAG] | INFO | TARGETS | Stems per Plant calculation completed for 16 groups and joined to latest dates.
+▶ start target df_obs_wide_hi_pheno_amounts_harv_spike_stemPerPlant
+● built target df_obs_wide_hi_pheno_amounts_harv_spike_stemPerPlant [0.05 seconds]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
 ▶ start target qc_obs_final
 ● built target qc_obs_final [0.04 seconds]
-
-======================================================================
- ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
-======================================================================
- Target Reference Variable : Wheat.Ear.Wt
- Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
- Discrepancy Threshold      : > 5%
- Flagged Observations      : 16 row(s) out of 542
-----------------------------------------------------------------------
-
-                        SimulationName Clock.Today Wheat.Ear.Wt Comp_Sum
-     Turretfield2024CvGregorySow15-May  2024-11-13     401.7152 361.0823
-      Turretfield2024CvIllaboSow16-Apr  2024-11-13     390.5459 356.4466
-        Turretfield2024CvJanzSow15-May  2024-11-13     314.6429 272.6241
-   Turretfield2024CvKittyhawkSow16-Apr  2024-11-13     381.4080 341.5224
-        Turretfield2024CvMaceSow15-May  2024-11-13     387.5007 348.7492
-     Turretfield2024CvMeeringSow15-May  2024-11-13     419.1202 373.3329
-     Turretfield2024CvMowhawkSow16-Apr  2024-11-13     454.2839 406.1256
-      Turretfield2024CvOspreySow16-Apr  2024-11-13     398.5913 355.8295
-     Turretfield2024CvRosellaSow16-Apr  2024-11-13     376.1792 328.0935
-     Turretfield2024CvScepterSow15-May  2024-11-13     433.2482 392.1967
-   Turretfield2024CvSunmasterSow15-May  2024-11-13     477.8101 439.6213
-   Turretfield2024CvWedgetailSow16-Apr  2024-11-13     389.2350 343.8412
-    Turretfield2024CvWhistlerSow16-Apr  2024-11-13     495.4369 447.8835
- Turretfield2024CvWyalkatchemSow15-May  2024-11-13     478.7349 435.2141
-       Turretfield2024CvWylahSow16-Apr  2024-11-13     384.8153 334.0562
-       Turretfield2024CvYitpiSow15-May  2024-11-13     400.8232 353.6423
- DiffAbs DiffPerc Wheat.Spike.Wt Wheat.Grain.Wt
-  -40.63   -10.11       63.92352       297.1588
-  -34.10    -8.73       63.59139       292.8552
-  -42.02   -13.35       66.75915       205.8650
-  -39.89   -10.46       70.79818       270.7242
-  -38.75   -10.00       91.93455       256.8146
-  -45.79   -10.92       71.60837       301.7246
-  -48.16   -10.60       76.73558       329.3900
-  -42.76   -10.73       53.15531       302.6742
-  -48.09   -12.78       54.43642       273.6570
-  -41.05    -9.48       76.52480       315.6719
-  -38.19    -7.99      117.51649       322.1048
-  -45.39   -11.66       44.49961       299.3416
-  -47.55    -9.60       60.55246       387.3310
-  -43.52    -9.09       96.79557       338.4186
-  -50.76   -13.19       56.78455       277.2717
-  -47.18   -11.77       75.24862       278.3937
-
-----------------------------------------------------------------------
- Action Required: Please inspect the component variables for the rows above.
-======================================================================
-
-[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
-▶ start target validation_ear_sums
-● built target validation_ear_sums [0.01 seconds]
-▶ start target exported_pop_csv
-
-----------------------------------------------------------------------
- 📋 EXTRACTION SUMMARY: Turretfield2024_population.csv
-----------------------------------------------------------------------
-   -> '[Wheat].Leaf.StemPopulation': Extracted 16 records | Range [91.54 to 129.43]
-----------------------------------------------------------------------
-💾 Success: Exported 16 valid rows and 2 columns.
-● built target exported_pop_csv [0.01 seconds]
-▶ start target haun_input_checked
-● built target haun_input_checked [0.01 seconds]
 ✅ Successfully saved formatted observed data to: C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/Turretfield2024_Observed.xlsx
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.12 seconds]
+● built target msg_obs_saved [0.16 seconds]
+▶ start target haun_input_checked
+● built target haun_input_checked [0.03 seconds]
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
@@ -591,14 +550,75 @@ Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM p
 
 [Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 11 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
 ▶ start target validation_biomass_sums
-● built target validation_biomass_sums [0.02 seconds]
+● built target validation_biomass_sums [0.03 seconds]
+
+----------------------------------------------------------------------
+ 📋 EXTRACTION SUMMARY: Turretfield2024_population.csv
+----------------------------------------------------------------------
+   -> 'Wheat.Population': Extracted 16 records | Range [91.54 to 129.43]
+----------------------------------------------------------------------
+💾 Success: Exported 16 valid rows and 2 columns.
+▶ start target exported_pop_csv
+● built target exported_pop_csv [0.05 seconds]
+
+======================================================================
+ ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
+======================================================================
+ Target Reference Variable : Wheat.Ear.Wt
+ Component Fractions        : Wheat.Spike.Wt + Wheat.Grain.Wt
+ Discrepancy Threshold      : > 5%
+ Flagged Observations      : 16 row(s) out of 542
+----------------------------------------------------------------------
+
+                        SimulationName Clock.Today Wheat.Ear.Wt Comp_Sum
+     Turretfield2024CvGregorySow15-May  2024-11-13     401.7152 361.0823
+      Turretfield2024CvIllaboSow16-Apr  2024-11-13     390.5459 356.4466
+        Turretfield2024CvJanzSow15-May  2024-11-13     314.6429 272.6241
+   Turretfield2024CvKittyhawkSow16-Apr  2024-11-13     381.4080 341.5224
+        Turretfield2024CvMaceSow15-May  2024-11-13     387.5007 348.7492
+     Turretfield2024CvMeeringSow15-May  2024-11-13     419.1202 373.3329
+     Turretfield2024CvMowhawkSow16-Apr  2024-11-13     454.2839 406.1256
+      Turretfield2024CvOspreySow16-Apr  2024-11-13     398.5913 355.8295
+     Turretfield2024CvRosellaSow16-Apr  2024-11-13     376.1792 328.0935
+     Turretfield2024CvScepterSow15-May  2024-11-13     433.2482 392.1967
+   Turretfield2024CvSunmasterSow15-May  2024-11-13     477.8101 439.6213
+   Turretfield2024CvWedgetailSow16-Apr  2024-11-13     389.2350 343.8412
+    Turretfield2024CvWhistlerSow16-Apr  2024-11-13     495.4369 447.8835
+ Turretfield2024CvWyalkatchemSow15-May  2024-11-13     478.7349 435.2141
+       Turretfield2024CvWylahSow16-Apr  2024-11-13     384.8153 334.0562
+       Turretfield2024CvYitpiSow15-May  2024-11-13     400.8232 353.6423
+ DiffAbs DiffPerc Wheat.Spike.Wt Wheat.Grain.Wt
+  -40.63   -10.11       63.92352       297.1588
+  -34.10    -8.73       63.59139       292.8552
+  -42.02   -13.35       66.75915       205.8650
+  -39.89   -10.46       70.79818       270.7242
+  -38.75   -10.00       91.93455       256.8146
+  -45.79   -10.92       71.60837       301.7246
+  -48.16   -10.60       76.73558       329.3900
+  -42.76   -10.73       53.15531       302.6742
+  -48.09   -12.78       54.43642       273.6570
+  -41.05    -9.48       76.52480       315.6719
+  -38.19    -7.99      117.51649       322.1048
+  -45.39   -11.66       44.49961       299.3416
+  -47.55    -9.60       60.55246       387.3310
+  -43.52    -9.09       96.79557       338.4186
+  -50.76   -13.19       56.78455       277.2717
+  -47.18   -11.77       75.24862       278.3937
+
+----------------------------------------------------------------------
+ Action Required: Please inspect the component variables for the rows above.
+======================================================================
+
+[Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'.
+▶ start target validation_ear_sums
+● built target validation_ear_sums [0.02 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
 ▶ start target verify_dependencies
-● built target verify_dependencies [0.02 seconds]
+● built target verify_dependencies [0 seconds]
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ▶ start target verify_data_backup
 ● built target verify_data_backup [0.01 seconds]
-▶ end pipeline [9.44 seconds]
+▶ end pipeline [14.91 seconds]
 Warning messages:
 1: Missing optional weather variables in 'Turretfield_RawData_2024.xlsx': ET 
 2: 
@@ -619,16 +639,16 @@ Warning messages:
 ======================================================================
  Note: The pipeline bypassed these and continued processing the rest.
  
-3: Met file 'Turretfield2024.met' generated WITHOUT optional variables: ET 
-4: Unknown or uninitialised column: `folder_rawData`. 
-5: Unknown or uninitialised column: `file_excel`. 
-6: [1m[22mThere were 2 warnings in `dplyr::mutate()`.
+3: [1m[22mThere were 3 warnings in `dplyr::mutate()`.
 The first warning was:
 [1m[22m[36mℹ[39m In argument: `data = purrr::pmap(...)`.
 Caused by warning:
 [33m![39m CRITICAL in 'Turretfield_RawData_2024.xlsx': All values in 'PARi at ground level' evaluated to NA. Check raw data.
-[1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning. 
+[1m[22m[36mℹ[39m Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings. 
+4: Met file 'Turretfield2024.met' generated WITHOUT optional variables: ET 
+5: Unknown or uninitialised column: `folder_rawData`. 
+6: Unknown or uninitialised column: `file_excel`. 
 7: Requested exclusion [weather_qc_checks] not found in the master list. 
-8: Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'. 
-9: Mass balance audit failed: 11 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'. 
+8: Mass balance audit failed: 11 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'. 
+9: Mass balance audit failed: 16 row(s) exceeded 5% variance for 'Wheat.Ear.Wt'. 
 10: 8 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
