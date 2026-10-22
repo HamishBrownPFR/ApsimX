@@ -8,7 +8,7 @@ Experiment,Experiment,1,NA,NA,No
 Wheat.SowingData.Cultivar,Wheat.SowingData.Cultivar,1,NA,NA,Yes
 ReleaseYear,ReleaseYear,1,NA,NA,No
 Wheat.Phenology.EmergenceDOY,Wheat.Phenology.EmergenceDOY,1,DOY,DOY,Yes
-Wheat.SowingData.Population,Wheat.SowingData.Population,1,/m2,/m2,Yes
+Wheat.SowingData.Population,Wheat.Population,1,/m2,/m2,Yes
 Spectral.NDVI,Spectral.NDVI,1,NA,NA,No
 Wheat.Leaf.Height,Wheat.Leaf.Height,10,cm,mm,No
 Wheat.AboveGround.Wt,Wheat.AboveGround.Wt,1,g/m2,g/m2,Yes
