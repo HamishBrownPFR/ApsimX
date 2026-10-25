@@ -83,6 +83,77 @@
       "ResourceName": null,
       "Children": [
         {
+          "$type": "Models.Manager, Models",
+          "CodeArray": [
+            "using Models.Soils;",
+            "using Models.PMF.Struct;",
+            "using System;",
+            "using System.Collections.Generic;",
+            "using System.Xml.Serialization;",
+            "using Models.Core;",
+            "using Models.Interfaces;",
+            "using Models.PMF;",
+            "using Models.PMF.Organs;",
+            "using Models.Soils.Arbitrator;",
+            "using APSIM.Shared.Utilities;",
+            "using Newtonsoft.Json;",
+            "",
+            "",
+            "",
+            "namespace Models",
+            "{",
+            "    [Serializable] ",
+            "    public class Script : Model",
+            "    {",
+            "//        [Link] private Clock Clock;",
+            "//        [Link] private Plant Wheat;",
+            "//        public  event EventHandler LeafReport;",
+            "//        [Link(Type = LinkType.Path, Path = \"[Wheat].Structure\")]",
+            "//        private Structure structure;",
+            "//        ",
+            "//        ",
+            "//        [JsonIgnore] public int LeafPosition { get; set; }",
+            "//        [JsonIgnore] public double MaxLeafSize { get; set; }",
+            "//        ",
+            "//        [EventSubscribe(\"DoManagement\")]",
+            "//        private void OnDoManagement(object sender, EventArgs e)",
+            "//        {",
+            "//            var leaf = Wheat.Leaf as Leaf;",
+            "//            if ((leaf.ExpandedCohortNo > LeafPosition) & (structure.NextLeafProportion == 1))",
+            "//            {",
+            "//                LeafPosition = (int)",
+            "//                leaf.ExpandedCohortNo;",
+            "//                MaxLeafSize = leaf.CohortSize[LeafPosition - 1];",
+            "//                LeafReport.Invoke(this, new EventArgs());",
+            "//            }",
+            "//        }",
+            "    }",
+            "}"
+          ],
+          "Parameters": [],
+          "Name": "MaxLeafSize",
+          "ResourceName": null,
+          "Children": [],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Report, Models",
+          "VariableNames": [
+            "//[MaxLeafSize].Script.MaxLeafSize",
+            "//[MaxLeafSize].Script.LeafPosition"
+          ],
+          "EventNames": [
+            "//[MaxLeafSize].Script.LeafReport"
+          ],
+          "GroupByVariableName": null,
+          "Name": "MaxLeafSizeReport",
+          "ResourceName": null,
+          "Children": [],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
           "$type": "Models.Report, Models",
           "VariableNames": [
             "[Simulation].Name",
@@ -787,7 +858,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [

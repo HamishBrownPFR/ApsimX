@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 221,
+  "Version": 206,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -15,7 +15,7 @@
     },
     {
       "$type": "Models.Memo, Models",
-      "Text": "The APSIM wheat model has been developed using the Plant Modelling Framework (PMF) of [#brown_plant_2014]. This new framework provides a library of plant organ and process submodels that can be coupled, at runtime, to construct a model in much the same way that models can be coupled to construct a simulation. This means that dynamic composition of lower level process and organ classes (e.g. photosynthesis, leaf) into larger constructions (e.g. maize, wheat, sorghum) can be achieved by the model developer without additional coding.\r\n\r\nThe wheat model consists of:\r\n\r\n* a phenology model to simulate development through sequential developmental phases  \r\n* a structure model to simulate plant morphology \r\n* a collection of organs to simulate the various plant parts  \r\n* an arbitrator to allocate resources (N, biomass) to the various plant organs  \r\n\r\nThis work builds upon earlier APSIM Wheat models such as NWheat ([#Asseng200225], [#KeatingNWheat]), NWheatS ([#Asseng1998163]), Cropmod-Wheat ([#Wang2002GenericCropModel]), and the earlier versions developed in Plant ([APSIM Wheat 7.5](https://\\\"http://www.apsim.info/Documentation/Model,CropandSoil/CropModuleDocumentation/Wheat.aspx)\") and then within the Plant Modelling Framework ([#brown_plant_2014]).",
+      "Text": "The APSIM wheat model has been developed using the Plant Modelling Framework (PMF) of [brown_plant_2014]. This new framework provides a library of plant organ and process submodels that can be coupled, at runtime, to construct a model in much the same way that models can be coupled to construct a simulation. This means that dynamic composition of lower level process and organ classes (e.g. photosynthesis, leaf) into larger constructions (e.g. maize, wheat, sorghum) can be achieved by the model developer without additional coding.\r\n\r\nThe wheat model consists of:\r\n\r\n* a phenology model to simulate development through sequential developmental phases  \r\n* a structure model to simulate plant morphology \r\n* a collection of organs to simulate the various plant parts  \r\n* an arbitrator to allocate resources (N, biomass) to the various plant organs  \r\n\r\nThis work builds upon earlier APSIM Wheat models such as NWheat ([Asseng200225], [KeatingNWheat]), NWheatS ([Asseng1998163]), Cropmod-Wheat ([Wang2002GenericCropModel]), and the earlier versions developed in Plant (<a href=\\\"http://www.apsim.info/Documentation/Model,CropandSoil/CropModuleDocumentation/Wheat.aspx\">APSIM Wheat 7.5</a>\") and then within the Plant Modelling Framework ([brown_plant_2014]).",
       "Name": "Introduction",
       "ResourceName": null,
       "Children": [],
@@ -155,6 +155,77 @@
           "ReadOnly": false
         },
         {
+          "$type": "Models.Manager, Models",
+          "CodeArray": [
+            "using Models.Soils;",
+            "using Models.PMF.Struct;",
+            "using System;",
+            "using System.Collections.Generic;",
+            "using System.Xml.Serialization;",
+            "using Models.Core;",
+            "using Models.Interfaces;",
+            "using Models.PMF;",
+            "using Models.PMF.Organs;",
+            "using Models.Soils.Arbitrator;",
+            "using APSIM.Shared.Utilities;",
+            "using Newtonsoft.Json;",
+            "",
+            "",
+            "",
+            "namespace Models",
+            "{",
+            "    [Serializable] ",
+            "    public class Script : Model",
+            "    {",
+            "//        [Link] private Clock Clock;",
+            "//        [Link] private Plant Wheat;",
+            "//        public  event EventHandler LeafReport;",
+            "//        [Link(Type = LinkType.Path, Path = \"[Wheat].Structure\")]",
+            "//        private Structure structure;",
+            "//        ",
+            "//        ",
+            "//        [JsonIgnore] public int LeafPosition { get; set; }",
+            "//        [JsonIgnore] public double MaxLeafSize { get; set; }",
+            "//        ",
+            "//        [EventSubscribe(\"DoManagement\")]",
+            "//        private void OnDoManagement(object sender, EventArgs e)",
+            "//        {",
+            "//            var leaf = Wheat.Leaf as Leaf;",
+            "//            if ((leaf.ExpandedCohortNo > LeafPosition) & (structure.NextLeafProportion == 1))",
+            "//            {",
+            "//                LeafPosition = (int)",
+            "//                leaf.ExpandedCohortNo;",
+            "//                MaxLeafSize = leaf.CohortSize[LeafPosition - 1];",
+            "//                LeafReport.Invoke(this, new EventArgs());",
+            "//            }",
+            "//        }",
+            "    }",
+            "}"
+          ],
+          "Parameters": [],
+          "Name": "MaxLeafSize",
+          "ResourceName": null,
+          "Children": [],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Report, Models",
+          "VariableNames": [
+            "//[MaxLeafSize].Script.MaxLeafSize",
+            "//[MaxLeafSize].Script.LeafPosition"
+          ],
+          "EventNames": [
+            "//[MaxLeafSize].Script.LeafReport"
+          ],
+          "GroupByVariableName": null,
+          "Name": "MaxLeafSizeReport",
+          "ResourceName": null,
+          "Children": [],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
           "$type": "Models.Report, Models",
           "VariableNames": [
             "[Simulation].Name",
@@ -230,7 +301,7 @@
             "[Wheat].Leaf.Live.NConc",
             "[Wheat].Leaf.Live.StructuralWt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
             "[Wheat].Phenology.CAMP.TSHS",
             "[Wheat].Phenology.CurrentStageName",
             "[Wheat].Phenology.EmergenceDAS",
@@ -299,7 +370,7 @@
             "[Wheat].Leaf.Dead.NConc",
             "[Wheat].Leaf.Dead.Wt",
             "[Wheat].Leaf.Live.StorageWt as Wheat.Leaf.Live.WSC",
-            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC",
+            "[Wheat].Leaf.Dead.StorageWt as Wheat.Leaf.Dead.WSC ",
             "[Wheat].Leaf.FinalLeafNumber",
             "[Wheat].Leaf.Fn",
             "[Wheat].Leaf.Fw",
@@ -416,7 +487,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Osprey",
                       "ResourceName": null,
                       "Children": [],
@@ -432,7 +504,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Rosella",
                       "ResourceName": null,
                       "Children": [],
@@ -448,7 +521,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Whistler",
                       "ResourceName": null,
                       "Children": [],
@@ -464,7 +538,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Wylah",
                       "ResourceName": null,
                       "Children": [],
@@ -480,7 +555,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Wedgetail",
                       "ResourceName": null,
                       "Children": [],
@@ -496,7 +572,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Kittyhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -512,7 +589,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Illabo",
                       "ResourceName": null,
                       "Children": [],
@@ -528,7 +606,8 @@
                         "[ManagementSpring].Enabled = false",
                         "[ManagementWinter].Enabled = true"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "April_Mowhawk",
                       "ResourceName": null,
                       "Children": [],
@@ -544,7 +623,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Sunmaster",
                       "ResourceName": null,
                       "Children": [],
@@ -560,7 +640,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Meering",
                       "ResourceName": null,
                       "Children": [],
@@ -576,7 +657,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Janz",
                       "ResourceName": null,
                       "Children": [],
@@ -592,7 +674,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Yitpi",
                       "ResourceName": null,
                       "Children": [],
@@ -608,7 +691,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Wyalkatchem",
                       "ResourceName": null,
                       "Children": [],
@@ -624,7 +708,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Gregory",
                       "ResourceName": null,
                       "Children": [],
@@ -640,7 +725,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Mace",
                       "ResourceName": null,
                       "Children": [],
@@ -656,7 +742,8 @@
                         "[ManagementSpring].Enabled = true",
                         "[ManagementWinter].Enabled = false"
                       ],
-                      "CustomDescriptors": [],
+                      "Paths": null,
+                      "Values": null,
                       "Name": "May_Scepter",
                       "ResourceName": null,
                       "Children": [],
@@ -677,6 +764,7 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
+          "Descriptors": null,
           "Name": "McPoyle",
           "ResourceName": null,
           "Children": [
@@ -1556,7 +1644,6 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "InteractionsPerDay": 8,
                       "Name": "SoilTemperature",
                       "ResourceName": null,
                       "Children": [],
@@ -1565,7 +1652,7 @@
                     },
                     {
                       "$type": "Models.Soils.CERESSoilTemperature, Models",
-                      "Name": "Temperature",
+                      "Name": "CERESSoilTemperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -1609,7 +1696,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "PlantType": null,
                   "Name": "Wheat",
                   "ResourceName": "Wheat",
                   "Children": [],
