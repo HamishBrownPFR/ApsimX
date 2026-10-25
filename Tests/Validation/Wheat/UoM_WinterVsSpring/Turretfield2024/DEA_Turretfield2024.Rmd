@@ -231,7 +231,9 @@ tar_load(df_pheno_haun)
 ```
 
 ```{r}
+library(targets)
 tar_load(list_observed_dfs_emerg)
 tar_load(list_pcds_extracted)
 ```
+
 
