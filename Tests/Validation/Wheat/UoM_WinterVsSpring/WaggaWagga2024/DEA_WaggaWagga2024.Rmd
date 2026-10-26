@@ -211,6 +211,7 @@ y<-x %>%
   dplyr::filter(SimulationName == "WaggaWagga2024CvWedgetailSow22-Apr") %>%
   dplyr::select(SimulationName, Clock.Today, contains("Leaf.Live"))
 ```
+
 ```{r}
 tar_load(df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant)
 df <- tar_read(df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant)
