@@ -508,24 +508,29 @@ tar_target(
     format = "file"
   ),
 
-  #------------ PHENO FIX TO BE SORTED AS RAW DATA IS IMPROVED
-  # 1. Track the raw input file
-  tar_target(
-    name = turretfield_pheno_csv_path,
-    command = "../Inputs/Turretfield2024_PhenoDatesInput.csv",
-    format = "file"
-  ),
-  
-  # 2. Run the quick fix on the CSV
-  # This returns the file path of the *cleaned* version.
-  tar_target(
-    name = turretfield_pheno_csv_fixed,
-    command = fix_emerg_date_Turret24(
-      filepath = turretfield_pheno_csv_path
-    ),
-    format = "file"
-  ),
+#------------ PHENO FIX TO BE SORTED AS RAW DATA IS IMPROVED
+# 1. Track the raw input file
+tar_target(
+  name = turretfield_pheno_csv_path,
+  command = file.path(config$folder_inputs,config$file_name_input_pheno),
+  #  command = "../Inputs/Turretfield2024_PhenoDatesInput.csv",
+  format = "file"
+),
 
+
+# 2. Run the quick fix on the CSV
+# This returns the file path of the *cleaned* version.
+tar_target(
+  name = turretfield_pheno_csv_fixed,
+  command = {
+    msg_pheno_param_saved
+    
+    fix_emerg_date_Turret24(
+    filepath = turretfield_pheno_csv_path
+  )
+  format = "file"
+  }
+),
 
   # ----------------------------------------------------------------------------
   # PHASE G: SECURITY & ZIPPING

@@ -234,6 +234,8 @@ tar_load(df_pheno_haun)
 library(targets)
 tar_load(list_observed_dfs_emerg)
 tar_load(list_pcds_extracted)
+tar_read(turretfield_pheno_csv_path)
+tar_read(turretfield_pheno_csv_fixed)
 ```
 
 ```{r}
