@@ -30,6 +30,7 @@ targets::tar_source("../targets_MasterScripts")
 #targets::tar_source("R")
 #source("R/apply_local_fixes.R") 
 #source("R/fix_missing_dates.R")
+source("R/fix_emerg_date_Turret24.R")
 source("R/apply_corrections_Turret24.R")
 
 
@@ -364,18 +365,31 @@ list(
   ),
 
 # Add spikes/m2
+# tar_target(
+#   name = df_obs_wide_hi_pheno_amounts_harv_spike,
+#   command = calc_new_obs_var(
+#     df_obs = df_obs_wide_hi_pheno_amounts_harv,
+#     col_name_A = "Wheat.AboveGround.Wt",
+#     col_name_B = "Wheat.Culm.Wt",
+#     oprt = "A/B",
+#     col_name_Result = "Wheat.Spike.HeadNumber",
+#     val_range = c(100,1000)
+#   )
+# ),
+
 tar_target(
   name = df_obs_wide_hi_pheno_amounts_harv_spike,
   command = calc_new_obs_var(
-    df_obs = df_obs_wide_hi_pheno_amounts_harv,
-    col_name_A = "Wheat.AboveGround.Wt",
-    col_name_B = "Wheat.Culm.Wt",
-    oprt = "A/B",
+    df_obs          = df_obs_wide_hi_pheno_amounts_harv,
+    col_name_A      = "Wheat.AboveGround.Wt",
+    col_name_B      = "Wheat.Culm.Wt",
+    oprt            = "A/B",
     col_name_Result = "Wheat.Spike.HeadNumber",
-    val_range = c(100,1000)
+    val_range       = c(100, 1000),
+    tolerance_days  = 7,    # Fetches missing values if they are within n days!
+    anchor_var      = "A"   # A places the result on the same date as col_name_A 
   )
 ),
-
 
 tar_target(
   name = df_obs_wide_hi_pheno_amounts_harv_spike_stemPerPlant,
@@ -490,6 +504,24 @@ tar_target(
       df       = qc_pheno_input_param,
       folder   = config$folder_inputs,
       filename = config$file_name_input_pheno
+    ),
+    format = "file"
+  ),
+
+  #------------ PHENO FIX TO BE SORTED AS RAW DATA IS IMPROVED
+  # 1. Track the raw input file
+  tar_target(
+    name = turretfield_pheno_csv_path,
+    command = "../Inputs/Turretfield2024_PhenoDatesInput.csv",
+    format = "file"
+  ),
+  
+  # 2. Run the quick fix on the CSV
+  # This returns the file path of the *cleaned* version.
+  tar_target(
+    name = turretfield_pheno_csv_fixed,
+    command = fix_emerg_date_Turret24(
+      filepath = turretfield_pheno_csv_path
     ),
     format = "file"
   ),

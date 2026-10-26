@@ -236,4 +236,13 @@ tar_load(list_observed_dfs_emerg)
 tar_load(list_pcds_extracted)
 ```
 
+```{r}
+
+df <- tar_read(qc_obs_final)
+df %>% 
+  dplyr::filter(grepl("Sun", SimulationName) & !is.na(Clock.Today)) %>% 
+  # Keep rows where AT LEAST ONE of these variables is NOT NA
+  dplyr::filter(!is.na(Wheat.Spike.HeadNumber) | !is.na(Wheat.Population) | !is.na(Wheat.Culm.Wt) | !is.na(Wheat.AboveGround.Wt)) %>%
+  dplyr::select(SimulationName, Clock.Today, Wheat.Population,  Wheat.Culm.Wt, Wheat.AboveGround.Wt,Wheat.Spike.HeadNumber, Wheat.Leaf.StemNumberPerPlant)
+```
 
