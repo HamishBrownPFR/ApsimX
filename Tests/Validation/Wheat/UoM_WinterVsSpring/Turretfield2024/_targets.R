@@ -30,6 +30,7 @@ targets::tar_source("../targets_MasterScripts")
 #targets::tar_source("R")
 #source("R/apply_local_fixes.R") 
 #source("R/fix_missing_dates.R")
+source("R/fix_emerg_date_Turret24.R")
 source("R/apply_corrections_Turret24.R")
 
 
@@ -363,11 +364,50 @@ list(
     )
   ),
 
+# Add spikes/m2
+# tar_target(
+#   name = df_obs_wide_hi_pheno_amounts_harv_spike,
+#   command = calc_new_obs_var(
+#     df_obs = df_obs_wide_hi_pheno_amounts_harv,
+#     col_name_A = "Wheat.AboveGround.Wt",
+#     col_name_B = "Wheat.Culm.Wt",
+#     oprt = "A/B",
+#     col_name_Result = "Wheat.Spike.HeadNumber",
+#     val_range = c(100,1000)
+#   )
+# ),
+
+tar_target(
+  name = df_obs_wide_hi_pheno_amounts_harv_spike,
+  command = calc_new_obs_var(
+    df_obs          = df_obs_wide_hi_pheno_amounts_harv,
+    col_name_A      = "Wheat.AboveGround.Wt",
+    col_name_B      = "Wheat.Culm.Wt",
+    oprt            = "A/B",
+    col_name_Result = "Wheat.Spike.HeadNumber",
+    val_range       = c(100, 1000),
+    tolerance_days  = 7,    # Fetches missing values if they are within n days!
+    anchor_var      = "A"   # A places the result on the same date as col_name_A 
+  )
+),
+
+tar_target(
+  name = df_obs_wide_hi_pheno_amounts_harv_spike_stemPerPlant,
+  command = calculate_stems_per_plant(
+    df_obs        = df_obs_wide_hi_pheno_amounts_harv_spike,
+    average_by    = "SimulationName",
+    stem_per_plant_new_var_name ="Wheat.Leaf.StemNumberPerPlant",
+    stems_per_m2  = "Wheat.Spike.HeadNumber",
+    plants_per_m2 = "Wheat.Population",
+    range_check = c(1,7)
+  )
+),
+
 
   # THE QC GATEKEEPER
   tar_target(
     name = qc_obs_final,
-    command = check_obs_health(df_obs_wide_hi_pheno_amounts_harv) # Stops the pipeline if it fails!
+    command = check_obs_health(df_obs_wide_hi_pheno_amounts_harv_spike_stemPerPlant) # Stops the pipeline if it fails!
   ),
 
 
@@ -401,7 +441,7 @@ list(
     command = print_csv_with_select_obs(
       df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
-      select_vars   = c("[Wheat].Leaf.StemPopulation"),
+      select_vars   = c("Wheat.Population"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
     ),
     format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
@@ -468,6 +508,29 @@ list(
     format = "file"
   ),
 
+#------------ PHENO FIX TO BE SORTED AS RAW DATA IS IMPROVED
+# 1. Track the raw input file
+tar_target(
+  name = turretfield_pheno_csv_path,
+  command = file.path(config$folder_inputs,config$file_name_input_pheno),
+  #  command = "../Inputs/Turretfield2024_PhenoDatesInput.csv",
+  format = "file"
+),
+
+
+# 2. Run the quick fix on the CSV
+# This returns the file path of the *cleaned* version.
+tar_target(
+  name = turretfield_pheno_csv_fixed,
+  command = {
+    msg_pheno_param_saved
+    
+    fix_emerg_date_Turret24(
+    filepath = turretfield_pheno_csv_path
+  )
+  format = "file"
+  }
+),
 
   # ----------------------------------------------------------------------------
   # PHASE G: SECURITY & ZIPPING

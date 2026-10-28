@@ -10,8 +10,16 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
+
+Attaching package: 'purrr'
+
+The following objects are masked from 'package:rlang':
+
+    %@%, flatten, flatten_chr, flatten_dbl, flatten_int, flatten_lgl,
+    flatten_raw, invoke, splice
+
 ▶ start target config
-● built target config [0.6 seconds]
+● built target config [0.69 seconds]
 ▶ start target log_active_config
 
 ======================================================================
@@ -106,6 +114,7 @@ $file_name_new_met
 ▶ start target df_simNameByCult
 ● built target df_simNameByCult [0 seconds]
 ▶ start target tracked_raw_excel
+● built target tracked_raw_excel [0 seconds]
 [1m[22mNew names:
 [36m•[39m `` -> `...1`
 [36m•[39m `` -> `...2`
@@ -128,9 +137,8 @@ $file_name_new_met
   [X] ET    -> NOT FOUND (Optional - Skipped)
 =======================================================
 [Q-FLAG] | INFO | WEATHER | Successfully processed weather file '2024_WaggaWagga_PHDA24WARI2.xlsx' with 5 mapped column(s).
-● built target tracked_raw_excel [0 seconds]
 ▶ start target processed_met_data
-● built target processed_met_data [0.27 seconds]
+● built target processed_met_data [0.23 seconds]
 ▶ start target df_obs_meta_data
 ● built target df_obs_meta_data [0 seconds]
 📖 Reading soil data from: 2024_WaggaWagga_PHDA24WARI2.xlsx (Sheet: Soil sampling)
@@ -143,7 +151,7 @@ $file_name_new_met
 [Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Silt, Clay, Sand Coarse, Sand Fine, Organic Matter, EC - Saturated Paste]
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_profile_data.csv'
 ▶ start target soil_profile_data
-● built target soil_profile_data [0.93 seconds]
+● built target soil_profile_data [1 seconds]
 📖 Reading soil data from: PAW estimates Wagga 2024 JRH.xlsx (Sheet: PAW estimates)
 [Q-FLAG] | WARN | SOIL DATA | Empty soil variable(s) (100% NA): [Rainfall period]
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_water_data.csv'
@@ -152,7 +160,8 @@ $file_name_new_met
 📖 Reading soil data from: 2024_WaggaWagga_PHDA24WARI2.xlsx (Sheet: GravimetricMoistureNearSowing)
 💾 Success: Exported cleaned soil profile to 'WaggaWagga2024_soil_gravWaterContent_data.csv'
 ▶ start target soil_gravWaterContent_data
-● built target soil_gravWaterContent_data [0.09 seconds]
+● built target soil_gravWaterContent_data [0.08 seconds]
+▶ start target manual_pheno_params
 
 ======================================================================
  🧪  AUDITING MANUAL PHENOLOGY & GERMINATION PARAMETERS 
@@ -161,8 +170,7 @@ $file_name_new_met
  -> Checking: WaggaWagga2024_GermDatesInput.csv 
 ======================================================================
 
-▶ start target manual_pheno_params
-● built target manual_pheno_params [0.16 seconds]
+● built target manual_pheno_params [0.2 seconds]
 Building APSIM .met file: WaggaWagga2024.met
   [✓] Included RADN (mapped from Excel col: 'Daily radiation (MJ/m²)')
   [✓] Included MAXT (mapped from Excel col: 'Maximum temperature (°C)')
@@ -170,7 +178,7 @@ Building APSIM .met file: WaggaWagga2024.met
   [✓] Included RAIN (mapped from Excel col: 'Rain (mm)')
   [✓] Included VP (mapped from Excel col: 'VP(hpa)')
 ▶ start target msg_met_saved
-● built target msg_met_saved [0.02 seconds]
+● built target msg_met_saved [0.04 seconds]
 
 ======================================================================
  ⚠️  DATA NOT FOUND: MISSING VARIABLE ⚠️
@@ -183,7 +191,7 @@ Building APSIM .met file: WaggaWagga2024.met
 ======================================================================
 
 ▶ start target list_observed_dfs_raw
-● built target list_observed_dfs_raw [3.75 seconds]
+● built target list_observed_dfs_raw [4 seconds]
 
 ----------------------------------------------------------------------
  📈 PIPELINE ACTION: EMERGENCE PERCENTAGE CALCULATED 📈
@@ -196,12 +204,12 @@ Building APSIM .met file: WaggaWagga2024.met
 
 [Q-FLAG] | INFO | DATA MODIFIED | Emergence percentage calculated: Input 'pcds_3_emergPlants' converted to 0-100% scale and saved as 'pcds_3_emergPlants_Perc'.
 ▶ start target list_observed_dfs
-● built target list_observed_dfs [0.03 seconds]
+● built target list_observed_dfs [0.04 seconds]
 ▶ start target audit_report_raw_data_checked
-● built target audit_report_raw_data_checked [0.23 seconds]
-▶ start target list_pcds_extracted
+● built target audit_report_raw_data_checked [0.24 seconds]
 ✅ Successfully extracted 3 target dataframes.
 [Q-FLAG] | INFO | EXTRACTION | Successfully extracted 3 target dataframe(s): [pcds_6_flagLeaf, pcds_8_anthesis, pcds_3_emergPlants_Perc]
+▶ start target list_pcds_extracted
 ● built target list_pcds_extracted [0 seconds]
 
 ===========================================================
@@ -248,18 +256,18 @@ Success [derive_pheno_stages_from_haun]: Morphologically generated milestone row
  -> `[Wheat].Phenology.SpikeletsDifferentiating.DateToProgress` as Stage 5 generated for 16 simulations.
 [Q-FLAG] | INFO | PHENOLOGY | Haun derivation (Step 3): successfully generated morphologically derived stages for 16 simulation(s) (Stage 4: 16, Stage 5: 16).
 ▶ start target df_pheno_haun
-● built target df_pheno_haun [0.06 seconds]
+● built target df_pheno_haun [0.04 seconds]
 Success [get_pheno_dates_from_pcd_list]: Standardized 48 raw records at 50% progress.
 [Q-FLAG] | INFO | PHENOLOGY | PCD list extraction (Step 1): successfully standardized 48 raw record(s) at target progress threshold 50%.
 ▶ start target df_pheno_raw
-● built target df_pheno_raw [0.07 seconds]
+● built target df_pheno_raw [0.06 seconds]
 Success [create_interp_pheno_dates]: Linearly generated 16 missing micro-milestone rows (Stage 7).
 [Q-FLAG] | INFO | PHENOLOGY | Linear interpolation (Step 2): successfully generated 16 intermediate micro-milestone row(s) for Stage 7 using fractional progress 0.50.
 ▶ start target df_pheno_int
 ● built target df_pheno_int [0.04 seconds]
 Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly chronological stage events.
 ▶ start target df_pheno_final
-● built target df_pheno_final [0.07 seconds]
+● built target df_pheno_final [0.08 seconds]
 
  [🔧 NDVI REPAIR] Synchronized 64 misaligned sensor readings to the reference year (2024).
 [Q-FLAG] | WARN | DATES | NDVI repair (Wagga24): synchronized 64 misaligned sensor reading(s) to reference year 2024.
@@ -267,7 +275,7 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
 🟢 Success [apply_corrections_Wagga24]: Phenology timelines applied and matrices patched.
 
 ▶ start target list_observed_clean
-● built target list_observed_clean [0.2 seconds]
+● built target list_observed_clean [0.21 seconds]
 
 ----------------------------------------------------------------------
  🧹 PIPELINE ACTION: EMPTY STAGE COLUMNS PRUNED 🧹
@@ -281,20 +289,20 @@ Success [merge_and_qc_pheno]: Master timeline assembled. Retained 96 strictly ch
 Success [format_apsim_pheno_params]: Translated 16 simulations into wide APSIM parameter format.
 [Q-FLAG] | INFO | PHENOLOGY | Translated 16 simulations into wide APSIM parameter format.
 ▶ start target df_pheno_input_param
-● built target df_pheno_input_param [0.07 seconds]
+● built target df_pheno_input_param [0.05 seconds]
    -> Notice: Excluding datasets from final output: [pcds_3_emergPlants_Perc, pcds_6_flagLeaf, pcds_8_anthesis]
 Successfully compiled, collapsed, and formatted the final APSIM observation dataframe.
 ▶ start target df_obs_wide
-● built target df_obs_wide [0.15 seconds]
+● built target df_obs_wide [0.17 seconds]
 
 🟢 SUCCESS: Phenology Input Matrix passed integrity check. No missing rows or dates.
 ▶ start target qc_pheno_input_param
-● built target qc_pheno_input_param [0.02 seconds]
+● built target qc_pheno_input_param [0.01 seconds]
 Success [add_new_var_to_obs]: Appended and collapsed 96 events into master observations under column 'Wheat.Phenology.Stage'.
 ▶ start target df_obs_wide_plus_pheno
-● built target df_obs_wide_plus_pheno [0.2 seconds]
+● built target df_obs_wide_plus_pheno [0.25 seconds]
 ▶ start target msg_pheno_param_saved
-● built target msg_pheno_param_saved [0.02 seconds]
+● built target msg_pheno_param_saved [0.01 seconds]
 
 ------------------------------------------------------------
  🧪 NUTRIENT AGGREGATION & QC CHECK (HIERARCHY ENABLED)
@@ -315,7 +323,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 
 [Q-FLAG] | FATAL | NUTRIENTS | Fatal lab data mismatch: 54 instance(s) found where organs had Mass but no Conc (or vice versa).
 ▶ start target df_obs_wide_plus_pheno_with_amounts
-● built target df_obs_wide_plus_pheno_with_amounts [0.09 seconds]
+● built target df_obs_wide_plus_pheno_with_amounts [0.13 seconds]
 
 ============================================================
  ⚠️  HARVEST DATES ASSIGNED: HARVESTRIPE ⚠️ 
@@ -326,7 +334,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ------------------------------------------------------------
 
 ▶ start target df_obs_wide_plus_pheno_with_amounts_harv
-● built target df_obs_wide_plus_pheno_with_amounts_harv [0.07 seconds]
+● built target df_obs_wide_plus_pheno_with_amounts_harv [0.1 seconds]
 
 ============================================================
  ⚠️  CALCULATION COMPLETE: SYNCHRONOUS HARVEST INDEX ⚠️ 
@@ -336,30 +344,72 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ============================================================
 
 ▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi
-● built target df_obs_wide_plus_pheno_with_amounts_harv_hi [0.05 seconds]
+● built target df_obs_wide_plus_pheno_with_amounts_harv_hi [0.08 seconds]
+▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike
 
 ============================================================
- ✅  RANGE CHECK PASSED: WHEAT.SPIKE.HEADNUMBER ✅ 
+ 🔄 FUZZY DATE MATCHING APPLIED (Tolerance: 7 days) 🔄 
+============================================================
+     -> Sim: 'WaggaWagga2024CvGregorySow13-May' | Calc Date: 2024-09-08 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (2 days off)
+     -> Sim: 'WaggaWagga2024CvGregorySow13-May' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvIllaboSow22-Apr' | Calc Date: 2024-09-08 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (2 days off)
+     -> Sim: 'WaggaWagga2024CvIllaboSow22-Apr' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvJanzSow13-May' | Calc Date: 2024-09-10 | Fetched 'Wheat.Culm.Wt' from 2024-09-12 (2 days off)
+     -> Sim: 'WaggaWagga2024CvJanzSow13-May' | Calc Date: 2024-10-03 | Fetched 'Wheat.Culm.Wt' from 2024-10-07 (4 days off)
+     -> Sim: 'WaggaWagga2024CvKittyhawkSow22-Apr' | Calc Date: 2024-10-07 | Fetched 'Wheat.Culm.Wt' from 2024-10-11 (4 days off)
+     -> Sim: 'WaggaWagga2024CvMaceSow13-May' | Calc Date: 2024-09-02 | Fetched 'Wheat.Culm.Wt' from 2024-09-04 (2 days off)
+     -> Sim: 'WaggaWagga2024CvMaceSow13-May' | Calc Date: 2024-09-28 | Fetched 'Wheat.Culm.Wt' from 2024-09-29 (1 days off)
+     -> Sim: 'WaggaWagga2024CvMeeringSow13-May' | Calc Date: 2024-09-12 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (2 days off)
+     -> Sim: 'WaggaWagga2024CvMeeringSow13-May' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvMowhawkSow22-Apr' | Calc Date: 2024-09-03 | Fetched 'Wheat.Culm.Wt' from 2024-09-06 (3 days off)
+     -> Sim: 'WaggaWagga2024CvMowhawkSow22-Apr' | Calc Date: 2024-09-30 | Fetched 'Wheat.Culm.Wt' from 2024-10-04 (4 days off)
+     -> Sim: 'WaggaWagga2024CvOspreySow22-Apr' | Calc Date: 2024-09-09 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (1 days off)
+     -> Sim: 'WaggaWagga2024CvOspreySow22-Apr' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvRosellaSow22-Apr' | Calc Date: 2024-09-10 | Fetched 'Wheat.Culm.Wt' from 2024-09-12 (2 days off)
+     -> Sim: 'WaggaWagga2024CvRosellaSow22-Apr' | Calc Date: 2024-10-06 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (2 days off)
+     -> Sim: 'WaggaWagga2024CvScepterSow13-May' | Calc Date: 2024-09-05 | Fetched 'Wheat.Culm.Wt' from 2024-09-06 (1 days off)
+     -> Sim: 'WaggaWagga2024CvScepterSow13-May' | Calc Date: 2024-09-30 | Fetched 'Wheat.Culm.Wt' from 2024-10-04 (4 days off)
+     -> Sim: 'WaggaWagga2024CvSunmasterSow13-May' | Calc Date: 2024-09-10 | Fetched 'Wheat.Culm.Wt' from 2024-09-12 (2 days off)
+     -> Sim: 'WaggaWagga2024CvSunmasterSow13-May' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvWedgetailSow22-Apr' | Calc Date: 2024-10-06 | Fetched 'Wheat.Culm.Wt' from 2024-10-11 (5 days off)
+     -> Sim: 'WaggaWagga2024CvWhistlerSow22-Apr' | Calc Date: 2024-09-30 | Fetched 'Wheat.Culm.Wt' from 2024-10-04 (4 days off)
+     -> Sim: 'WaggaWagga2024CvWyalkatchemSow13-May' | Calc Date: 2024-09-06 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (4 days off)
+     -> Sim: 'WaggaWagga2024CvWyalkatchemSow13-May' | Calc Date: 2024-10-01 | Fetched 'Wheat.Culm.Wt' from 2024-10-04 (3 days off)
+     -> Sim: 'WaggaWagga2024CvWylahSow22-Apr' | Calc Date: 2024-09-08 | Fetched 'Wheat.Culm.Wt' from 2024-09-10 (2 days off)
+     -> Sim: 'WaggaWagga2024CvWylahSow22-Apr' | Calc Date: 2024-10-04 | Fetched 'Wheat.Culm.Wt' from 2024-10-08 (4 days off)
+     -> Sim: 'WaggaWagga2024CvYitpiSow13-May' | Calc Date: 2024-09-11 | Fetched 'Wheat.Culm.Wt' from 2024-09-12 (1 days off)
+     -> Sim: 'WaggaWagga2024CvYitpiSow13-May' | Calc Date: 2024-10-06 | Fetched 'Wheat.Culm.Wt' from 2024-10-11 (5 days off)
+------------------------------------------------------------
+[Q-FLAG] | INFO | CALCULATIONS | Fuzzy date matching applied in 'Wheat.Spike.HeadNumber': Approximated 29 calculation(s) within 7 day(s) tolerance.
+
+============================================================
+ ⚠️  RANGE VIOLATION DETECTED: WHEAT.SPIKE.HEADNUMBER ⚠️ 
 ============================================================
  -> LIMITS       : 100 to 1000
- -> STATUS       : All calculated values are within boundaries.
+ -> ABOVE MAX    : 1 value(s) exceeded 1000
 ------------------------------------------------------------
-▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike
-● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike [0.06 seconds]
-▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant
+[Q-FLAG] | WARN | TARGETS | Range Violation in Wheat.Spike.HeadNumber: 1 value(s) fell outside acceptable limits [100, 1000].
+● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike [0.11 seconds]
 
 ======================================================================
  📋 TARGET CALCULATION SUMMARY: STEMS PER PLANT 📋
 ======================================================================
- -> [⚠️] Raw Data: Ignored 560 NA(s) in stems and 560 NA(s) in plants.
- -> [✓] Success: Processed 16 groups. Yielded 16 valid 'Wheat.Leaf.StemNumberPerPlant' metrics attached to latest dates.
+ -> [⚠️] Raw Data: Ignored 543 NA(s) in stems and 573 NA(s) in plants.
+ -> [ℹ️] SYNC FALLBACK: Stems and Plants observations were out-of-sync in 16 simulation(s).
+      Action: Reverted to Simulation-level average for Plant Populations.
+[Q-FLAG] | INFO | CALCULATIONS | Sync Fallback: 16 simulation(s) (e.g., WaggaWagga2024CvGregorySow13-May) lacked synced observation dates. Calculated using Simulation-level Plant averages.
+ -> [🚨] RANGE WARNING: 3 date(s) fell outside the biological range [1, 7].
+      Affected: WaggaWagga2024CvWhistlerSow22-Apr on 2024-09-06 (8.20), WaggaWagga2024CvWyalkatchemSow13-May on 2024-09-06 (7.01), WaggaWagga2024CvWyalkatchemSow13-May on 2024-10-01 (7.43)
+[Q-FLAG] | WARN | TARGETS | Range Check Failed: 3 dates fell outside [1, 7].
+ -> [✓] Mapped metric to 46 physical measurement date(s) across the dataset.
 ======================================================================
 
-[Q-FLAG] | INFO | TARGETS | Stems per Plant calculation completed for 16 groups and joined to latest dates.
-● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant [0.04 seconds]
-✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+[Q-FLAG] | INFO | TARGETS | Stems per Plant mapped to 46 measurement dates.
+▶ start target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant
+● built target df_obs_wide_plus_pheno_with_amounts_harv_hi_spike_stemPerPlant [0.14 seconds]
 ▶ start target qc_obs_final
-● built target qc_obs_final [0.06 seconds]
+✅ QC PASSED: Observation dataframe is structurally sound and ready for APSIM.
+● built target qc_obs_final [0.04 seconds]
 
 ----------------------------------------------------------------------
  📋 EXTRACTION SUMMARY: WaggaWagga2024_population.csv
@@ -368,7 +418,7 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
 ----------------------------------------------------------------------
 💾 Success: Exported 16 valid rows and 2 columns.
 ▶ start target exported_pop_csv
-● built target exported_pop_csv [0.06 seconds]
+● built target exported_pop_csv [0.05 seconds]
 
 ======================================================================
  ✅ MASS BALANCE AUDIT PASSED: Wheat.Ear.Wt ✅ 
@@ -376,15 +426,16 @@ Success [add_new_var_to_obs]: Appended and collapsed 96 events into master obser
  -> Technical Verification : Component fraction stoichiometric mass balance confirmed.
  -> Reference Variable     : 'Wheat.Ear.Wt'
  -> Evaluated Fractions    : [Wheat.Spike.Wt + Wheat.Grain.Wt]
- -> Evaluated Observations : N = 576 observations
+ -> Evaluated Observations : N = 589 observations
  -> Variance Tolerance     : Relative error strictly <= 5%
 ----------------------------------------------------------------------
 
 ▶ start target validation_ear_sums
 ● built target validation_ear_sums [0.02 seconds]
-Success [save_df_to_excel]: Exported 576 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2024_Observed.xlsx' (Sheet: 'Observed').
+Success [save_df_to_excel]: Exported 589 rows to 'C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring/Observed/WaggaWagga2024_Observed.xlsx' (Sheet: 'Observed').
 ▶ start target msg_obs_saved
-● built target msg_obs_saved [0.17 seconds]
+● built target msg_obs_saved [0.16 seconds]
+▶ start target validation_biomass_sums
 
 ======================================================================
  ⚠️  MASS BALANCE AUDIT WARNING: DISCREPANCIES DETECTED ⚠️ 
@@ -392,7 +443,7 @@ Success [save_df_to_excel]: Exported 576 rows to 'C:/github/ApsimX/Tests/Validat
  Target Reference Variable : Wheat.AboveGround.Wt
  Component Fractions        : Wheat.Leaf.Live.Wt + Wheat.Leaf.Dead.Wt + Wheat.Stem.Wt + Wheat.Spike.Wt + Wheat.Grain.Wt
  Discrepancy Threshold      : > 5%
- Flagged Observations      : 2 row(s) out of 576
+ Flagged Observations      : 2 row(s) out of 589
 ----------------------------------------------------------------------
 
                 SimulationName Clock.Today Wheat.AboveGround.Wt  Comp_Sum
@@ -410,23 +461,22 @@ Success [save_df_to_excel]: Exported 576 rows to 'C:/github/ApsimX/Tests/Validat
 ======================================================================
 
 [Q-FLAG] | WARN | MASS BALANCE | Mass balance audit failed: 2 row(s) exceeded 5% variance for 'Wheat.AboveGround.Wt'.
-▶ start target validation_biomass_sums
 ● built target validation_biomass_sums [0.01 seconds]
 ▶ start target haun_input_checked
 ● built target haun_input_checked [0.03 seconds]
 ▶ start target tracked_excel_files
-● built target tracked_excel_files [0 seconds]
 ✅ Pre-flight check passed: All required APSIM dependencies found.
+● built target tracked_excel_files [0 seconds]
 ▶ start target check_depend
-● built target check_depend [0 seconds]
+● built target check_depend [0.02 seconds]
 Encrypting archive...
 ✅ Successfully created password-protected archive: Observed.zip
 ▶ start target encrypted_zip_artifact
-● built target encrypted_zip_artifact [4.45 seconds]
+● built target encrypted_zip_artifact [0.67 seconds]
 ▶ start target verify_data_backup
 ✅ Archive Sync Passed: Live folder and Zip backup perfectly match.
 ● built target verify_data_backup [0.01 seconds]
-▶ end pipeline [13.65 seconds]
+▶ end pipeline [10.66 seconds]
 Warning messages:
 1: Missing optional weather variables in '2024_WaggaWagga_PHDA24WARI2.xlsx': ET 
 2: 
@@ -458,7 +508,7 @@ Warning messages:
 ================================================================================
  🚨  OBSERVATION DATA HEALTH REPORT (OMNI-SCANNER) 🚨
 ================================================================================
- Scanned 52 dataframes. Found issues in 10 of them.
+ Scanned 53 dataframes. Found issues in 10 of them.
  Please review the following structural warnings:
 --------------------------------------------------------------------------------
  [ ndvi_raw ]
