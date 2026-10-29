@@ -9223,7 +9223,7 @@
               "Children": [
                 {
                   "$type": "Models.Functions.VariableReference, Models",
-                  "VariableName": "[IWeather].TMax",
+                  "VariableName": "[IWeather].MaxT",
                   "Name": "MaxTemp",
                   "ResourceName": null,
                   "Children": [],
