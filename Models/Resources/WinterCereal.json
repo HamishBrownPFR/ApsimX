@@ -8695,36 +8695,83 @@
                                   "ReadOnly": false
                                 },
                                 {
-                                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                                  "$type": "Models.Functions.MultiplyFunction, Models",
                                   "Name": "StemFraction",
                                   "ResourceName": null,
                                   "Children": [
                                     {
-                                      "$type": "Models.Functions.XYPairs, Models",
-                                      "X": [
-                                        3.0,
-                                        5.0,
-                                        6.0,
-                                        7.0
-                                      ],
-                                      "Y": [
-                                        0.0,
-                                        0.33,
-                                        0.65,
-                                        0.65
-                                      ],
-                                      "Name": "XYPairs",
+                                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                                      "Name": "PhenologyPattern",
                                       "ResourceName": null,
-                                      "Children": [],
+                                      "Children": [
+                                        {
+                                          "$type": "Models.Functions.XYPairs, Models",
+                                          "X": [
+                                            3.0,
+                                            5.0,
+                                            6.0,
+                                            7.0
+                                          ],
+                                          "Y": [
+                                            0.0,
+                                            0.5,
+                                            1.0,
+                                            1.0
+                                          ],
+                                          "Name": "XYPairs",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        },
+                                        {
+                                          "$type": "Models.Functions.VariableReference, Models",
+                                          "VariableName": "[Phenology].Stage",
+                                          "Name": "XValue",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        }
+                                      ],
                                       "Enabled": true,
                                       "ReadOnly": false
                                     },
                                     {
-                                      "$type": "Models.Functions.VariableReference, Models",
-                                      "VariableName": "[Phenology].Stage",
-                                      "Name": "XValue",
+                                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                                      "Name": "TemperatureAdjustment",
                                       "ResourceName": null,
-                                      "Children": [],
+                                      "Children": [
+                                        {
+                                          "$type": "Models.Functions.XYPairs, Models",
+                                          "X": [
+                                            8.0,
+                                            13.0,
+                                            20.0,
+                                            25.0
+                                          ],
+                                          "Y": [
+                                            0.65,
+                                            0.65,
+                                            0.45,
+                                            0.45
+                                          ],
+                                          "Name": "XYPairs",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        },
+                                        {
+                                          "$type": "Models.Functions.VariableReference, Models",
+                                          "VariableName": "[MeanTVegetative]",
+                                          "Name": "XValue",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        }
+                                      ],
                                       "Enabled": true,
                                       "ReadOnly": false
                                     }
@@ -9108,6 +9155,92 @@
               "NameOfPlantToLink": null,
               "StartStageName": "FlagLeafAppearance",
               "EndStageName": "Anthesis",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 0.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "Duration",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.Constant, Models",
+                  "FixedValue": 1.0,
+                  "Units": null,
+                  "Name": "DaysPerDay",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            }
+          ],
+          "Enabled": true,
+          "ReadOnly": false
+        },
+        {
+          "$type": "Models.Functions.ProtectedDivideFunction, Models",
+          "NumeratorErrVal": 0.0,
+          "DenominatorErrVal": 0.0,
+          "Name": "MeanTVegetative",
+          "ResourceName": null,
+          "Children": [
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": null,
+              "StartStageName": "Emergence",
+              "EndStageName": "FlagLeafAppearance",
+              "StartEventName": null,
+              "EndEventName": null,
+              "StartDate": null,
+              "EndDate": null,
+              "ReduceStageName": null,
+              "FractionRemovedOnStage": 0.0,
+              "ReduceEventName": null,
+              "FractionRemovedOnEvent": 0.0,
+              "ReduceDates": null,
+              "FractionRemovedOnDate": 0.0,
+              "FractionRemovedOnCut": 0.0,
+              "FractionRemovedOnHarvest": 0.0,
+              "FractionRemovedOnGraze": 0.0,
+              "FractionRemovedOnPrune": 0.0,
+              "Name": "MaxT",
+              "ResourceName": null,
+              "Children": [
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[IWeather].TMax",
+                  "Name": "MaxTemp",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
+              "Enabled": true,
+              "ReadOnly": false
+            },
+            {
+              "$type": "Models.Functions.AccumulateFunctionGeneral, Models",
+              "AccumulateToday": false,
+              "AccumulateEventName": null,
+              "NameOfPlantToLink": null,
+              "StartStageName": "Emergence",
+              "EndStageName": "FlagLeafAppearance",
               "StartEventName": null,
               "EndEventName": null,
               "StartDate": null,
