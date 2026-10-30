@@ -4019,7 +4019,7 @@
                     },
                     {
                       "$type": "Models.Functions.Constant, Models",
-                      "FixedValue": 0.7,
+                      "FixedValue": 0.6,
                       "Units": null,
                       "Name": "StructuralFraction",
                       "ResourceName": null,
@@ -7897,7 +7897,7 @@
                               "Children": [
                                 {
                                   "$type": "Models.Functions.Constant, Models",
-                                  "FixedValue": 0.8,
+                                  "FixedValue": 0.6,
                                   "Units": null,
                                   "Name": "Fraction",
                                   "ResourceName": null,
