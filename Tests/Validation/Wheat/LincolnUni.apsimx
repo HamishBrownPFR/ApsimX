@@ -239,7 +239,7 @@
             "                LeafPosition = (int)haunStage;",
             "                NextLeafPosition = LeafPosition+1;",
             "                MaxLeafSize = maxLeafSize;",
-            "                LeafSize = leafSizeToday;",
+            "                LeafSize = sumLeafSize/daysForLeaf;",
             "                if (ReportLeafSize != null)",
             "                    ReportLeafSize.Invoke(this, new EventArgs());",
             "                daysForLeaf = 0;",
