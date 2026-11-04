@@ -5758,10 +5758,10 @@
                         6.0
                       ],
                       "Y": [
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0
+                        0.03,
+                        0.04,
+                        0.04,
+                        0.04
                       ],
                       "Name": "XYPairs",
                       "ResourceName": null,
@@ -5800,11 +5800,15 @@
                       "$type": "Models.Functions.XYPairs, Models",
                       "X": [
                         0.0,
-                        25.0
+                        1.0,
+                        20.0,
+                        20.0
                       ],
                       "Y": [
-                        0.01,
-                        0.027
+                        0.2,
+                        0.2,
+                        1.0,
+                        1.0
                       ],
                       "Name": "XYPairs",
                       "ResourceName": null,
@@ -8759,9 +8763,9 @@
                                           ],
                                           "Y": [
                                             0.0,
-                                            0.33,
-                                            0.65,
-                                            0.65
+                                            0.5,
+                                            1.0,
+                                            1.0
                                           ],
                                           "Name": "XYPairs",
                                           "ResourceName": null,
@@ -8772,6 +8776,44 @@
                                         {
                                           "$type": "Models.Functions.VariableReference, Models",
                                           "VariableName": "[Phenology].Stage",
+                                          "Name": "XValue",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        }
+                                      ],
+                                      "Enabled": true,
+                                      "ReadOnly": false
+                                    },
+                                    {
+                                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                                      "Name": "TemperatureAdjustment",
+                                      "ResourceName": null,
+                                      "Children": [
+                                        {
+                                          "$type": "Models.Functions.XYPairs, Models",
+                                          "X": [
+                                            8.0,
+                                            13.0,
+                                            20.0,
+                                            25.0
+                                          ],
+                                          "Y": [
+                                            0.65,
+                                            0.65,
+                                            0.45,
+                                            0.45
+                                          ],
+                                          "Name": "XYPairs",
+                                          "ResourceName": null,
+                                          "Children": [],
+                                          "Enabled": true,
+                                          "ReadOnly": false
+                                        },
+                                        {
+                                          "$type": "Models.Functions.VariableReference, Models",
+                                          "VariableName": "[MeanTVegetative]",
                                           "Name": "XValue",
                                           "ResourceName": null,
                                           "Children": [],
