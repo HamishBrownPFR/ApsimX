@@ -9,7 +9,7 @@ ReleaseYear,ReleaseYear,1,NA,NA,No
 Col,Col,1,NA,NA,No
 Range,Range,1,NA,NA,No
 Wheat.Phenology.EmergenceDOY,Wheat.Phenology.EmergenceDOY,1,DOY,DOY,Yes
-Wheat.SowingData.Population,Wheat.SowingData.Population,1,/m2,/m2,Yes
+Wheat.SowingData.Population,Wheat.Population,1,/m2,/m2,Yes
 Wheat.SowingData.Survival,Wheat.SowingData.Survival,1,NA,NA,No
 Wheat.Leaf.CoverGreen,Wheat.Leaf.CoverGreen,1,frac,frac,Yes
 Wheat.Leaf.Dead.CID,Wheat.Leaf.Dead.CID,1,NA,NA,No

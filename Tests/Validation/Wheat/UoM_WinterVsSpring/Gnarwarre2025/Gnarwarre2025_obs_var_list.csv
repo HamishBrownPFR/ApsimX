@@ -14,7 +14,7 @@ Wheat.Leaf.CoverGreen,Wheat.Leaf.CoverTotal,1,frac,frac,Yes
 Wheat.Leaf.Height,Wheat.Leaf.Height,10,cm,mm,Yes
 Wheat.Phenology.EstimatedPCDS10DOY,Wheat.Phenology.EstimatedPCDS10DOY,1,DOY,DOY,Yes
 Wheat.Phenology.HaunStage,Wheat.Phenology.HaunStage,1,NA,NA,Yes
-Wheat.SowingData.Population,Wheat.SowingData.Population,1,/m2,/m2,Yes
+Wheat.SowingData.Population,Wheat.Population,1,/m2,/m2,Yes
 data_GreenCover,data_GreenCover,1,NA,NA,No
 PCDS10thresh,PCDS10thresh,1,NA,NA,No
 Wheat.Grain.Density,Wheat.Grain.Density,1,/m2,/m2,Yes

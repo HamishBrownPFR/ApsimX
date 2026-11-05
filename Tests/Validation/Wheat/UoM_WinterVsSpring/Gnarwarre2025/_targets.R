@@ -187,6 +187,7 @@ list(
     )
   ),
   
+
   tar_target(
     name = qc_pheno_input_param,
     command = check_pheno_integrity(df_pheno_input_imputed, df_obs_raw)
@@ -284,7 +285,7 @@ list(
   # Quality variable injection should come at this level when available in raw data
   
   tar_target(
-    name = df_obs_final,
+    name = df_obs_pheno_hi_ear_spike_harv,
     command = add_harv_into_obs(
       df            = df_obs_pheno_hi_ear_spike,
       ref_vars      = c("Wheat.Grain.Wt"),
@@ -293,9 +294,23 @@ list(
     )
   ),
   
+  
+  tar_target(
+    name = df_obs_pheno_hi_ear_spike_harv_stemPerPlant,
+    command = calculate_stems_per_plant(
+      df_obs        = df_obs_pheno_hi_ear_spike_harv,
+      average_by    = "SimulationName",
+      stem_per_plant_new_var_name ="Wheat.Leaf.StemNumberPerPlant",
+      stems_per_m2  = "Wheat.Spike.HeadNumber",
+      plants_per_m2 = "Wheat.Population",
+      range_check = c(1,7)
+    )
+  ),
+  
+  
     tar_target(
     name = qc_obs_final,
-    command = check_obs_health(df_obs_final)
+    command = check_obs_health(df_obs_pheno_hi_ear_spike_harv_stemPerPlant)
   ),
   
   # -------------------------------------------
@@ -351,7 +366,7 @@ list(
     command = print_csv_with_select_obs(
       df_in         = qc_obs_final, # Simulated dependency: replace with your actual final df
       file_name_out = file.path(paste0(config$proj_name, "_population.csv")),
-      select_vars   = c("Wheat.SowingData.Population"),
+      select_vars   = c("Wheat.Population"),
       primary_key   = "SimulationName" # Explicitly utilizing the default we set up
     ),
     format = "file" # <--- Crucial: Tells {targets} to watch the physical CSV file!
