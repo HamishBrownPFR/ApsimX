@@ -1674,26 +1674,53 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.MinimumFunction, Models",
+              "$type": "Models.Functions.HoldFunction, Models",
+              "WhenToHold": "Anthesis",
               "Name": "NumberFunction",
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.HoldFunction, Models",
-                  "WhenToHold": "Anthesis",
-                  "Name": "TotalStemPlusSpikeCalc",
+                  "$type": "Models.Functions.MultiplyFunction, Models",
+                  "Name": "GrainNumber",
                   "ResourceName": null,
                   "Children": [
                     {
-                      "$type": "Models.Functions.MultiplyFunction, Models",
-                      "Name": "GrainNumber",
+                      "$type": "Models.Functions.Constant, Models",
+                      "FixedValue": 25.0,
+                      "Units": "grains",
+                      "Name": "GrainsPerGramOfStem",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[StemPlusSpike].Wt",
+                      "Name": "StemMass",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                      "Name": "CriticalPeriodRueResponse",
                       "ResourceName": null,
                       "Children": [
                         {
-                          "$type": "Models.Functions.Constant, Models",
-                          "FixedValue": 25.0,
-                          "Units": "grains",
-                          "Name": "GrainsPerGramOfStem",
+                          "$type": "Models.Functions.XYPairs, Models",
+                          "X": [
+                            0.0,
+                            0.6,
+                            1.6
+                          ],
+                          "Y": [
+                            0.1,
+                            0.6,
+                            1.0
+                          ],
+                          "Name": "XYPairs",
                           "ResourceName": null,
                           "Children": [],
                           "Enabled": true,
@@ -1701,46 +1728,10 @@
                         },
                         {
                           "$type": "Models.Functions.VariableReference, Models",
-                          "VariableName": "[StemPlusSpike].Wt",
-                          "Name": "StemMass",
+                          "VariableName": "[CricitalPeriodRueAct]",
+                          "Name": "XValue",
                           "ResourceName": null,
                           "Children": [],
-                          "Enabled": true,
-                          "ReadOnly": false
-                        },
-                        {
-                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                          "Name": "CriticalPeriodRueResponse",
-                          "ResourceName": null,
-                          "Children": [
-                            {
-                              "$type": "Models.Functions.XYPairs, Models",
-                              "X": [
-                                0.0,
-                                0.6,
-                                1.6
-                              ],
-                              "Y": [
-                                0.1,
-                                0.6,
-                                1.0
-                              ],
-                              "Name": "XYPairs",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            },
-                            {
-                              "$type": "Models.Functions.VariableReference, Models",
-                              "VariableName": "[CricitalPeriodRueAct]",
-                              "Name": "XValue",
-                              "ResourceName": null,
-                              "Children": [],
-                              "Enabled": true,
-                              "ReadOnly": false
-                            }
-                          ],
                           "Enabled": true,
                           "ReadOnly": false
                         }
@@ -1787,12 +1778,48 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.ExpressionFunction, Models",
-              "Units": "mg",
-              "Expression": "0.05 - [Wheat].Grain.Number * 0.00000055",
+              "$type": "Models.Functions.HoldFunction, Models",
+              "WhenToHold": "Anthesis",
               "Name": "MaximumPotentialGrainSize",
               "ResourceName": null,
-              "Children": [],
+              "Children": [
+                {
+                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                  "Name": "StemPlusSpikeResponse",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.XYPairs, Models",
+                      "X": [
+                        0.0,
+                        900.0,
+                        2200.0
+                      ],
+                      "Y": [
+                        0.05,
+                        0.05,
+                        0.04
+                      ],
+                      "Name": "XYPairs",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    },
+                    {
+                      "$type": "Models.Functions.VariableReference, Models",
+                      "VariableName": "[StemPlusSpike].Wt",
+                      "Name": "XValue",
+                      "ResourceName": null,
+                      "Children": [],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
+                }
+              ],
               "Enabled": true,
               "ReadOnly": false
             },
