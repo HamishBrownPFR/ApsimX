@@ -3547,7 +3547,7 @@
                         {
                           "$type": "Models.Functions.AccumulateAtEvent, Models",
                           "StartStageName": "Emergence",
-                          "EndStageName": "FlagLeafAppearance",
+                          "EndStageName": "HeadEmergence",
                           "AccumulateEventName": "[Clock].DoActualPlantGrowth",
                           "Name": "AreaGrowth",
                           "ResourceName": null,
@@ -3598,7 +3598,7 @@
                               "Children": [
                                 {
                                   "$type": "Models.Functions.VariableReference, Models",
-                                  "VariableName": "[Leaf].Senesced.StructuralWt",
+                                  "VariableName": "[Leaf].Senesced.Wt + [Leaf].ReallocationWt",
                                   "Name": "DeltaSenesced",
                                   "ResourceName": null,
                                   "Children": [],
@@ -3871,7 +3871,7 @@
                 {
                   "$type": "Models.Functions.PhaseLookupValue, Models",
                   "Start": "Emergence",
-                  "End": "FlagLeafAppearance",
+                  "End": "HeadEmergence",
                   "Name": "Vegetative",
                   "ResourceName": null,
                   "Children": [
@@ -3915,6 +3915,51 @@
                           "Children": [],
                           "Enabled": true,
                           "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                          "Name": "PostFlagLeafSwitch",
+                          "ResourceName": null,
+                          "Children": [
+                            {
+                              "$type": "Models.Memo, Models",
+                              "Text": "Hello World",
+                              "Name": "Memo",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.XYPairs, Models",
+                              "X": [
+                                6.0,
+                                6.5,
+                                7.0
+                              ],
+                              "Y": [
+                                1.0,
+                                1.0,
+                                0.0
+                              ],
+                              "Name": "XYPairs",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            },
+                            {
+                              "$type": "Models.Functions.VariableReference, Models",
+                              "VariableName": "[Phenology].Stage",
+                              "Name": "XValue",
+                              "ResourceName": null,
+                              "Children": [],
+                              "Enabled": true,
+                              "ReadOnly": false
+                            }
+                          ],
+                          "Enabled": true,
+                          "ReadOnly": false
                         }
                       ],
                       "Enabled": true,
@@ -3926,7 +3971,7 @@
                 },
                 {
                   "$type": "Models.Functions.PhaseLookupValue, Models",
-                  "Start": "FlagLeafAppearance",
+                  "Start": "HeadEmergence",
                   "End": "EndGrainFill",
                   "Name": "Reproductive",
                   "ResourceName": null,
@@ -5731,101 +5776,41 @@
               "ReadOnly": false
             },
             {
-              "$type": "Models.Functions.MultiplyFunction, Models",
+              "$type": "Models.Functions.LinearInterpolationFunction, Models",
               "Name": "SpecificArea",
               "ResourceName": null,
               "Children": [
                 {
-                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                  "Name": "Phenology",
+                  "$type": "Models.Memo, Models",
+                  "Text": "Hello World",
+                  "Name": "Memo",
                   "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "Hello World",
-                      "Name": "Memo",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.XYPairs, Models",
-                      "X": [
-                        3.0,
-                        4.0,
-                        5.5,
-                        6.0
-                      ],
-                      "Y": [
-                        0.03,
-                        0.04,
-                        0.04,
-                        0.04
-                      ],
-                      "Name": "XYPairs",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[Phenology].Stage",
-                      "Name": "XValue",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
-                  ],
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 },
                 {
-                  "$type": "Models.Functions.LinearInterpolationFunction, Models",
-                  "Name": "Temperature",
-                  "ResourceName": null,
-                  "Children": [
-                    {
-                      "$type": "Models.Memo, Models",
-                      "Text": "Hello World",
-                      "Name": "Memo",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.XYPairs, Models",
-                      "X": [
-                        0.0,
-                        1.0,
-                        20.0,
-                        20.0
-                      ],
-                      "Y": [
-                        0.2,
-                        0.2,
-                        1.0,
-                        1.0
-                      ],
-                      "Name": "XYPairs",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    },
-                    {
-                      "$type": "Models.Functions.VariableReference, Models",
-                      "VariableName": "[IWeather].MeanT",
-                      "Name": "XValue",
-                      "ResourceName": null,
-                      "Children": [],
-                      "Enabled": true,
-                      "ReadOnly": false
-                    }
+                  "$type": "Models.Functions.XYPairs, Models",
+                  "X": [
+                    0.0,
+                    16.0
                   ],
+                  "Y": [
+                    0.008,
+                    0.03
+                  ],
+                  "Name": "XYPairs",
+                  "ResourceName": null,
+                  "Children": [],
+                  "Enabled": true,
+                  "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.VariableReference, Models",
+                  "VariableName": "[IWeather].MeanT",
+                  "Name": "XValue",
+                  "ResourceName": null,
+                  "Children": [],
                   "Enabled": true,
                   "ReadOnly": false
                 }
@@ -8802,8 +8787,8 @@
                                           "Y": [
                                             0.65,
                                             0.65,
-                                            0.45,
-                                            0.45
+                                            0.55,
+                                            0.55
                                           ],
                                           "Name": "XYPairs",
                                           "ResourceName": null,
