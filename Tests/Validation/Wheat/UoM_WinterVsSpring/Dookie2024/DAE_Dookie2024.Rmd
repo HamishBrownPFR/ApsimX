@@ -354,7 +354,15 @@ tar_load(df_pheno_input_param)
 tar_read(qc_pheno_integrity)
 tar_load(df_obs_wide_plus_pheno_hi_with_amounts_spike_harv)
 tar_load(df_obs_wide_plus_pheno_hi_with_amounts_spike_harv_stemPerPlant)
+tar_load(df_obs_wide_plus_pheno_hi_with_amounts_spike)
   
+df <- tar_read(df_obs_wide_plus_pheno_hi_with_amounts_spike)
+
+df %>% 
+  dplyr::filter(grepl("Big", SimulationName) & !is.na(Clock.Today) & !is.na(Wheat.Spike.HeadNumber)) %>% 
+  dplyr::select(SimulationName, Clock.Today, Wheat.Spike.HeadNumber)
+
+
 ```
 
 

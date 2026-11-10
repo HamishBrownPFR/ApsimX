@@ -338,15 +338,29 @@ list(
   ),
   
   # Add spikes/m2
+  # tar_target(
+  #   name = df_obs_wide_plus_pheno_hi_with_amounts_spike,
+  #   command = calc_new_obs_var(
+  #     df_obs = df_obs_wide_plus_pheno_hi_with_amounts,
+  #     col_name_A = "Wheat.AboveGround.Wt",
+  #     col_name_B = "Wheat.Culm.Wt",
+  #     oprt = "A/B",
+  #     col_name_Result = "Wheat.Spike.HeadNumber",
+  #     val_range = c(100,1000)
+  #   )
+  # ),
+  
   tar_target(
     name = df_obs_wide_plus_pheno_hi_with_amounts_spike,
     command = calc_new_obs_var(
-      df_obs = df_obs_wide_plus_pheno_hi_with_amounts,
-      col_name_A = "Wheat.AboveGround.Wt",
-      col_name_B = "Wheat.Culm.Wt",
-      oprt = "A/B",
+      df_obs          = df_obs_wide_plus_pheno_hi_with_amounts,
+      col_name_A      = "Wheat.AboveGround.Wt",
+      col_name_B      = "Wheat.Culm.Wt",
+      oprt            = "A/B",
       col_name_Result = "Wheat.Spike.HeadNumber",
-      val_range = c(100,1000)
+      val_range       = c(100, 1000),
+      tolerance_days  = 7,    # Fetches missing values if they are within n days!
+      anchor_var      = "A"   # A places the result on the same date as col_name_A 
     )
   ),
   

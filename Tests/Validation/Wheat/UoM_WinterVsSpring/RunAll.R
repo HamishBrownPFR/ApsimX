@@ -35,6 +35,7 @@ pipeline_dirs <- c(
 pipeline_status <- list()
 qc_status <- "NOT RUN"
 zip_status <- "NOT RUN"
+export_status <- list()
 
 # 3. Loop through and execute safely
 for (p_dir in pipeline_dirs) {
@@ -153,6 +154,88 @@ zip_status <- tryCatch({
 })
 
 # ===================================================================
+# PRISTINE MASTER MERGE EXPORT
+# ===================================================================
+#' Master Merge Preparation: Isolate Core Integration Files
+#'
+#' @description
+#' Scans the base working directory for explicitly defined files, folders, or 
+#' wildcards and copies them into a clean, isolated directory for the master merge.
+copy_files_for_master_merge <- function(base_wd, export_dir_name, 
+                                        filesAndFoldersToExport = c("*.apsimx", "Met", "Inputs", "Observed.zip")) {
+  
+  message("\n=======================================================")
+  message(" \U0001F5C2\U0000FE0F EXECUTING PRISTINE MASTER EXPORT \U0001F5C2\U0000FE0F")
+  message("=======================================================")
+  
+  if (!dir.exists(export_dir_name)) {
+    dir.create(export_dir_name, recursive = TRUE)
+    message(" [*] Created pristine master directory: ", export_dir_name)
+  } else {
+    message(" [*] Pristine master directory already exists. Updating contents...")
+  }
+  
+  local_export_status <- list()
+  
+  for (target in filesAndFoldersToExport) {
+    # Resolve exact files, folders, or wildcards at the base_wd level
+    search_path <- file.path(base_wd, target)
+    matched_items <- Sys.glob(search_path)
+    
+    if (length(matched_items) == 0) {
+      local_export_status[[target]] <- "SKIPPED (Not Found)"
+      warning(sprintf(" [X] Target not found: %s", target), call. = FALSE)
+      next
+    }
+    
+    copied_count <- 0
+    
+    for (item_path in matched_items) {
+      item_name <- basename(item_path)
+      
+      if (dir.exists(item_path)) {
+        # Handle Directory: Rebuild folder locally and copy contents
+        dest_dir <- file.path(export_dir_name, item_name)
+        if (!dir.exists(dest_dir)) dir.create(dest_dir, recursive = TRUE)
+        
+        sub_items <- list.files(item_path, full.names = TRUE)
+        if (length(sub_items) > 0) {
+          file.copy(from = sub_items, to = dest_dir, overwrite = TRUE, recursive = TRUE)
+          copied_count <- copied_count + length(sub_items)
+        }
+      } else if (file.exists(item_path)) {
+        # Handle File: Copy directly to root of the pristine target
+        file.copy(from = item_path, to = export_dir_name, overwrite = TRUE)
+        copied_count <- copied_count + 1
+      }
+    }
+    
+    local_export_status[[target]] <- ifelse(copied_count > 0, 
+                                            sprintf("SUCCESS (%d items copied)", copied_count), 
+                                            "EMPTY (Matched but no files copied)")
+  }
+  
+  message(" [\u2713] Export process completed.")
+  return(local_export_status)
+}
+
+# Execute pristine merge export (Hardcoded for now in test phase)
+analysis_source_wd <- "C:/github/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring"
+pristine_target_wd <- "C:/github/ApsimX_To_Merge_SpringVsWinterWheat/ApsimX/Tests/Validation/Wheat/UoM_WinterVsSpring"
+targets_to_export  <- c("*.apsimx", "Met", "Inputs", "Observed.zip")
+
+export_status <- tryCatch({
+  copy_files_for_master_merge(
+    base_wd = analysis_source_wd, 
+    export_dir_name = pristine_target_wd,
+    filesAndFoldersToExport = targets_to_export
+  )
+}, error = function(e) {
+  warning(" [X] Failed to execute pristine master export: ", e$message)
+  list(Fatal_Error = "FAILED")
+})
+
+# ===================================================================
 # FINAL EXECUTION DASHBOARD
 # ===================================================================
 message("\n")
@@ -180,10 +263,27 @@ message(sprintf("   %-20s : %s %s", "QC Report Render", qc_icon, qc_status))
 
 zip_icon <- ifelse(zip_status == "SUCCESS", "\u2705", "\u274C")
 message(sprintf("   %-20s : %s %s", "Data Packaging", zip_icon, zip_status))
+
+# 3. Print Pristine Export Results
+message("\n [PRISTINE MASTER EXPORT]")
+if (length(export_status) > 0) {
+  for (target in names(export_status)) {
+    status <- export_status[[target]]
+    # Dynamically assign icon based on keyword in the status string
+    icon <- ifelse(grepl("SUCCESS", status), "\u2705", 
+                   ifelse(grepl("FAILED", status), "\u274C", "\u26A0\uFE0F"))
+    message(sprintf("   %-20s : %s %s", target, icon, status))
+  }
+} else {
+  message(sprintf("   %-20s : \u274C %s", "Export Task", "FAILED / DID NOT RUN"))
+}
+
 message("======================================================================")
 
-# 3. Final Warning Trigger (Strict Check)
-if (any(pipeline_status != "SUCCESS") || qc_status != "SUCCESS" || zip_status != "SUCCESS") {
+# 4. Final Warning Trigger (Strict Check)
+has_export_failures <- any(grepl("FAILED", unlist(export_status)))
+
+if (any(pipeline_status != "SUCCESS") || qc_status != "SUCCESS" || zip_status != "SUCCESS" || has_export_failures) {
   message(" \U0001F6A8 WARNING: One or more steps failed or were not run. Check the dashboard above.")
   message("======================================================================\n")
 } else {

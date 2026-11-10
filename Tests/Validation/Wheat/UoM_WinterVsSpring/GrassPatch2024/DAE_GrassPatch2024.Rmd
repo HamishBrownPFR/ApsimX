@@ -154,3 +154,7 @@ tar_read(df_obs_plus_pheno) %>%
   dplyr::select(SimulationName,HarvestIndex, Wheat.AboveGround.Wt, Wheat.Grain.Wt)
 ```
 
+```{r}
+tar_load(qc_obs_final)
+```
+
