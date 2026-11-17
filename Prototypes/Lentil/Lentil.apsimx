@@ -1,6 +1,6 @@
 {
   "$type": "Models.Core.Simulations, Models",
-  "Version": 197,
+  "Version": 222,
   "Name": "Simulations",
   "ResourceName": null,
   "Children": [
@@ -94,12 +94,6 @@
       "Children": [
         {
           "$type": "Models.PMF.Plant, Models",
-          "Phenology": null,
-          "Arbitrator": null,
-          "structure": null,
-          "Leaf": null,
-          "Root": null,
-          "AboveGround": null,
           "PlantType": "Lentil",
           "Name": "LentilHold",
           "ResourceName": null,
@@ -312,7 +306,6 @@
             },
             {
               "$type": "Models.PMF.Phen.Phenology, Models",
-              "thermalTime": null,
               "Name": "Phenology",
               "ResourceName": null,
               "Children": [
@@ -550,7 +543,6 @@
                             },
                             {
                               "$type": "Models.Functions.SubDailyInterpolation, Models",
-                              "InterpolationMethod": null,
                               "agregationMethod": 0,
                               "Name": "WangEagleTempScale",
                               "ResourceName": null,
@@ -561,6 +553,7 @@
                                   "OptTemp": 25.0,
                                   "MaxTemp": 36.0,
                                   "RefTemp": 0.0,
+                                  "Beta": 1.0,
                                   "MaximumTemperatureWeighting": 0.5,
                                   "Units": null,
                                   "Name": "Response",
@@ -705,7 +698,6 @@
                   "Children": [
                     {
                       "$type": "Models.Functions.SubDailyInterpolation, Models",
-                      "InterpolationMethod": null,
                       "agregationMethod": 0,
                       "Name": "DailyVernalisation",
                       "ResourceName": null,
@@ -716,6 +708,7 @@
                           "OptTemp": 4.7,
                           "MaxTemp": 14.0,
                           "RefTemp": 0.0,
+                          "Beta": 1.0,
                           "MaximumTemperatureWeighting": 0.5,
                           "Units": null,
                           "Name": "Response",
@@ -2176,7 +2169,6 @@
             },
             {
               "$type": "Models.PMF.Organs.SimpleLeaf, Models",
-              "MetData": null,
               "Albedo": 0.25,
               "Gsmax350": 0.009,
               "R50": 150.0,
@@ -2823,7 +2815,7 @@
                                       "Children": [
                                         {
                                           "$type": "Models.Memo, Models",
-                                          "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                                          "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                                           "Name": "Memo",
                                           "ResourceName": null,
                                           "Children": [],
@@ -3033,12 +3025,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "DMDemands",
                   "ResourceName": null,
                   "Children": [
@@ -3159,7 +3145,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This approach is based upon that described by [Porter2000PhD] to account for the impacts of population and row/plant spacing.  Extinction coefficient is said to decrease with decreasing inter-plant spacing within the plant row.",
+                      "Text": "This approach is based upon that described by [#Porter2000PhD] to account for the impacts of population and row/plant spacing.  Extinction coefficient is said to decrease with decreasing inter-plant spacing within the plant row.",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -3184,6 +3170,7 @@
                     },
                     {
                       "$type": "Models.Functions.ExpressionFunction, Models",
+                      "Units": null,
                       "Expression": "divide(divide(1000000,[Lentil].SowingData.Population),[Lentil].SowingData.RowSpacing)",
                       "Name": "XValue",
                       "ResourceName": null,
@@ -3406,12 +3393,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "NDemands",
                   "ResourceName": null,
                   "Children": [
@@ -3740,9 +3721,6 @@
                 },
                 {
                   "$type": "Models.Functions.SupplyFunctions.RUEModel, Models",
-                  "FT": null,
-                  "FVPD": null,
-                  "RadnInt": null,
                   "Name": "Photosynthesis",
                   "ResourceName": null,
                   "Children": [
@@ -3755,7 +3733,7 @@
                       "Children": [
                         {
                           "$type": "Models.Memo, Models",
-                          "Text": "This approach is based upon the value used in [robertson_simulation_2002] increased to account for partitioning to roots.",
+                          "Text": "This approach is based upon the value used in [#robertson_simulation_2002] increased to account for partitioning to roots.",
                           "Name": "Memo",
                           "ResourceName": null,
                           "Children": [],
@@ -4377,7 +4355,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This value is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This value is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -4394,12 +4372,6 @@
             },
             {
               "$type": "Models.PMF.Organs.ReproductiveOrgan, Models",
-              "SurfaceOrganicMatter": null,
-              "Summary": null,
-              "biomassRemovalModel": null,
-              "DMConversionEfficiency": null,
-              "MaintenanceRespirationFunction": null,
-              "RemobilisationCost": null,
               "GrowthRespiration": 0.0,
               "MaintenanceRespiration": 0.0,
               "DMDemand": null,
@@ -4497,6 +4469,7 @@
                                   "Children": [
                                     {
                                       "$type": "Models.Functions.ExpressionFunction, Models",
+                                      "Units": null,
                                       "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
                                       "Name": "Increase",
                                       "ResourceName": null,
@@ -4556,9 +4529,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "DMDemandPriorityFactors",
                   "ResourceName": null,
                   "Children": [
@@ -4665,9 +4635,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "NDemandPriorityFactors",
                   "ResourceName": null,
                   "Children": [
@@ -4815,9 +4782,6 @@
             },
             {
               "$type": "Models.PMF.Organs.Root, Models",
-              "SurfaceOrganicMatter": null,
-              "RootShape": null,
-              "InitialWt": null,
               "DMSupply": null,
               "NSupply": null,
               "DMDemand": null,
@@ -4875,12 +4839,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "DMDemands",
                   "ResourceName": null,
                   "Children": [
@@ -5067,9 +5025,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "InitialWt",
                   "ResourceName": null,
                   "Children": [
@@ -5277,12 +5232,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "NDemands",
                   "ResourceName": null,
                   "Children": [
@@ -5470,7 +5419,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -5581,7 +5530,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -5594,7 +5543,6 @@
                 },
                 {
                   "$type": "Models.Functions.SubDailyInterpolation, Models",
-                  "InterpolationMethod": null,
                   "agregationMethod": 0,
                   "Name": "TemperatureEffect",
                   "ResourceName": null,
@@ -5706,9 +5654,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "DMDemands",
                   "ResourceName": null,
                   "Children": [
@@ -6092,9 +6037,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "NDemands",
                   "ResourceName": null,
                   "Children": [
@@ -6287,13 +6229,6 @@
             },
             {
               "$type": "Models.PMF.Organs.GenericOrgan, Models",
-              "SenescenceRate": null,
-              "NRetranslocationFactor": null,
-              "DMRetranslocationFactor": null,
-              "InitialWt": null,
-              "DMConversionEfficiency": null,
-              "CarbonConcentration": null,
-              "RetranslocateNitrogen": null,
               "StartLive": null,
               "DMSupply": null,
               "NSupply": null,
@@ -6357,12 +6292,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "DMDemands",
                   "ResourceName": null,
                   "Children": [
@@ -6409,6 +6338,7 @@
                                           "Children": [
                                             {
                                               "$type": "Models.Functions.ExpressionFunction, Models",
+                                              "Units": null,
                                               "Expression": "[Pod].PotentialHarvestIndex - [Pod].HarvestIndex",
                                               "Name": "Increase",
                                               "ResourceName": null,
@@ -6675,9 +6605,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "InitialWt",
                   "ResourceName": null,
                   "Children": [
@@ -6767,12 +6694,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "NDemands",
                   "ResourceName": null,
                   "Children": [
@@ -7074,13 +6995,6 @@
             },
             {
               "$type": "Models.PMF.Organs.GenericOrgan, Models",
-              "SenescenceRate": null,
-              "NRetranslocationFactor": null,
-              "DMRetranslocationFactor": null,
-              "InitialWt": null,
-              "DMConversionEfficiency": null,
-              "CarbonConcentration": null,
-              "RetranslocateNitrogen": null,
               "StartLive": null,
               "DMSupply": null,
               "NSupply": null,
@@ -7133,12 +7047,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "DMDemands",
                   "ResourceName": null,
                   "Children": [
@@ -7170,7 +7078,7 @@
                               "Children": [
                                 {
                                   "$type": "Models.Memo, Models",
-                                  "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                                  "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                                   "Name": "Memo",
                                   "ResourceName": null,
                                   "Children": [],
@@ -7402,9 +7310,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
                   "Name": "InitialWt",
                   "ResourceName": null,
                   "Children": [
@@ -7519,12 +7424,6 @@
                 },
                 {
                   "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                  "Structural": null,
-                  "Metabolic": null,
-                  "Storage": null,
-                  "QStructuralPriority": null,
-                  "QMetabolicPriority": null,
-                  "QStoragePriority": null,
                   "Name": "NDemands",
                   "ResourceName": null,
                   "Children": [
@@ -7988,7 +7887,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -8556,12 +8455,6 @@
         },
         {
           "$type": "Models.PMF.Plant, Models",
-          "Phenology": null,
-          "Arbitrator": null,
-          "structure": null,
-          "Leaf": null,
-          "Root": null,
-          "AboveGround": null,
           "PlantType": "Lentil",
           "Name": "Lentil",
           "ResourceName": null,
@@ -8612,7 +8505,6 @@
             },
             {
               "$type": "Models.PMF.Phen.Phenology, Models",
-              "thermalTime": null,
               "Name": "Phenology",
               "ResourceName": null,
               "Children": [
@@ -8721,7 +8613,6 @@
                     },
                     {
                       "$type": "Models.Functions.SubDailyInterpolation, Models",
-                      "InterpolationMethod": null,
                       "agregationMethod": 0,
                       "Name": "WangEagleTempScale",
                       "ResourceName": null,
@@ -8732,6 +8623,7 @@
                           "OptTemp": 25.0,
                           "MaxTemp": 36.0,
                           "RefTemp": 0.0,
+                          "Beta": 1.0,
                           "MaximumTemperatureWeighting": 0.5,
                           "Units": null,
                           "Name": "Response",
@@ -8868,7 +8760,6 @@
                   "Children": [
                     {
                       "$type": "Models.Functions.SubDailyInterpolation, Models",
-                      "InterpolationMethod": null,
                       "agregationMethod": 0,
                       "Name": "DailyVernalisation",
                       "ResourceName": null,
@@ -8879,6 +8770,7 @@
                           "OptTemp": 4.7,
                           "MaxTemp": 14.0,
                           "RefTemp": 0.0,
+                          "Beta": 1.0,
                           "MaximumTemperatureWeighting": 0.5,
                           "Units": null,
                           "Name": "Response",
@@ -10548,11 +10440,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -10605,12 +10492,6 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "Demand",
                       "ResourceName": null,
                       "Children": [
@@ -10623,7 +10504,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Structural",
                               "ResourceName": null,
                               "Children": [],
@@ -10643,7 +10523,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Metabolic",
                               "ResourceName": null,
                               "Children": [],
@@ -10663,7 +10542,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Storage",
                               "ResourceName": null,
                               "Children": [],
@@ -10710,10 +10588,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "Supply",
                       "ResourceName": null,
                       "Children": [
@@ -10739,9 +10613,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -10799,9 +10670,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -10863,15 +10731,11 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "Proportion",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -10880,7 +10744,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -10889,7 +10752,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -10985,12 +10847,6 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "Demand",
                       "ResourceName": null,
                       "Children": [
@@ -11003,7 +10859,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Structural",
                               "ResourceName": null,
                               "Children": [],
@@ -11023,7 +10878,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Metabolic",
                               "ResourceName": null,
                               "Children": [],
@@ -11043,7 +10897,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Storage",
                               "ResourceName": null,
                               "Children": [],
@@ -11090,10 +10943,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -11119,9 +10968,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -11179,9 +11025,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -11243,9 +11086,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentration",
                       "ResourceName": null,
                       "Children": [
@@ -11450,10 +11290,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -11503,10 +11339,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -11690,6 +11522,7 @@
                                       "Children": [
                                         {
                                           "$type": "Models.Functions.ExpressionFunction, Models",
+                                          "Units": null,
                                           "Expression": "[Grain].PotentialHarvestIndex - [Grain].HarvestIndex",
                                           "Name": "Increase",
                                           "ResourceName": null,
@@ -11786,11 +11619,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -11816,7 +11644,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This value is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This value is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -12552,7 +12380,7 @@
                           "Children": [
                             {
                               "$type": "Models.Memo, Models",
-                              "Text": "The extinction coefficient value of 0.74 ([Chakwizira_etal_2016a]) was used.",
+                              "Text": "The extinction coefficient value of 0.74 ([#Chakwizira_etal_2016a]) was used.",
                               "Name": "Memo",
                               "ResourceName": null,
                               "Children": [],
@@ -12671,7 +12499,7 @@
                         },
                         {
                           "$type": "Models.Memo, Models",
-                          "Text": "The maximum height of 500 mm was estimated from the 2014 sowing date trial ([Khaembah_etal_2017]).",
+                          "Text": "The maximum height of 500 mm was estimated from the 2014 sowing date trial ([#Khaembah_etal_2017]).",
                           "Name": "Memo",
                           "ResourceName": null,
                           "Children": [],
@@ -12739,12 +12567,6 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "Demand",
                       "ResourceName": null,
                       "Children": [
@@ -12757,7 +12579,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Structural",
                               "ResourceName": null,
                               "Children": [],
@@ -12777,7 +12598,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Metabolic",
                               "ResourceName": null,
                               "Children": [],
@@ -12797,7 +12617,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Storage",
                               "ResourceName": null,
                               "Children": [],
@@ -12844,10 +12663,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "Supply",
                       "ResourceName": null,
                       "Children": [
@@ -12890,9 +12705,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -12950,9 +12762,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -13014,9 +12823,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "Partition",
                       "ResourceName": null,
                       "Children": [
@@ -13130,12 +12936,6 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "Demand",
                       "ResourceName": null,
                       "Children": [
@@ -13148,7 +12948,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Structural",
                               "ResourceName": null,
                               "Children": [],
@@ -13168,7 +12967,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Metabolic",
                               "ResourceName": null,
                               "Children": [],
@@ -13188,7 +12986,6 @@
                           "Children": [
                             {
                               "$type": "Models.PMF.DeficitDemandFunction, Models",
-                              "multiplier": null,
                               "Name": "Storage",
                               "ResourceName": null,
                               "Children": [],
@@ -13235,10 +13032,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "Supply",
                       "ResourceName": null,
                       "Children": [
@@ -13264,9 +13057,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -13324,9 +13114,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -13388,9 +13175,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentration",
                       "ResourceName": null,
                       "Children": [
@@ -13674,9 +13458,6 @@
                 },
                 {
                   "$type": "Models.Functions.SupplyFunctions.RUEModel, Models",
-                  "FT": null,
-                  "FVPD": null,
-                  "RadnInt": null,
                   "Name": "Photosynthesis",
                   "ResourceName": null,
                   "Children": [
@@ -13689,7 +13470,7 @@
                       "Children": [
                         {
                           "$type": "Models.Memo, Models",
-                          "Text": "This approach is based upon the value used in [robertson_simulation_2002] increased to account for partitioning to roots.",
+                          "Text": "This approach is based upon the value used in [#robertson_simulation_2002] increased to account for partitioning to roots.",
                           "Name": "Memo",
                           "ResourceName": null,
                           "Children": [],
@@ -14076,10 +13857,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -14129,10 +13906,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -14554,7 +14327,7 @@
                                               "Children": [
                                                 {
                                                   "$type": "Models.Memo, Models",
-                                                  "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                                                  "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                                                   "Name": "Memo",
                                                   "ResourceName": null,
                                                   "Children": [],
@@ -14608,7 +14381,7 @@
                                               "Children": [
                                                 {
                                                   "$type": "Models.Memo, Models",
-                                                  "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                                                  "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                                                   "Name": "Memo",
                                                   "ResourceName": null,
                                                   "Children": [],
@@ -15123,11 +14896,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -15161,10 +14929,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -15214,10 +14978,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -15323,18 +15083,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -15343,7 +15096,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -15352,7 +15104,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -15395,10 +15146,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -15424,9 +15171,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -15484,9 +15228,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -15548,15 +15289,11 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "PoolFractions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -15565,7 +15302,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -15574,7 +15310,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -15623,18 +15358,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -15643,7 +15371,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -15652,7 +15379,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -15695,10 +15421,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -15724,9 +15446,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -15784,9 +15503,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -15848,9 +15564,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentrations",
                       "ResourceName": null,
                       "Children": [
@@ -15894,10 +15607,6 @@
                 },
                 {
                   "$type": "Models.PMF.RootNetwork, Models",
-                  "parentOrgan": null,
-                  "RootFrontCalcSwitch": null,
-                  "RootDepthStressFactor": null,
-                  "ZoneNamesToGrowRootsIn": [],
                   "klByLayer": null,
                   "WaterTakenUp": null,
                   "NitrogenTakenUp": null,
@@ -16015,7 +15724,7 @@
                       "Children": [
                         {
                           "$type": "Models.Memo, Models",
-                          "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                          "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                           "Name": "Memo",
                           "ResourceName": null,
                           "Children": [],
@@ -16228,6 +15937,54 @@
                   ],
                   "Enabled": true,
                   "ReadOnly": false
+                },
+                {
+                  "$type": "Models.Functions.SoilVarAgrigateToDepthFunction, Models",
+                  "TopDepth": 0.0,
+                  "BottomDepth": 400.0,
+                  "agregationMethod": 0,
+                  "Name": "TestAgregateToDepthFunction",
+                  "ResourceName": null,
+                  "Children": [
+                    {
+                      "$type": "Models.Functions.LinearInterpolationFunction, Models",
+                      "Name": "ValueInLayer",
+                      "ResourceName": null,
+                      "Children": [
+                        {
+                          "$type": "Models.Functions.SoilWaterScale, Models",
+                          "LLModel": 0,
+                          "Name": "XValue",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        },
+                        {
+                          "$type": "Models.Functions.XYPairs, Models",
+                          "X": [
+                            0.0,
+                            0.25,
+                            1.0
+                          ],
+                          "Y": [
+                            0.0,
+                            1.0,
+                            1.0
+                          ],
+                          "Name": "XYPairs",
+                          "ResourceName": null,
+                          "Children": [],
+                          "Enabled": true,
+                          "ReadOnly": false
+                        }
+                      ],
+                      "Enabled": true,
+                      "ReadOnly": false
+                    }
+                  ],
+                  "Enabled": true,
+                  "ReadOnly": false
                 }
               ],
               "Enabled": true,
@@ -16235,11 +15992,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -16273,10 +16025,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -16326,10 +16074,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -16434,18 +16178,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -16454,7 +16191,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -16463,7 +16199,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -16506,10 +16241,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -16535,9 +16266,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -16595,9 +16323,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -16659,15 +16384,11 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "PoolFractions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -16676,7 +16397,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -16685,7 +16405,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -16734,18 +16453,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -16754,7 +16466,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -16763,7 +16474,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -16806,10 +16516,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -16923,9 +16629,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -16983,9 +16686,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -17047,9 +16747,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentrations",
                       "ResourceName": null,
                       "Children": [
@@ -17146,11 +16843,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -17184,10 +16876,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -17237,10 +16925,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -17345,18 +17029,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -17365,7 +17042,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -17374,7 +17050,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -17417,10 +17092,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -17446,9 +17117,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -17506,9 +17174,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -17570,15 +17235,11 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "PoolFractions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -17587,7 +17248,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -17596,7 +17256,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -17645,18 +17304,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -17665,7 +17317,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -17674,7 +17325,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -17717,10 +17367,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -17746,9 +17392,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -17806,9 +17449,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -17870,9 +17510,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentration",
                       "ResourceName": null,
                       "Children": [
@@ -18090,11 +17727,6 @@
             },
             {
               "$type": "Models.PMF.Organ, Models",
-              "parentPlant": null,
-              "senescenceRate": null,
-              "InitialWt": null,
-              "Carbon": null,
-              "Nitrogen": null,
               "RootNetworkObject": null,
               "Cconc": 0.4,
               "IsAboveGround": true,
@@ -18128,10 +17760,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "AssimilationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -18181,10 +17809,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientFunctions, Models",
-                      "C": null,
-                      "N": null,
-                      "P": null,
-                      "K": null,
                       "Name": "MobilisationCostFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -18289,18 +17913,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -18309,7 +17926,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -18318,7 +17934,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -18361,10 +17976,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -18390,9 +18001,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -18450,9 +18058,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -18514,15 +18119,11 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientProportionFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
                       "Name": "PoolFractions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -18531,7 +18132,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -18540,7 +18140,6 @@
                         },
                         {
                           "$type": "Models.PMF.CalculateCarbonFractionFromNConc, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -18589,18 +18188,11 @@
                   "Children": [
                     {
                       "$type": "Models.PMF.NutrientDemandFunctions, Models",
-                      "Structural": null,
-                      "Metabolic": null,
-                      "Storage": null,
-                      "QStructuralPriority": null,
-                      "QMetabolicPriority": null,
-                      "QStoragePriority": null,
                       "Name": "DemandFunctions",
                       "ResourceName": null,
                       "Children": [
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Structural",
                           "ResourceName": null,
                           "Children": [],
@@ -18609,7 +18201,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Metabolic",
                           "ResourceName": null,
                           "Children": [],
@@ -18618,7 +18209,6 @@
                         },
                         {
                           "$type": "Models.PMF.DeficitDemandFunction, Models",
-                          "multiplier": null,
                           "Name": "Storage",
                           "ResourceName": null,
                           "Children": [],
@@ -18661,10 +18251,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientSupplyFunctions, Models",
-                      "ReAllocation": null,
-                      "Uptake": null,
-                      "Fixation": null,
-                      "ReTranslocation": null,
                       "Name": "SupplyFunctions",
                       "ResourceName": null,
                       "Children": [
@@ -18690,9 +18276,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReAllocation",
                           "ResourceName": null,
                           "Children": [
@@ -18750,9 +18333,6 @@
                         },
                         {
                           "$type": "Models.PMF.NutrientPoolFunctions, Models",
-                          "Structural": null,
-                          "Metabolic": null,
-                          "Storage": null,
                           "Name": "ReTranslocation",
                           "ResourceName": null,
                           "Children": [
@@ -18814,9 +18394,6 @@
                     },
                     {
                       "$type": "Models.PMF.NutrientConcentrationFunctions, Models",
-                      "Maximum": null,
-                      "Critical": null,
-                      "Minimum": null,
                       "Name": "Concentration",
                       "ResourceName": null,
                       "Children": [
@@ -19068,7 +18645,7 @@
                   "Children": [
                     {
                       "$type": "Models.Memo, Models",
-                      "Text": "This approach is based upon that used in [robertson_simulation_2002].",
+                      "Text": "This approach is based upon that used in [#robertson_simulation_2002].",
                       "Name": "Memo",
                       "ResourceName": null,
                       "Children": [],
@@ -20500,8 +20077,7 @@
                             "[Experiment].Script.InitTempMin = 1.3",
                             "[Experiment].Script.FinalTempLag = 0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "1oC",
                           "ResourceName": null,
                           "Children": [],
@@ -20515,8 +20091,7 @@
                             "[Experiment].Script.InitTempMin = 5.0",
                             "[Experiment].Script.FinalTempLag = 0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "5oC",
                           "ResourceName": null,
                           "Children": [],
@@ -20530,8 +20105,7 @@
                             "[Experiment].Script.InitTempMin = 9.0",
                             "[Experiment].Script.FinalTempLag = 0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "9oC",
                           "ResourceName": null,
                           "Children": [],
@@ -20554,8 +20128,7 @@
                             "",
                             "[Experiment].Script.InitPp = 16.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16h",
                           "ResourceName": null,
                           "Children": [],
@@ -20568,8 +20141,7 @@
                             "",
                             "[Experiment].Script.InitPp = 8.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "8h",
                           "ResourceName": null,
                           "Children": [],
@@ -20601,8 +20173,7 @@
                             "[Experiment].Script.FinalTempMax = 18.0",
                             "[Experiment].Script.FinalTempMin = 5.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "12oC",
                           "ResourceName": null,
                           "Children": [],
@@ -20615,8 +20186,7 @@
                             "[Experiment].Script.FinalTempMax = 24.0",
                             "[Experiment].Script.FinalTempMin = 13.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "19oC",
                           "ResourceName": null,
                           "Children": [],
@@ -20639,8 +20209,7 @@
                             "[Experiment].Script.FinalPp = 16.0",
                             "[Experiment].Script.FinalTempLag = 3"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16h",
                           "ResourceName": null,
                           "Children": [],
@@ -20653,8 +20222,7 @@
                             "[Experiment].Script.FinalPp = 11.0",
                             "[Experiment].Script.FinalTempLag = -2"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "11h",
                           "ResourceName": null,
                           "Children": [],
@@ -20676,8 +20244,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Precoz"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Precoz",
                           "ResourceName": null,
                           "Children": [],
@@ -20689,8 +20256,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Laird"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Laird",
                           "ResourceName": null,
                           "Children": [],
@@ -20711,7 +20277,6 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "ReadingCE",
               "ResourceName": null,
               "Children": [
@@ -21311,6 +20876,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -21595,12 +21161,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -23355,8 +22915,7 @@
                             "[Experiment].Script.FinalTempMin = 15",
                             "[Experiment].Script.FinalPp = 10.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16to10h",
                           "ResourceName": null,
                           "Children": [],
@@ -23373,8 +22932,7 @@
                             "[Experiment].Script.FinalTempMin = 15",
                             "[Experiment].Script.FinalPp = 16.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "10to16h",
                           "ResourceName": null,
                           "Children": [],
@@ -23391,8 +22949,7 @@
                             "[Experiment].Script.FinalTempMin = 15",
                             "[Experiment].Script.FinalPp = 16.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "8to16h",
                           "ResourceName": null,
                           "Children": [],
@@ -23409,8 +22966,7 @@
                             "[Experiment].Script.FinalTempMin = 15",
                             "[Experiment].Script.FinalPp = 8.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16to8h",
                           "ResourceName": null,
                           "Children": [],
@@ -23450,8 +23006,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Precoz"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Precoz",
                           "ResourceName": null,
                           "Children": [],
@@ -23463,8 +23018,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Laird"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Laird",
                           "ResourceName": null,
                           "Children": [],
@@ -23476,8 +23030,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Syrian"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Syrian",
                           "ResourceName": null,
                           "Children": [],
@@ -23498,7 +23051,6 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "ReadingCE2",
               "ResourceName": null,
               "Children": [
@@ -24098,6 +23650,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -24360,12 +23913,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -25803,8 +25350,7 @@
                             "[Experiment].Script.InitTempMin = 1.5",
                             "[Experiment].Script.InitPp = 0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "1oC",
                           "ResourceName": null,
                           "Children": [],
@@ -25835,8 +25381,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalTempMax = 18.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "18oC",
                           "ResourceName": null,
                           "Children": [],
@@ -25848,8 +25393,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalTempMax = 28.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "28oC",
                           "ResourceName": null,
                           "Children": [],
@@ -25871,8 +25415,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalTempMin = 5.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "5oC",
                           "ResourceName": null,
                           "Children": [],
@@ -25884,8 +25427,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalTempMin = 13.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "13oC",
                           "ResourceName": null,
                           "Children": [],
@@ -25907,8 +25449,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalPp = 16.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16h",
                           "ResourceName": null,
                           "Children": [],
@@ -25920,8 +25461,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalPp = 13.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "13h",
                           "ResourceName": null,
                           "Children": [],
@@ -25933,8 +25473,7 @@
                           "Specifications": [
                             "[Experiment].Script.FinalPp = 10.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "10h",
                           "ResourceName": null,
                           "Children": [],
@@ -25956,8 +25495,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Precoz"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Precoz",
                           "ResourceName": null,
                           "Children": [],
@@ -25969,8 +25507,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Laird"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Laird",
                           "ResourceName": null,
                           "Children": [],
@@ -25982,8 +25519,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Ethiopian"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Ethiopian",
                           "ResourceName": null,
                           "Children": [],
@@ -26004,7 +25540,6 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "ReadingCE3",
               "ResourceName": null,
               "Children": [
@@ -26604,6 +26139,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -26865,12 +26401,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -28335,8 +27865,7 @@
                             "[Experiment].Script.FinalPp = 16.0",
                             "[Experiment].Script.FinalTempLag = 8"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "16h",
                           "ResourceName": null,
                           "Children": [],
@@ -28349,8 +27878,7 @@
                             "[Experiment].Script.FinalPp = 12.0",
                             "[Experiment].Script.FinalTempLag = 4"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "12h",
                           "ResourceName": null,
                           "Children": [],
@@ -28372,8 +27900,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Precoz"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Precoz",
                           "ResourceName": null,
                           "Children": [],
@@ -28385,8 +27912,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Laird"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Laird",
                           "ResourceName": null,
                           "Children": [],
@@ -28398,8 +27924,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Syrian"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Syrian",
                           "ResourceName": null,
                           "Children": [],
@@ -28411,8 +27936,7 @@
                           "Specifications": [
                             "[Experiment].Script.CultivarName=Ethiopian"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Ethiopian",
                           "ResourceName": null,
                           "Children": [],
@@ -28433,7 +27957,6 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "Tasmania",
               "ResourceName": null,
               "Children": [
@@ -29033,6 +28556,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -29317,12 +28841,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -30087,8 +29605,7 @@
                       "Specifications": [
                         "[IrrigateFixedDates].Script.Amount = 45"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Wet",
                       "ResourceName": null,
                       "Children": [],
@@ -30100,8 +29617,7 @@
                       "Specifications": [
                         "[IrrigateFixedDates].Script.Amount = 0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Dry",
                       "ResourceName": null,
                       "Children": [],
@@ -30122,7 +29638,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "DR_2001DooenWet",
           "ResourceName": null,
           "Children": [
@@ -30138,7 +29653,7 @@
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\Longerenong.met",
+              "FileName": "Met/Longerenong.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -30336,12 +29851,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -31201,6 +30710,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -43034,8 +42544,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 8-May"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -43047,8 +42556,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 17-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -43078,14 +42586,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Caragabal19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\CaragabalPO.met",
+              "FileName": "Met/CaragabalPO.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -43266,12 +42773,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -44082,6 +43583,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -45805,8 +45307,7 @@
                         "[Water].Thickness=150,150,300,300,300,300,300",
                         "[Water].InitialValues=0.366,0.369,0.378,0.329,0.338,0.326,0.326"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [
@@ -45894,8 +45395,7 @@
                         "[Water].Thickness=150,150,300,300,300,300,300",
                         "[Water].InitialValues=0.35,0.352,0.38,0.353,0.341,0.326,0.326"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [
@@ -45983,8 +45483,7 @@
                         "[Water].Thickness=150,150,300,300,300,300,300",
                         "[Water].InitialValues=0.331,0.333,0.342,0.314,0.328,0.326,0.326"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [
@@ -46087,7 +45586,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Emerald19",
           "ResourceName": null,
           "Children": [
@@ -46112,7 +45610,7 @@
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\Emerald2019Combo.met",
+              "FileName": "Met/Emerald2019Combo.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -46310,12 +45808,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -46956,6 +46448,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -48768,8 +48261,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 10-May"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -48781,8 +48273,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 7-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -48794,8 +48285,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 19-Jul"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [],
@@ -48825,14 +48315,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "GattonPhen19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\GattonUQ.met",
+              "FileName": "Met/GattonUQ.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -49030,12 +48519,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -49892,6 +49375,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -50681,8 +50165,7 @@
                           "Specifications": [
                             "[Sowing].Script.SowDate = 15-Jun"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "1",
                           "ResourceName": null,
                           "Children": [],
@@ -50694,8 +50177,7 @@
                           "Specifications": [
                             "[Sowing].Script.SowDate = 26-Jul"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "2",
                           "ResourceName": null,
                           "Children": [],
@@ -50717,8 +50199,7 @@
                           "Specifications": [
                             "[IrrigateFixedDates].Script.Amount = 0.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Dry",
                           "ResourceName": null,
                           "Children": [],
@@ -50730,8 +50211,7 @@
                           "Specifications": [
                             "[IrrigateFixedDates].Script.Amount = 10.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Wet",
                           "ResourceName": null,
                           "Children": [],
@@ -50761,14 +50241,13 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "Gatton23",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Climate.Weather, Models",
                   "ConstantsFile": null,
-                  "FileName": "Met\\GattonUQ.met",
+                  "FileName": "Met/GattonUQ.met",
                   "ExcelWorkSheetName": "",
                   "Name": "Weather",
                   "ResourceName": null,
@@ -50966,12 +50445,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -51748,6 +51221,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -55003,8 +54477,7 @@
                           "Specifications": [
                             "[Sowing].Script.SowDate = 23-May"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "1",
                           "ResourceName": null,
                           "Children": [],
@@ -55016,8 +54489,7 @@
                           "Specifications": [
                             "[Sowing].Script.SowDate = 15-Jul"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "2",
                           "ResourceName": null,
                           "Children": [],
@@ -55039,8 +54511,7 @@
                           "Specifications": [
                             "[IrrigateFixedDates].Script.Amount = 0.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Dry",
                           "ResourceName": null,
                           "Children": [],
@@ -55052,8 +54523,7 @@
                           "Specifications": [
                             "[IrrigateFixedDates].Script.Amount = 10.0"
                           ],
-                          "Paths": null,
-                          "Values": null,
+                          "CustomDescriptors": [],
                           "Name": "Wet",
                           "ResourceName": null,
                           "Children": [],
@@ -55083,14 +54553,13 @@
             },
             {
               "$type": "Models.Core.Simulation, Models",
-              "Descriptors": null,
               "Name": "Gatton24",
               "ResourceName": null,
               "Children": [
                 {
                   "$type": "Models.Climate.Weather, Models",
                   "ConstantsFile": null,
-                  "FileName": "Met\\GattonUQ.met",
+                  "FileName": "Met/GattonUQ.met",
                   "ExcelWorkSheetName": "",
                   "Name": "Weather",
                   "ResourceName": null,
@@ -55288,12 +54757,6 @@
                     },
                     {
                       "$type": "Models.PMF.Plant, Models",
-                      "Phenology": null,
-                      "Arbitrator": null,
-                      "structure": null,
-                      "Leaf": null,
-                      "Root": null,
-                      "AboveGround": null,
                       "PlantType": null,
                       "Name": "Lentil",
                       "ResourceName": null,
@@ -56070,6 +55533,7 @@
                           "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                           "Thickness": null,
                           "InitialValues": null,
+                          "InteractionsPerDay": 8,
                           "Name": "Temperature",
                           "ResourceName": null,
                           "Children": [],
@@ -59678,8 +59142,7 @@
                         "[Sowing].Script.Population = 146",
                         "[IrrigateOnSow_TOS2only].Script.Amount = 0.0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -59693,8 +59156,7 @@
                         "[Sowing].Script.Population = 126",
                         "[IrrigateOnSow_TOS2only].Script.Amount = 15"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -59708,8 +59170,7 @@
                         "[Sowing].Script.Population = 134",
                         "[IrrigateOnSow_TOS2only].Script.Amount = 0.0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [],
@@ -59740,8 +59201,7 @@
                       "Specifications": [
                         "[IrrigateFixedDates].Script.Amount = 0.0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Dryland",
                       "ResourceName": null,
                       "Children": [],
@@ -59753,8 +59213,7 @@
                       "Specifications": [
                         "[IrrigateFixedDates].Script.Amount = 10.0"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "Irrigated",
                       "ResourceName": null,
                       "Children": [],
@@ -59775,14 +59234,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Greenethorpe19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\GreenethorpeSILO.met",
+              "FileName": "Met/GreenethorpeSILO.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -59980,12 +59438,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -60960,6 +60412,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -64352,8 +63805,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 18-Apr"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -64365,8 +63817,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 21-May"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -64396,14 +63847,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "GreenethorpePhen19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\GreenethorpeTTagTemp.met",
+              "FileName": "Met/GreenethorpeTTagTemp.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -64601,12 +64051,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -65389,6 +64833,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -66069,8 +65514,7 @@
                         "[Water].Thickness=100,200,300,300,300,300,300",
                         "[Water].InitialValues=0.105,0.149,0.225,0.257,0.255,0.255,0.255"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -66084,8 +65528,7 @@
                         "[Water].Thickness=100,200,300,300,300,300,300",
                         "[Water].InitialValues=0.105,0.149,0.225,0.257,0.255,0.255,0.255"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -66099,8 +65542,7 @@
                         "[Water].Thickness=100,200,300,300,300,300,300",
                         "[Water].InitialValues=0.105,0.149,0.225,0.257,0.255,0.255,0.255"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [],
@@ -66130,14 +65572,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Mildura19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\MildurahPO.met",
+              "FileName": "Met/MildurahPO.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -66336,12 +65777,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -66616,15 +66051,7 @@
                         0.32,
                         0.32
                       ],
-                      "KS": [
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0
-                      ],
+                      "KS": null,
                       "BDMetadata": null,
                       "AirDryMetadata": [
                         null,
@@ -67191,6 +66618,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -68874,8 +68302,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -68887,8 +68314,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 2-Jul"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -68900,8 +68326,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 15-Jul"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [],
@@ -68931,14 +68356,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Millmerran19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\MillmerranPO.met",
+              "FileName": "Met/MillmerranPO.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -69137,12 +68561,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -70021,6 +69439,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
@@ -71470,8 +70889,7 @@
                         "[Sowing].Script.SowDate=24-Apr",
                         "[IrrigationApplications]"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "24Apr2018Irrigated",
                       "ResourceName": null,
                       "Children": [
@@ -71518,8 +70936,7 @@
                         "[Sowing].Script.SowDate=24-Apr",
                         "[ClimateController]"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "24Apr2018Rainout",
                       "ResourceName": null,
                       "Children": [
@@ -71702,8 +71119,7 @@
                         "[Sowing].Script.SowDate=6-Jun",
                         "[IrrigationApplications]"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "6Jun2018Irrigated",
                       "ResourceName": null,
                       "Children": [
@@ -71749,8 +71165,7 @@
                         "[Clock].EndDate = 1-Jan-2019",
                         "[Sowing].Script.SowDate=6-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "6Jun2018Rainfed",
                       "ResourceName": null,
                       "Children": [],
@@ -71765,8 +71180,7 @@
                         "[Clock].StartDate = 1-Nov-2018",
                         "[Clock].EndDate = 1-Jan-2020"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "29Apr2019Irrigated",
                       "ResourceName": null,
                       "Children": [
@@ -71828,8 +71242,7 @@
                         "[Clock].StartDate = 1-Nov-2018",
                         "[Clock].EndDate = 1-Jan-2020"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "29Apr2019Rainout",
                       "ResourceName": null,
                       "Children": [
@@ -72029,8 +71442,7 @@
                         "[Clock].StartDate = 1-Nov-2018",
                         "[Clock].EndDate = 1-Jan-2020"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "24Jun2019Irrigated",
                       "ResourceName": null,
                       "Children": [
@@ -72083,8 +71495,7 @@
                         "[Clock].StartDate = 1-Nov-2018",
                         "[Clock].EndDate = 1-Jan-2020"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "24Jun2019Rainfed",
                       "ResourceName": null,
                       "Children": [],
@@ -72114,7 +71525,6 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Roseworthy2018",
           "ResourceName": null,
           "Children": [
@@ -72130,7 +71540,7 @@
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\Roseworthy.met",
+              "FileName": "Met/Roseworthy.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -72831,7 +72241,8 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
-                      "Name": "CERESSoilTemperature",
+                      "InteractionsPerDay": 8,
+                      "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
                       "Enabled": true,
@@ -72843,12 +72254,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": "Lentil",
@@ -72923,7 +72328,7 @@
                     "namespace Models",
                     "{",
                     "    [Serializable] ",
-                    "    public class Script : Model, ILocatorDependency",
+                    "    public class Script : Model, IStructureDependency",
                     "    {      ",
                     "        [Link] private Plant Lentil;",
                     "        [Link] private Zone zone;",
@@ -72931,13 +72336,12 @@
                     "        private Phenology phenology;",
                     "        [Link] private Simulation sim;",
                     "        [Link] private Clock Clock;",
-                    "        [NonSerialized]",
-                    "        private ILocator locator;",
+                    "        public IStructure Structure { private get; set; }",
                     "        [JsonIgnore] public bool Harvested { get; set; }",
                     "        [JsonIgnore] public bool EndSet { get; set; }",
                     "        ",
                     "",
-                    "        public void SetLocator(ILocator locator) => this.locator = locator;",
+                    "        ",
                     "",
                     "        [EventSubscribe(\"StartOfSimulation\")]",
                     "        private void OnSimulationCommencing(object sender, EventArgs e)",
@@ -72958,7 +72362,7 @@
                     "           ",
                     "           if ((Harvested == true) && (EndSet == false))",
                     "           {",
-                    "               //locator.Set(\"Clock.EndDate\", Clock.Today.AddDays(1), relativeTo: sim);",
+                    "               //Structure.Set(\"Clock.EndDate\", Clock.Today.AddDays(1), relativeTo: sim);",
                     "               EndSet = true;",
                     "           }",
                     "        }",
@@ -74481,8 +73885,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 21-May"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "1",
                       "ResourceName": null,
                       "Children": [],
@@ -74494,8 +73897,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 9-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "2",
                       "ResourceName": null,
                       "Children": [],
@@ -74507,8 +73909,7 @@
                       "Specifications": [
                         "[Sowing].Script.SowDate = 28-Jun"
                       ],
-                      "Paths": null,
-                      "Values": null,
+                      "CustomDescriptors": [],
                       "Name": "3",
                       "ResourceName": null,
                       "Children": [],
@@ -74547,14 +73948,13 @@
         },
         {
           "$type": "Models.Core.Simulation, Models",
-          "Descriptors": null,
           "Name": "Walgett19",
           "ResourceName": null,
           "Children": [
             {
               "$type": "Models.Climate.Weather, Models",
               "ConstantsFile": null,
-              "FileName": "Met\\Walgett.met",
+              "FileName": "Met/Walgett.met",
               "ExcelWorkSheetName": "",
               "Name": "Weather",
               "ResourceName": null,
@@ -74753,12 +74153,6 @@
                 },
                 {
                   "$type": "Models.PMF.Plant, Models",
-                  "Phenology": null,
-                  "Arbitrator": null,
-                  "structure": null,
-                  "Leaf": null,
-                  "Root": null,
-                  "AboveGround": null,
                   "PlantType": null,
                   "Name": "Lentil",
                   "ResourceName": null,
@@ -75569,6 +74963,7 @@
                       "$type": "Models.Soils.SoilTemp.SoilTemperature, Models",
                       "Thickness": null,
                       "InitialValues": null,
+                      "InteractionsPerDay": 8,
                       "Name": "Temperature",
                       "ResourceName": null,
                       "Children": [],
