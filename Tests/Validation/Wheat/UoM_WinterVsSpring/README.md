@@ -8,7 +8,7 @@ The system orchestrates multi-regional APSIM-X simulations across multiple years
 ## 📁 Repository Architecture
 
 ### Core Directories
-* **`Dookie2024/`, `Dookie2025/`, `Turretfield2024/` etc.**: Regional project folders containing individual `{targets}` pipelines, raw Excel data, and local configuration scripts.
+* **`Dookie2024/`, `Dookie2025/`, `Turretfield2024/` etc.**: Regional project folders containing individual `{targets}` pipelines, raw Excel data, and local configuration scripts, DAE_[ProjectName].Rmd
 * **`[Project Folder]/R/`**: Localized script directories within each regional folder holding tailored conversions and bug-fixes for raw data that are too project-specific to be applied universally.
 * **`targets_MasterScripts/`**: Universal R utility functions and custom scripts sourced globally across all regional pipelines.
 * **`Inputs/`**: Centralized input tables, mapping CSVs, and germination/phenology control parameters.
@@ -21,7 +21,7 @@ The system orchestrates multi-regional APSIM-X simulations across multiple years
 * **`CopyFilesForMasterMerge.R`**: Utility script triggered by `RunAll.R` to isolate core integration files into a pristine directory for AppSync merging.
 * **`pipeline_log.txt`**: Generated inside each project folder during execution, this log explicitly captures the outputs of pipeline runs, documenting all automated assumptions, biological fixes, and data conversions applied.
 * **`QC_Report.qmd` / `QC_Report.html`**: Quarto quality control dashboard providing visual audits, phenology timelines, and pipeline execution logs.
-* **`secret_pass.txt`**: Password credential file used for encrypting final output archives.
+* **`secret_pass.txt`**: Password credential file used for encrypting final output zipped archives.
 * **`Observed.zip`**: Secure, password-protected archive containing finalized observed datasets and rendered QC reports.
 
 ## 🚀 Execution & Reproducibility
