@@ -13,44 +13,34 @@ on:
 
 jobs:
   run-model-validations:
-    name: run-model-validations
+    name: Validation Jobs Submitted
     if: github.repository_owner == 'APSIMInitiative'
     runs-on: ubuntu-latest
     env:
       ALL_APSIM_FILES: ""
     steps:
-    
-      - name: Set git user
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Checkout PR branch code
+      - name: Checkout PR merge ref (PR head merged with master)
         uses: actions/checkout@v7
         with:
-          repository: ${{github.event.pull_request.head.repo.full_name}}
-          ref: ${{github.event.pull_request.head.ref}}
-          fetch-depth: 0  # Fetch all history for all branches and tags
+          repository: ${{ github.repository }}
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 1
           allow-unsafe-pr-checkout: true
 
-      - name: Merge APSIMInitiative/master into PR branch (ensure PR branch up to date)
-        id: merge_upstream
-        run: |
-          git remote add upstream https://github.com/APSIMInitiative/ApsimX.git || git remote set-url upstream https://github.com/APSIMInitiative/ApsimX.git
-          git fetch upstream master
-          git merge --no-ff upstream/master || { echo "Merge conflict detected. Aborting merge and exiting."; git merge --abort; exit 1; }
-        continue-on-error: true  # Allow job to continue if merge fails so it can be captured by next step.
+      - name: Check A.V.A is up
+        run: bash ./.github/workflows/scripts/ava-scripts/check-ava-health.sh
 
-      - name: Merge failure
-        if: steps.merge_upstream.outcome == 'failure'
-        run: |
-          echo "::error::Merge failed as PR branch is either not up to date or another issue has occurred."
-          exit 1
-      
+      - name: Register pull request with validation API
+        env:
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          COMMIT: ${{ github.event.pull_request.head.sha }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: bash ./.github/workflows/scripts/ava-scripts/open-validation-record.sh
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Make github workflow bash scripts executable
         run: chmod +x ./.github/workflows/scripts/*.sh
@@ -64,15 +54,26 @@ jobs:
           MAIZE_PASSWORD: ${{ secrets.MAIZE_PASSWORD }}
           RICE_PASSWORD: ${{ secrets.RICE_PASSWORD }}
           THINZAR_RYEGRASS_PASSWORD: ${{ secrets.THINZAR_RYEGRASS_PASSWORD }}
+          UOM_WINTER_SPRING_PASSWORD: ${{ secrets.UOM_WINTER_SPRING_PASSWORD }}
         run: ./.github/workflows/scripts/extract-protected-datasets.sh
 
       - name: Build Models and APSIM.Workflow projects
         run: |
-          cd Models && dotnet publish -f net8.0 -o ../app && cd ../APSIM.Workflow && dotnet publish -f net8.0
+          cd Models && dotnet publish -f net10.0 -o ../app && cd ../APSIM.Workflow && dotnet publish -f net10.0 -o ../app
 
-      - name: Split Large Validation Files
+      - name: Test Step
+        env:
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          INCOMING_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+          AZURE_ENV_CONTENTS: ${{ secrets.AZURE_ENV_CONTENTS }}
         run: ./.github/workflows/scripts/split-large-files.sh
-        continue-on-error: true  # Allow job to continue if the phenology split fails. This may occur for other PRs before the Phenology split is merged.
+        continue-on-error: true 
+
+      - name: Start validation process
+        env:
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: bash ./.github/workflows/scripts/ava-scripts/start-validation.sh
         
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -94,7 +95,7 @@ jobs:
         id: start_azure_pool
         env:
           AZURE_ENV_CONTENTS: ${{ secrets.AZURE_ENV_CONTENTS }}
-          DOCKER_METADATA_OUTPUT_VERSION: ${{ fromJSON(steps.meta_apsimplusr.outputs.json).labels['org.opencontainers.image.version'] }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
           INCOMING_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
         run: ./.github/workflows/scripts/start-azure-pool.sh
 
@@ -114,9 +115,16 @@ jobs:
         env:
           PAYLOAD_FOLDER_PATH: ${{ env.PAYLOAD_FOLDER_PATH }}
           AZURE_ENV_CONTENTS: ${{ secrets.AZURE_ENV_CONTENTS }}
-          DOCKER_METADATA_OUTPUT_VERSION: ${{ fromJSON(steps.meta_apsimplusr.outputs.json).labels['org.opencontainers.image.version'] }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
           INCOMING_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
           PR_AUTHOR: ${{ github.actor }}
+          SOYBEAN_PASSWORD: ${{ secrets.SOYBEAN_PASSWORD }}
+          CORNSOY_PASSWORD: ${{ secrets.CORNSOY_PASSWORD }}
+          SWIM_PASSWORD: ${{ secrets.SWIM_PASSWORD }}
+          MAIZE_PASSWORD: ${{ secrets.MAIZE_PASSWORD }}
+          RICE_PASSWORD: ${{ secrets.RICE_PASSWORD }}
+          THINZAR_RYEGRASS_PASSWORD: ${{ secrets.THINZAR_RYEGRASS_PASSWORD }}
+          UOM_WINTER_SPRING_PASSWORD: ${{ secrets.UOM_WINTER_SPRING_PASSWORD }}
         run: ./.github/workflows/scripts/create-azure-jobs.sh 
 
 
@@ -125,13 +133,13 @@ jobs:
         run: |
           echo "## Workflow submit success summary :tada:" >> $GITHUB_STEP_SUMMARY
           echo 'All jobs submitted to Azure successfully!' >> $GITHUB_STEP_SUMMARY
-          echo 'Run logs and predicted/observed metrics for this validation run can be viewed at [POStats2](https://postats2.apsim.info/${{ steps.submit_azure_jobs.outputs.pr_number }})' >> $GITHUB_STEP_SUMMARY
+          echo 'Run logs and predicted/observed metrics for this validation run can be viewed at [POStats2](https://postats2.apsim.info/${{ github.event.pull_request.number }})' >> $GITHUB_STEP_SUMMARY
           echo 'Note: The validation results may take some time to appear.' >> $GITHUB_STEP_SUMMARY
 
       - name: Print workflow submit failure summary markdown
         if: failure()
         run: |
-          echo "## Workflow submit failure summary :sob:" >> $GITHUB_STEP_SUMMARY
-          echo "The workflow failed to submit all jobs to Azure." >> $GITHUB_STEP_SUMMARY
+          echo "## Validation workflow failure summary :sob:" >> $GITHUB_STEP_SUMMARY
+          echo "The validation workflow failed. Check the failed step's logs for details." >> $GITHUB_STEP_SUMMARY
           echo "Reason: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
-          echo "Please check the logs for more information: [POStats2](https://postats2.apsim.info/${{ steps.submit_azure_jobs.outputs.pr_number }}) " >> $GITHUB_STEP_SUMMARY
+          echo 'Validation logs, if available, can be viewed at [POStats2](https://postats2.apsim.info/${{ github.event.pull_request.number }})' >> $GITHUB_STEP_SUMMARY

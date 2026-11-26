@@ -4,7 +4,7 @@ test -z "$PAYLOAD_FOLDER_PATH" && echo "PAYLOAD_FOLDER_PATH is empty" && exit 1
 test -z "$AZURE_ENV_CONTENTS" && echo "AZURE_ENV_CONTENTS is empty" && exit 1
 test -z "$INCOMING_COMMIT_SHA" && echo "INCOMING_COMMIT_SHA is empty" && exit 1
 test -z "$PR_AUTHOR" && echo "PR_AUTHOR is empty" && exit 1
-test -z "$DOCKER_METADATA_OUTPUT_VERSION" && echo "DOCKER_METADATA_OUTPUT_VERSION is empty" && exit 1
+test -z "$PULL_REQUEST" && echo "PULL_REQUEST is empty" && exit 1
 
 # Create payload directory
 mkdir -p "${PAYLOAD_FOLDER_PATH}"
@@ -24,20 +24,20 @@ if [[ "$author" == *"[bot]"* ]]; then
 fi
 
 # This is used to make a PR specific pool to avoid multiple PRs issues on Azure.
-azure_pool="${DOCKER_METADATA_OUTPUT_VERSION:3}-${commitsha:0:6}"
+azure_pool="$PULL_REQUEST-${commitsha:0:6}"
 echo "azure pool: ${azure_pool}"
 echo "author variable: ${author}"
 # substrings the variable so we get the number only after the 'pr-' part.
-echo "PR Number: ${DOCKER_METADATA_OUTPUT_VERSION:3}"
+echo "PR Number: $PULL_REQUEST"
 
 # makes the variable available in subsequent steps.
-jobcount=$(dotnet ./bin/Release/net8.0/APSIM.Workflow.dll --sim-count)
+jobcount=$(dotnet ./bin/Release/net10.0/APSIM.Workflow.dll sim-count)
 echo "jobcount: ${jobcount}"
 if test -z "${jobcount}"; then
     echo "The job count was found to be empty. Exiting."
     exit 1
 fi
-pr_number=${DOCKER_METADATA_OUTPUT_VERSION:3}
+pr_number=$PULL_REQUEST
 
 # Open the PO Stats
 url="https://postats2.apsim.info/api/open?pullrequestnumber=${pr_number}&commitid=${commitsha}&count=${jobcount}&author=${author}&pool=${azure_pool}"
@@ -46,4 +46,4 @@ response=$(curl -f "${url}" || exit 1)
 echo "POStats2 open response: ${response}"
 
 echo "Starting to sendjobs to Azure..."
-dotnet ./bin/Release/net8.0/APSIM.Workflow.dll --payload-directory "$PAYLOAD_FOLDER_PATH" --env-string "$AZURE_ENV_CONTENTS" --pr-number "$pr_number" --commit-sha "$commitsha" --full-commit-hash "$INCOMING_COMMIT_SHA" --githubauthorid "$author"
+dotnet ./bin/Release/net10.0/APSIM.Workflow.dll azure-jobs --env-string "$AZURE_ENV_CONTENTS" --pr-number "$pr_number" --commit-sha "$commitsha" --full-commit-hash "$INCOMING_COMMIT_SHA" --githubauthorid "$author"

@@ -1,4 +1,5 @@
 ﻿using Models.CLEM.Activities;
+using Models.CLEM.Extras;
 using Models.Core;
 using Models.Core.Attributes;
 using Newtonsoft.Json;
@@ -303,6 +304,22 @@ namespace Models.CLEM
             CLEMInitialiseResource?.Invoke(this, e);
             CLEMInitialiseActivity?.Invoke(this, e);
             CLEMValidate?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Initialisation for unit tests
+        /// </summary>
+        public void OnStartUnitTest()
+        {
+            if (TimeStep == TimeStepTypes.Monthly)
+            {
+                DateTime checkEndDate = new(Clock.EndDate.Year, Clock.EndDate.Month, DateTime.DaysInMonth(Clock.EndDate.Year, Clock.EndDate.Month));
+                if (Clock.EndDate < checkEndDate)
+                    Clock.EndDate = checkEndDate;
+            }
+
+            SetInterval();
+            SetNextTimeStep(Clock.StartDate);
         }
 
         /// <summary>

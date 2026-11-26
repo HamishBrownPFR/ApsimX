@@ -1,5 +1,6 @@
 ﻿using APSIM.Numerics;
 using Docker.DotNet.Models;
+using Models.CLEM.Extras;
 using Models.CLEM.Groupings;
 using Models.CLEM.Interfaces;
 using Models.CLEM.Reporting;
@@ -286,12 +287,11 @@ namespace Models.CLEM.Activities
         }
 
         /// <summary>
-        /// Caclulate total herd daily pasture required and initialise intake tracking arrays.
+        /// Calculate total herd daily pasture required and initialise intake tracking arrays.
         /// </summary>
-        /// <param name="greenAge"></param>
-        public double CalculateDailyFeedRequirement(int greenAge)
+        public double CalculateDailyFeedRequirement()
         {
-            herdToFeed = GetIndividuals<Ruminant>(GetRuminantHerdSelectionStyle.AllOnFarm).ToList();
+            herdToFeed = [.. GetIndividuals<Ruminant>(GetRuminantHerdSelectionStyle.AllOnFarm)];
             currentHerdSize = herdToFeed.Count;
             if (herdToFeed.Count == 0)
             {
@@ -407,12 +407,9 @@ namespace Models.CLEM.Activities
             ResourceRequestList.Clear();
 
             int greenAge = (events.Clock.Today.Month <= 3) ? 2 : 1;
-            double totalNeededDaily = CalculateDailyFeedRequirement(greenAge);
+            double totalNeededDaily = CalculateDailyFeedRequirement();
 
-            if (DigestiblePasturePoolGroups is null)
-            {
-                DigestiblePasturePoolGroups = GrazeFoodStoreModel.GenerateIntakeGroups(events.Interval, greenAge);
-            }
+            DigestiblePasturePoolGroups ??= GrazeFoodStoreModel.GenerateIntakeGroups(events.Interval, greenAge);
 
             // fill all animals by calculating relative fill for each pool group 
             for (int i = 0; i < DigestiblePasturePoolGroups.Count; i++)
@@ -496,7 +493,9 @@ namespace Models.CLEM.Activities
             pastureRequest.Provided = Math.Min(pastureRequest.Required, amountPending);
 
             PotentialIntakePastureQualityLimiter = amountPending / requiredTotal;
-            Status = ActivityStatus.Success;
+
+            if(desiredTotal > 0)
+                Status = ActivityStatus.Success;
 
             if (apsimLink is not null) 
             {
@@ -515,22 +514,19 @@ namespace Models.CLEM.Activities
 
             // report shortfalls based on multipliers.
 
-            double qualityShortfall = MathUtilities.PositiveDifference(amountPriorToPending, amountPending);
-            double resourceShortfall = MathUtilities.PositiveDifference(requiredTotal, amountPriorToPending);
+            double qualityShortfall = MathUtilities.RoundToZero(MathUtilities.PositiveDifference(amountPriorToPending, amountPending), GrazeFoodStoreType.PoolMassEpsilon);
+            double resourceShortfall = MathUtilities.RoundToZero(MathUtilities.PositiveDifference(requiredTotal, amountPriorToPending), GrazeFoodStoreType.PoolMassEpsilon);
 
             if (qualityShortfall + resourceShortfall > 0)
             {
                 ResourceRequest shortfallRequest = pastureRequest;
-                if (shortfallRequest is null)
-                {
-                    shortfallRequest = new ResourceRequest()
+                shortfallRequest ??= new ResourceRequest()
                     {
                         Available = amountPriorToPending, // display all that was given
                         Required = desiredTotal,
                         ResourceType = typeof(GrazeFoodStore),
                         ResourceTypeName = GrazeFoodStoreModel.Name
                     };
-                }
 
                 if (resourceShortfall >= qualityShortfall)
                 {
